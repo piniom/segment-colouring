@@ -17,3 +17,10 @@ where
 
     expected
 }
+
+#[test]
+fn find_lowest_missing_test() {
+    assert_eq!(2, find_lowest_missing(vec![0, 1]));
+    assert_eq!(0, find_lowest_missing(vec![1, 2, 3, 4]));
+    assert_eq!(5, find_lowest_missing(vec![0, 1, 2, 3, 4, 6, 19]));
+}

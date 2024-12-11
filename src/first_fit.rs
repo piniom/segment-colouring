@@ -49,7 +49,7 @@ impl FirstFitColourer {
                 match e {
                     Event::Start(_) => {
                         active = true;
-                        s += " ⊢"
+                        s += &format!("{:2}", e.segment_id())
                     }
                     Event::End(_) => {
                         active = false;

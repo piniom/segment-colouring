@@ -5,5 +5,6 @@ fn main() {
     ff.insert_segment(0, 0).unwrap();
     ff.insert_segment(0, 0).unwrap();
     ff.insert_segment(1, 3).unwrap();
+    ff.insert_segment(2, 5).unwrap();
     println!("{}", ff.to_string())
 }

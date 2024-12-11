@@ -101,7 +101,7 @@ impl Axis {
             .segments
             .values()
             .filter(|s| s.start_index < start_index)
-            .map(|s| s.end_index)
+            .map(|s| s.end_index + 1)
             .max()
             .unwrap_or(start_index);
         let max_end = self
@@ -114,7 +114,7 @@ impl Axis {
         min_end..(max_end + 2)
     }
 
-    pub fn segment_collides_with(&self, id: u32) -> Option<impl Iterator<Item=u32>> {
+    pub fn segment_collides_with(&self, id: u32) -> Option<impl Iterator<Item = u32>> {
         let segment = self.segments.get(&id)?;
         let set: HashSet<_> = self.events[segment.start_index + 1..segment.end_index]
             .iter()
