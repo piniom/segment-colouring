@@ -6,13 +6,7 @@ fn axis_adding_segments_test() {
 
     axis.insert_segment(0, 0).unwrap();
     assert_eq!(axis.events(), [Event::Start(0), Event::End(0)]);
-    assert_eq!(
-        axis.segments(),
-        vec![Segment {
-            start_index: 0,
-            end_index: 1
-        }]
-    );
+    assert_eq!(axis.segments(), vec![Segment::new(0, 1)]);
 
     axis.insert_segment(0, 0).unwrap();
     assert_eq!(
@@ -28,16 +22,7 @@ fn axis_adding_segments_test() {
     assert_eq!(axis.possible_ends(0), 0..=1);
     assert_eq!(
         axis.segments(),
-        vec![
-            Segment {
-                start_index: 2,
-                end_index: 3
-            },
-            Segment {
-                start_index: 0,
-                end_index: 1
-            }
-        ]
+        vec![Segment::new(2, 3), Segment::new(0, 1)]
     );
 
     axis.insert_segment(1, 3).unwrap();
@@ -55,20 +40,7 @@ fn axis_adding_segments_test() {
     assert_eq!(axis.possible_ends(2), 5..=5);
     assert_eq!(
         axis.segments(),
-        vec![
-            Segment {
-                start_index: 3,
-                end_index: 5
-            },
-            Segment {
-                start_index: 0,
-                end_index: 2
-            },
-            Segment {
-                start_index: 1,
-                end_index: 4
-            },
-        ]
+        vec![Segment::new(3, 5), Segment::new(0, 2), Segment::new(1, 4),]
     );
 }
 
