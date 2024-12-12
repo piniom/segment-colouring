@@ -17,7 +17,7 @@ impl FirstFitColourer {
     pub fn insert_segment(&mut self, start_index: usize, end_index: usize) -> Option<SegmentId> {
         let id = self.axis.insert_segment(start_index, end_index)?;
         let colliding_colours =
-            self.colliding_colours(self.axis.segment_collides_with(id).unwrap().into_iter());
+            self.colliding_colours(self.axis.segment_collides_with(id).unwrap());
         let colour = find_lowest_missing(colliding_colours);
         self.colours.insert(id, colour);
         Some(id)
@@ -65,18 +65,16 @@ impl FirstFitColourer {
                         s += "⊣ "
                     }
                 }
+            } else if active {
+                s += "--"
             } else {
-                if active {
-                    s += "--"
-                } else {
-                    s += "  "
-                }
+                s += "  "
             }
         }
         s
     }
     fn axis_to_string(&self) -> String {
-        let mut s = format!("id: ");
+        let mut s = "id: ".to_string();
         for (i, _) in self.axis.events().iter().enumerate() {
             s += &format!("{:2}", i);
         }
