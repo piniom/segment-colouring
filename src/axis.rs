@@ -3,6 +3,8 @@ use std::{
     ops::RangeInclusive,
 };
 
+pub type SegmentId = u32;
+
 #[derive(Debug, Clone, Eq, PartialEq, PartialOrd, Hash)]
 pub struct Segment {
     pub start_index: usize,
@@ -11,36 +13,24 @@ pub struct Segment {
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Event {
-    Start(u32),
-    End(u32),
+    Start(SegmentId),
+    End(SegmentId),
 }
 
 impl Event {
-    pub fn segment_id(&self) -> u32 {
+    pub fn segment_id(&self) -> SegmentId {
         match self {
             Event::Start(i) => *i,
             Event::End(i) => *i,
         }
     }
-    pub fn ev_type(&self) -> EventType {
-        match self {
-            Event::Start(_) => EventType::Start,
-            Event::End(_) => EventType::End,
-        }
-    }
-}
-
-#[derive(Debug, Clone, Hash)]
-pub enum EventType {
-    Start,
-    End,
 }
 
 #[derive(Debug, Clone, Default)]
 pub struct Axis {
     events: Vec<Event>,
-    segments: HashMap<u32, Segment>,
-    counter: u32,
+    segments: HashMap<SegmentId, Segment>,
+    counter: SegmentId,
 }
 
 impl Axis {
@@ -49,6 +39,7 @@ impl Axis {
             return None;
         }
         let id = self.counter;
+
         self.counter += 1;
         self.segments.insert(
             id,
@@ -57,6 +48,7 @@ impl Axis {
                 end_index: end_index + 1,
             },
         );
+
         for e in self.events[start_index..end_index].iter() {
             Self::shift_segment_for_event(&mut self.segments, e, 1);
         }
@@ -64,12 +56,12 @@ impl Axis {
             Self::shift_segment_for_event(&mut self.segments, e, 2);
         }
 
-        let mut new_events = Vec::with_capacity(self.events.len() + 2); 
-        new_events.extend_from_slice(&self.events[..start_index]); 
-        new_events.push(Event::Start(id)); 
-        new_events.extend_from_slice(&self.events[start_index..end_index]); 
-        new_events.push(Event::End(id)); 
-        new_events.extend_from_slice(&self.events[end_index..]); 
+        let mut new_events = Vec::with_capacity(self.events.len() + 2);
+        new_events.extend_from_slice(&self.events[..start_index]);
+        new_events.push(Event::Start(id));
+        new_events.extend_from_slice(&self.events[start_index..end_index]);
+        new_events.push(Event::End(id));
+        new_events.extend_from_slice(&self.events[end_index..]);
         self.events = new_events;
 
         Some(id)
@@ -82,6 +74,7 @@ impl Axis {
         };
         let start_index = segment.start_index;
         let end_index = segment.end_index;
+
         for e in self.events[start_index + 1..end_index].iter() {
             Self::shift_segment_for_event(&mut self.segments, e, -1);
         }
@@ -89,7 +82,7 @@ impl Axis {
             Self::shift_segment_for_event(&mut self.segments, e, -2);
         }
 
-        let mut new_events = Vec::with_capacity(self.events.len() + 1); 
+        let mut new_events = Vec::with_capacity(self.events.len() + 1);
         new_events.extend_from_slice(&self.events[..start_index]);
         new_events.extend_from_slice(&self.events[start_index + 1..end_index]);
         new_events.extend_from_slice(&self.events[end_index + 1..]);
@@ -106,13 +99,15 @@ impl Axis {
             .map(|s| s.end_index + 1)
             .max()
             .unwrap_or(start_index);
+
         let max_end = self
             .segments
             .values()
             .filter(|s| s.start_index >= start_index)
             .map(|s| s.end_index)
             .min()
-            .unwrap_or(start_index.max(min_end));
+            .unwrap_or(min_end);
+
         min_end..=max_end
     }
 

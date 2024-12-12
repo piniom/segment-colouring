@@ -1,18 +1,20 @@
 use std::collections::{BTreeSet, HashMap, HashSet};
 
 use crate::{
-    axis::{Axis, Event},
+    axis::{Axis, Event, SegmentId},
     utils::find_lowest_missing,
 };
+
+pub type ColourId = u32;
 
 #[derive(Debug, Clone, Default)]
 pub struct FirstFitColourer {
     axis: Axis,
-    colours: HashMap<u32, u32>,
+    colours: HashMap<SegmentId, ColourId>,
 }
 
 impl FirstFitColourer {
-    pub fn insert_segment(&mut self, start_index: usize, end_index: usize) -> Option<u32> {
+    pub fn insert_segment(&mut self, start_index: usize, end_index: usize) -> Option<SegmentId> {
         let id = self.axis.insert_segment(start_index, end_index)?;
         let colliding_colours =
             self.colliding_colours(self.axis.segment_collides_with(id).unwrap().into_iter());
@@ -22,8 +24,8 @@ impl FirstFitColourer {
     }
     pub fn colliding_colours(
         &self,
-        segments: impl IntoIterator<Item = u32>,
-    ) -> impl Iterator<Item = u32> {
+        segments: impl IntoIterator<Item = SegmentId>,
+    ) -> impl Iterator<Item = ColourId> {
         let set: HashSet<_> = segments
             .into_iter()
             .map(|s| *self.colours.get(&s).unwrap())
@@ -45,7 +47,10 @@ impl FirstFitColourer {
     pub fn axis(&self) -> &Axis {
         &self.axis
     }
-    fn colour_to_string(&self, colour: u32) -> String {
+    pub fn colours(&self) -> &HashMap<SegmentId, ColourId> {
+        &self.colours
+    }
+    fn colour_to_string(&self, colour: ColourId) -> String {
         let mut s = format!("{:2}: ", colour);
         let mut active = false;
         for e in self.axis.events() {
