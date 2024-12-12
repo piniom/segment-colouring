@@ -63,14 +63,15 @@ impl Axis {
         for e in self.events[end_index..].iter() {
             Self::shift_segment_for_event(&mut self.segments, e, 2);
         }
-        self.events = [
-            &self.events[..start_index],
-            [Event::Start(id)].as_slice(),
-            &self.events[start_index..end_index],
-            [Event::End(id)].as_slice(),
-            &self.events[end_index..],
-        ]
-        .join([].as_slice());
+
+        let mut new_events = Vec::with_capacity(self.events.len() + 2); 
+        new_events.extend_from_slice(&self.events[..start_index]); 
+        new_events.push(Event::Start(id)); 
+        new_events.extend_from_slice(&self.events[start_index..end_index]); 
+        new_events.push(Event::End(id)); 
+        new_events.extend_from_slice(&self.events[end_index..]); 
+        self.events = new_events;
+
         Some(id)
     }
 
@@ -87,12 +88,13 @@ impl Axis {
         for e in self.events[end_index + 1..].iter() {
             Self::shift_segment_for_event(&mut self.segments, e, -2);
         }
-        self.events = [
-            &self.events[..start_index],
-            &self.events[start_index + 1..end_index],
-            &self.events[end_index + 1..],
-        ]
-        .join([].as_slice());
+
+        let mut new_events = Vec::with_capacity(self.events.len() + 1); 
+        new_events.extend_from_slice(&self.events[..start_index]);
+        new_events.extend_from_slice(&self.events[start_index + 1..end_index]);
+        new_events.extend_from_slice(&self.events[end_index + 1..]);
+        self.events = new_events;
+
         true
     }
 
