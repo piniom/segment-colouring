@@ -35,11 +35,15 @@ impl FirstFitColourer {
             .values()
             .collect::<BTreeSet<_>>()
             .into_iter()
+            .rev()
             .map(|c| self.colour_to_string(*c))
             .collect::<Vec<_>>()
             .join("\n")
             + "\n"
             + &self.axis_to_string()
+    }
+    pub fn axis(&self) -> &Axis {
+        &self.axis
     }
     fn colour_to_string(&self, colour: u32) -> String {
         let mut s = format!("{:2}: ", colour);

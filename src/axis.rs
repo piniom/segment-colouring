@@ -1,12 +1,12 @@
 use std::{
     collections::{HashMap, HashSet},
-    ops::Range,
+    ops::RangeInclusive,
 };
 
 #[derive(Debug, Clone, Eq, PartialEq, PartialOrd, Hash)]
 pub struct Segment {
-    start_index: usize,
-    end_index: usize,
+    pub start_index: usize,
+    pub end_index: usize,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
@@ -75,7 +75,7 @@ impl Axis {
     }
 
     pub fn remove_segment(&mut self, id: u32) -> bool {
-        let segment = match self.segments.get(&id) {
+        let segment = match self.segments.remove(&id) {
             Some(s) => s,
             None => return false,
         };
@@ -96,7 +96,7 @@ impl Axis {
         true
     }
 
-    pub fn possible_ends(&mut self, start_index: usize) -> Range<usize> {
+    pub fn possible_ends(&self, start_index: usize) -> RangeInclusive<usize> {
         let min_end = self
             .segments
             .values()
@@ -110,8 +110,8 @@ impl Axis {
             .filter(|s| s.start_index >= start_index)
             .map(|s| s.end_index)
             .min()
-            .unwrap_or(start_index);
-        min_end..(max_end + 2)
+            .unwrap_or(start_index.max(min_end));
+        min_end..=max_end
     }
 
     pub fn segment_collides_with(&self, id: u32) -> Option<impl Iterator<Item = u32>> {
@@ -125,6 +125,12 @@ impl Axis {
 
     pub fn events(&self) -> &[Event] {
         &self.events
+    }
+
+    pub fn segments(&self) -> Vec<Segment> {
+        let mut arr = self.segments.clone().into_iter().collect::<Vec<_>>();
+        arr.sort_by(|(a, _), (b, _)| a.cmp(b));
+        arr.into_iter().map(|(_, s)| s).collect()
     }
 
     fn shift_segment_for_event(segments: &mut HashMap<u32, Segment>, event: &Event, shift: isize) {

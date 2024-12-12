@@ -2,9 +2,9 @@ use segment_colouring::first_fit::FirstFitColourer;
 
 fn main() {
     let mut ff = FirstFitColourer::default();
-    ff.insert_segment(0, 0).unwrap();
-    ff.insert_segment(0, 0).unwrap();
-    ff.insert_segment(1, 3).unwrap();
-    ff.insert_segment(2, 5).unwrap();
-    println!("{}", ff.to_string())
+    let inputs = [(0, 0), (0, 0), (1, 3), (2, 5), (6, 8)];
+    for (s, e) in inputs {
+        ff.insert_segment(s, e).unwrap();
+        println!("{}\n", ff.to_string())
+    }
 }
