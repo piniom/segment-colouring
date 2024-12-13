@@ -1,3 +1,5 @@
+pub use event::Event;
+pub use segment::Segment;
 use std::{
     collections::{HashMap, HashSet},
     mem::swap,
@@ -5,121 +7,37 @@ use std::{
     usize,
 };
 
+pub mod event;
+pub mod segment;
+
 pub type SegmentId = u32;
 
-#[derive(Debug, Clone, Eq, PartialEq, PartialOrd, Hash)]
-pub struct Ssegment {
-    pub start_index: usize,
-    pub end_index: usize,
-}
-
-#[derive(Debug, Clone, Eq, PartialEq, PartialOrd, Hash)]
-pub struct Segment {
-    start_index: Option<usize>,
-    end_index: Option<usize>,
-}
-
-impl Segment {
-    pub fn new(start_index: usize, end_index: usize) -> Self {
-        Segment {
-            start_index: Some(start_index),
-            end_index: Some(end_index),
-        }
-    }
-    pub fn left(end_index: usize) -> Self {
-        Segment {
-            start_index: None,
-            end_index: Some(end_index),
-        }
-    }
-    pub fn right(start_index: usize) -> Self {
-        Segment {
-            start_index: Some(start_index),
-            end_index: None,
-        }
-    }
-    pub fn shift_start(&mut self, shift: isize) {
-        let mut start = match self.start_index() {
-            Some(s) => s,
-            None => return,
-        };
-        if shift >= 0 {
-            start += shift as usize;
-        } else {
-            start -= (-shift) as usize;
-        }
-        self.set_start(start)
-    }
-    pub fn remove_start(&mut self) {
-        self.start_index = None;
-    }
-    pub fn remove_end(&mut self) {
-        self.end_index = None;
-    }
-    pub fn shift_end(&mut self, shift: isize) {
-        let mut end = match self.end_index() {
-            Some(s) => s,
-            None => return,
-        };
-        if shift >= 0 {
-            end += shift as usize;
-        } else {
-            end -= (-shift) as usize;
-        }
-        self.set_end(end)
-    }
-    pub fn set_start(&mut self, start_index: usize) {
-        self.start_index = Some(start_index)
-    }
-    pub fn set_end(&mut self, end_index: usize) {
-        self.end_index = Some(end_index)
-    }
-    pub fn starts_before(&self, other: usize) -> bool {
-        match self.start_index {
-            Some(s) => s < other,
-            None => true,
-        }
-    }
-    pub fn start_index(&self) -> Option<usize> {
-        self.start_index
-    }
-    pub fn end_index(&self) -> Option<usize> {
-        self.end_index
-    }
-    pub fn has_both_events(&self) -> bool {
-        self.start_index.is_some() && self.end_index.is_some()
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-pub enum Event {
-    Start(SegmentId),
-    End(SegmentId),
-}
-
-impl Event {
-    pub fn segment_id(&self) -> SegmentId {
-        match self {
-            Event::Start(i) => *i,
-            Event::End(i) => *i,
-        }
-    }
-    pub fn shift_segment(&self, segment: &mut Segment, shift: isize) {
-        match self {
-            Event::Start(_) => segment.shift_start(shift),
-            Event::End(_) => segment.shift_end(shift),
-        };
-    }
-}
-
-#[derive(Debug, Clone, Default)]
+#[derive(Debug, Clone)]
 pub struct Axis {
     events: Vec<Event>,
+    intersections: Vec<u32>,
+    max_clicque: u32,
     segments: HashMap<SegmentId, Segment>,
     counter: SegmentId,
 }
 
+impl Default for Axis {
+    fn default() -> Self {
+        Axis::new(Axis::DEFAULT_MAX_CLICQUE)
+    }
+}
+
 impl Axis {
+    const DEFAULT_MAX_CLICQUE: u32 = 3;
+    pub fn new(max_clicque: u32) -> Self {
+        Axis {
+            events: vec![],
+            intersections: vec![],
+            max_clicque,
+            segments: HashMap::new(),
+            counter: 0,
+        }
+    }
     pub fn insert_segment(&mut self, start_index: usize, end_index: usize) -> Option<u32> {
         if !self.possible_ends(start_index).contains(&end_index) {
             return None;
@@ -145,6 +63,8 @@ impl Axis {
         new_events.extend_from_slice(&self.events[end_index..]);
         self.events = new_events;
 
+        self.count_intersections();
+
         Some(id)
     }
 
@@ -155,6 +75,8 @@ impl Axis {
         };
         self.remove_maybe_event(segment.end_index());
         self.remove_maybe_event(segment.start_index());
+
+        self.count_intersections();
 
         true
     }
@@ -188,6 +110,8 @@ impl Axis {
         for e in &old[*range.end() + 1..] {
             self.remove_event_from_segment(e);
         }
+
+        self.count_intersections();
     }
 
     fn remove_event_from_segment(&mut self, event: &Event) -> Option<()> {
@@ -204,7 +128,28 @@ impl Axis {
         Some(())
     }
 
+    fn count_intersections(&mut self) {
+        let mut current = 0;
+        let mut result = vec![];
+        for e in &self.events {
+            match e {
+                Event::Start(_) => {
+                    result.push(current);
+                    current += 1;
+                }
+                Event::End(_) => {
+                    result.push(current);
+                    current -= 1
+                }
+            }
+        }
+        self.intersections = result;
+    }
+
     pub fn possible_ends(&self, start_index: usize) -> RangeInclusive<usize> {
+        if !self.valid_indexes().any(|i| i == start_index) {
+            return 1..=0
+        }
         let min_end = self
             .segments
             .values()
@@ -221,10 +166,19 @@ impl Axis {
             .min()
             .unwrap_or(min_end);
 
-        min_end..=max_end
+        let (a, b) = self
+            .valid_indexes()
+            .filter(|i| (min_end..=max_end).contains(i))
+            .fold((usize::MAX, usize::MIN), |(b, t), i| (b.min(i), t.max(i)));
+        a..=b
     }
 
-    pub fn segment_collides_with(&self, id: u32) -> Option<impl Iterator<Item = u32>> {
+    fn valid_indexes<'a>(&'a self) -> impl Iterator<Item = usize> + use<'a> {
+        (0..=self.intersections.len())
+            .filter(|&i| i == self.intersections.len() || self.intersections[i] + 1 <= self.max_clicque)
+    }
+
+    pub fn segment_collides_with(&self, id: SegmentId) -> Option<impl Iterator<Item = SegmentId>> {
         let segment = self.segments.get(&id)?;
         let set: HashSet<_> = self.events[segment.start_index().map(|i| i + 1).unwrap_or_default()
             ..segment.end_index().unwrap_or(usize::MAX)]
