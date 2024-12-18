@@ -10,7 +10,7 @@ fn test_normalize_single_event() {
     let state = vec![(EventType::Start, 1)];
     let colouring = HashMap::from([(1, 100)]);
 
-    let result = NormalizedState::normalize(state, colouring);
+    let result = NormalizedState::normalize(state, &colouring);
     let expected = NormalizedState(vec![CompressedEvent::Start(0)]);
 
     assert_eq!(result, expected);
@@ -25,7 +25,7 @@ fn test_normalize_multiple_events_same_colour() {
     ];
     let colouring = HashMap::from([(1, 100)]);
 
-    let result = NormalizedState::normalize(state, colouring);
+    let result = NormalizedState::normalize(state, &colouring);
     let expected = NormalizedState(vec![
         CompressedEvent::Start(0),
         CompressedEvent::End,
@@ -45,7 +45,7 @@ fn test_normalize_multiple_events_different_colours() {
     ];
     let colouring = HashMap::from([(1, 100), (2, 200)]);
 
-    let result = NormalizedState::normalize(state, colouring);
+    let result = NormalizedState::normalize(state, &colouring);
     let expected = NormalizedState(vec![
         CompressedEvent::Start(0),
         CompressedEvent::Start(1),
@@ -61,7 +61,7 @@ fn test_normalize_no_events() {
     let state: Vec<(EventType, SegmentId)> = vec![];
     let colouring = HashMap::new();
 
-    let result = NormalizedState::normalize(state, colouring);
+    let result = NormalizedState::normalize(state, &colouring);
     let expected = NormalizedState(vec![]);
 
     assert_eq!(result, expected);
@@ -74,5 +74,5 @@ fn test_normalize_missing_colour() {
     let colouring = HashMap::new();
 
     // This should panic because the colour map does not contain the required SegmentId.
-    NormalizedState::normalize(state, colouring);
+    NormalizedState::normalize(state, &colouring);
 }

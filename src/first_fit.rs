@@ -1,7 +1,7 @@
-use std::collections::{BTreeSet, HashMap, HashSet};
+use std::collections::{HashMap, HashSet};
 
 use crate::{
-    axis::{Axis, Event, SegmentId},
+    axis::{Axis, SegmentId},
     utils::find_lowest_missing,
 };
 
@@ -33,51 +33,12 @@ impl FirstFitColourer {
         set.into_iter()
     }
     pub fn to_string(&self) -> String {
-        self.colours
-            .values()
-            .collect::<BTreeSet<_>>()
-            .into_iter()
-            .rev()
-            .map(|c| self.colour_to_string(*c))
-            .collect::<Vec<_>>()
-            .join("\n")
-            + "\n"
-            + &self.axis_to_string()
+        self.axis.to_string(&self.colours)
     }
     pub fn axis(&self) -> &Axis {
         &self.axis
     }
     pub fn colours(&self) -> &HashMap<SegmentId, ColourId> {
         &self.colours
-    }
-    fn colour_to_string(&self, colour: ColourId) -> String {
-        let mut s = format!("{:2}: ", colour);
-        let mut active = false;
-        for e in self.axis.events() {
-            if *self.colours.get(&e.segment_id()).unwrap() == colour {
-                match e {
-                    Event::Start(_) => {
-                        active = true;
-                        s += &format!("{:2}", e.segment_id())
-                    }
-                    Event::End(_) => {
-                        active = false;
-                        s += "⊣ "
-                    }
-                }
-            } else if active {
-                s += "--"
-            } else {
-                s += "  "
-            }
-        }
-        s
-    }
-    fn axis_to_string(&self) -> String {
-        let mut s = "id: ".to_string();
-        for (i, _) in self.axis.events().iter().enumerate() {
-            s += &format!("{:2}", i);
-        }
-        s
     }
 }

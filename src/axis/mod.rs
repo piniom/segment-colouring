@@ -9,6 +9,7 @@ use std::{
 
 pub mod event;
 pub mod segment;
+pub mod print;
 
 pub type SegmentId = u32;
 
@@ -17,7 +18,7 @@ pub struct Axis {
     events: Vec<Event>,
     intersections: Vec<u32>,
     max_clicque: u32,
-    segments: HashMap<SegmentId, Segment>,
+    pub(crate) segments: HashMap<SegmentId, Segment>,
     counter: SegmentId,
 }
 
@@ -28,7 +29,7 @@ impl Default for Axis {
 }
 
 impl Axis {
-    const DEFAULT_MAX_CLICQUE: u32 = 3;
+    const DEFAULT_MAX_CLICQUE: u32 = 5;
     pub fn new(max_clicque: u32) -> Self {
         Axis {
             events: vec![],
@@ -38,7 +39,7 @@ impl Axis {
             counter: 0,
         }
     }
-    pub fn insert_segment(&mut self, start_index: usize, end_index: usize) -> Option<u32> {
+    pub fn insert_segment(&mut self, start_index: usize, end_index: usize) -> Option<SegmentId> {
         if !self.possible_ends(start_index).contains(&end_index) {
             return None;
         }
@@ -173,7 +174,7 @@ impl Axis {
         a..=b
     }
 
-    fn valid_indexes<'a>(&'a self) -> impl Iterator<Item = usize> + use<'a> {
+    pub fn valid_indexes<'a>(&'a self) -> impl Iterator<Item = usize> + use<'a> {
         (0..=self.intersections.len())
             .filter(|&i| i == self.intersections.len() || self.intersections[i] + 1 <= self.max_clicque)
     }

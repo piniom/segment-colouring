@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use crate::{
-    axis::{Event, SegmentId},
+    axis::{Axis, Event, SegmentId},
     first_fit::ColourId,
 };
 
@@ -32,8 +32,9 @@ pub struct NormalizedState(pub(crate) Vec<CompressedEvent>);
 impl NormalizedState {
     pub fn normalize(
         state: impl IntoIterator<Item = (EventType, SegmentId)>,
-        colouring: HashMap<SegmentId, ColourId>,
+        colouring: &HashMap<SegmentId, ColourId>,
     ) -> Self {
+        let state: Vec<_> = state.into_iter().collect();
         let mut normalized_colors: HashMap<ColourId, usize> = HashMap::new();
         let mut normalized_state = vec![];
         for (i, (e, c)) in state.into_iter().enumerate() {
@@ -47,5 +48,11 @@ impl NormalizedState {
             });
         }
         NormalizedState(normalized_state)
+    }
+}
+
+impl Axis {
+    pub fn normalized_state(&self, colouring: &HashMap<SegmentId, ColourId>) -> NormalizedState {
+        NormalizedState::normalize(self.events().iter().map(|e| (e.ev_type(), e.segment_id())), colouring)
     }
 }
