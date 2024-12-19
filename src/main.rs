@@ -12,7 +12,20 @@
 
 use segment_colouring::game::Game;
 
-fn main(){
-    let mut game = Game::new(10, 3, 5);
+use std::thread;
+
+const STACK_SIZE: usize = 1024 * 1024 * 1024;
+
+fn run() {
+    let mut game = Game::new(8, 4, 7);
     dbg!(game.simulate());
+}
+
+fn main() {
+    let child = thread::Builder::new()
+        .stack_size(STACK_SIZE)
+        .spawn(run)
+        .unwrap();
+
+    child.join().unwrap();
 }

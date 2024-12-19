@@ -3,13 +3,13 @@ pub use segment::Segment;
 use std::{
     collections::{HashMap, HashSet},
     mem::swap,
-    ops::RangeInclusive,
+    ops::{Range, RangeInclusive},
     usize,
 };
 
 pub mod event;
-pub mod segment;
 pub mod print;
+pub mod segment;
 
 pub type SegmentId = u32;
 
@@ -102,17 +102,32 @@ impl Axis {
         self.events = new_events;
     }
 
-    pub fn confine(&mut self, range: RangeInclusive<usize>) {
+    pub fn confine(&mut self, range: Range<usize>) -> bool {
         let mut old = self.events[range.clone()].to_vec();
         swap(&mut old, &mut self.events);
-        for e in &old[0..*range.start()] {
+        for e in &old[0..range.start] {
             self.remove_event_from_segment(e);
         }
-        for e in &old[*range.end() + 1..] {
+        for e in &old[range.end..] {
             self.remove_event_from_segment(e);
         }
 
         self.count_intersections();
+        !self.events.is_empty()
+    }
+
+    pub fn confine_left(&mut self) -> bool {
+        if self.events().len() == 0 {
+            return false;
+        }
+        self.confine(1..self.events.len())
+    }
+
+    pub fn confine_right(&mut self) -> bool {
+        if self.events().len() == 0 {
+            return false;
+        }
+        self.confine(0..self.events.len() - 1)
     }
 
     fn remove_event_from_segment(&mut self, event: &Event) -> Option<()> {
@@ -133,6 +148,15 @@ impl Axis {
         let mut current = 0;
         let mut result = vec![];
         for e in &self.events {
+            if let Event::End(_) = e {
+                if self.segments.get(&e.segment_id()).unwrap().start_index().is_none() {
+                    current += 1;
+                } else {
+                    break;
+                }
+            } 
+        }
+        for e in &self.events {
             match e {
                 Event::Start(_) => {
                     result.push(current);
@@ -149,7 +173,7 @@ impl Axis {
 
     pub fn possible_ends(&self, start_index: usize) -> RangeInclusive<usize> {
         if !self.valid_indexes().any(|i| i == start_index) {
-            return 1..=0
+            return 1..=0;
         }
         let min_end = self
             .segments
@@ -175,8 +199,9 @@ impl Axis {
     }
 
     pub fn valid_indexes<'a>(&'a self) -> impl Iterator<Item = usize> + use<'a> {
-        (0..=self.intersections.len())
-            .filter(|&i| i == self.intersections.len() || self.intersections[i] + 1 <= self.max_clicque)
+        (0..=self.intersections.len()).filter(|&i| {
+            i == self.intersections.len() || self.intersections[i] + 1 <= self.max_clicque
+        })
     }
 
     pub fn segment_collides_with(&self, id: SegmentId) -> Option<impl Iterator<Item = SegmentId>> {

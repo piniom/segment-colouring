@@ -5,14 +5,14 @@ fn axis_empty_confine_test() {
     let mut axis = Axis::default();
 
     axis.insert_segment(0, 0).unwrap();
-    axis.confine(1..=0);
+    axis.confine(0..0);
     assert_eq!(&[] as &[Event], axis.events());
     assert_eq!(vec![] as Vec<Segment>, axis.segments());
 
     axis.insert_segment(0, 0).unwrap();
     axis.insert_segment(0, 0).unwrap();
     axis.insert_segment(1, 3).unwrap();
-    axis.confine(1..=0);
+    axis.confine(0..0);
     assert_eq!(&[] as &[Event], axis.events());
     assert_eq!(vec![] as Vec<Segment>, axis.segments());
 }
@@ -25,7 +25,7 @@ fn axis_confine_test() {
     for (s, e) in inputs {
         axis.insert_segment(s, e).unwrap();
     }
-    axis.confine(2..=7);
+    axis.confine(2..8);
     assert_eq!(
         &[
             Event::Start(3),
@@ -47,4 +47,23 @@ fn axis_confine_test() {
         ] as Vec<Segment>,
         axis.segments()
     );
+}
+
+#[test]
+fn axis_confine_left_right_test() {
+    let mut axis = Axis::default();
+
+    let inputs = [(0, 0), (0, 0), (1, 3), (2, 5), (6, 8)];
+    for (s, e) in inputs {
+        axis.insert_segment(s, e).unwrap();
+    }
+    let mut clone = axis.clone();
+    assert!(axis.confine_left());
+    assert!(clone.confine(1..10));
+    assert_eq!(axis.segments, clone.segments);
+    assert_eq!(axis.events(), clone.events());
+    assert!(axis.confine_right());
+    assert!(clone.confine(0..8));
+    assert_eq!(axis.segments, clone.segments);
+    assert_eq!(axis.events(), clone.events());
 }
