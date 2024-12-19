@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use crate::{
     axis::SegmentId,
-    state_equivalence::{CompressedEvent, EventType, NormalizedState},
+    state_equivalence::{EventType, NormalizedState},
 };
 
 #[test]
@@ -11,7 +11,7 @@ fn test_normalize_single_event() {
     let colouring = HashMap::from([(1, 100)]);
 
     let result = NormalizedState::normalize(state, &colouring);
-    let expected = NormalizedState(vec![CompressedEvent::Start(0)]);
+    let expected = NormalizedState(vec![1]);
 
     assert_eq!(result, expected);
 }
@@ -26,11 +26,7 @@ fn test_normalize_multiple_events_same_colour() {
     let colouring = HashMap::from([(1, 100)]);
 
     let result = NormalizedState::normalize(state, &colouring);
-    let expected = NormalizedState(vec![
-        CompressedEvent::Start(0),
-        CompressedEvent::End,
-        CompressedEvent::Start(0),
-    ]);
+    let expected = NormalizedState(vec![1, 0, 1]);
 
     assert_eq!(result, expected);
 }
@@ -46,12 +42,7 @@ fn test_normalize_multiple_events_different_colours() {
     let colouring = HashMap::from([(1, 100), (2, 200)]);
 
     let result = NormalizedState::normalize(state, &colouring);
-    let expected = NormalizedState(vec![
-        CompressedEvent::Start(0),
-        CompressedEvent::Start(1),
-        CompressedEvent::End,
-        CompressedEvent::End,
-    ]);
+    let expected = NormalizedState(vec![1, 2, 0, 0]);
 
     assert_eq!(result, expected);
 }

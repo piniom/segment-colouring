@@ -1,4 +1,7 @@
-use std::collections::{HashMap, HashSet};
+use std::{
+    collections::{HashMap, HashSet},
+    rc::Rc,
+};
 
 use crate::{
     axis::{Axis, SegmentId},
@@ -36,9 +39,10 @@ pub struct Game {
     axis: Axis,
     force_num_colours: usize,
     max_segments: usize,
-    states: HashMap<NormalizedState, StateStatus>,
+    states: HashMap<Rc<NormalizedState>, StateStatus>,
     colouring: HashMap<SegmentId, ColourId>,
-    reductees: HashMap<NormalizedState, HashSet<NormalizedState>>,
+    reductees: HashMap<Rc<NormalizedState>, HashSet<Rc<NormalizedState>>>,
+    state_bank: HashMap<NormalizedState, Rc<NormalizedState>>,
 }
 
 impl Game {
@@ -51,6 +55,7 @@ impl Game {
             states: HashMap::new(),
             colouring: HashMap::new(),
             reductees: HashMap::new(),
+            state_bank: HashMap::new(),
         }
     }
     pub fn number_of_states(&self) -> usize {
@@ -67,6 +72,7 @@ impl Game {
 
         for r in &current_reductions {
             let r_norm = r.normalized_state(&self.colouring);
+            let r_norm = self.get_from_bank(r_norm);
             match self.states.get(&r_norm) {
                 Some(StateStatus::True) => return true,
                 _ => {
@@ -150,8 +156,20 @@ impl Game {
             .filter(|(a, b)| a <= b)
     }
 
-    fn normalized_state(&self) -> NormalizedState {
-        self.axis.normalized_state(&self.colouring)
+    fn normalized_state(&mut self) -> Rc<NormalizedState> {
+        self.get_from_bank(self.axis.normalized_state(&self.colouring))
+            .clone()
+    }
+
+    fn get_from_bank(&mut self, state: NormalizedState) -> Rc<NormalizedState> {
+        match self.state_bank.get(&state) {
+            Some(s) => s.clone(),
+            None => {
+                let value = Rc::new(state.clone());
+                self.state_bank.insert(state, value.clone());
+                value
+            }
+        }
     }
 
     fn propagate_reductions(&mut self, state: &NormalizedState) {
@@ -200,7 +218,7 @@ impl Game {
             .iter()
             .enumerate()
             .filter(|(_, &e)| e == true)
-            .map(|(i, _)| i as u32)
+            .map(|(i, _)| i as ColourId)
             .collect()
     }
 }

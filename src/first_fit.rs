@@ -5,7 +5,7 @@ use crate::{
     utils::find_lowest_missing,
 };
 
-pub type ColourId = u32;
+pub type ColourId = u8;
 
 #[derive(Debug, Clone, Default)]
 pub struct FirstFitColourer {

@@ -1,15 +1,18 @@
-pub fn find_lowest_missing<I>(iter: I) -> u32
+use std::ops::{Add, AddAssign};
+
+pub fn find_lowest_missing<I, T>(iter: I) -> T
 where
-    I: IntoIterator<Item = u32>,
+    I: IntoIterator<Item = T>,
+    T: PartialEq + Ord + Add<T> + Default + From<u8> + AddAssign<T> + Copy,
 {
     let mut numbers: Vec<_> = iter.into_iter().collect();
     numbers.sort_unstable();
     numbers.dedup();
 
-    let mut expected = 0;
+    let mut expected = T::default();
     for &num in &numbers {
         if num == expected {
-            expected += 1;
+            expected += 1.into();
         } else if num > expected {
             break;
         }

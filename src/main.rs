@@ -39,13 +39,16 @@ fn run(args: Args) {
     if result {
         println!("SUCCESS!");
         println!("It IS possible to force any colouring algorithm to use {} colours whithout creating a clicque larger than {}.", args.desired_number_of_colours, args.max_clicque);
-        println!("The simulation was confined to states with at most {} segments.", args.max_segments);
+        println!(
+            "The simulation was confined to states with at most {} segments.",
+            args.max_segments
+        );
     } else {
         println!("FAILURE!");
         println!(
             "It is NOT possible to force any colouring algorithm to use {} colours whithout creating a clicque larger than {} when the simulation is confined to states with at most {} segments.", 
-            args.desired_number_of_colours, 
-            args.max_clicque, 
+            args.desired_number_of_colours,
+            args.max_clicque,
             args.max_segments
         )
     }

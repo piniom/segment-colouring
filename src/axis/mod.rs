@@ -149,12 +149,18 @@ impl Axis {
         let mut result = vec![];
         for e in &self.events {
             if let Event::End(_) = e {
-                if self.segments.get(&e.segment_id()).unwrap().start_index().is_none() {
+                if self
+                    .segments
+                    .get(&e.segment_id())
+                    .unwrap()
+                    .start_index()
+                    .is_none()
+                {
                     current += 1;
                 } else {
                     break;
                 }
-            } 
+            }
         }
         for e in &self.events {
             match e {

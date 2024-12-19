@@ -1,6 +1,9 @@
 use std::collections::{BTreeSet, HashMap};
 
-use crate::{axis::{Axis, Event, SegmentId}, first_fit::ColourId};
+use crate::{
+    axis::{Axis, Event, SegmentId},
+    first_fit::ColourId,
+};
 
 impl Axis {
     pub fn to_string(&self, colours: &HashMap<SegmentId, ColourId>) -> String {
