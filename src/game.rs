@@ -1,7 +1,4 @@
-use std::{
-    collections::{HashMap, HashSet},
-    mem,
-};
+use std::collections::{HashMap, HashSet};
 
 use crate::{
     axis::{Axis, SegmentId},
@@ -56,6 +53,9 @@ impl Game {
             reductees: HashMap::new(),
         }
     }
+    pub fn number_of_states(&self) -> usize {
+        self.states.len()
+    }
     pub fn simulate(&mut self) -> bool {
         let normalized_state = self.normalized_state();
 
@@ -78,7 +78,8 @@ impl Game {
             };
         }
 
-        self.states.insert(normalized_state.clone(), StateStatus::Active);
+        self.states
+            .insert(normalized_state.clone(), StateStatus::Active);
 
         // if self.segments.len() > self.max_segments {
         //     self.states.insert(normalized_state, false);
@@ -145,7 +146,8 @@ impl Game {
         self.axis
             .valid_indexes()
             .map(|s| self.axis.possible_ends(s).map(move |e| (s, e)))
-            .flatten().filter(|(a, b)| a <= b)
+            .flatten()
+            .filter(|(a, b)| a <= b)
     }
 
     fn normalized_state(&self) -> NormalizedState {
