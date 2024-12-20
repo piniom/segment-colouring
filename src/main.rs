@@ -8,7 +8,7 @@ use clap::*;
 /// This is to prevent stack overflow.
 /// We currently clone the state of the game to be restored when another simulation branch is evaluated.
 /// Due to possible reductions max tree depth may be quite large.
-const STACK_SIZE: usize = 1024 * 1024 * 1024;
+const STACK_SIZE: usize = 8 * 1024 * 1024 * 1024;
 
 #[derive(Parser, Debug)]
 #[command(
