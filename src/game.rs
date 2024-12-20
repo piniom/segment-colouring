@@ -42,7 +42,7 @@ pub struct Game {
     states: HashMap<Rc<NormalizedState>, StateStatus>,
     colouring: HashMap<SegmentId, ColourId>,
     reductees: HashMap<Rc<NormalizedState>, HashSet<Rc<NormalizedState>>>,
-    state_bank: HashMap<NormalizedState, Rc<NormalizedState>>,
+    state_bank: HashSet<Rc<NormalizedState>>,
 }
 
 impl Game {
@@ -55,7 +55,7 @@ impl Game {
             states: HashMap::new(),
             colouring: HashMap::new(),
             reductees: HashMap::new(),
-            state_bank: HashMap::new(),
+            state_bank: HashSet::new(),
         }
     }
     pub fn number_of_states(&self) -> usize {
@@ -71,8 +71,7 @@ impl Game {
         let current_reductions = self.current_reductions();
 
         for r in &current_reductions {
-            let r_norm = r.normalized_state(&self.colouring);
-            let r_norm = self.get_from_bank(r_norm);
+            let r_norm = self.get_from_bank(r.normalized_state(&self.colouring));
             match self.states.get(&r_norm) {
                 Some(StateStatus::True) => return true,
                 _ => {
@@ -87,14 +86,6 @@ impl Game {
         self.states
             .insert(normalized_state.clone(), StateStatus::Active);
 
-        // if self.segments.len() > self.max_segments {
-        //     self.states.insert(normalized_state, false);
-        //     return false;
-        // }
-
-        let moves: Vec<_> = self.possible_moves().collect();
-        let mut result = false;
-
         if self.axis.segments.len() >= self.max_segments {
             for a in current_reductions {
                 let axis_clone = self.axis.clone();
@@ -102,7 +93,9 @@ impl Game {
                 let result = self.simulate();
                 self.axis = axis_clone;
                 if result {
-                    self.states.insert(normalized_state, StateStatus::True);
+                    self.states
+                        .insert(normalized_state.clone(), StateStatus::True);
+                    // self.propagate_reductions(&normalized_state);
                     return true;
                 }
             }
@@ -110,9 +103,20 @@ impl Game {
             return false;
         }
 
-        for (s, e) in moves {
+        let moves: Vec<_> = self.possible_moves().collect();
+        let mut result = false;
+
+        for &(s, e) in &moves {
             let axis_clone = self.axis.clone();
             let segment_id = self.axis.insert_segment(s, e).unwrap();
+            if *self.axis.intersections.iter().max().unwrap_or(&0) > self.axis.max_clicque {
+                println!("{}", axis_clone.to_string(&self.colouring));
+                println!("{:?}", axis_clone.intersections);
+                dbg!(s, e);
+                println!("{:?}", moves);
+                println!("{}", self.axis.to_string(&self.colouring));
+                panic!();
+            }
             self.segments.push(segment_id);
             let colours =
                 self.not_colliding_colours(self.axis.segment_collides_with(segment_id).unwrap());
@@ -165,14 +169,17 @@ impl Game {
         match self.state_bank.get(&state) {
             Some(s) => s.clone(),
             None => {
-                let value = Rc::new(state.clone());
-                self.state_bank.insert(state, value.clone());
+                let value = Rc::new(state);
+                self.state_bank.insert(value.clone());
                 value
             }
         }
     }
 
     fn propagate_reductions(&mut self, state: &NormalizedState) {
+        if let Some(StateStatus::True) = self.states.get(state) {
+            return;
+        }
         let reductees = self.reductees.get(state);
         if let Some(reductees) = reductees {
             for r in reductees.clone() {

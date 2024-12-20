@@ -3,6 +3,7 @@ use std::collections::{BTreeSet, HashMap};
 use crate::{
     axis::{Axis, Event, SegmentId},
     first_fit::ColourId,
+    state_equivalence::EventType,
 };
 
 impl Axis {
@@ -25,7 +26,13 @@ impl Axis {
 
     fn colour_to_string(&self, colour: ColourId, colours: &HashMap<SegmentId, ColourId>) -> String {
         let mut s = format!("{:2}: ", colour);
-        let mut active = false;
+        let mut active = self
+            .events
+            .iter()
+            .filter(|e| *colours.get(&e.segment_id()).unwrap() == colour)
+            .next()
+            .map(Event::ev_type)
+            == Some(EventType::End);
         for e in self.events() {
             if *colours.get(&e.segment_id()).unwrap() == colour {
                 match e {

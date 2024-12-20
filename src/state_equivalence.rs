@@ -5,7 +5,7 @@ use crate::{
     first_fit::ColourId,
 };
 
-#[derive(Debug, Clone, Hash)]
+#[derive(Debug, Clone, Hash, PartialEq, Eq)]
 pub enum EventType {
     Start,
     End,

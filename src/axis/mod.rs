@@ -16,8 +16,8 @@ pub type SegmentId = u32;
 #[derive(Debug, Clone)]
 pub struct Axis {
     events: Vec<Event>,
-    intersections: Vec<u32>,
-    max_clicque: u32,
+    pub(crate) intersections: Vec<u32>,
+    pub(crate) max_clicque: u32,
     pub(crate) segments: HashMap<SegmentId, Segment>,
     counter: SegmentId,
 }
@@ -112,6 +112,10 @@ impl Axis {
             self.remove_event_from_segment(e);
         }
 
+        for (i, e) in self.events.iter().enumerate() {
+            e.set_segment(self.segments.get_mut(&e.segment_id()).unwrap(), i);
+        }
+
         self.count_intersections();
         !self.events.is_empty()
     }
@@ -178,9 +182,6 @@ impl Axis {
     }
 
     pub fn possible_ends(&self, start_index: usize) -> RangeInclusive<usize> {
-        if !self.valid_indexes().any(|i| i == start_index) {
-            return 1..=0;
-        }
         let min_end = self
             .segments
             .values()
@@ -197,16 +198,28 @@ impl Axis {
             .min()
             .unwrap_or(min_end);
 
-        let (a, b) = self
-            .valid_indexes()
-            .filter(|i| (min_end..=max_end).contains(i))
-            .fold((usize::MAX, usize::MIN), |(b, t), i| (b.min(i), t.max(i)));
-        a..=b
+        let first_invalid = self
+            .invalid_indexes()
+            .filter(|i| (start_index..=max_end).contains(i))
+            .next()
+            .unwrap_or(usize::MAX);
+
+        if first_invalid == 0 {
+            1..=0
+        } else {
+            min_end..=max_end.min(first_invalid - 1)
+        }
     }
 
     pub fn valid_indexes<'a>(&'a self) -> impl Iterator<Item = usize> + use<'a> {
         (0..=self.intersections.len()).filter(|&i| {
             i == self.intersections.len() || self.intersections[i] + 1 <= self.max_clicque
+        })
+    }
+
+    pub fn invalid_indexes<'a>(&'a self) -> impl Iterator<Item = usize> + use<'a> {
+        (0..=self.intersections.len()).filter(|&i| {
+            i < self.intersections.len() && self.intersections[i] + 1 > self.max_clicque
         })
     }
 

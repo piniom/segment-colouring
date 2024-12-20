@@ -19,4 +19,10 @@ impl Event {
             Event::End(_) => segment.shift_end(shift),
         };
     }
+    pub fn set_segment(&self, segment: &mut Segment, val: usize) {
+        match self {
+            Event::Start(_) => segment.set_start(val),
+            Event::End(_) => segment.set_end(val),
+        };
+    }
 }
