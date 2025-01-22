@@ -32,7 +32,6 @@ impl StateStatus {
         }
     }
 }
-
 #[derive(Debug, Clone)]
 pub struct Game {
     segments: Vec<SegmentId>,
@@ -63,6 +62,12 @@ impl Game {
     }
     pub fn simulate(&mut self) -> bool {
         let normalized_state = self.normalized_state();
+        if self.colours_used() >= self.force_num_colours {
+            self.states
+                        .insert(normalized_state.clone(), StateStatus::True);
+                    // self.propagate_reductions(&normalized_state);
+                    return true;
+        }
 
         if let Some(value) = self.states.get(&normalized_state) {
             return value.to_bool();
@@ -95,7 +100,7 @@ impl Game {
                 if result {
                     self.states
                         .insert(normalized_state.clone(), StateStatus::True);
-                    // self.propagate_reductions(&normalized_state);
+                    self.propagate_reductions(&normalized_state);
                     return true;
                 }
             }
@@ -108,7 +113,7 @@ impl Game {
 
         for &(s, e) in &moves {
             let axis_clone = self.axis.clone();
-            let segment_id = self.axis.insert_segment(s, e).unwrap();
+            let segment_id = self.insert_segment(s, e);
             if *self.axis.intersections.iter().max().unwrap_or(&0) > self.axis.max_clicque {
                 println!("{}", axis_clone.to_string(&self.colouring));
                 println!("{:?}", axis_clone.intersections);
@@ -117,7 +122,7 @@ impl Game {
                 println!("{}", self.axis.to_string(&self.colouring));
                 panic!();
             }
-            self.segments.push(segment_id);
+            
             let colours =
                 self.not_colliding_colours(self.axis.segment_collides_with(segment_id).unwrap());
 
@@ -150,6 +155,21 @@ impl Game {
         self.states
             .insert(normalized_state, StateStatus::from_bool(result));
         result
+    }
+
+    fn insert_segment(&mut self, start_index: usize, end_index: usize) -> SegmentId {
+        let segment_id = self.axis.insert_segment(start_index, end_index).unwrap();
+        self.segments.push(segment_id);
+        segment_id
+    }
+
+    fn colour_segment(&mut self, segment_id: SegmentId, colour: ColourId) {
+        self.colouring.insert(segment_id, colour);
+    }
+
+    pub fn insert_coloured_segment(&mut self, start_index: usize, end_index: usize, colour: ColourId) {
+        let colour_id = self.insert_segment(start_index, end_index);
+        self.colour_segment(colour_id, colour);
     }
 
     fn possible_moves<'a>(&'a self) -> impl Iterator<Item = (usize, usize)> + use<'a> {
@@ -227,5 +247,13 @@ impl Game {
             .filter(|(_, &e)| e == true)
             .map(|(i, _)| i as ColourId)
             .collect()
+    }
+
+    pub fn colours_used(&self) -> usize {
+        self.segments.iter().map(|s| self.colouring.get(s).unwrap()).collect::<HashSet<_>>().len()
+    }
+
+    pub fn to_string(&self) -> String {
+        self.axis.to_string(&self.colouring)
     }
 }
