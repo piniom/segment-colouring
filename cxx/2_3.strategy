@@ -1,0 +1,14 @@
+# This game is played on clique size 2 and forces 3 colors
+2 3
+# Start by playing the first interval
+[] 0 0
+# Continue by playing the second, independent interval
+[Aa] 2 2
+# If it is of a different color, finish the game
+[AaBb] 1 3
+# Otherwise play another interval in the middle, that intersects exactly one of the previous intervals
+[AaAa] 2 3
+# Push the barrier to forget the spurious interval
+[AaBAba] <
+# Finish the game
+[AaB]b 1 3
