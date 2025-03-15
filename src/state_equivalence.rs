@@ -30,7 +30,6 @@ impl NormalizedState {
         state: impl IntoIterator<Item = (EventType, SegmentId)>,
         colouring: &HashMap<SegmentId, ColourId>,
     ) -> Self {
-        let state: Vec<_> = state.into_iter().collect();
         let mut normalized_colors: HashMap<ColourId, CompressedEvent> = HashMap::new();
         let mut normalized_state: Vec<CompressedEvent> = vec![];
         for (i, (e, c)) in state.into_iter().enumerate() {

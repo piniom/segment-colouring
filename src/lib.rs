@@ -1,4 +1,5 @@
 pub mod axis;
+pub mod linear_axis;
 pub mod first_fit;
 pub mod game;
 pub mod state_equivalence;
