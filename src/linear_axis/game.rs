@@ -107,9 +107,12 @@ impl Game {
         self.states
             .insert(normalized_state.clone(), StateStatus::Active);
 
-        if self.axis.inner.events.len() >= self.max_events {
+        if self.axis.inner.events.len() + 2 > self.max_events {
             for reduction in [History::LimitFront, History::LimitBack] {
-                let reverse = self.apply_history(reduction).unwrap();
+                let reverse = match self.apply_history(reduction) {
+                    Some(r) => r,
+                    None => return false
+                };
                 let result = self.simulate();
                 self.apply_history(reverse);
 

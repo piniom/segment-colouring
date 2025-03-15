@@ -80,9 +80,7 @@ impl ClicquedLinearAxis {
             if self.intersections[i + 1] >= self.max_clicque {
                 return None;
             }
-            if evs[i].is_start() {
-                opened_after += 1
-            } else {
+            if !evs[i].is_start() {
                 opened_before -= 1
             }
             i += 1
