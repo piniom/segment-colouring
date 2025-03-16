@@ -9,6 +9,7 @@ pub mod game;
 pub mod history;
 pub mod normalization;
 pub mod print;
+pub mod strategy;
 
 #[derive(Debug, Clone)]
 pub struct LinearAxis {

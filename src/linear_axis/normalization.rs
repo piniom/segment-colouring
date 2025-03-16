@@ -1,18 +1,39 @@
-use super::clicqued::ClicquedLinearAxis;
+use super::{clicqued::ClicquedLinearAxis, event::Event};
 
-pub type NormalizedState = Vec<u8>;
+pub type CompressedState = Vec<u8>;
+
+pub struct NormalizedState(pub Vec<Event>);
 
 impl ClicquedLinearAxis {
-    pub fn normalize(&self) -> Vec<u8> {
+    pub fn strategy_normalize(&self) -> NormalizedState {
+        let mut colours = vec![u8::MAX; self.max_colours];
+        let mut normalized = vec![];
+        let mut i = 0;
+        for e in self.inner.events.iter().filter(|e| !e.is_start()) { 
+            if colours[e.colour() as usize] == u8::MAX {
+                colours[e.colour() as usize] = i;
+                i += 1;
+            }
+        }
+        for e in &self.inner.events {
+            if colours[e.colour() as usize] == u8::MAX {
+                colours[e.colour() as usize] = i;
+                i += 1;
+            }
+            normalized.push(e.with_color(colours[e.colour() as usize]));
+        }
+        NormalizedState(normalized)
+    }
+    pub fn normalize_compress(&self) -> Vec<u8> {
         let mut colours = vec![u8::MAX; self.max_colours];
         let mut normalized = vec![];
         let mut i = 1;
         for e in &self.inner.events {
+            if colours[e.colour() as usize] == u8::MAX {
+                colours[e.colour() as usize] = i;
+                i += 1;
+            }
             if e.is_start() {
-                if colours[e.colour() as usize] == u8::MAX {
-                    colours[e.colour() as usize] = i;
-                    i += 1;
-                }
                 normalized.push(colours[e.colour() as usize]);
             } else {
                 normalized.push(0);

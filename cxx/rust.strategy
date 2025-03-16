@@ -1,0 +1,11 @@
+2 3
+A[aBbA]a >
+[AaB]b 0 1
+A[aA]a 1 2
+A[BabB]b >
+[] 0 0
+[AaBAb]a <
+A[aAaA]a >
+[ABabA]a >
+A[a] 0 1
+A[Bab] >

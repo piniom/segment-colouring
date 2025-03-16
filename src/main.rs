@@ -1,8 +1,10 @@
+use std::fs::File;
 use std::thread;
 use std::time::Instant;
 
 use clap::*;
 use segment_colouring::linear_axis::game::Game;
+use segment_colouring::linear_axis::strategy::StrategyConsumer;
 
 /// This is to prevent stack overflow.
 /// We currently clone the state of the game to be restored when another simulation branch is evaluated.
@@ -27,10 +29,16 @@ struct Args {
 }
 
 fn run(args: Args) {
+    let strategy = StrategyConsumer::new(
+        args.desired_number_of_colours * 2,
+        args.max_clicque as usize,
+        args.desired_number_of_colours,
+    );
     let mut game = Game::new(
         args.max_events,
         args.max_clicque,
         args.desired_number_of_colours,
+        strategy,
     );
     let start = Instant::now();
     let result = game.simulate();
@@ -42,6 +50,9 @@ fn run(args: Args) {
             "The simulation was confined to states with at most {} events.",
             args.max_events
         );
+        game.strategy
+            .write(&mut File::create("./rust.strategy").unwrap())
+            .unwrap();
     } else {
         println!("FAILURE!");
         println!(

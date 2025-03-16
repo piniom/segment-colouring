@@ -3,9 +3,14 @@ use std::{
     rc::Rc,
 };
 
-use super::{clicqued::ClicquedLinearAxis, normalization::NormalizedState, History};
+use super::{
+    clicqued::ClicquedLinearAxis,
+    normalization::CompressedState,
+    strategy::{StrategyConsumer, StrategyMove},
+    History,
+};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 enum StateStatus {
     True,
     False,
@@ -28,19 +33,25 @@ impl StateStatus {
         }
     }
 }
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 pub struct Game {
     axis: ClicquedLinearAxis,
     history: Vec<History>,
     force_num_colours: usize,
     max_events: usize,
-    states: HashMap<Rc<NormalizedState>, StateStatus>,
-    reductees: HashMap<Rc<NormalizedState>, HashSet<Rc<NormalizedState>>>,
-    state_bank: HashSet<Rc<NormalizedState>>,
+    states: HashMap<Rc<CompressedState>, StateStatus>,
+    reductees: HashMap<Rc<CompressedState>, HashSet<Rc<CompressedState>>>,
+    state_bank: HashSet<Rc<CompressedState>>,
+    pub strategy: StrategyConsumer,
 }
 
 impl Game {
-    pub fn new(max_events: usize, max_clicque: u32, force_num_colours: usize) -> Self {
+    pub fn new(
+        max_events: usize,
+        max_clicque: u32,
+        force_num_colours: usize,
+        strategy: StrategyConsumer,
+    ) -> Self {
         Self {
             axis: ClicquedLinearAxis::new(max_clicque),
             history: vec![],
@@ -49,6 +60,7 @@ impl Game {
             states: HashMap::new(),
             reductees: HashMap::new(),
             state_bank: HashSet::new(),
+            strategy,
         }
     }
     pub fn number_of_states(&self) -> usize {
@@ -70,12 +82,15 @@ impl Game {
         result
     }
     pub fn simulate(&mut self) -> bool {
-        let normalized_state = self.get_from_bank(self.axis.normalize());
+        self.simulate_inner()
+    }
+    fn simulate_inner(&mut self) -> bool {
+        let normalized_state = self.get_from_bank(self.axis.normalize_compress());
         if self.axis.colours_used() >= self.force_num_colours {
-            println!("{}", self.axis.strategy_string());
+            // println!("{}", self.axis.strategy_string());
             self.states
                 .insert(normalized_state.clone(), StateStatus::True);
-            // self.propagate_reductions(&normalized_state);
+            self.propagate_reductions(&normalized_state);
             return true;
         }
 
@@ -88,11 +103,15 @@ impl Game {
                 Some(r) => r,
                 None => continue,
             };
-            let r_norm = self.get_from_bank(self.axis.normalize());
+            let r_norm = self.get_from_bank(self.axis.normalize_compress());
             self.apply_history(reverse);
 
             match self.states.get(&r_norm) {
                 Some(StateStatus::True) => {
+                    self.strategy.consume(
+                        &self.axis.strategy_normalize(),
+                        reduction.strategy_move().unwrap(),
+                    );
                     return true;
                 }
                 _ => {
@@ -111,15 +130,19 @@ impl Game {
             for reduction in [History::LimitFront, History::LimitBack] {
                 let reverse = match self.apply_history(reduction) {
                     Some(r) => r,
-                    None => return false
+                    None => return false,
                 };
-                let result = self.simulate();
+                let result = self.simulate_inner();
                 self.apply_history(reverse);
 
                 if result {
                     self.states
                         .insert(normalized_state.clone(), StateStatus::True);
                     self.propagate_reductions(&normalized_state);
+                    self.strategy.consume(
+                        &self.axis.strategy_normalize(),
+                        reduction.strategy_move().unwrap(),
+                    );
                     return true;
                 }
             }
@@ -170,7 +193,7 @@ impl Game {
                     panic!();
                 }
 
-                let simulation_result = self.simulate();
+                let simulation_result = self.simulate_inner();
                 self.apply_history(reverse);
                 if simulation_result == false {
                     all = false;
@@ -180,6 +203,10 @@ impl Game {
 
             if all {
                 result = true;
+                self.strategy.consume(
+                    &self.axis.strategy_normalize(),
+                    StrategyMove::Insert { start: s, end: e },
+                );
                 break;
             }
         }
@@ -193,7 +220,7 @@ impl Game {
         result
     }
 
-    fn get_from_bank(&mut self, state: NormalizedState) -> Rc<NormalizedState> {
+    fn get_from_bank(&mut self, state: CompressedState) -> Rc<CompressedState> {
         match self.state_bank.get(&state) {
             Some(s) => s.clone(),
             None => {
@@ -204,7 +231,7 @@ impl Game {
         }
     }
 
-    fn propagate_reductions(&mut self, state: &NormalizedState) {
+    fn propagate_reductions(&mut self, state: &CompressedState) {
         if let Some(StateStatus::True) = self.states.get(state) {
             return;
         }
