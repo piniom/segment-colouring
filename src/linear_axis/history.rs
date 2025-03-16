@@ -15,6 +15,12 @@ pub enum History {
     },
     LimitFront,
     LimitBack,
-    EventInsertFront(Event),
-    EventInsertBack(Event),
+    EventInsertFront {
+        end: Event,
+        lost: usize,
+    },
+    EventInsertBack {
+        start: Event,
+        lost: usize
+    },
 }

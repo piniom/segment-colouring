@@ -10,10 +10,11 @@ pub struct ClicquedLinearAxis {
 
 impl ClicquedLinearAxis {
     pub fn new(max_clicque: u32) -> Self {
+        let max_colours = (max_clicque * 2) as usize;
         Self {
-            inner: LinearAxis::new(),
+            inner: LinearAxis::new(max_colours),
             max_clicque,
-            max_colours: (max_clicque * 2) as usize,
+            max_colours,
             intersections: vec![],
         }
     }

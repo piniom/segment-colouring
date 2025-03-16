@@ -4,21 +4,27 @@ use event::Event;
 use history::History;
 
 pub mod clicqued;
+pub mod event;
 pub mod game;
+pub mod history;
 pub mod normalization;
 pub mod print;
-pub mod history;
-pub mod event;
 
 #[derive(Debug, Clone)]
 pub struct LinearAxis {
     pub events: VecDeque<Event>,
+    pub max_colors: usize,
+    pub front: VecDeque<Event>,
+    pub back: VecDeque<Event>
 }
 
 impl LinearAxis {
-    fn new() -> Self {
+    fn new(max_colors: usize) -> Self {
         Self {
             events: VecDeque::new(),
+            max_colors,
+            front: VecDeque::new(),
+            back: VecDeque::new(),
         }
     }
     fn apply_history(&mut self, history: History) -> Option<History> {
@@ -28,7 +34,7 @@ impl LinearAxis {
                 end_index,
                 color,
             } => {
-                self.insert_segment(start_index, end_index, color);
+                self.insert_segment(start_index, end_index, color)?;
                 Some(History::SegmentRemove {
                     start_index: start_index,
                     end_index: end_index + 1,
@@ -44,19 +50,26 @@ impl LinearAxis {
                     end_index: end_index - 1,
                     color: c,
                 }),
-            History::LimitFront => self.limit_front().map(|e| History::EventInsertFront(e)),
-            History::LimitBack => self.limit_back().map(|e| History::EventInsertBack(e)),
-            History::EventInsertFront(event) => {
-                self.insert_event_front(event);
+            History::LimitFront => self
+                .limit_front()
+                .map(|(end, lost)| History::EventInsertFront { end, lost}),
+            History::LimitBack => self
+                .limit_back()
+                .map(|(start, lost)| History::EventInsertBack { start,lost }),
+            History::EventInsertFront {  end, lost } => {
+                self.insert_event_front(end, lost);
                 Some(History::LimitFront)
             }
-            History::EventInsertBack(event) => {
-                self.insert_event_back(event);
+            History::EventInsertBack{ start, lost } => {
+                self.insert_event_back(start, lost);
                 Some(History::LimitBack)
             }
         }
     }
-    fn insert_segment(&mut self, start_index: usize, end_index: usize, color: u8) {
+    fn insert_segment(&mut self, start_index: usize, end_index: usize, color: u8) -> Option<()> {
+        if start_index > self.events.len() || end_index > self.events.len() {
+            return None;
+        }
         let mut new_events = VecDeque::with_capacity(self.events.len() + 2);
         new_events.extend(self.events.iter().take(start_index).cloned());
         new_events.push_back(Event::new_start(color));
@@ -70,6 +83,7 @@ impl LinearAxis {
         new_events.push_back(Event::new_end(color));
         new_events.extend(self.events.iter().skip(end_index).cloned());
         self.events = new_events;
+        Some(())
     }
     fn remove_segment(&mut self, start_index: usize, end_index: usize) -> Option<u8> {
         let mut new_events = VecDeque::with_capacity(self.events.len() - 2);
@@ -94,23 +108,59 @@ impl LinearAxis {
 
         Some(start_color)
     }
-    fn limit_front(&mut self) -> Option<Event> {
-        self.events.pop_front()
+    fn limit_front(&mut self) -> Option<(Event, usize)> {
+        let mut started = vec![false; self.max_colors];
+        let mut found = None;
+        for (i, e) in self.events.iter().enumerate() {
+            if e.is_start() {
+                started[e.colour() as usize] = true
+            } else {
+                found = Some(i);
+                break;
+            }
+        }
+        let found = found?;
+        for _ in 0..found {
+            self.front.push_back(self.events.pop_front().unwrap());
+        }
+        let end = self.events.pop_front()?;
+        Some((end, found))
     }
-    fn limit_back(&mut self) -> Option<Event> {
-        self.events.pop_back()
+    fn limit_back(&mut self) -> Option<(Event, usize)> {
+        let mut ended = vec![false; self.max_colors];
+        let mut found = None;
+        for (i, e) in self.events.iter().rev().enumerate() {
+            if e.is_start() {
+                found = Some(i);
+                break;
+            } else {
+                ended[e.colour() as usize] = true
+            }
+        }
+        let found = found?;
+        for _ in 0..found {
+            self.back.push_front(self.events.pop_back().unwrap());
+        }
+        let start = self.events.pop_back()?;
+        Some((start, found))
     }
-    fn insert_event_front(&mut self, event: Event) {
-        self.events.push_front(event);
+    fn insert_event_front(&mut self, end: Event, lost: usize) {
+        self.events.push_front(end);
+        for _ in 0..lost {
+            self.events.push_front(self.front.pop_back().unwrap());
+        }
     }
-    fn insert_event_back(&mut self, event: Event) {
-        self.events.push_back(event);
+    fn insert_event_back(&mut self, start: Event, lost: usize) {
+        self.events.push_back(start);
+        for _ in 0..lost {
+            self.events.push_back(self.back.pop_front().unwrap());
+        }
     }
 }
 
 #[test]
 fn test_linear_axis_history() {
-    let mut axis = LinearAxis::new();
+    let mut axis = LinearAxis::new(4);
     let moves = vec![
         History::SegmentInsert {
             start_index: 0,
@@ -122,24 +172,30 @@ fn test_linear_axis_history() {
             end_index: 1,
             color: 2,
         },
-        History::LimitFront,
+        History::LimitBack,
         History::SegmentInsert {
-            start_index: 2,
-            end_index: 3,
+            start_index: 0,
+            end_index: 1,
             color: 3,
         },
+        History::LimitFront
     ];
     let mut history = vec![];
     let mut reconstruct = vec![];
     for m in &moves {
+        println!("f: {:?}", m);
         let r = axis.apply_history(*m).unwrap();
+        println!("{}", axis.to_string());
+        println!("r: {:?}\n", r);
         history.push(r);
     }
+    println!("{}", axis.to_string());
     for h in history.iter().rev() {
-        dbg!(h);
+        println!("r: {:?}", h);
         let m = axis.apply_history(*h).unwrap();
+        println!("{}\n", axis.to_string());
         reconstruct.push(m);
     }
     assert_eq!(moves, reconstruct.into_iter().rev().collect::<Vec<_>>());
-    assert_eq!(axis.events, LinearAxis::new().events);
+    assert_eq!(axis.events, LinearAxis::new(4).events);
 }
