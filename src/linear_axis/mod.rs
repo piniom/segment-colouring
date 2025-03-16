@@ -1,11 +1,14 @@
 use std::{collections::VecDeque, fmt::Debug};
 
-use serde::{Deserialize, Serialize};
+use event::Event;
+use history::History;
 
 pub mod clicqued;
-pub mod print;
-pub mod normalization;
 pub mod game;
+pub mod normalization;
+pub mod print;
+pub mod history;
+pub mod event;
 
 #[derive(Debug, Clone)]
 pub struct LinearAxis {
@@ -56,7 +59,7 @@ impl LinearAxis {
     fn insert_segment(&mut self, start_index: usize, end_index: usize, color: u8) {
         let mut new_events = VecDeque::with_capacity(self.events.len() + 2);
         new_events.extend(self.events.iter().take(start_index).cloned());
-        new_events.push_back(Event::new(true, color));
+        new_events.push_back(Event::new_start(color));
         new_events.extend(
             self.events
                 .iter()
@@ -64,7 +67,7 @@ impl LinearAxis {
                 .take(end_index - start_index)
                 .cloned(),
         );
-        new_events.push_back(Event::new(false, color));
+        new_events.push_back(Event::new_end(color));
         new_events.extend(self.events.iter().skip(end_index).cloned());
         self.events = new_events;
     }
@@ -105,23 +108,6 @@ impl LinearAxis {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
-pub enum History {
-    SegmentInsert {
-        start_index: usize,
-        end_index: usize,
-        color: u8,
-    },
-    SegmentRemove {
-        start_index: usize,
-        end_index: usize,
-    },
-    LimitFront,
-    LimitBack,
-    EventInsertFront(Event),
-    EventInsertBack(Event),
-}
-
 #[test]
 fn test_linear_axis_history() {
     let mut axis = LinearAxis::new();
@@ -137,7 +123,11 @@ fn test_linear_axis_history() {
             color: 2,
         },
         History::LimitFront,
-        History::SegmentInsert { start_index: 2, end_index: 3, color: 3 }
+        History::SegmentInsert {
+            start_index: 2,
+            end_index: 3,
+            color: 3,
+        },
     ];
     let mut history = vec![];
     let mut reconstruct = vec![];
@@ -145,40 +135,11 @@ fn test_linear_axis_history() {
         let r = axis.apply_history(*m).unwrap();
         history.push(r);
     }
-    for h in history {
-        let m = axis.apply_history(h).unwrap();
+    for h in history.iter().rev() {
+        dbg!(h);
+        let m = axis.apply_history(*h).unwrap();
         reconstruct.push(m);
     }
-    assert_eq!(moves, reconstruct);
+    assert_eq!(moves, reconstruct.into_iter().rev().collect::<Vec<_>>());
     assert_eq!(axis.events, LinearAxis::new().events);
-}
-
-#[derive(Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
-pub struct Event(u8);
-
-impl Event {
-    pub fn new_start(color: u8) -> Self {
-        Self::new(true, color)
-    }
-    pub fn new_end(color: u8) -> Self {
-        Self::new(false, color)
-    }
-    fn new(is_start: bool, color: u8) -> Self {
-        Event((is_start as u8) | (color << 1))
-    }
-    pub fn is_start(&self) -> bool {
-        (self.0 & 1) != 0
-    }
-    pub fn colour(&self) -> u8 {
-        self.0 >> 1
-    }
-}
-
-impl Debug for Event {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("Event")
-            .field("is_start", &self.is_start())
-            .field("color", &self.colour())
-            .finish()
-    }
 }

@@ -13,7 +13,7 @@ impl ClicquedLinearAxis {
         Self {
             inner: LinearAxis::new(),
             max_clicque,
-            max_colours: (max_clicque * 2 - 1) as usize,
+            max_colours: (max_clicque * 2) as usize,
             intersections: vec![],
         }
     }

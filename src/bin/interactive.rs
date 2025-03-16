@@ -1,4 +1,4 @@
-use segment_colouring::linear_axis::{clicqued::ClicquedLinearAxis, History};
+use segment_colouring::linear_axis::{clicqued::ClicquedLinearAxis, history::History};
 
 fn main() {
     let mut axis = ClicquedLinearAxis::new(4);

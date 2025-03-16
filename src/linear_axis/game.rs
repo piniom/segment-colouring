@@ -72,7 +72,7 @@ impl Game {
     pub fn simulate(&mut self) -> bool {
         let normalized_state = self.get_from_bank(self.axis.normalize());
         if self.axis.colours_used() >= self.force_num_colours {
-            println!("{}", self.axis.inner.to_string());
+            println!("{}", self.axis.strategy_string());
             self.states
                 .insert(normalized_state.clone(), StateStatus::True);
             // self.propagate_reductions(&normalized_state);
