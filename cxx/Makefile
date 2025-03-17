@@ -11,7 +11,6 @@ PROGS=strategy_find strategy_check
 
 all : ${PROGS}
 
-
 ${PROGS} : % : ${BUILD}/%
 	rm -f $@
 	ln -s $< $@
@@ -19,7 +18,7 @@ ${PROGS} : % : ${BUILD}/%
 ${BUILD}/% : ${BUILD}/Makefile force
 	make -C ${BUILD} $*
 
-${BUILD}/Makefile : CMakeLists.txt
+${BUILD}/Makefile : CMakeLists.txt Makefile
 	cmake -B ${BUILD} -S ${OFFICE}
 
 .PHONY: force
