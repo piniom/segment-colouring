@@ -10,7 +10,7 @@ pub struct ClicquedLinearAxis {
 
 impl ClicquedLinearAxis {
     pub fn new(max_clicque: u32) -> Self {
-        let max_colours = (max_clicque * 2) as usize;
+        let max_colours = (max_clicque * 2 - 1) as usize;
         Self {
             inner: LinearAxis::new(max_colours),
             max_clicque,
