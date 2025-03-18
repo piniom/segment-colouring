@@ -85,39 +85,45 @@ int main(int argc, char** argv) {
             auto first = line.find_first_not_of(" \t\r\n");
             if ( first != std::string::npos and line[first] != '#' and line[first] != ';' ) {
                 std::istringstream linestream(line);
-                std::string state_code;
-                linestream >> state_code;
+                std::string state_to_load;
+                linestream >> state_to_load;
                 State state;
-                state.load(state_code);
-                if ( state.dump() != state_code ) {
-                    std::cerr << "Strange state " << state_code << " (!=" << state.dump() << ")." << std::endl;
+                state.load(state_to_load);
+                if ( state.dump() != state_to_load ) {
+                    std::cerr << "Strange state " << state_to_load << " (!=" << state.dump() << ")." << std::endl;
                     return 1;
                 }
                 auto code = state.encode();
-                State rev = state;
-                rev.reverse();
-                auto rev_code = rev.encode();
+                State rev_state = state;
+                rev_state.reverse();
+                auto rev_code = rev_state.encode();
                 max_size = std::max<size_t>(max_size, state.get_interval_count());
                 Interval interval;
+                Interval rev_interval;
                 std::string state_move;
                 linestream >> state_move;
                 if ( state_move == "<" ) {
                     // PUSH RIGHT BARRIER
                     interval = Interval(0, 255);
+                    rev_interval = Interval(1, 255);
                 } else if ( state_move == ">" ) {
                     // PUSH LEFT BARRIER
                     interval = Interval(1, 255);
+                    rev_interval = Interval(0, 255);
                 } else {
                     // INTRODUCE INTERVAL
                     size_t move_left = std::stoi(state_move);
                     linestream >> state_move;
                     size_t move_right = std::stoi(state_move);
                     interval = Interval(move_left, move_right);
+                    rev_interval = Interval(move_right, move_left);
                 }
                 if ( known_codes.find(code) != known_codes.end() ) {
-                    if ( moves[known_codes[code]] == interval )
+                    if ( codes[known_codes[code]] == code and moves[known_codes[code]] == interval )
                         continue;
-                    std::cerr << "Multiple definition for " << state_code << "." << std::endl;
+                    if ( codes[known_codes[code]] == rev_code and moves[known_codes[code]] == rev_interval )
+                        continue;
+                    std::cerr << "Multiple conflicting definitions for " << state.dump() << ", " << rev_state.dump() << "." << std::endl;
                     return 1;
                 }
                 known_codes[code] = codes.size();
@@ -149,7 +155,7 @@ int main(int argc, char** argv) {
                 result.push_left_barrier();
             auto code = result.encode();
             if ( known_codes.find(code) == known_codes.end() ) {
-                std::cerr << "Answer for " << result.dump() << " not found in the strategy." << std::endl;
+                std::cerr << "Answer for ( " << state.dump() << (move == Interval(0, 255)?" < ":" > ") << " ): " << result.dump() << " not found in the strategy." << std::endl;
                 return 1;
             }
             responses[i].emplace_back(known_codes[code]);
@@ -164,7 +170,7 @@ int main(int argc, char** argv) {
                         result.add_interval(cint);
                         auto code = result.encode();
                         if ( known_codes.find(code) == known_codes.end() ) {
-                            std::cerr << "Answer for " << result.dump() << " not found in the strategy." << std::endl;
+                            std::cerr << "Answer for ( " << state.dump() << ", " << move << ", " << char('A'+response) << " ): " << result.dump() << " not found in the strategy." << std::endl;
                             return 1;
                         }
                         responses[i].emplace_back(known_codes[code]);
@@ -172,30 +178,30 @@ int main(int argc, char** argv) {
                 }
             }
             if ( not found ) {
-                std::cerr << "Move for " << state.dump() << " is not valid." << std::endl;
+                std::cerr << "Move " << move << " for " << state.dump() << " is not valid." << std::endl;
                 return 1;
             }
 
         }
         if ( debug ) {
-            std::cout << " State #" << i << " is " << state.dump() << " with move ";
+            std::cerr << " State #" << i << " is " << state.dump() << " with move ";
             if ( move == Interval(0, 255) )
-                std::cout << "push one right";
+                std::cerr << "push one right";
             else if ( move == Interval(1, 255) )
-                std::cout << "push one left";
+                std::cerr << "push one left";
             else
-                std::cout << move;
-            std::cout << " and ";
+                std::cerr << move;
+            std::cerr << " and ";
             if ( responses[i].size() == 0 )
-                std::cout << "no possible responses";
+                std::cerr << "no possible responses";
             else {
-                std::cout << "possible responses {";
+                std::cerr << "possible responses {";
                 for ( const auto& response : responses[i] ) {
-                    std::cout << " " << response;
+                    std::cerr << " " << response;
                 }
-                std::cout << " }";
+                std::cerr << " }";
             }
-            std::cout << std::endl;
+            std::cerr << std::endl;
         }
     }
     std::vector<std::vector<size_t>> inverse(codes.size());
