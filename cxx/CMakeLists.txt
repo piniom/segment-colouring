@@ -14,6 +14,9 @@ target_link_libraries(strategy_find LINK_PUBLIC ${Boost_LIBRARIES} )
 add_executable(strategy_check strategy_check.cpp common.cpp state.cpp game.cpp)
 target_link_libraries(strategy_check LINK_PUBLIC ${Boost_LIBRARIES} )
 
+add_executable(strategy_draw strategy_draw.cpp common.cpp state.cpp game.cpp)
+target_link_libraries(strategy_draw LINK_PUBLIC ${Boost_LIBRARIES} )
+
 #add_executable(test_code tests/code.cpp common.cpp state.cpp game.cpp)
 #target_link_libraries(test_code LINK_PUBLIC ${Boost_LIBRARIES} )
 #add_test(NAME Code COMMAND test_code)
