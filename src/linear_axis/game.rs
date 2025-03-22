@@ -5,7 +5,7 @@ use std::{
 
 use super::{
     clicqued::ClicquedLinearAxis,
-    normalization::CompressedState,
+    normalization::{decompress_to_strategy, CompressedState},
     strategy::{StrategyConsumer, StrategyMove},
     History,
 };
@@ -40,7 +40,7 @@ pub struct Game {
     force_num_colours: usize,
     max_events: usize,
     states: HashMap<Rc<CompressedState>, StateStatus>,
-    reductees: HashMap<Rc<CompressedState>, HashSet<Rc<CompressedState>>>,
+    reductees: HashMap<Rc<CompressedState>, HashSet<(Rc<CompressedState>, History)>>,
     state_bank: HashSet<Rc<CompressedState>>,
     pub strategy: StrategyConsumer,
 }
@@ -88,9 +88,9 @@ impl Game {
         let normalized_state = self.get_from_bank(self.axis.normalize_compress());
         if self.axis.colours_used() >= self.force_num_colours {
             // println!("{}", self.axis.strategy_string());
+            self.propagate_reductions(&normalized_state);
             self.states
                 .insert(normalized_state.clone(), StateStatus::True);
-            self.propagate_reductions(&normalized_state);
             return true;
         }
 
@@ -118,7 +118,7 @@ impl Game {
                     self.reductees
                         .entry(r_norm)
                         .or_default()
-                        .insert(normalized_state.clone());
+                        .insert((normalized_state.clone(), reduction));
                 }
             };
         }
@@ -136,9 +136,9 @@ impl Game {
                 self.apply_history(reverse);
 
                 if result {
+                    self.propagate_reductions(&normalized_state);
                     self.states
                         .insert(normalized_state.clone(), StateStatus::True);
-                    self.propagate_reductions(&normalized_state);
                     self.strategy.consume(
                         &self.axis.strategy_normalize(),
                         reduction.strategy_move().unwrap(),
@@ -169,29 +169,6 @@ impl Game {
                     color: c,
                 };
                 let reverse = self.apply_history(mv).unwrap();
-
-                if *self.axis.intersections.iter().max().unwrap_or(&0) > self.axis.max_clicque {
-                    dbg!(&collisions);
-                    println!("{}", self.axis.inner.to_string());
-                    println!("{:?}", self.axis.intersections);
-                    self.apply_history(reverse);
-                    println!("{}", self.axis.inner.to_string());
-                    println!("{:?}", self.axis.intersections);
-                    println!("{:?}", self.axis.inner.events);
-                    dbg!(self.axis.valid_new_segment_ends(s));
-                    dbg!(s, e);
-                    dbg!(self.axis.segments_opened_at_front());
-                    let mut ax = ClicquedLinearAxis::new(self.axis.max_clicque);
-                    for mv in &self.history {
-                        println!("{:?}", mv);
-                        if ax.apply_history(*mv).is_none() {
-                            dbg!(mv);
-                            panic!();
-                        }
-                        println!("{}\n", ax.inner.to_string());
-                    }
-                    panic!();
-                }
 
                 let simulation_result = self.simulate_inner();
                 self.apply_history(reverse);
@@ -237,9 +214,10 @@ impl Game {
         }
         let reductees = self.reductees.get(state);
         if let Some(reductees) = reductees {
-            for r in reductees.clone() {
+            for (r, mov) in reductees.clone() {
                 self.propagate_reductions(&r);
-                self.states.insert(r, StateStatus::True);
+                self.states.insert(r.clone(), StateStatus::True);
+                self.strategy.consume(&decompress_to_strategy(self.axis.max_colours, &r), mov.strategy_move().unwrap());
             }
         }
     }

@@ -1,11 +1,23 @@
 2 3
-A[Bab] >
-A[aBbA]a >
-[AaBAb]a <
-[AaA]a 1 2
-[] 0 0
-A[BabAa] >
+[AaB]b <
+[AaA]a <
+AB[aAbA]a <
 A[aAaA]a >
-A[BabB]b >
-A[a] 0 1
-[AaB]b 0 1
+A[BabA]a <
+[AaBAb]a <
+AB[CabCc] <
+AB[CaAbc]a <
+A[BaBbB]b <
+A[aBbA]a <
+A[a] >
+AB[aCAbc]a >
+[] 0 0
+A[BaBbA]a <
+A[BaBb] <
+A[BaABa]b >
+AB[aAb]a <
+A[Bab] >
+A[BabB]b <
+ABC[aAbAc]a >
+A[BaBAb]a >
+AB[CabAc]a <
