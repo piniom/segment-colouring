@@ -346,7 +346,6 @@ void State::load(const std::string& code) {
     size_t shift = 0;
     uint8_t left_endpoints = 0;
     uint8_t right_endpoints = 0;
-    std::cout << code << std::endl;
     assert(code.size() >= 2 and code.size() % 2 == 0);
     size_t size = (code.size() - 2) / 2;
     colors.resize(size);

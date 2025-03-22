@@ -1,22 +1,32 @@
+use std::collections::VecDeque;
+
 use super::{clicqued::ClicquedLinearAxis, event::Event};
 
 pub type CompressedState = Vec<u8>;
 
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub struct NormalizedState(pub Vec<Event>);
 
 impl ClicquedLinearAxis {
     pub fn strategy_normalize(&self) -> NormalizedState {
-        strategy_normalize(&self.inner.events.iter().copied().collect::<Vec<_>>(), self.max_colours)
+        strategy_normalize(
+            &self.inner.events.iter().copied().collect::<Vec<_>>(),
+            self.max_colours,
+        )
     }
 
     pub fn normalize_compress(&self) -> Vec<u8> {
         let mut colours = vec![u8::MAX; self.max_colours];
         let mut normalized = vec![];
         let mut i = 1;
+        let mut max_dis: u8 = 0;
         for e in &self.inner.events {
             if colours[e.colour() as usize] == u8::MAX {
                 colours[e.colour() as usize] = i;
                 i += 1;
+                if !e.is_start() {
+                    max_dis += 1;
+                }
             }
             if e.is_start() {
                 normalized.push(colours[e.colour() as usize]);
@@ -24,7 +34,9 @@ impl ClicquedLinearAxis {
                 normalized.push(0);
             }
         }
-        compress(&normalized)
+        let mut compressed = compress(&normalized);
+        compressed.push(max_dis);
+        compressed
     }
 }
 
@@ -46,52 +58,51 @@ fn compress(data: &[u8]) -> Vec<u8> {
 }
 
 pub fn decompress_to_strategy(max_colours: usize, compressed: &[u8]) -> NormalizedState {
-    let uncompressed = decompress(compressed);
-    let mut started = vec![None; max_colours];
-    fn minimal_started(started: &Vec<Option<usize>>) -> usize {
-        started
-            .into_iter()
-            .enumerate()
-            .filter_map(|(c, i)| i.map(|i: usize| (c, i)))
-            .min_by(|a, b| a.1.cmp(&b.1))
-            .unwrap_or_else(|| panic!("{started:?}"))
-            .0
-    }
+    let mut max_dis = *compressed.last().unwrap();
+    let uncompressed = decompress(&compressed[0..compressed.len()-1]);
+    let mut queue = VecDeque::new();
     let mut events = vec![];
-    let mut count = 0;
-    let mut started_count = 0;
-    for e in &uncompressed {
-        dbg!(&started, started_count, count);
-        if count > 0 && started_count > count {
-            break
-        }
-        if count >= max_colours  {
+
+    // println!("{uncompressed:?}");
+
+    for (i, e) in uncompressed.iter().enumerate() {
+        if max_dis == 0 {
             break;
         }
         if *e == 0 {
-            started[count] = Some(count);
-            count += 1;
-        } else {
-            started_count += 1;
+            queue.push_back((i) as u8);
+            max_dis -= 1;
         }
     }
-    let len = uncompressed.len();
-    println!("{uncompressed:?}");
-    for (i, e) in uncompressed.into_iter().enumerate() {
+
+    for e in uncompressed {
         if e == 0 {
-            let c = minimal_started(&started);
-            events.push(Event::new_end(c as u8));
-            started[c] = None
+            events.push(Event::new_end(queue.pop_front().unwrap()));
         } else {
             let c = e - 1;
+            queue.push_back(c);
             events.push(Event::new_start(c));
-            started[c as usize] = Some(i + len)
         }
     }
-    strategy_normalize(&events, max_colours)
+
+    // println!("{:?}", events.iter().map(Event::to_char).collect::<Vec<_>>());
+
+    let strategy = strategy_normalize(&events, max_colours);
+
+    // println!("{:?}\n", strategy.0.iter().map(Event::to_char).collect::<Vec<_>>());
+    strategy
 }
 
 pub fn strategy_normalize(events: &[Event], max_colours: usize) -> NormalizedState {
+    let base = strategy_normalize_without_symmetry(events, max_colours);
+    let flipped = base.flipped(max_colours);
+    match base.cmp(&flipped) {
+        std::cmp::Ordering::Greater | std::cmp::Ordering::Equal => base,
+        std::cmp::Ordering::Less => flipped,
+    }
+}
+
+pub fn strategy_normalize_without_symmetry(events: &[Event], max_colours: usize) -> NormalizedState {
     let mut colours = vec![u8::MAX; max_colours];
     let mut normalized = vec![];
     let mut i = 0;
@@ -111,6 +122,7 @@ pub fn strategy_normalize(events: &[Event], max_colours: usize) -> NormalizedSta
     NormalizedState(normalized)
 }
 
+
 fn decompress(data: &[u8]) -> Vec<u8> {
     let mut decompressed = Vec::with_capacity(data.len() * 2);
 
@@ -125,4 +137,26 @@ fn decompress(data: &[u8]) -> Vec<u8> {
     }
 
     decompressed
+}
+
+#[test]
+fn test_hybydy() {
+    let compressed = compress(&[1, 2, 0, 0]);
+    assert_eq!(
+        "ABab",
+        decompress_to_strategy(5, &compressed)
+            .0
+            .iter()
+            .map(Event::to_char)
+            .collect::<String>()
+    )
+}
+
+impl NormalizedState {
+    fn flipped(&self, max_colours: usize) -> Self {
+        strategy_normalize_without_symmetry(
+            &self.0.iter().map(Event::sibling).rev().collect::<Vec<_>>(),
+            max_colours,
+        )
+    }
 }

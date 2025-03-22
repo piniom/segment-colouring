@@ -5,7 +5,7 @@ use std::{
 
 use super::{
     clicqued::ClicquedLinearAxis,
-    normalization::{decompress_to_strategy, CompressedState},
+    normalization::CompressedState,
     strategy::{StrategyConsumer, StrategyMove},
     History,
 };
@@ -82,7 +82,9 @@ impl Game {
         result
     }
     pub fn simulate(&mut self) -> bool {
-        self.simulate_inner()
+        let r = self.simulate_inner();
+        println!("{:?}", self.states);
+        r
     }
     fn simulate_inner(&mut self) -> bool {
         let normalized_state = self.get_from_bank(self.axis.normalize_compress());
@@ -209,15 +211,21 @@ impl Game {
     }
 
     fn propagate_reductions(&mut self, state: &CompressedState) {
+        if state.len() == 1 {
+            return;
+        }
         if let Some(StateStatus::True) = self.states.get(state) {
             return;
         }
+        self.states.insert(
+            self.state_bank.get(state).unwrap().clone(),
+            StateStatus::True,
+        );
         let reductees = self.reductees.get(state);
         if let Some(reductees) = reductees {
-            for (r, mov) in reductees.clone() {
+            for (r, _mov) in reductees.clone() {
                 self.propagate_reductions(&r);
-                self.states.insert(r.clone(), StateStatus::True);
-                self.strategy.consume(&decompress_to_strategy(self.axis.max_colours, &r), mov.strategy_move().unwrap());
+                // self.strategy.consume(&decompress_to_strategy(self.axis.max_colours, &r), mov.strategy_move().unwrap());
             }
         }
     }

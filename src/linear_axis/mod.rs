@@ -200,3 +200,29 @@ fn test_linear_axis_history() {
     assert_eq!(moves, reconstruct.into_iter().rev().collect::<Vec<_>>());
     assert_eq!(axis.events, LinearAxis::new(4).events);
 }
+
+#[test]
+fn test_linear_axis_history_reduction() {
+    use normalization::strategy_normalize;
+    let mut axis = LinearAxis {
+        events: vec![Event::new_start(1), Event::new_end(0), Event::new_end(1), Event::new_start(1)].into(),
+        max_colors: 3,
+        front: vec![Event::new_start(0)].into(),
+        back: vec![Event::new_end(1)].into(),
+    };
+    axis.apply_history(History::LimitFront);
+    assert_eq!(strategy_normalize(&axis.events.into_iter().collect::<Vec<_>>(), 3).0, vec![Event::new_end(0), Event::new_start(0)])
+}
+
+#[test]
+fn test_linear_axis_history_reduction_2() {
+    use normalization::strategy_normalize;
+    let mut axis = LinearAxis {
+        events: vec![Event::new_start(1), Event::new_end(0)].into(),
+        max_colors: 3,
+        front: vec![Event::new_start(0)].into(),
+        back: vec![Event::new_end(1)].into(),
+    };
+    axis.apply_history(History::LimitBack);
+    assert_eq!(strategy_normalize(&axis.events.into_iter().collect::<Vec<_>>(), 3).0, vec![])
+}

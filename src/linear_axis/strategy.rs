@@ -10,9 +10,9 @@ pub enum StrategyMove {
 }
 
 impl StrategyMove {
-    pub fn string(&self) -> String {
+    pub fn string(&self, offset: usize) -> String {
         match self {
-            StrategyMove::Insert { start, end } => format!("{start} {end}"),
+            StrategyMove::Insert { start, end } => format!("{} {}", start + offset, end + offset),
             StrategyMove::LimitFront => ">".to_string(),
             StrategyMove::LimitBack => "<".to_string(),
         }
@@ -29,7 +29,7 @@ impl History {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct StrategyState {
     front: Vec<Event>,
     actual: Vec<Event>,
@@ -46,22 +46,14 @@ impl StrategyState {
     }
 }
 
-impl PartialEq for StrategyState {
-    fn eq(&self, other: &Self) -> bool {
-        self.without_boundaries() == other.without_boundaries()
-    }
-}
-
-impl Eq for StrategyState {}
-
-impl Hash for StrategyState {
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
-        self.without_boundaries().hash(state);
-    }
-}
+// impl Hash for StrategyState {
+//     fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+//         self.without_boundaries().hash(state);
+//     }
+// }
 
 impl StrategyState {
-    fn from(&NormalizedState(ref state): &NormalizedState, max_colors: usize) -> Self {
+    pub fn from(&NormalizedState(ref state): &NormalizedState, max_colors: usize) -> Self {
         let mut started = vec![false; max_colors];
         let mut front = vec![];
         for e in state {
@@ -115,13 +107,19 @@ impl StrategyConsumer {
         }
     }
     pub fn consume(&mut self, state: &NormalizedState, mov: StrategyMove) {
-        self.moves
-            .insert(StrategyState::from(state, self.max_colors), mov);
+        let state = StrategyState::from(state, self.max_colors);
+        println!("{:?}", state.to_string());
+        if let Some(s) = self.moves.get(&state) {
+            if let StrategyMove::Insert { .. } = s {
+                return;
+            }
+        }
+        self.moves.insert(state, mov);
     }
     pub fn write(&self, wt: &mut dyn Write) -> std::io::Result<()> {
         writeln!(wt, "{} {}", self.clicque_size, self.force_colors)?;
         for (s, m) in &self.moves {
-            writeln!(wt, "{} {}", s.to_string(), m.string())?;
+            writeln!(wt, "{} {}", s.to_string(), m.string(s.front.len()))?;
         }
         Ok(())
     }
