@@ -27,6 +27,13 @@ impl Event {
         let case = if self.is_start() { 'A' } else { 'a' };
         (case as u8 + self.colour()) as char
     }
+    pub fn from_char(c: char) -> Self {
+        if c >= 'a' {
+            Self::new_end(c as u8 - 'a' as u8)
+        } else {
+            Self::new_start(c as u8 - 'A' as u8)
+        }
+    }
     pub fn sibling(&self) -> Self {
         Event(self.0 ^ 1)
     }

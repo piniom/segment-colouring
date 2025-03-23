@@ -22,7 +22,7 @@ struct Args {
     /// forcing any colouring algorithm to use this number of colours
     desired_number_of_colours: usize,
     /// Max allowed clicque size.
-    max_clicque: u32,
+    max_clicque: usize,
     /// The simulation will reduce the game when the <MAX_EVENTS> number of events is reached.
     /// The higher this number is the longer it takes to simulate but the chance of success is higher
     max_events: usize,

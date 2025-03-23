@@ -3,24 +3,27 @@ use super::{History, LinearAxis};
 #[derive(Debug, Clone)]
 pub struct ClicquedLinearAxis {
     pub inner: LinearAxis,
-    pub max_clicque: u32,
-    pub max_colours: usize,
-    pub intersections: Vec<u32>,
+    pub max_clicque: usize,
+    pub intersections: Vec<usize>,
 }
 
 impl ClicquedLinearAxis {
-    pub fn new(max_clicque: u32) -> Self {
-        let max_colours = (max_clicque * 2 - 1) as usize;
-        Self {
-            inner: LinearAxis::new(max_colours),
+    pub fn new(max_clicque: usize) -> Self {
+        Self::with_inner(LinearAxis::new(), max_clicque)
+    }
+
+    pub fn with_inner(inner: LinearAxis, max_clicque: usize) -> Self {
+        let mut result = Self {
+            inner,
             max_clicque,
-            max_colours,
             intersections: vec![],
-        }
+        };
+        result.count_intersections();
+        result
     }
 
     pub fn apply_history(&mut self, history: History) -> Option<History> {
-        let reverse = self.inner.apply_history(history);
+        let reverse = self.inner.apply_history(history, self.max_colors());
         self.count_intersections();
         reverse
     }
@@ -41,8 +44,8 @@ impl ClicquedLinearAxis {
         self.intersections = result;
     }
 
-    pub fn segments_opened_at_front(&self) -> u32 {
-        let mut opened = vec![false; self.max_colours];
+    pub fn segments_opened_at_front(&self) -> usize {
+        let mut opened = vec![false; self.max_colors()];
         let mut result = 0;
         for e in &self.inner.events {
             if e.is_start() {
@@ -95,15 +98,15 @@ impl ClicquedLinearAxis {
                 break;
             }
             if !evs[i].is_start() {
-                break
-            } 
+                break;
+            }
             i += 1
         }
         Some((min_end, i))
     }
 
     pub fn segment_will_collide_with_colours(&self, start: usize, end: usize) -> Vec<bool> {
-        let mut collisions = vec![false; self.max_colours];
+        let mut collisions = vec![false; self.max_colors()];
         for i in start..end {
             collisions[self.inner.events[i].colour() as usize] = true
         }
@@ -115,11 +118,14 @@ impl ClicquedLinearAxis {
             .filter(|&i| i == self.intersections.len() || self.intersections[i] < self.max_clicque)
     }
     pub fn colours_used(&self) -> usize {
-        let mut used = vec![false; self.max_colours];
+        let mut used = vec![false; self.max_colors()];
         for e in &self.inner.events {
             used[e.colour() as usize] = true
         }
         used.into_iter().filter(|u| *u).count()
+    }
+    pub fn max_colors(&self) -> usize {
+        self.max_clicque * 2 - 1
     }
 }
 

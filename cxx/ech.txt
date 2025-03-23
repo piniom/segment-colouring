@@ -1,27 +1,29 @@
-"[AaB]b"
-"A[aBbA]a"
-"A[BabAa]"
-"[AaBbA]a"
-"A[BabAa]"
-"A[BabAa]"
-"[AaA]a"
-"A[aAaA]a"
-"A[aA]a"
-"A[BabB]b"
-"A[aB]b"
-"[ABabA]a"
-"[AaA]a"
-"A[BabBb]"
-"[AaB]b"
-"A[BabAa]"
-"A[Bab]"
-"[A]a"
-"[ABab]"
-"[Aa]"
-"[]"
-{[19, 4, 0, 0]: True, [2, 1]: True, [3, 0, 1]: True, [17, 4, 1]: True, [17, 33, 32, 0]: True, [17, 17, 16, 0]: True, [19, 0, 0]: False, [0]: True, [3, 1]: True, [17, 3, 0, 1]: True, [3, 2, 1]: True, [17, 16, 0]: True, [3, 17, 0, 1]: True, [17, 32, 0]: True, [17, 17, 32, 0]: True, [19, 1, 32, 0]: True, [17, 19, 0, 0]: True, [17, 0]: True, [19, 1, 0]: True, [17, 1]: False, [19, 1, 16, 0]: True, [17, 3, 1]: True, [17, 0, 1]: True, [2, 0, 1]: True, [2, 2, 1]: True, [17, 4, 0, 1]: True, [0, 1]: True, [17, 33, 1]: False, [17, 2, 0, 1]: True, [17, 2, 1]: True, [2, 2, 0, 1]: True, [17, 33, 0, 1]: True, [17, 17, 0]: True, [19, 2, 0, 0]: False, [17, 33, 0]: True}
 SUCCESS!
-It IS possible to force any colouring algorithm to use 3 colours whithout creating a clicque larger than 2.
-The simulation was confined to states with at most 5 events.
+It IS possible to force any colouring algorithm to use 5 colours whithout creating a clicque larger than 3.
+The simulation was confined to states with at most 10 events.
+[AaBCbBcCbB]cb
+AB[aCAbDcadA]a
+[ABaCbBcC]bc
+AB[abACDacC]dc
+A[BCabBAcbaD]d
+A[aBACbDacC]dc
+AB[aCAbDcadB]b
+AB[abCcBCDbcC]dc
+AB[CabBcAbCac]
+[AaBCDbcC]dc
+[ABaCDbcC]dc
+AB[aCAbDcadC]c
+A[aBCDbBcdD]bd
+A[aBCAbDcaA]da
+[ABaCDbcB]db
+AB[CabBcDbCdc]
+A[aBCbBcCbB]cb
+AB[aCAbcaDC]dc
+AB[aCAbBcabD]d
+A[aABaCbBcC]bc
+AB[abCDBcCdbB]cb
+[AaBCDbAcdC]ac
+[AaBCDbcB]db
+A[BabACDacA]da
 
-The simulation discovered 35 states in 274.084µs.
+The simulation discovered 4579 states in 30.774834ms.

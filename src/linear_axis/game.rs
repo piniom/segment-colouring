@@ -5,7 +5,7 @@ use std::{
 
 use super::{
     clicqued::ClicquedLinearAxis,
-    normalization::CompressedState,
+    normalization::{decompress_to_strategy, CompressedState},
     strategy::{StrategyConsumer, StrategyMove},
     History,
 };
@@ -48,7 +48,7 @@ pub struct Game {
 impl Game {
     pub fn new(
         max_events: usize,
-        max_clicque: u32,
+        max_clicque: usize,
         force_num_colours: usize,
         strategy: StrategyConsumer,
     ) -> Self {
@@ -83,7 +83,7 @@ impl Game {
     }
     pub fn simulate(&mut self) -> bool {
         let r = self.simulate_inner();
-        println!("{:?}", self.states);
+        // println!("{:?}", self.states);
         r
     }
     fn simulate_inner(&mut self) -> bool {
@@ -110,9 +110,10 @@ impl Game {
 
             match self.states.get(&r_norm) {
                 Some(StateStatus::True) => {
+                    let (state, mov) = self.axis.strategy_normalize_with_move(reduction.strategy_move().unwrap());
                     self.strategy.consume(
-                        &self.axis.strategy_normalize(),
-                        reduction.strategy_move().unwrap(),
+                        &state,
+                        mov,
                     );
                     return true;
                 }
@@ -141,9 +142,10 @@ impl Game {
                     self.propagate_reductions(&normalized_state);
                     self.states
                         .insert(normalized_state.clone(), StateStatus::True);
+                    let (state, mov) = self.axis.strategy_normalize_with_move(reduction.strategy_move().unwrap());
                     self.strategy.consume(
-                        &self.axis.strategy_normalize(),
-                        reduction.strategy_move().unwrap(),
+                        &state,
+                        mov,
                     );
                     return true;
                 }
@@ -182,10 +184,11 @@ impl Game {
 
             if all {
                 result = true;
-                self.strategy.consume(
-                    &self.axis.strategy_normalize(),
-                    StrategyMove::Insert { start: s, end: e },
-                );
+                let (state, mov) = self.axis.strategy_normalize_with_move(StrategyMove::Insert { start: s, end: e });
+                    self.strategy.consume(
+                        &state,
+                        mov
+                    );
                 break;
             }
         }
@@ -223,9 +226,10 @@ impl Game {
         );
         let reductees = self.reductees.get(state);
         if let Some(reductees) = reductees {
-            for (r, _mov) in reductees.clone() {
+            for (r, mov) in reductees.clone() {
                 self.propagate_reductions(&r);
-                // self.strategy.consume(&decompress_to_strategy(self.axis.max_colours, &r), mov.strategy_move().unwrap());
+                let (state, mov) = decompress_to_strategy(self.axis.max_colors(), &r, mov.strategy_move().unwrap());
+                self.strategy.consume(&state, mov);
             }
         }
     }

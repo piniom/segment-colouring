@@ -14,21 +14,19 @@ pub mod strategy;
 #[derive(Debug, Clone)]
 pub struct LinearAxis {
     pub events: VecDeque<Event>,
-    pub max_colors: usize,
     pub front: VecDeque<Event>,
     pub back: VecDeque<Event>
 }
 
 impl LinearAxis {
-    fn new(max_colors: usize) -> Self {
+    fn new() -> Self {
         Self {
             events: VecDeque::new(),
-            max_colors,
             front: VecDeque::new(),
             back: VecDeque::new(),
         }
     }
-    fn apply_history(&mut self, history: History) -> Option<History> {
+    fn apply_history(&mut self, history: History, max_colors: usize) -> Option<History> {
         match history {
             History::SegmentInsert {
                 start_index,
@@ -52,10 +50,10 @@ impl LinearAxis {
                     color: c,
                 }),
             History::LimitFront => self
-                .limit_front()
+                .limit_front(max_colors)
                 .map(|(end, lost)| History::EventInsertFront { end, lost}),
             History::LimitBack => self
-                .limit_back()
+                .limit_back(max_colors)
                 .map(|(start, lost)| History::EventInsertBack { start,lost }),
             History::EventInsertFront {  end, lost } => {
                 self.insert_event_front(end, lost);
@@ -109,8 +107,8 @@ impl LinearAxis {
 
         Some(start_color)
     }
-    fn limit_front(&mut self) -> Option<(Event, usize)> {
-        let mut started = vec![false; self.max_colors];
+    fn limit_front(&mut self, max_colors: usize) -> Option<(Event, usize)> {
+        let mut started = vec![false; max_colors];
         let mut found = None;
         for (i, e) in self.events.iter().enumerate() {
             if e.is_start() {
@@ -127,8 +125,8 @@ impl LinearAxis {
         let end = self.events.pop_front()?;
         Some((end, found))
     }
-    fn limit_back(&mut self) -> Option<(Event, usize)> {
-        let mut ended = vec![false; self.max_colors];
+    fn limit_back(&mut self, max_colors: usize) -> Option<(Event, usize)> {
+        let mut ended = vec![false; max_colors];
         let mut found = None;
         for (i, e) in self.events.iter().rev().enumerate() {
             if e.is_start() {
@@ -161,7 +159,7 @@ impl LinearAxis {
 
 #[test]
 fn test_linear_axis_history() {
-    let mut axis = LinearAxis::new(4);
+    let mut axis = LinearAxis::new();
     let moves = vec![
         History::SegmentInsert {
             start_index: 0,
@@ -185,7 +183,7 @@ fn test_linear_axis_history() {
     let mut reconstruct = vec![];
     for m in &moves {
         println!("f: {:?}", m);
-        let r = axis.apply_history(*m).unwrap();
+        let r = axis.apply_history(*m, 4).unwrap();
         println!("{}", axis.to_string());
         println!("r: {:?}\n", r);
         history.push(r);
@@ -193,12 +191,12 @@ fn test_linear_axis_history() {
     println!("{}", axis.to_string());
     for h in history.iter().rev() {
         println!("r: {:?}", h);
-        let m = axis.apply_history(*h).unwrap();
+        let m = axis.apply_history(*h, 4).unwrap();
         println!("{}\n", axis.to_string());
         reconstruct.push(m);
     }
     assert_eq!(moves, reconstruct.into_iter().rev().collect::<Vec<_>>());
-    assert_eq!(axis.events, LinearAxis::new(4).events);
+    assert_eq!(axis.events, LinearAxis::new().events);
 }
 
 #[test]
@@ -206,12 +204,11 @@ fn test_linear_axis_history_reduction() {
     use normalization::strategy_normalize;
     let mut axis = LinearAxis {
         events: vec![Event::new_start(1), Event::new_end(0), Event::new_end(1), Event::new_start(1)].into(),
-        max_colors: 3,
         front: vec![Event::new_start(0)].into(),
         back: vec![Event::new_end(1)].into(),
     };
-    axis.apply_history(History::LimitFront);
-    assert_eq!(strategy_normalize(&axis.events.into_iter().collect::<Vec<_>>(), 3).0, vec![Event::new_end(0), Event::new_start(0)])
+    axis.apply_history(History::LimitFront, 4);
+    assert_eq!(strategy_normalize(&axis.events.into_iter().collect::<Vec<_>>(), 3).0.0, vec![Event::new_end(0), Event::new_start(0)])
 }
 
 #[test]
@@ -219,10 +216,9 @@ fn test_linear_axis_history_reduction_2() {
     use normalization::strategy_normalize;
     let mut axis = LinearAxis {
         events: vec![Event::new_start(1), Event::new_end(0)].into(),
-        max_colors: 3,
         front: vec![Event::new_start(0)].into(),
         back: vec![Event::new_end(1)].into(),
     };
-    axis.apply_history(History::LimitBack);
-    assert_eq!(strategy_normalize(&axis.events.into_iter().collect::<Vec<_>>(), 3).0, vec![])
+    axis.apply_history(History::LimitBack, 4);
+    assert_eq!(strategy_normalize(&axis.events.into_iter().collect::<Vec<_>>(), 3).0.0, vec![])
 }
