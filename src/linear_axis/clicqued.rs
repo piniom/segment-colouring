@@ -129,8 +129,7 @@ impl ClicquedLinearAxis {
         self.max_clicque * 2 - 1
     }
     pub fn uncollisions(&self, start: usize, end: usize) -> Vec<u8> {
-        self
-            .segment_will_collide_with_colours(start, end)
+        self.segment_will_collide_with_colours(start, end)
             .iter()
             .enumerate()
             .filter_map(|(i, c)| if *c { None } else { Some(i as u8) })

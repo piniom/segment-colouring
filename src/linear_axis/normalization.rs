@@ -22,8 +22,10 @@ impl ClicquedLinearAxis {
         )
     }
 
-
-    pub fn strategy_normalize_with_move(&self, mov: StrategyMove) -> (NormalizedState, StrategyMove) {
+    pub fn strategy_normalize_with_move(
+        &self,
+        mov: StrategyMove,
+    ) -> (NormalizedState, StrategyMove) {
         let (norm, flip) = self.strategy_normalize();
         if flip {
             (norm, self.flip_move(mov))
@@ -32,14 +34,17 @@ impl ClicquedLinearAxis {
         }
     }
 
-    fn flip_move(&self, mov: StrategyMove) ->StrategyMove {
+    fn flip_move(&self, mov: StrategyMove) -> StrategyMove {
         match mov {
             StrategyMove::LimitBack => StrategyMove::LimitFront,
             StrategyMove::LimitFront => StrategyMove::LimitBack,
             StrategyMove::Insert { start, end } => {
                 let len = self.inner.events.len();
-                StrategyMove::Insert { start: len - end, end: len - start, }
-            }   
+                StrategyMove::Insert {
+                    start: len - end,
+                    end: len - start,
+                }
+            }
         }
     }
 
@@ -85,9 +90,13 @@ fn compress(data: &[u8]) -> Vec<u8> {
     compressed
 }
 
-pub fn decompress_to_strategy(max_colours: usize, compressed: &[u8], mov: StrategyMove) -> (NormalizedState, StrategyMove) {
+pub fn decompress_to_strategy(
+    max_colours: usize,
+    compressed: &[u8],
+    mov: StrategyMove,
+) -> (NormalizedState, StrategyMove) {
     let mut max_dis = *compressed.last().unwrap();
-    let uncompressed = decompress(&compressed[0..compressed.len()-1]);
+    let uncompressed = decompress(&compressed[0..compressed.len() - 1]);
     let mut queue = VecDeque::new();
     let mut events = vec![];
 
@@ -119,11 +128,14 @@ pub fn decompress_to_strategy(max_colours: usize, compressed: &[u8], mov: Strate
 
     // println!("{:?}\n", strategy.0.iter().map(Event::to_char).collect::<Vec<_>>());
     if flip {
-        (state, match mov {
-            StrategyMove::LimitBack => StrategyMove::LimitFront,
-            StrategyMove::LimitFront=> StrategyMove::LimitBack,
-            _ => panic!()
-        })
+        (
+            state,
+            match mov {
+                StrategyMove::LimitBack => StrategyMove::LimitFront,
+                StrategyMove::LimitFront => StrategyMove::LimitBack,
+                _ => panic!(),
+            },
+        )
     } else {
         (state, mov)
     }
@@ -138,7 +150,10 @@ pub fn strategy_normalize(events: &[Event], max_colours: usize) -> (NormalizedSt
     }
 }
 
-pub fn strategy_normalize_without_symmetry(events: &[Event], max_colours: usize) -> NormalizedState {
+pub fn strategy_normalize_without_symmetry(
+    events: &[Event],
+    max_colours: usize,
+) -> NormalizedState {
     let mut colours = vec![u8::MAX; max_colours];
     let mut normalized = vec![];
     let mut i = 0;
@@ -157,7 +172,6 @@ pub fn strategy_normalize_without_symmetry(events: &[Event], max_colours: usize)
     }
     NormalizedState(normalized)
 }
-
 
 fn decompress(data: &[u8]) -> Vec<u8> {
     let mut decompressed = Vec::with_capacity(data.len() * 2);
@@ -181,7 +195,8 @@ fn test_hybydy() {
     assert_eq!(
         "ABab",
         decompress_to_strategy(5, &compressed, StrategyMove::LimitBack)
-            .0.0
+            .0
+             .0
             .iter()
             .map(Event::to_char)
             .collect::<String>()

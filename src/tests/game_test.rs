@@ -52,5 +52,4 @@ fn game_3_5_test() {
         .unwrap()
         .join()
         .unwrap();
-    
 }

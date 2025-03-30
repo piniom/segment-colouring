@@ -21,6 +21,6 @@ pub enum History {
     },
     EventInsertBack {
         start: Event,
-        lost: usize
+        lost: usize,
     },
 }

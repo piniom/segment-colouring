@@ -49,10 +49,7 @@ fn main() {
         axis.apply_history(m);
         println!("{}", axis.inner.to_string());
     }
-    println!(
-        "{:?}",
-        axis.valid_new_segment_ends(0)
-    );
+    println!("{:?}", axis.valid_new_segment_ends(0));
 
     println!("{:?}", axis.intersections);
 }

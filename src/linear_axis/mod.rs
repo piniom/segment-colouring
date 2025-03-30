@@ -15,7 +15,7 @@ pub mod strategy;
 pub struct LinearAxis {
     pub events: VecDeque<Event>,
     pub front: VecDeque<Event>,
-    pub back: VecDeque<Event>
+    pub back: VecDeque<Event>,
 }
 
 impl LinearAxis {
@@ -51,15 +51,15 @@ impl LinearAxis {
                 }),
             History::LimitFront => self
                 .limit_front(max_colors)
-                .map(|(end, lost)| History::EventInsertFront { end, lost}),
+                .map(|(end, lost)| History::EventInsertFront { end, lost }),
             History::LimitBack => self
                 .limit_back(max_colors)
-                .map(|(start, lost)| History::EventInsertBack { start,lost }),
-            History::EventInsertFront {  end, lost } => {
+                .map(|(start, lost)| History::EventInsertBack { start, lost }),
+            History::EventInsertFront { end, lost } => {
                 self.insert_event_front(end, lost);
                 Some(History::LimitFront)
             }
-            History::EventInsertBack{ start, lost } => {
+            History::EventInsertBack { start, lost } => {
                 self.insert_event_back(start, lost);
                 Some(History::LimitBack)
             }
@@ -177,7 +177,7 @@ fn test_linear_axis_history() {
             end_index: 1,
             color: 3,
         },
-        History::LimitFront
+        History::LimitFront,
     ];
     let mut history = vec![];
     let mut reconstruct = vec![];
@@ -203,12 +203,23 @@ fn test_linear_axis_history() {
 fn test_linear_axis_history_reduction() {
     use normalization::strategy_normalize;
     let mut axis = LinearAxis {
-        events: vec![Event::new_start(1), Event::new_end(0), Event::new_end(1), Event::new_start(1)].into(),
+        events: vec![
+            Event::new_start(1),
+            Event::new_end(0),
+            Event::new_end(1),
+            Event::new_start(1),
+        ]
+        .into(),
         front: vec![Event::new_start(0)].into(),
         back: vec![Event::new_end(1)].into(),
     };
     axis.apply_history(History::LimitFront, 4);
-    assert_eq!(strategy_normalize(&axis.events.into_iter().collect::<Vec<_>>(), 3).0.0, vec![Event::new_end(0), Event::new_start(0)])
+    assert_eq!(
+        strategy_normalize(&axis.events.into_iter().collect::<Vec<_>>(), 3)
+            .0
+             .0,
+        vec![Event::new_end(0), Event::new_start(0)]
+    )
 }
 
 #[test]
@@ -220,5 +231,10 @@ fn test_linear_axis_history_reduction_2() {
         back: vec![Event::new_end(1)].into(),
     };
     axis.apply_history(History::LimitBack, 4);
-    assert_eq!(strategy_normalize(&axis.events.into_iter().collect::<Vec<_>>(), 3).0.0, vec![])
+    assert_eq!(
+        strategy_normalize(&axis.events.into_iter().collect::<Vec<_>>(), 3)
+            .0
+             .0,
+        vec![]
+    )
 }

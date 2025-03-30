@@ -33,7 +33,7 @@ fn run(args: Args) {
         args.desired_number_of_colours * 2,
         args.max_clicque as usize,
         args.desired_number_of_colours,
-        Box::new(File::create("./rust.strategy").unwrap())
+        Box::new(File::create("./rust.strategy").unwrap()),
     );
     let mut game = Game::new(
         args.max_events,

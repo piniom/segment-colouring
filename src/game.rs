@@ -64,9 +64,9 @@ impl Game {
         let normalized_state = self.normalized_state();
         if self.colours_used() >= self.force_num_colours {
             self.states
-                        .insert(normalized_state.clone(), StateStatus::True);
-                    // self.propagate_reductions(&normalized_state);
-                    return true;
+                .insert(normalized_state.clone(), StateStatus::True);
+            // self.propagate_reductions(&normalized_state);
+            return true;
         }
 
         if let Some(value) = self.states.get(&normalized_state) {
@@ -122,7 +122,7 @@ impl Game {
                 println!("{}", self.axis.to_string(&self.colouring));
                 panic!();
             }
-            
+
             let colours =
                 self.not_colliding_colours(self.axis.segment_collides_with(segment_id).unwrap());
 
@@ -167,7 +167,12 @@ impl Game {
         self.colouring.insert(segment_id, colour);
     }
 
-    pub fn insert_coloured_segment(&mut self, start_index: usize, end_index: usize, colour: ColourId) {
+    pub fn insert_coloured_segment(
+        &mut self,
+        start_index: usize,
+        end_index: usize,
+        colour: ColourId,
+    ) {
         let colour_id = self.insert_segment(start_index, end_index);
         self.colour_segment(colour_id, colour);
     }
@@ -250,7 +255,11 @@ impl Game {
     }
 
     pub fn colours_used(&self) -> usize {
-        self.segments.iter().map(|s| self.colouring.get(s).unwrap()).collect::<HashSet<_>>().len()
+        self.segments
+            .iter()
+            .map(|s| self.colouring.get(s).unwrap())
+            .collect::<HashSet<_>>()
+            .len()
     }
 
     pub fn to_string(&self) -> String {
