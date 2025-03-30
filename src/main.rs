@@ -33,6 +33,7 @@ fn run(args: Args) {
         args.desired_number_of_colours * 2,
         args.max_clicque as usize,
         args.desired_number_of_colours,
+        Box::new(File::create("./rust.strategy").unwrap())
     );
     let mut game = Game::new(
         args.max_events,
@@ -50,9 +51,6 @@ fn run(args: Args) {
             "The simulation was confined to states with at most {} events.",
             args.max_events
         );
-        game.strategy
-            .write(&mut File::create("./rust.strategy").unwrap())
-            .unwrap();
     } else {
         println!("FAILURE!");
         println!(

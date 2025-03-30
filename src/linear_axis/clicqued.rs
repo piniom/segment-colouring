@@ -57,13 +57,14 @@ impl ClicquedLinearAxis {
         result
     }
 
-    pub fn valid_new_segments<'a>(&'a self) -> impl Iterator<Item = (usize, usize)> + use<'a> {
+    pub fn valid_new_segments<'a>(&'a self) -> Vec<(usize, usize)> {
         self.valid_new_segment_starts()
             .filter_map(|s| {
                 self.valid_new_segment_ends(s)
                     .map(|(min_end, max_end)| (min_end..=max_end).map(move |e| (s, e)))
             })
             .flatten()
+            .collect()
     }
 
     pub fn valid_new_segment_ends(&self, start: usize) -> Option<(usize, usize)> {
@@ -127,6 +128,14 @@ impl ClicquedLinearAxis {
     pub fn max_colors(&self) -> usize {
         self.max_clicque * 2 - 1
     }
+    pub fn uncollisions(&self, start: usize, end: usize) -> Vec<u8> {
+        self
+            .segment_will_collide_with_colours(start, end)
+            .iter()
+            .enumerate()
+            .filter_map(|(i, c)| if *c { None } else { Some(i as u8) })
+            .collect()
+    }
 }
 
 #[test]
@@ -146,6 +155,7 @@ fn test_clicqued_linear_axis() {
     axis.apply_history(History::LimitBack);
     dbg!(axis
         .valid_new_segments()
+        .into_iter()
         .map(|(s, e)| (s, e, axis.segment_will_collide_with_colours(s, e)))
         .collect::<Vec<_>>());
     println!("{}", axis.inner.to_string());

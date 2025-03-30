@@ -4,7 +4,7 @@ use super::{clicqued::ClicquedLinearAxis, event::Event, strategy::StrategyMove};
 
 pub type CompressedState = Vec<u8>;
 
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct NormalizedState(pub Vec<Event>);
 
 impl ClicquedLinearAxis {
@@ -14,6 +14,14 @@ impl ClicquedLinearAxis {
             self.max_colors(),
         )
     }
+
+    pub fn strategy_normalize_without_symmetry(&self) -> NormalizedState {
+        strategy_normalize_without_symmetry(
+            &self.inner.events.iter().copied().collect::<Vec<_>>(),
+            self.max_colors(),
+        )
+    }
+
 
     pub fn strategy_normalize_with_move(&self, mov: StrategyMove) -> (NormalizedState, StrategyMove) {
         let (norm, flip) = self.strategy_normalize();

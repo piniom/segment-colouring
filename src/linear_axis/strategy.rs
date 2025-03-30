@@ -1,4 +1,4 @@
-use std::{collections::HashMap, hash::Hash, io::Write};
+use std::{cell::RefCell, collections::HashMap, hash::Hash, io::Write};
 
 use super::{
     clicqued::ClicquedLinearAxis, event::Event, history::History, normalization::NormalizedState,
@@ -24,7 +24,7 @@ impl StrategyMove {
         match self {
             Self::LimitBack => Some(History::LimitBack),
             Self::LimitFront => Some(History::LimitFront),
-            _ => None
+            _ => None,
         }
     }
 }
@@ -100,53 +100,40 @@ impl StrategyState {
     }
 }
 
-#[derive(Debug)]
+#[derive()]
 pub struct StrategyConsumer {
-    moves: HashMap<StrategyState, Vec<StrategyMove>>,
+    moves: HashMap<StrategyState, StrategyMove>,
     max_colors: usize,
-    clicque_size: usize,
-    force_colors: usize,
+    wt: RefCell<Box<dyn Write>>,
 }
 
 impl StrategyConsumer {
-    pub fn new(max_colors: usize, clicque_size: usize, force_colors: usize) -> Self {
+    pub fn new(
+        max_colors: usize,
+        clicque_size: usize,
+        force_colors: usize,
+        mut wt: Box<dyn Write>,
+    ) -> Self {
+        writeln!(wt, "{} {}", clicque_size, force_colors).unwrap();
         Self {
             moves: HashMap::new(),
             max_colors,
-            clicque_size,
-            force_colors,
+            wt: RefCell::new(wt),
         }
     }
     pub fn consume(&mut self, state: &NormalizedState, mov: StrategyMove) {
         let state = StrategyState::from(state, self.max_colors);
-        self.moves.entry(state).or_default().push(mov);
-    }
-    pub fn write(&self, wt: &mut dyn Write) -> std::io::Result<()> {
-        writeln!(wt, "{} {}", self.clicque_size, self.force_colors)?;
-        for (s, ms) in &self.moves {
-            let (ins, lims) = ms.into_iter().partition::<Vec<&StrategyMove>, _>(|m|if let StrategyMove::Insert {..} = m {true} else {false});
-            if !ins.is_empty() {
-                writeln!(wt, "{} {}", s.to_string(), ins[0].string(s.front.len()))?;
-                continue;
-            } 
-            let mut found = false;
-            for m in &lims {
-                let mut axis = ClicquedLinearAxis::from_strategy_state(s.clone(), self.clicque_size);
-                axis.apply_history(m.history().unwrap()).unwrap();
-                let norm = axis.strategy_normalize();
-                let st = StrategyState::from(&norm.0, self.max_colors);
-                if let Some(_) = self.moves.get(&st) {
-                    writeln!(wt, "{} {}", s.to_string(), m.string(s.front.len()))?;
-                    found = true;
-                    break;
-                }
-            }
-            if !found {
-                println!("{}", s.to_string());
-                writeln!(wt, "{} {}", s.to_string(), lims.last().unwrap().string(s.front.len()))?;
-            }
+        if state.to_string() == "A[BCabAcDaC]dc" {
+            println!("{mov:?}")
         }
-        Ok(())
+        writeln!(
+            self.wt.borrow_mut(),
+            "{} {}",
+            state.to_string(),
+            mov.string(state.front.len())
+        )
+        .unwrap();
+        self.moves.insert(state, mov);
     }
 }
 
@@ -175,22 +162,39 @@ impl LinearAxis {
 
 impl ClicquedLinearAxis {
     pub fn from_strategy_string(string: &str, max_clicque: usize) -> Self {
-        Self::with_inner(
-            LinearAxis::from_strategy_string(string),
-            max_clicque,
-        )
+        Self::with_inner(LinearAxis::from_strategy_string(string), max_clicque)
     }
     pub fn from_strategy_state(state: StrategyState, max_clicque: usize) -> Self {
-        Self::with_inner(
-            LinearAxis::from_strategy_state(state),
-            max_clicque,
-        )
+        Self::with_inner(LinearAxis::from_strategy_state(state), max_clicque)
     }
 }
 
 #[test]
 fn from_str_test() {
-    let (norm, f) = ClicquedLinearAxis::from_strategy_string("AB[aCAbDcad]", 3).strategy_normalize();
-    dbg!(f);
-    println!("{}", StrategyState::from(&norm, 5).to_string())
+    let mut axis = ClicquedLinearAxis::from_strategy_string("[AaAaAaAa]", 5);
+    println!("{:?}", axis.uncollisions(0, 1));
+    let strategy = StrategyState::from(&axis.strategy_normalize_without_symmetry().flipped(9), 9);
+    println!("{:?}", strategy.to_string());
+    axis.apply_history(History::LimitBack);
+    // println!("{}", StrategyState::from(&axis.strategy_normalize().0, 5).to_string())
 }
+
+#[test]
+fn from_str_test_2() {
+    let mov = (2, 6);
+    let mut axis = ClicquedLinearAxis::from_strategy_string("A[BCabAcDaC]dc", 3);
+    assert!(axis.valid_new_segments().contains(&mov));
+    println!("{:?}", axis.uncollisions(mov.0, mov.1));
+    println!("{}", axis.inner.to_string());
+    axis.apply_history(History::SegmentInsert {
+        start_index: mov.0,
+        end_index: mov.1,
+        color: 4,
+    });
+    println!("{}", axis.inner.to_string());
+    // println!("{}", StrategyState::from(&axis.strategy_normalize().0, 5).to_string())
+}
+
+// Answer for ( [ABaCbB]cb, 0-1, C ): [ABaCbAcC]ac not found in the strategy.
+
+// Answer for ( AB[CabBcACbac] <  ): AB[CabBcA]ba not found in the strategy.

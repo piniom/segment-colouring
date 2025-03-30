@@ -1,17 +1,456 @@
-2 3
-A[aBbA]a >
-[AaA]a 2 3
+3 5
 [] 0 0
-A[aAaA]a >
-[AaB]b 1 3
-A[aB]b 1 2
-A[Bab] 4 4
-A[BabAa] >
-[Aa] 0 1
-[AaBbA]a >
-[A]a 0 1
-[ABabA]a <
-A[BabBb] >
-A[BabB]b >
-A[aA]a 2 2
-[ABab] >
+[Aa] 0 0
+[AaAa] 0 0
+[AaAaAa] 0 0
+[AaAaAaAa] 0 1
+[ABabBbBbBb] >
+A[aAaAaAa] 1 2
+A[BabAaAaAa] 1 3
+A[BCabcAaAaAa] >
+AB[abCcCcCc] 3 4
+AB[aAbaCcCcCc] <
+AB[aAbaCcCc] 5 6
+AB[aAbBabCcCc] >
+A[BaAbaCcCc] 1 3
+A[BCabAcaBbBb] <
+A[BCabAcaBb] 7 9
+A[BCabAcCaBcb] >
+AB[aCbBcAba] 2 5
+AB[CaDbcBdAba] >
+AB[CabAcDad] 4 8
+A[BCabAcDaBdb] >
+AB[aCbDcAda] 2 6
+A[BCabAcaDdDd] <
+A[BCabAcaDd] 8 9
+A[BCabAcaADad] >
+AB[aCbcCDcd] 3 5
+AB[aACbacCDcd] >
+A[BCabcCDcd] 5 6
+A[BCabAcaCDcd] >
+AB[aCbcBDbd] 2 5
+AB[CaDbcdBCbc] >
+AB[CabcABab] 4 7
+AB[CaDbcAdBab] >
+AB[CabDcAda] 4 8
+A[BCabBcbCDcd] >
+AB[aAbaBCbc] 3 5
+AB[aCAbcaBCbc] >
+A[BCabcABab] 4 7
+A[BCaDbcAdBab] >
+AB[aCAbcaBDbd] >
+A[BCabcADad] 4 8
+A[BCabDcdCDcd] >
+AB[aCbcBCbc] 4 6
+AB[aCDbcdBCbc] >
+AB[aCDbcdDCdc] >
+A[BCabcCBcb] 5 6
+A[BCabAcaCBcb] >
+AB[aCbcBAba] 2 5
+AB[CaDbcdBAba] >
+AB[CabcADad] 4 8
+A[BCabBcbCBcb] >
+AB[aAbaBAba] 4 6
+AB[aACbacBAba] >
+A[BCabDcdCBcb] >
+A[BCabAcaBDbd] <
+A[BCabAcaB]b 7 9
+A[BCabAcCaBc]b >
+AB[aCbBcAb]a 2 5
+AB[CaDbcBdAb]a 6 10
+A[BCabAcDaBd]b >
+AB[aCbDcAd]a 2 6
+AB[aAbCacCcCc] >
+A[BaCbcCcCc] 5 6
+A[BaCbAcaCcCc] <
+A[BaCbAcaCc] 7 8
+A[BaCbAcBabCc] >
+A[BaCbAcaBb] 7 8
+A[BaCbAcBabBb] >
+A[BaCbAcaAa] 7 8
+A[BaCbAcBabAa] <
+A[BaCbAcBab] 2 5
+A[BaCbAcCacAa] >
+A[BaCbBcbCc] 7 9
+A[BaCbBcAbCac] >
+A[BaAbCaBcb] 1 3
+A[BCabAcBaCbc] >
+AB[aCbAcBab] 2 5
+A[BCabAcDaCdc] >
+AB[aCbDcBdb] 2 6
+A[BaCbBcDbCdc] >
+A[BaCbAcDadAa] >
+A[BaCbDcdCc] 2 6
+A[BaCbAcCacBb] >
+A[BaCbBcbAa] 3 5
+A[BaACbaBcbAa] >
+A[BaCDbcBdbAa] >
+A[BaCbAcDadBb] >
+A[BaCbDcdAa] 2 6
+A[BaCbAcCacCc] <
+A[BaCbAcCac] 7 9
+A[BaCbAcBCabc] <
+AB[aCbAcBa]b 2 5
+AB[CaDbcAdBa]b 6 10
+A[BaCbAcDCadc] >
+A[BaCbDBcdb] 2 6
+A[BaCbAcDadCc] >
+A[BaCbDcdBb] 1 4
+A[BCaDbcBdbCc] >
+AB[CabAcaBb] 7 9
+AB[CabAcCaBcb] >
+AB[CabAcDaBdb] >
+A[BaCbBcbCcCc] <
+A[BaCbDcdCcCc] <
+AB[aAbCacDdDd] >
+A[BaCbcDdDd] 5 6
+A[BaCbAcaDdDd] <
+A[BaCbAcaDd] 7 8
+A[BaCbAcBabDd] <
+A[BaCbAcCacDd] <
+A[BaCbAcDadDd] >
+A[BaCbDcdDd] 2 6
+A[BaCbBcbDdDd] >
+A[BaCbDcdDdDd] >
+AB[aCbcCcCcCc] <
+AB[aCbcCcCc] 5 7
+AB[aCbAcCacCc] >
+A[BaCbBcbBb] 7 8
+A[BaCbBcAbaBb] <
+A[BaCbBcAba] 2 5
+A[BCaDbcBdAba] >
+A[BaCbBcCbcBb] >
+A[BaAbBabAa] 7 9
+A[BaAbBaCbAca] >
+A[BaCbBcDbdBb] <
+A[BaCbBcDbd] 9 10
+A[BaCbBcDbAda] >
+A[BaAbCaDcd] 1 3
+A[BCabAcBaDbd] >
+AB[aCbAcDad] 4 8
+A[BaCbBcDbBdb] >
+A[BaAbCaAca] 7 9
+A[BaAbCaBAcba] <
+A[BaAbCaB]cb 1 3
+AB[aCbAcBCab]c 2 5
+AB[CaDbcAdBDab]d >
+AB[CabDcACda]c 4 8
+AB[aCbAcDCad]c 4 8
+A[BaAbCaDAcda] >
+AB[aCbBcCbcCc] >
+A[BaAbBabBb] 7 8
+A[BaAbBaAbaBb] >
+A[BaAbBaCbcBb] >
+A[BaAbCacAa] 7 8
+A[BaAbCaAcaAa] >
+A[BaAbCaBcbAa] >
+A[BaAbCaDcdAa] >
+AB[aCbDcCdcCc] >
+AB[aCbcDdDdDd] <
+AB[aCbcDdDd] 5 6
+AB[aCbAcaDdDd] >
+AB[aCbBcbDdDd] >
+AB[aCbDcdDdDd] >
+[AaBbBbBb] 0 0
+[AaAaBbBbBb] <
+[AaAaBbBb] 0 1
+[ABabBbAaAa] >
+A[aAaBbBb] 1 2
+A[BabAaBbBb] 2 4
+A[BCabcAaBbBb] >
+AB[abCcAaAa] 2 5
+AB[CabDcdAaAa] >
+A[BabAaCcCc] 1 3
+A[BCabcAaDdDd] >
+AB[abCcDdDd] 2 4
+AB[CabcCcDdDd] >
+AB[abBbCcCc] 2 4
+AB[CabcBbCcCc] >
+AB[abAaBbBb] 2 4
+AB[CabcAaBbBb] >
+AB[CabcBbDdDd] <
+AB[CabcBbDd] 6 7
+AB[CabcABabDd] >
+AB[abCAcaDd] 2 4
+AB[CabcCAcaDd] >
+AB[abBCbcDd] 3 4
+AB[aAbaBCbcDd] <
+AB[aCbcBCbcDd] <
+AB[aCbcBDbdCc] <
+AB[CabcDAdaCc] <
+AB[CabcDAda] 4 8
+AB[CabcCBcbDd] >
+AB[abBAbaCc] 2 4
+AB[CabcBAbaCc] >
+AB[abACacBb] 2 4
+AB[CabcACacBb] >
+AB[abCBcbAa] 3 4
+AB[aAbaCBcbAa] >
+A[BabCAcaBb] 2 4
+A[BCabcCAcaBb] >
+AB[abBCbcAa] 2 4
+AB[CabcBCbcAa] <
+AB[CabcBCbc] 4 6
+AB[CaAbcaBCbc] >
+AB[CabcBDbdAa] >
+AB[abACacDd] 2 5
+AB[CabAcCacDd] >
+AB[aCbBcbDd] 2 5
+AB[CaDbcBdbCc] >
+AB[CabAcDadCc] <
+A[BCabcDAdaBb] >
+AB[abCDcdAa] 2 5
+AB[CabDcCdcAa] >
+AB[aCbcCBcbAa] >
+A[BabBAbaCc] 1 3
+A[BCabcCAcaDd] >
+AB[aCbcDBdbAa] >
+A[BabCAcaDd] 1 3
+A[BCabcBAbaDd] >
+AB[CabcADadBb] >
+AB[CabcBAbaDd] >
+AB[CabcDBdbDd] >
+AB[abCAcaCc] 2 4
+AB[CabcCAcaCc] >
+AB[abBCbcBb] 2 4
+AB[CabcBCbcBb] <
+AB[CabcBDbdBb] >
+AB[abACacAa] 2 6
+AB[CabADcadAa] >
+AB[aCDbcdCc] 8 9
+AB[aCDbcdACac] >
+A[BCabcDBdb] 4 7
+A[BCaAbcDaBdb] >
+AB[CabcDAdaDd] <
+AB[CabcDdCcCc] >
+AB[abCcBbBb] 2 4
+AB[CabcCcBbBb] >
+AB[abBbAaAa] 2 4
+AB[CabcBbAaAa] >
+AB[abAaCcCc] 3 4
+AB[aAbaAaCcCc] >
+A[BabBbCcCc] 3 4
+A[BaAbaBbCcCc] <
+A[BaAbaBbCc] 5 7
+A[BaAbCaBcbCc] >
+A[BaAbCaBcbDd] <
+A[BaCbcBbCcCc] >
+A[BaCbcBbDdDd] <
+A[BaCbcBbDd] 5 7
+A[BaCbDcBdbDd] >
+AB[aCbcAaCcCc] <
+AB[aCbcAaCc] 5 6
+AB[aCbAcaAaCc] >
+A[BaCbcCcBb] 4 6
+A[BaCAbcaCcBb] >
+A[BCabcBbAa] 6 7
+A[BCabcABabAa] >
+A[BCabcCBcbAa] >
+A[BCabcDBdbAa] >
+A[BaCDbcdCcBb] >
+AB[aCbBcbAaCc] <
+AB[aCbBcbAa] 3 5
+AB[aACbaBcbAa] >
+AB[aCDbcBdbAa] >
+AB[aCbDcdAaCc] >
+A[BaCbcDdBb] 1 3
+A[BCabBcbDdCc] >
+AB[aAbaCcBb] 3 5
+AB[aCAbcaCcBb] >
+AB[aCAbcaDdBb] >
+A[BCabcDdAa] 6 7
+A[BCabcADadAa] <
+A[BCabcBDbdAa] >
+A[BCabcCDcdAa] >
+A[BCabDcdBbCc] >
+AB[aCbcAaBb] 5 6
+AB[aCbAcaAaBb] >
+A[BaCbcCcAa] 4 6
+A[BaCAbcaCcAa] >
+A[BCabcBbCc] 4 7
+A[BCaAbcBabCc] >
+A[BaCDbcdCcAa] <
+A[BaCDbcdCc] 8 9
+A[BaCDbcdACac] >
+A[BaCDbcdBCbc] >
+A[BaCDbcdDCdc] >
+AB[aCbBcbAaBb] <
+AB[aCbDcdAaBb] >
+A[BaCbcDdAa] 2 5
+A[BCaDbcdCcAa] >
+AB[aCbcAaDdDd] <
+AB[aCbcAaDd] 4 7
+AB[aCDbcAdaDd] >
+A[BCabDcdCc] 7 9
+A[BCabDcAdCac] >
+A[BCabDcBdCbc] >
+AB[CabcDdBbBb] >
+[ABabBbCcCc] >
+[AaBbAaAaAa] <
+[AaBbAaAa] 0 1
+[ABabAaBbBb] >
+A[aBbAaAa] 1 2
+A[BabBbAaAa] 1 3
+A[BCabcCcAaAa] >
+A[BabCcAaAa] 1 3
+A[BCabcBbAaAa] >
+A[BCabcDdAaAa] >
+[ABabCcBbBb] >
+[AaBbCcCcCc] <
+[AaBbCcCc] 0 1
+[ABabAaCcCc] >
+A[aBbCcCc] 1 2
+A[BabCcBbBb] >
+A[BabCcDdDd] 2 4
+A[BCabcCcDdDd] >
+A[BCabcDdCcCc] >
+[ABabCcAaAa] >
+[ABabCcDdDd] >
+[AaBbBb] 0 0
+[AaBb] 0 0
+[AaBbAa] 0 0
+[AaBbAaBb] 0 1
+[ABabAaBbAa] >
+A[aBbAaBb] 1 2
+A[BabBbAaBb] 1 3
+A[BCabcCcAaCc] >
+AB[abBbCcBb] 2 4
+AB[CabcBbCcBb] >
+AB[abAaBbAa] 2 5
+AB[CabAcaBbAa] <
+AB[CabcBbDdBb] <
+A[BabCcAaCc] 1 3
+A[BCabcBbAaBb] >
+AB[abAaCcAa] 2 4
+AB[CabcAaCcAa] >
+AB[abCcBbCc] 2 4
+AB[CabcCcBbCc] >
+AB[abBbAaBb] 3 4
+AB[aAbaBbAaBb] >
+A[BabAaBbAa] 2 5
+A[BCabAcaBbAa] <
+AB[aCbcBbAaBb] >
+A[BabAaCcAa] 3 4
+A[BaAbaAaCcAa] >
+A[BabBbCcBb] 3 4
+A[BaAbaBbCcBb] <
+A[BaCbcBbCcBb] >
+A[BaCbcBbDdBb] <
+A[BaCbcAaCcAa] >
+A[BabCcBbCc] 2 5
+A[BCabDcdBbDd] >
+A[BaCbcAaDdAa] >
+A[BabCcDdCc] 2 5
+A[BCabDcdCcDd] <
+AB[CabcDdBbDd] >
+AB[abCcAaCc] 2 4
+AB[CabcCcAaCc] >
+AB[CabcDdAaDd] >
+AB[abCcDdCc] 3 4
+AB[aAbaCcDdCc] >
+AB[aCbcCcDdCc] >
+AB[aCbcDdCcDd] >
+AB[CabcAaDdAa] >
+A[BCabcDdAaDd] >
+[ABabCcBbCc] >
+[AaBbAaCc] 0 1
+[ABabAaBbCc] >
+A[aBbAaCc] 1 2
+A[BabBbAaCc] 1 3
+A[BCabcCcAaBb] >
+AB[abBbCcAa] 3 4
+AB[aAbaBbCcAa] >
+A[BabAaCcBb] 2 5
+A[BCabAcaCcBb] >
+AB[aCbcBbAa] 5 7
+AB[aCbAcBabAa] >
+AB[aCbDcBdbAa] <
+A[BCabAcaDdBb] <
+AB[aCbcBbCcAa] >
+A[BabAaBbCc] 1 3
+A[BCabcAaCcBb] >
+AB[abCcBbAa] 2 5
+AB[CabDcdBbAa] >
+A[BCabcAaCcDd] >
+AB[abCcBbDd] 2 5
+AB[CabDcdBbCc] >
+AB[aCbcBbDdAa] >
+A[BabAaCcDd] 2 4
+A[BCabcAaDdCc] >
+AB[abCcDdBb] 2 5
+AB[CabDcdCcBb] >
+A[BCabcCcAaDd] >
+AB[abBbCcDd] 2 4
+AB[CabcBbCcDd] >
+AB[abAaBbCc] 2 4
+AB[CabcAaBbCc] >
+AB[abCcAaBb] 2 5
+AB[CabDcdAaBb] >
+AB[aCbcDdAa] 2 5
+AB[CaDbcdCcAa] >
+AB[CabcAaBbDd] >
+AB[abCcAaDd] 2 5
+AB[CabDcdAaCc] >
+AB[aCbcDdBb] 3 5
+AB[aACbacDdBb] >
+AB[aCDbcdCcBb] <
+AB[CabcBbDdCc] <
+A[BabCcAaBb] >
+A[aBbCcAa] 1 2
+A[BabBbCcAa] 1 3
+A[BCabcCcBbAa] >
+AB[abBbAaCc] 2 4
+AB[CabcBbAaCc] >
+AB[abAaCcBb] 2 4
+AB[CabcAaCcBb] >
+AB[CabcAaDdBb] >
+AB[abCcDdAa] 2 4
+AB[CabcCcDdAa] >
+AB[CabcDdCcAa] >
+AB[CabcBbAaDd] >
+AB[abAaCcDd] 2 4
+AB[CabcAaCcDd] >
+AB[CabcAaDdCc] >
+A[BCabcCcDdAa] <
+A[BCabcCcDd] 6 7
+A[BCabcACacDd] >
+AB[abCBcbDd] 2 4
+AB[CabcDBdbCc] >
+AB[abCAcaBb] 2 4
+AB[CabcCAcaBb] >
+AB[CabcDAdaBb] <
+A[BCabcBCbcDd] <
+A[BCabcBCbc] 4 6
+A[BCaAbcaBCbc] >
+A[BCaDbcdBCbc] >
+A[BCabcDCdcDd] >
+AB[abCBcbCc] 2 4
+AB[CabcCBcbCc] >
+AB[abBAbaBb] 2 4
+AB[CabcBAbaBb] >
+A[BabCcBbAa] 1 3
+A[BCabcBbCcAa] >
+A[BCabcDdCcAa] >
+A[BabCcDdAa] 1 3
+A[BCabcBbDdAa] >
+A[BCabcDdBbAa] >
+A[BabCcAaDd] 1 3
+A[BCabcBbAaDd] >
+A[BCabcDdAaBb] >
+[ABabCcBbAa] >
+[ABabCcBbDd] >
+[AaBbCc] 0 0
+[AaBbCcAa] 0 1
+[ABabAaCcBb] >
+[ABabCcAaBb] >
+[ABabCcDdBb] >
+[AaBbCcDd] 0 1
+[ABabAaCcDd] >
+A[aBbCcDd] 1 2
+A[BabBbCcDd] 1 3
+A[BCabcCcBbDd] >
+A[BCabcCcDdBb] <
+A[BabCcBbDd] >
+A[BabCcDdBb] >
+[ABabCcAaDd] >
+[ABabCcDdAa] >
