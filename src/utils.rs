@@ -1,5 +1,6 @@
 use std::ops::{Add, AddAssign};
 
+#[allow(dead_code)]
 pub fn find_lowest_missing<I, T>(iter: I) -> T
 where
     I: IntoIterator<Item = T>,
