@@ -3,8 +3,6 @@ use std::{
     isize,
 };
 
-use serde::de;
-
 use crate::linear_axis::LinearAxis;
 
 use super::{
@@ -24,7 +22,7 @@ enum StateStatus {
 impl StateStatus {
     pub fn to_result(&self) -> isize {
         match self {
-            StateStatus::True(_) => isize::MAX,
+            StateStatus::True(_) => 100,
             StateStatus::False(result) => *result,
             Self::Active => isize::MIN,
         }
@@ -60,42 +58,38 @@ impl Game {
         }
     }
     pub fn simulate(&mut self, depth: isize) -> bool {
-        let result = self.simulate_inner(depth, isize::MIN, isize::MAX);
+        let result = self.simulate_inner(depth);
         dbg!(result);
-        let result = result == isize::MAX;
+        let result = result >= self.force_num_colours as isize;
         if result {
             self.walk_strategy(&mut HashSet::new());
         }
         result
     }
-    fn heuristic(&self) -> isize {
-        self.axis.colours_used() as isize
-            / self.axis.intersections.iter().copied().sum::<usize>() as isize
-    }
-    fn simulate_inner(&mut self, depth: isize, mut alpha: isize, mut beta: isize) -> isize {
+    fn simulate_inner(&mut self, depth: isize) -> isize {
         let normalized = self.normalize();
         if let Some(status) = self.get_state(&normalized) {
             return status.to_result();
         }
         if self.axis.colours_used() >= self.force_num_colours {
             self.report_success(None);
-            return isize::MAX;
+            return 100;
         }
         if self.check_reductions() {
-            return isize::MAX;
+            return 100;
         }
         if depth == 0 {
-            return self.heuristic();
+            return self.axis.colours_used() as isize;
         }
 
         self.states.insert(normalized.clone(), StateStatus::Active);
 
         if self.axis.inner.events.len() >= self.max_events {
-            return self.force_reductions(depth, alpha, beta);
+            return self.force_reductions(depth);
         }
-        let mut max = isize::MIN;
+        let mut max = self.axis.colours_used() as isize;
         for (s, e) in self.axis.valid_new_segments() {
-            let mut min = isize::MAX;
+            let mut min = 100;
             for c in self.uncollisions(s, e) {
                 let mov = History::SegmentInsert {
                     start_index: s,
@@ -103,20 +97,14 @@ impl Game {
                     color: c,
                 };
                 let reverse = self.apply_history(mov).unwrap();
-                let result = self.simulate_inner(depth - 1, alpha, beta);
+                let result = self.simulate_inner(depth - 1);
                 self.apply_history(reverse);
                 min = min.min(result);
-                beta = beta.min(min);
             }
             max = max.max(min);
-            alpha = alpha.max(max);
             if max >= self.force_num_colours as isize {
                 self.report_success(Some(StrategyMove::Insert { start: s, end: e }));
-                return isize::MAX;
-            }
-            if beta >= alpha {
-                // dbg!(beta, alpha, depth);
-                break;
+                return 100;
             }
         }
         self.states.insert(normalized, StateStatus::False(max));
@@ -138,11 +126,11 @@ impl Game {
         }
         false
     }
-    fn force_reductions(&mut self, depth: isize, alpha: isize, beta: isize) -> isize {
+    fn force_reductions(&mut self, depth: isize) -> isize {
         let mut max = self.axis.colours_used() as isize;
         for reduction in [History::LimitFront, History::LimitBack] {
             let reverse = self.apply_history(reduction).unwrap();
-            let result = self.simulate_inner(depth - 1, alpha, beta);
+            let result = self.simulate_inner(depth - 1);
             self.apply_history(reverse);
             if result >= self.force_num_colours as isize {
                 self.report_success(Some(reduction.strategy_move().unwrap()));
