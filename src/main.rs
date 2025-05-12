@@ -42,7 +42,7 @@ fn run(args: Args) {
         strategy,
     );
     let start = Instant::now();
-    let result = game.simulate();
+    let result = game.simulate(-1);
     let elapsed = start.elapsed();
     if result {
         println!("SUCCESS!");
