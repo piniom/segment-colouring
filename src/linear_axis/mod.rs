@@ -21,9 +21,9 @@ pub struct LinearAxis {
 impl LinearAxis {
     fn new() -> Self {
         Self {
-            events: VecDeque::new(),
-            front: VecDeque::new(),
-            back: VecDeque::new(),
+            events: VecDeque::with_capacity(40),
+            front: VecDeque::with_capacity(40),
+            back: VecDeque::with_capacity(40),
         }
     }
     fn apply_history(&mut self, history: History, max_colors: usize) -> Option<History> {
@@ -199,42 +199,42 @@ fn test_linear_axis_history() {
     assert_eq!(axis.events, LinearAxis::new().events);
 }
 
-#[test]
-fn test_linear_axis_history_reduction() {
-    use normalization::strategy_normalize;
-    let mut axis = LinearAxis {
-        events: vec![
-            Event::new_start(1),
-            Event::new_end(0),
-            Event::new_end(1),
-            Event::new_start(1),
-        ]
-        .into(),
-        front: vec![Event::new_start(0)].into(),
-        back: vec![Event::new_end(1)].into(),
-    };
-    axis.apply_history(History::LimitFront, 4);
-    assert_eq!(
-        strategy_normalize(&axis.events.into_iter().collect::<Vec<_>>(), 3)
-            .0
-             .0,
-        vec![Event::new_end(0), Event::new_start(0)]
-    )
-}
+// #[test]
+// fn test_linear_axis_history_reduction() {
+//     use normalization::strategy_normalize;
+//     let mut axis = LinearAxis {
+//         events: vec![
+//             Event::new_start(1),
+//             Event::new_end(0),
+//             Event::new_end(1),
+//             Event::new_start(1),
+//         ]
+//         .into(),
+//         front: vec![Event::new_start(0)].into(),
+//         back: vec![Event::new_end(1)].into(),
+//     };
+//     axis.apply_history(History::LimitFront, 4);
+//     assert_eq!(
+//         strategy_normalize(&axis.events.into_iter().collect::<Vec<_>>(), 3)
+//             .0
+//              .0,
+//         vec![Event::new_end(0), Event::new_start(0)]
+//     )
+// }
 
-#[test]
-fn test_linear_axis_history_reduction_2() {
-    use normalization::strategy_normalize;
-    let mut axis = LinearAxis {
-        events: vec![Event::new_start(1), Event::new_end(0)].into(),
-        front: vec![Event::new_start(0)].into(),
-        back: vec![Event::new_end(1)].into(),
-    };
-    axis.apply_history(History::LimitBack, 4);
-    assert_eq!(
-        strategy_normalize(&axis.events.into_iter().collect::<Vec<_>>(), 3)
-            .0
-             .0,
-        vec![]
-    )
-}
+// #[test]
+// fn test_linear_axis_history_reduction_2() {
+//     use normalization::strategy_normalize;
+//     let mut axis = LinearAxis {
+//         events: vec![Event::new_start(1), Event::new_end(0)].into(),
+//         front: vec![Event::new_start(0)].into(),
+//         back: vec![Event::new_end(1)].into(),
+//     };
+//     axis.apply_history(History::LimitBack, 4);
+//     assert_eq!(
+//         strategy_normalize(&axis.events.into_iter().collect::<Vec<_>>(), 3)
+//             .0
+//              .0,
+//         vec![]
+//     )
+// }

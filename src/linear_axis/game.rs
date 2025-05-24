@@ -147,7 +147,7 @@ impl Game {
         }
         self.states.insert(normalized, StateStatus::True(mv));
     }
-    fn normalize(&self) -> NormalizedState {
+    fn normalize(&mut self) -> NormalizedState {
         self.axis.strategy_normalize_without_symmetry()
     }
     pub fn number_of_states(&self) -> usize {
@@ -168,17 +168,19 @@ impl Game {
 
         result
     }
-    fn get_state(&self, normalized: &NormalizedState) -> Option<&StateStatus> {
+    fn get_state(&mut self, normalized: &NormalizedState) -> Option<&StateStatus> {
+        let colors = self.axis.max_colors();
         self.states
             .get(&normalized)
-            .or(self.states.get(&normalized.flipped(self.axis.max_colors())))
+            .or(self.states.get(&normalized.flipped(&mut self.axis.normalizer, colors)))
     }
-    fn get_actual_normalised(&self) -> Option<NormalizedState> {
+    fn get_actual_normalised(&mut self) -> Option<NormalizedState> {
         let normalized = self.normalize();
         if self.states.contains_key(&normalized) {
             return Some(normalized.clone());
         }
-        let flipped = normalized.flipped(self.axis.max_colors());
+        let colors = self.axis.max_colors();
+        let flipped = normalized.flipped(&mut self.axis.normalizer,colors);
         if self.states.contains_key(&flipped) {
             return Some(flipped);
         }
@@ -189,8 +191,9 @@ impl Game {
     }
     fn walk_strategy(&mut self, walked: &mut HashSet<NormalizedState>) {
         let normalized = self.get_actual_normalised().unwrap();
+        let colors = self.axis.max_colors();
         if walked.contains(&normalized)
-            || walked.contains(&normalized.flipped(self.axis.max_colors()))
+            || walked.contains(&normalized.flipped(&mut self.axis.normalizer, colors))
         {
             return;
         } else {
@@ -232,7 +235,7 @@ impl Game {
         }
         std::mem::swap(&mut new_axis, &mut self.axis);
     }
-    fn strategy_state(&self) -> StrategyState {
+    fn strategy_state(&mut self) -> StrategyState {
         StrategyState::from(
             &self.get_actual_normalised().unwrap(),
             self.axis.max_colors(),

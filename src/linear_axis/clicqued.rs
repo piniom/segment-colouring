@@ -1,12 +1,13 @@
 use futures::future::join_all;
 
-use super::{normalization::NormalizedState, History, LinearAxis};
+use super::{normalization::{NormalizedState, StrategyNormalizer}, History, LinearAxis};
 
 #[derive(Debug, Clone)]
 pub struct ClicquedLinearAxis {
     pub inner: LinearAxis,
     pub max_clicque: usize,
     pub intersections: Vec<usize>,
+    pub normalizer: StrategyNormalizer
 }
 
 impl ClicquedLinearAxis {
@@ -19,6 +20,7 @@ impl ClicquedLinearAxis {
             inner,
             max_clicque,
             intersections: vec![],
+            normalizer: StrategyNormalizer::new()
         };
         result.count_intersections();
         result

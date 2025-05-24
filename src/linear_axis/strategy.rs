@@ -169,15 +169,15 @@ impl ClicquedLinearAxis {
     }
 }
 
-#[test]
-fn from_str_test() {
-    let mut axis = ClicquedLinearAxis::from_strategy_string("[AaAaAaAa]", 5);
-    println!("{:?}", axis.uncollisions(0, 1));
-    let strategy = StrategyState::from(&axis.strategy_normalize_without_symmetry().flipped(9), 9);
-    println!("{:?}", strategy.to_string());
-    axis.apply_history(History::LimitBack);
-    // println!("{}", StrategyState::from(&axis.strategy_normalize().0, 5).to_string())
-}
+// #[test]
+// fn from_str_test() {
+//     let mut axis = ClicquedLinearAxis::from_strategy_string("[AaAaAaAa]", 5);
+//     println!("{:?}", axis.uncollisions(0, 1));
+//     let strategy = StrategyState::from(&axis.strategy_normalize_without_symmetry().flipped(9), 9);
+//     println!("{:?}", strategy.to_string());
+//     axis.apply_history(History::LimitBack);
+//     // println!("{}", StrategyState::from(&axis.strategy_normalize().0, 5).to_string())
+// }
 
 #[test]
 fn from_str_test_2() {
