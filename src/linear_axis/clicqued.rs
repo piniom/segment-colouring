@@ -1,4 +1,6 @@
-use super::{History, LinearAxis};
+use futures::future::join_all;
+
+use super::{normalization::NormalizedState, History, LinearAxis};
 
 #[derive(Debug, Clone)]
 pub struct ClicquedLinearAxis {
@@ -26,6 +28,72 @@ impl ClicquedLinearAxis {
         let reverse = self.inner.apply_history(history, self.max_colors());
         self.count_intersections();
         reverse
+    }
+    pub async fn generate_all_states_async(
+        &mut self,
+        depth: isize,
+        async_depth: isize,
+    ) -> Vec<NormalizedState> {
+        if depth == 0 {
+            return vec![self.strategy_normalize_without_symmetry()].into();
+        }
+
+        if async_depth <= 0 {
+            let mut cloned = self.clone();
+            return tokio::spawn(async move {cloned.generate_all_states(depth)}).await.unwrap();
+        }
+
+        
+
+        let ends = self.valid_new_segment_ends(0).unwrap();
+
+        let mut futures = vec![];
+        let colors_used = self.colours_used();
+        for e in ends.0..=ends.1 {
+            let colors = self.uncollisions(0, e).into_iter().filter(|&t| t as usize <= colors_used);
+            for c in colors {
+                let mut cloned_self = self.clone();
+
+                let handle = async move {
+                    cloned_self
+                        .apply_history(History::SegmentInsert {
+                            start_index: 0,
+                            end_index: e,
+                            color: c,
+                        })
+                        .unwrap();
+
+                    cloned_self.generate_all_states_async(depth - 1, async_depth - 1).await
+                };
+                futures.push(handle);
+            }
+        }
+
+        join_all(futures).await.into_iter().flatten().collect()
+    }
+
+    pub fn generate_all_states(&mut self, depth: isize) -> Vec<NormalizedState> {
+        if depth == 0 {
+            return vec![self.strategy_normalize_without_symmetry()];
+        }
+        let ends = self.valid_new_segment_ends(0).unwrap();
+        let mut states = vec![];
+        let colors_used = self.colours_used();
+        for e in ends.0..=ends.1 {
+            let colors = self.uncollisions(0, e).into_iter().filter(|&t| t as usize <= colors_used);
+            for c in colors {
+                let rev = self
+                    .apply_history(History::SegmentInsert {
+                        start_index: 0,
+                        end_index: e,
+                        color: c,
+                    })
+                    .unwrap();
+                states.extend(self.generate_all_states(depth - 1));
+                self.apply_history(rev);
+            }
+        }
+        states
     }
 
     fn count_intersections(&mut self) {

@@ -1,6 +1,6 @@
 use std::{
     collections::{HashMap, HashSet},
-    isize,
+    isize, u8,
 };
 
 use crate::linear_axis::LinearAxis;
