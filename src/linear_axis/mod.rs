@@ -69,43 +69,17 @@ impl LinearAxis {
         if start_index > self.events.len() || end_index > self.events.len() {
             return None;
         }
-        let mut new_events = Queue::new();
-        new_events.extend(self.events.iter().take(start_index).cloned());
-        new_events.push_back(Event::new_start(color));
-        new_events.extend(
-            self.events
-                .iter()
-                .skip(start_index)
-                .take(end_index - start_index)
-                .cloned(),
-        );
-        new_events.push_back(Event::new_end(color));
-        new_events.extend(self.events.iter().skip(end_index).cloned());
-        self.events = new_events;
-        Some(())
+        self.events.insert_at_index(end_index, Event::new_end(color));
+        self.events.insert_at_index(start_index, Event::new_start(color))
     }
     fn remove_segment(&mut self, start_index: usize, end_index: usize) -> Option<u8> {
-        let mut new_events = Queue::new();
-        new_events.extend(self.events.iter().take(start_index).cloned());
-
-        let start_color = self.events.get(start_index)?.colour();
-        let end_color = self.events.get(end_index)?.colour();
-        if start_color != end_color {
-            return None;
+        let end_color = self.events.remove_at_index(end_index)?.colour();
+        let start_color = self.events.remove_at_index(start_index)?.colour();
+        if start_color == end_color {
+            Some(start_color)
+        } else {
+            None
         }
-
-        new_events.extend(
-            self.events
-                .iter()
-                .skip(start_index + 1)
-                .take(end_index - start_index - 1)
-                .cloned(),
-        );
-
-        new_events.extend(self.events.iter().skip(end_index + 1).cloned());
-        self.events = new_events;
-
-        Some(start_color)
     }
     fn limit_front(&mut self, max_colors: usize) -> Option<(Event, usize)> {
         let mut started = vec![false; max_colors];

@@ -7,7 +7,6 @@ pub struct Queue<T> {
     last: usize,
     free: usize,
     len: usize,
-    history: Vec<usize>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -26,7 +25,7 @@ impl<T: Default> Node<T> {
     }
 }
 
-impl<T: Default + Debug> Queue<T> {
+impl<T: Default + Debug + Clone> Queue<T> {
     pub fn new() -> Self {
         Self::with_capacity(30)
     }
@@ -39,7 +38,6 @@ impl<T: Default + Debug> Queue<T> {
             last: 0,
             len: 0,
             free: 0,
-            history: vec![],
         }
     }
     pub fn len(&self) -> usize {
@@ -58,7 +56,6 @@ impl<T: Default + Debug> Queue<T> {
         } else {
             self.nodes[self.last].next = self.free;
         }
-        self.history.push(self.free);
         self.nodes[self.free].val = val;
         self.nodes[self.free].prev = self.last;
         self.last = self.free;
@@ -69,14 +66,12 @@ impl<T: Default + Debug> Queue<T> {
         if self.len + 1 == self.nodes.len() {
             panic!("overflow")
         }
-        dbg!(&self);
         if self.len == 0 {
             self.last = self.free;
         } else {
             self.nodes[self.first].prev = self.free;
         }
         let next_free = self.nodes[self.free].next;
-        self.history.push(self.free);
         self.nodes[self.free].val = val;
         self.nodes[self.free].next = self.first;
         self.first = self.free;
@@ -108,6 +103,51 @@ impl<T: Default + Debug> Queue<T> {
         self.last = self.nodes[self.last].prev;
         Some(val)
     }
+    pub fn remove_at_index(&mut self, index: usize) -> Option<T> {
+        if index >= self.len {
+            return None
+        }
+        if index == 0 {
+            return self.pop_front();
+        }
+        if index == self.len - 1 {
+            return self.pop_back();
+        }
+        let found = self.get_ith(index);
+        let Node { next, prev, .. } = self.nodes[found];
+        self.nodes[prev].next = next;
+        self.nodes[next].prev = prev;
+        self.nodes[found].next = self.free;
+        self.free = found;
+        self.len -= 1;
+        Some(self.nodes[found].val.clone())
+    }
+    pub fn insert_at_index(&mut self, index: usize, val: T) -> Option<()> {
+        if index == 0 {
+            self.push_front(val);
+            return Some(());
+        }
+        if index == self.len {
+            self.push_back(val);
+            return Some(());
+        }
+        if index > self.len {
+            return None
+        }
+        let found = self.get_ith(index);
+        let next_free = self.nodes[self.free].next;
+        let prv = self.nodes[found].prev;
+        self.nodes[self.free] = Node {
+            next: found,
+            prev: prv,
+            val
+        };
+        self.nodes[found].prev = self.free;
+        self.nodes[prv].next = self.free;
+        self.free = next_free;
+        self.len += 1;
+        Some(())
+    }
     pub fn extend(&mut self, iter: impl IntoIterator<Item = T>) {
         for i in iter {
             self.push_back(i);
@@ -118,6 +158,23 @@ impl<T: Default + Debug> Queue<T> {
     }
     pub fn get<'a>(&'a self, index: usize) -> Option<&'a T> {
         self.iter().skip(index).next()
+    }
+    fn get_ith(&self, i: usize) -> usize {
+        if i > self.len / 2 {
+            return self.get_ith_back(self.len - i - 1)
+        }
+        let mut result = self.first;
+        for _ in 0..i {
+            result = self.nodes[result].next;
+        }
+        result
+    }
+    fn get_ith_back(&self, i: usize) -> usize {
+        let mut result = self.last;
+        for _ in 0..i {
+            result = self.nodes[result].prev;
+        }
+        result
     }
 }
 
@@ -178,7 +235,7 @@ impl<'a, T> DoubleEndedIterator for QueueIterator<'a, T> {
     }
 }
 
-impl<T: Default + Debug> FromIterator<T> for Queue<T> {
+impl<T: Default + Debug + Clone> FromIterator<T> for Queue<T> {
     fn from_iter<R: IntoIterator<Item = T>>(iter: R) -> Queue<T> {
         let mut q = Queue::new();
         q.extend(iter);
@@ -188,7 +245,7 @@ impl<T: Default + Debug> FromIterator<T> for Queue<T> {
 
 impl<R, T> From<R> for Queue<T>
 where
-    T: Default + Debug,
+    T: Default + Debug + Clone,
     R: IntoIterator<Item = T>,
 {
     fn from(value: R) -> Self {
