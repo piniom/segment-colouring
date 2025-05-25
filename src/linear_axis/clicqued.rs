@@ -140,8 +140,9 @@ impl ClicquedLinearAxis {
     pub fn valid_new_segment_ends(&self, start: usize) -> Option<(usize, usize)> {
         let mut opened_before = self.segments_opened_at_front();
         let evs = &self.inner.events;
-        for i in 0..start {
-            if evs[i].is_start() {
+        let mut iter = evs.into_iter();
+        for e in iter.by_ref().take(start){
+            if e.is_start() {
                 opened_before += 1
             } else {
                 opened_before -= 1
@@ -155,7 +156,7 @@ impl ClicquedLinearAxis {
             if self.intersections[i + 1] >= self.max_clicque {
                 return None;
             }
-            if !evs[i].is_start() {
+            if !iter.next().unwrap().is_start() {
                 opened_before -= 1
             }
             i += 1
@@ -168,7 +169,7 @@ impl ClicquedLinearAxis {
             if self.intersections[i + 1] >= self.max_clicque {
                 break;
             }
-            if !evs[i].is_start() {
+            if !iter.next().unwrap().is_start() {
                 break;
             }
             i += 1
@@ -178,8 +179,8 @@ impl ClicquedLinearAxis {
 
     pub fn segment_will_collide_with_colours(&self, start: usize, end: usize) -> Vec<bool> {
         let mut collisions = vec![false; self.max_colors()];
-        for i in start..end {
-            collisions[self.inner.events[i].colour() as usize] = true
+        for e in self.inner.events.iter().skip(start).take(start - end) {
+            collisions[e.colour() as usize] = true
         }
         collisions
     }
