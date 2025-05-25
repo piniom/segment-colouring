@@ -39,7 +39,7 @@ fn run(args: Args) {
         args.max_events,
         args.max_clicque,
         args.desired_number_of_colours,
-        strategy,
+        Some(strategy),
     );
     let start = Instant::now();
     let result = game.simulate(-1);

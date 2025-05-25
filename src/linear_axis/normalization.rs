@@ -227,4 +227,11 @@ impl NormalizedState {
             max_colours,
         )
     }
+    pub fn colors_used(&self) -> usize {
+        let mut used = vec![false; self.0.len()];
+        for e in &self.0 {
+            used[e.colour() as usize] = true;
+        }
+        used.into_iter().filter(|v| *v).count()
+    }
 }

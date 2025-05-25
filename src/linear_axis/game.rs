@@ -37,7 +37,7 @@ pub struct Game {
     states: HashMap<NormalizedState, StateStatus>,
     #[allow(dead_code)]
     reductees: HashMap<NormalizedState, HashSet<(NormalizedState, History)>>,
-    pub strategy: StrategyConsumer,
+    pub strategy: Option<StrategyConsumer>,
 }
 
 impl Game {
@@ -45,10 +45,23 @@ impl Game {
         max_events: usize,
         max_clicque: usize,
         force_num_colours: usize,
-        strategy: StrategyConsumer,
+        strategy: Option<StrategyConsumer>,
+    ) -> Self {
+        Self::with_axis(
+            ClicquedLinearAxis::new(max_clicque),
+            max_events,
+            force_num_colours,
+            strategy,
+        )
+    }
+    pub fn with_axis(
+        axis: ClicquedLinearAxis,
+        max_events: usize,
+        force_num_colours: usize,
+        strategy: Option<StrategyConsumer>,
     ) -> Self {
         Self {
-            axis: ClicquedLinearAxis::new(max_clicque),
+            axis,
             history: vec![],
             force_num_colours,
             max_events,
@@ -57,11 +70,14 @@ impl Game {
             strategy,
         }
     }
+    pub fn register_winning_state(&mut self, state: NormalizedState) {
+        self.states.insert(state, StateStatus::True(None));
+    }
     pub fn simulate(&mut self, depth: isize) -> bool {
         let result = self.simulate_inner(depth);
-        dbg!(result);
+        // dbg!(result);
         let result = result >= self.force_num_colours as isize;
-        if result {
+        if result && self.strategy.is_some() {
             self.walk_strategy(&mut HashSet::new());
         }
         result
@@ -170,9 +186,9 @@ impl Game {
     }
     fn get_state(&mut self, normalized: &NormalizedState) -> Option<&StateStatus> {
         let colors = self.axis.max_colors();
-        self.states
-            .get(&normalized)
-            .or(self.states.get(&normalized.flipped(&mut self.axis.normalizer, colors)))
+        self.states.get(&normalized).or(self
+            .states
+            .get(&normalized.flipped(&mut self.axis.normalizer, colors)))
     }
     fn get_actual_normalised(&mut self) -> Option<NormalizedState> {
         let normalized = self.normalize();
@@ -180,7 +196,7 @@ impl Game {
             return Some(normalized.clone());
         }
         let colors = self.axis.max_colors();
-        let flipped = normalized.flipped(&mut self.axis.normalizer,colors);
+        let flipped = normalized.flipped(&mut self.axis.normalizer, colors);
         if self.states.contains_key(&flipped) {
             return Some(flipped);
         }
@@ -210,13 +226,13 @@ impl Game {
             }
             Some(StateStatus::True(Some(mv))) => match mv {
                 limit @ (StrategyMove::LimitBack | StrategyMove::LimitFront) => {
-                    self.strategy.consume(&normalized, limit);
+                    self.strategy.as_mut().unwrap().consume(&normalized, limit);
                     let reverse = self.apply_history(limit.history().unwrap()).unwrap();
                     self.walk_strategy(walked);
                     self.apply_history(reverse);
                 }
                 insert @ StrategyMove::Insert { start, end } => {
-                    self.strategy.consume(&normalized, insert);
+                    self.strategy.as_mut().unwrap().consume(&normalized, insert);
 
                     for c in self.uncollisions(start, end) {
                         let reverse = self

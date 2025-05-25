@@ -15,3 +15,23 @@ Description of the arguments:
 cargo run -- --help
 ```
 The `--release` flag is important for simulation speed.
+
+<!-- depth = 9:
+[
+    0,
+    1,
+    6560,
+    346640,
+    2330184,
+    4322212,
+    2986207,
+    866257,
+    105179,
+    4334,
+] 
+
+col = 8, depth = 3
+Total: 105179
+Succ : 895
+Fail : 104284
+-->

@@ -45,8 +45,6 @@ impl ClicquedLinearAxis {
             return tokio::spawn(async move {cloned.generate_all_states(depth)}).await.unwrap();
         }
 
-        
-
         let ends = self.valid_new_segment_ends(0).unwrap();
 
         let mut futures = vec![];
@@ -96,6 +94,45 @@ impl ClicquedLinearAxis {
             }
         }
         states
+    }
+
+    pub fn check_if_winning(&mut self, depth: isize, sum: &mut usize) -> bool {
+        *sum += 1;
+        if depth == 0 {
+            return self.colours_used() >= self.max_colors();
+        }
+        if self.colours_used() >= self.max_colors() {
+            return true;
+        }
+        let segments= self.valid_new_segments();
+        for (s, e) in segments {
+            let mut all = true;
+            let mut count = 0;
+            let colors = self.uncollisions(s, e);
+            for c in colors {
+                count += 1;
+                let rev = self
+                    .apply_history(History::SegmentInsert {
+                        start_index: s,
+                        end_index: e,
+                        color: c,
+                    })
+                    .unwrap();
+                let result = self.check_if_winning(depth - 1, sum);
+                self.apply_history(rev);
+                if !result {
+                    all = false;
+                    break
+                }
+            }
+            if count == 0 {
+                panic!("0 count");
+            }
+            if all {
+                return true
+            }
+        }
+        false
     }
 
     fn count_intersections(&mut self) {
