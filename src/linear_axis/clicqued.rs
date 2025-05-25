@@ -179,7 +179,7 @@ impl ClicquedLinearAxis {
 
     pub fn segment_will_collide_with_colours(&self, start: usize, end: usize) -> Vec<bool> {
         let mut collisions = vec![false; self.max_colors()];
-        for e in self.inner.events.iter().skip(start).take(start - end) {
+        for e in self.inner.events.iter().skip(start).take(end - start) {
             collisions[e.colour() as usize] = true
         }
         collisions
