@@ -46,10 +46,14 @@ impl<T: Default + Debug + Clone> Queue<T> {
     pub fn is_empty(&self) -> bool {
         self.len == 0
     }
+    fn grow(&mut self) {
+        let mut new = Self::with_capacity(self.nodes.len() * 2 + 1);
+        new.extend(self.into_iter().cloned());
+        *self = new;
+    }
     pub fn push_back(&mut self, val: T) {
         if self.len + 1 == self.nodes.len() {
-            dbg!(&self);
-            panic!("overflow")
+            self.grow();
         }
         if self.len == 0 {
             self.first = self.free;
@@ -64,7 +68,7 @@ impl<T: Default + Debug + Clone> Queue<T> {
     }
     pub fn push_front(&mut self, val: T) {
         if self.len + 1 == self.nodes.len() {
-            panic!("overflow")
+            self.grow();
         }
         if self.len == 0 {
             self.last = self.free;
@@ -105,7 +109,7 @@ impl<T: Default + Debug + Clone> Queue<T> {
     }
     pub fn remove_at_index(&mut self, index: usize) -> Option<T> {
         if index >= self.len {
-            return None
+            return None;
         }
         if index == 0 {
             return self.pop_front();
@@ -132,7 +136,7 @@ impl<T: Default + Debug + Clone> Queue<T> {
             return Some(());
         }
         if index > self.len {
-            return None
+            return None;
         }
         let found = self.get_ith(index);
         let next_free = self.nodes[self.free].next;
@@ -140,7 +144,7 @@ impl<T: Default + Debug + Clone> Queue<T> {
         self.nodes[self.free] = Node {
             next: found,
             prev: prv,
-            val
+            val,
         };
         self.nodes[found].prev = self.free;
         self.nodes[prv].next = self.free;
@@ -161,7 +165,7 @@ impl<T: Default + Debug + Clone> Queue<T> {
     }
     fn get_ith(&self, i: usize) -> usize {
         if i > self.len / 2 {
-            return self.get_ith_back(self.len - i - 1)
+            return self.get_ith_back(self.len - i - 1);
         }
         let mut result = self.first;
         for _ in 0..i {
