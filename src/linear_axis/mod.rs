@@ -1,7 +1,6 @@
-use std::{collections::VecDeque, fmt::Debug};
-
 use event::Event;
 use history::History;
+use queue::Queue;
 
 pub mod clicqued;
 pub mod event;
@@ -10,20 +9,21 @@ pub mod history;
 pub mod normalization;
 pub mod print;
 pub mod strategy;
+pub mod queue;
 
 #[derive(Debug, Clone)]
 pub struct LinearAxis {
-    pub events: VecDeque<Event>,
-    pub front: VecDeque<Event>,
-    pub back: VecDeque<Event>,
+    pub events: Queue<Event>,
+    pub front: Queue<Event>,
+    pub back: Queue<Event>,
 }
 
 impl LinearAxis {
     fn new() -> Self {
         Self {
-            events: VecDeque::with_capacity(40),
-            front: VecDeque::with_capacity(40),
-            back: VecDeque::with_capacity(40),
+            events: Queue::with_capacity(40),
+            front: Queue::with_capacity(40),
+            back: Queue::with_capacity(40),
         }
     }
     fn apply_history(&mut self, history: History, max_colors: usize) -> Option<History> {
@@ -69,7 +69,7 @@ impl LinearAxis {
         if start_index > self.events.len() || end_index > self.events.len() {
             return None;
         }
-        let mut new_events = VecDeque::with_capacity(self.events.len() + 2);
+        let mut new_events = Queue::new();
         new_events.extend(self.events.iter().take(start_index).cloned());
         new_events.push_back(Event::new_start(color));
         new_events.extend(
@@ -85,7 +85,7 @@ impl LinearAxis {
         Some(())
     }
     fn remove_segment(&mut self, start_index: usize, end_index: usize) -> Option<u8> {
-        let mut new_events = VecDeque::with_capacity(self.events.len() - 2);
+        let mut new_events = Queue::new();
         new_events.extend(self.events.iter().take(start_index).cloned());
 
         let start_color = self.events.get(start_index)?.colour();
