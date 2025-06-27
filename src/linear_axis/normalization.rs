@@ -47,7 +47,7 @@ impl ClicquedLinearAxis {
             }
         }
     }
-     pub fn normalize_compress(&self) -> Vec<u8> {
+    pub fn normalize_compress(&self) -> Vec<u8> {
         let mut colours = vec![u8::MAX; self.max_colors()];
         let mut normalized = vec![];
         let mut i = 1;

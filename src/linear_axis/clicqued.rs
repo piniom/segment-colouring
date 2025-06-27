@@ -1,13 +1,16 @@
 use futures::future::join_all;
 
-use super::{normalization::{NormalizedState, StrategyNormalizer}, History, LinearAxis};
+use super::{
+    normalization::{NormalizedState, StrategyNormalizer},
+    History, LinearAxis,
+};
 
 #[derive(Debug, Clone)]
 pub struct ClicquedLinearAxis {
     pub inner: LinearAxis,
     pub max_clicque: usize,
     pub intersections: Vec<usize>,
-    pub normalizer: StrategyNormalizer
+    pub normalizer: StrategyNormalizer,
 }
 
 impl ClicquedLinearAxis {
@@ -20,7 +23,7 @@ impl ClicquedLinearAxis {
             inner,
             max_clicque,
             intersections: vec![],
-            normalizer: StrategyNormalizer::new()
+            normalizer: StrategyNormalizer::new(),
         };
         result.count_intersections();
         result
@@ -42,7 +45,9 @@ impl ClicquedLinearAxis {
 
         if async_depth <= 0 {
             let mut cloned = self.clone();
-            return tokio::spawn(async move {cloned.generate_all_states(depth)}).await.unwrap();
+            return tokio::spawn(async move { cloned.generate_all_states(depth) })
+                .await
+                .unwrap();
         }
 
         let ends = self.valid_new_segment_ends(0).unwrap();
@@ -50,7 +55,10 @@ impl ClicquedLinearAxis {
         let mut futures = vec![];
         let colors_used = self.colours_used();
         for e in ends.0..=ends.1 {
-            let colors = self.uncollisions(0, e).into_iter().filter(|&t| t as usize <= colors_used);
+            let colors = self
+                .uncollisions(0, e)
+                .into_iter()
+                .filter(|&t| t as usize <= colors_used);
             for c in colors {
                 let mut cloned_self = self.clone();
 
@@ -63,7 +71,9 @@ impl ClicquedLinearAxis {
                         })
                         .unwrap();
 
-                    cloned_self.generate_all_states_async(depth - 1, async_depth - 1).await
+                    cloned_self
+                        .generate_all_states_async(depth - 1, async_depth - 1)
+                        .await
                 };
                 futures.push(handle);
             }
@@ -80,7 +90,10 @@ impl ClicquedLinearAxis {
         let mut states = vec![];
         let colors_used = self.colours_used();
         for e in ends.0..=ends.1 {
-            let colors = self.uncollisions(0, e).into_iter().filter(|&t| t as usize <= colors_used);
+            let colors = self
+                .uncollisions(0, e)
+                .into_iter()
+                .filter(|&t| t as usize <= colors_used);
             for c in colors {
                 let rev = self
                     .apply_history(History::SegmentInsert {
@@ -104,7 +117,7 @@ impl ClicquedLinearAxis {
         if self.colours_used() >= self.max_colors() {
             return true;
         }
-        let segments= self.valid_new_segments();
+        let segments = self.valid_new_segments();
         for (s, e) in segments {
             let mut all = true;
             let mut count = 0;
@@ -122,14 +135,14 @@ impl ClicquedLinearAxis {
                 self.apply_history(rev);
                 if !result {
                     all = false;
-                    break
+                    break;
                 }
             }
             if count == 0 {
                 panic!("0 count");
             }
             if all {
-                return true
+                return true;
             }
         }
         false
@@ -178,7 +191,7 @@ impl ClicquedLinearAxis {
         let mut opened_before = self.segments_opened_at_front();
         let evs = &self.inner.events;
         let mut iter = evs.into_iter();
-        for e in iter.by_ref().take(start){
+        for e in iter.by_ref().take(start) {
             if e.is_start() {
                 opened_before += 1
             } else {

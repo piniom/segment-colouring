@@ -3,3 +3,5 @@ mod utils;
 
 #[cfg(test)]
 mod tests;
+
+mod hash;

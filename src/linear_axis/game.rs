@@ -3,7 +3,7 @@ use std::{
     isize, u8,
 };
 
-use crate::linear_axis::LinearAxis;
+use crate::{hash::GlobalRandomState, linear_axis::LinearAxis};
 
 use super::{
     clicqued::ClicquedLinearAxis,
@@ -34,9 +34,13 @@ pub struct Game {
     history: Vec<History>,
     force_num_colours: usize,
     max_events: usize,
-    states: HashMap<NormalizedState, StateStatus>,
+    states: HashMap<NormalizedState, StateStatus, GlobalRandomState>,
     #[allow(dead_code)]
-    reductees: HashMap<NormalizedState, HashSet<(NormalizedState, History)>>,
+    reductees: HashMap<
+        NormalizedState,
+        HashSet<(NormalizedState, History), GlobalRandomState>,
+        GlobalRandomState,
+    >,
     pub strategy: Option<StrategyConsumer>,
 }
 
@@ -65,8 +69,8 @@ impl Game {
             history: vec![],
             force_num_colours,
             max_events,
-            states: HashMap::new(),
-            reductees: HashMap::new(),
+            states: HashMap::default(),
+            reductees: HashMap::default(),
             strategy,
         }
     }
@@ -78,7 +82,7 @@ impl Game {
         // dbg!(result);
         let result = result >= self.force_num_colours as isize;
         if result && self.strategy.is_some() {
-            self.walk_strategy(&mut HashSet::new());
+            self.walk_strategy(&mut HashSet::default());
         }
         result
     }
@@ -205,7 +209,7 @@ impl Game {
     fn uncollisions(&self, start: usize, end: usize) -> Vec<u8> {
         self.axis.uncollisions(start, end)
     }
-    fn walk_strategy(&mut self, walked: &mut HashSet<NormalizedState>) {
+    fn walk_strategy(&mut self, walked: &mut HashSet<NormalizedState, GlobalRandomState>) {
         let normalized = self.get_actual_normalised().unwrap();
         let colors = self.axis.max_colors();
         if walked.contains(&normalized)

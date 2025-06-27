@@ -1,5 +1,7 @@
 use std::{cell::RefCell, collections::HashMap, hash::Hash, io::Write};
 
+use crate::hash::GlobalRandomState;
+
 use super::{
     clicqued::ClicquedLinearAxis, event::Event, history::History, normalization::NormalizedState,
     LinearAxis,
@@ -102,7 +104,7 @@ impl StrategyState {
 
 #[derive()]
 pub struct StrategyConsumer {
-    moves: HashMap<StrategyState, StrategyMove>,
+    moves: HashMap<StrategyState, StrategyMove, GlobalRandomState>,
     max_colors: usize,
     wt: RefCell<Box<dyn Write>>,
 }
@@ -116,7 +118,7 @@ impl StrategyConsumer {
     ) -> Self {
         writeln!(wt, "{} {}", clicque_size, force_colors).unwrap();
         Self {
-            moves: HashMap::new(),
+            moves: HashMap::default(),
             max_colors,
             wt: RefCell::new(wt),
         }

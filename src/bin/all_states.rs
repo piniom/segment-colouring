@@ -1,5 +1,11 @@
 use rand::{seq::SliceRandom, Rng};
-use segment_colouring::linear_axis::{clicqued::ClicquedLinearAxis, event::Event, game::{self, Game}, normalization::NormalizedState, strategy::StrategyState};
+use segment_colouring::linear_axis::{
+    clicqued::ClicquedLinearAxis,
+    event::Event,
+    game::{self, Game},
+    normalization::NormalizedState,
+    strategy::StrategyState,
+};
 
 const MAX_COLORS: usize = 9;
 const MAX_CLICQUE: usize = 5;
@@ -23,7 +29,10 @@ async fn main() {
 
 async fn process_state(index: usize, state: NormalizedState) -> (bool, usize) {
     let mut sum = 0;
-    let mut axis = ClicquedLinearAxis::from_strategy_state(StrategyState::from(&state, MAX_COLORS), MAX_CLICQUE);
+    let mut axis = ClicquedLinearAxis::from_strategy_state(
+        StrategyState::from(&state, MAX_COLORS),
+        MAX_CLICQUE,
+    );
     // let result = Game::with_axis(axis, 24, MAX_COLORS, None).simulate(3);
     let result = axis.check_if_winning(2, &mut sum);
     (result, sum)
@@ -38,7 +47,7 @@ async fn run_parallel_loop(select: &[NormalizedState]) {
             process_state(index, state_clone).await
         }));
     }
-    
+
     let mut successes = 0;
     let mut failures = 0;
 

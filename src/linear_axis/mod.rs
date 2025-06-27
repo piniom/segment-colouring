@@ -8,8 +8,8 @@ pub mod game;
 pub mod history;
 pub mod normalization;
 pub mod print;
-pub mod strategy;
 pub mod queue;
+pub mod strategy;
 
 #[derive(Debug, Clone)]
 pub struct LinearAxis {
@@ -69,8 +69,10 @@ impl LinearAxis {
         if start_index > self.events.len() || end_index > self.events.len() {
             return None;
         }
-        self.events.insert_at_index(end_index, Event::new_end(color));
-        self.events.insert_at_index(start_index, Event::new_start(color))
+        self.events
+            .insert_at_index(end_index, Event::new_end(color));
+        self.events
+            .insert_at_index(start_index, Event::new_start(color))
     }
     fn remove_segment(&mut self, start_index: usize, end_index: usize) -> Option<u8> {
         let end_color = self.events.remove_at_index(end_index)?.colour();
