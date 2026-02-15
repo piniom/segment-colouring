@@ -14,7 +14,8 @@ const MAX_CLICQUE: usize = 5;
 async fn main() {
     // test().await;
     let mut axis = ClicquedLinearAxis::new(5);
-    let states = axis.generate_all_states_async(9, 6).await;
+    let mut states = axis.generate_all_states_async(9, 6).await;
+    states.sort_by_key(NormalizedState::colors_used);
     let mut agr = vec![vec![]; 10];
     for s in states {
         agr[s.colors_used()].push(s);
@@ -35,6 +36,9 @@ async fn process_state(index: usize, state: NormalizedState) -> (bool, usize) {
     );
     // let result = Game::with_axis(axis, 24, MAX_COLORS, None).simulate(3);
     let result = axis.check_if_winning(2, &mut sum);
+    if result {
+        // println!("{}\\n\\n", axis.inner.to_string())
+    }
     (result, sum)
 }
 

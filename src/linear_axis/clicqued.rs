@@ -45,9 +45,7 @@ impl ClicquedLinearAxis {
 
         if async_depth <= 0 {
             let mut cloned = self.clone();
-            return tokio::spawn(async move { cloned.generate_all_states(depth) })
-                .await
-                .unwrap();
+            return cloned.generate_all_states(depth)
         }
 
         let ends = self.valid_new_segment_ends(0).unwrap();
