@@ -21,9 +21,9 @@ pub struct LinearAxis {
 impl LinearAxis {
     fn new() -> Self {
         Self {
-            events: Queue::with_capacity(40),
-            front: Queue::with_capacity(40),
-            back: Queue::with_capacity(40),
+            events: Queue::new(),
+            front: Queue::new(),
+            back: Queue::new(),
         }
     }
     fn apply_history(&mut self, history: History, max_colors: usize) -> Option<History> {
