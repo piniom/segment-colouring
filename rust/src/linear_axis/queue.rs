@@ -1,8 +1,8 @@
 use std::{fmt::Debug, iter::zip};
 
 #[derive(Debug, Clone)]
-pub struct Queue<T, const N: usize = 32> {
-    nodes: [Node<T>; N],
+pub struct Queue<T> {
+    nodes: Vec<Node<T>>,
     first: usize,
     last: usize,
     free: usize,
@@ -25,38 +25,35 @@ impl<T: Default> Node<T> {
     }
 }
 
-impl<T: Default + Debug + Clone> Queue<T, 32> {
+impl<T: Default + Debug + Clone> Queue<T> {
     pub fn new() -> Self {
-        Self::with_capacity()
+        Self::with_capacity(30)
     }
-}
-
-impl<T: Default + Debug + Clone> Queue<T, 32>{
-    pub fn with_capacity<const N:usize>() -> Queue<T, N>  {
-        let nodes: [Node<T>; N] = std::array::from_fn(|i| Node::default_value((i + 1) % N, 0));
-        Queue::<T, N> {
-            nodes,
+    pub fn with_capacity(capacity: usize) -> Self {
+        Self {
+            nodes: (0..capacity)
+                .map(|i| Node::default_value((i + 1) % capacity, 0))
+                .collect(),
             first: 0,
             last: 0,
             len: 0,
             free: 0,
         }
     }
-}
-
-
-
-impl<T: Default + Debug + Clone, const N: usize> Queue<T, N> {
-    
     pub fn len(&self) -> usize {
         self.len
     }
     pub fn is_empty(&self) -> bool {
         self.len == 0
     }
+    fn grow(&mut self) {
+        let mut new = Self::with_capacity(self.nodes.len() * 2 + 1);
+        new.extend(self.into_iter().cloned());
+        *self = new;
+    }
     pub fn push_back(&mut self, val: T) {
         if self.len + 1 == self.nodes.len() {
-            self.free = self.first;
+            self.grow();
         }
         if self.len == 0 {
             self.first = self.free;
@@ -71,7 +68,7 @@ impl<T: Default + Debug + Clone, const N: usize> Queue<T, N> {
     }
     pub fn push_front(&mut self, val: T) {
         if self.len + 1 == self.nodes.len() {
-            self.free = self.first;
+            self.grow();
         }
         if self.len == 0 {
             self.last = self.free;
@@ -160,7 +157,7 @@ impl<T: Default + Debug + Clone, const N: usize> Queue<T, N> {
             self.push_back(i);
         }
     }
-    pub fn iter<'a>(&'a self) -> QueueIterator<'a, T, N> {
+    pub fn iter<'a>(&'a self) -> QueueIterator<'a, T> {
         self.into_iter()
     }
     pub fn get<'a>(&'a self, index: usize) -> Option<&'a T> {
@@ -185,7 +182,7 @@ impl<T: Default + Debug + Clone, const N: usize> Queue<T, N> {
     }
 }
 
-impl<T: PartialEq, const N: usize> PartialEq for Queue<T, N> {
+impl<T: PartialEq> PartialEq for Queue<T> {
     fn eq(&self, other: &Self) -> bool {
         if self.len != other.len {
             return false;
@@ -194,10 +191,10 @@ impl<T: PartialEq, const N: usize> PartialEq for Queue<T, N> {
     }
 }
 
-impl<'a, T, const N: usize> IntoIterator for &'a Queue<T, N> {
+impl<'a, T> IntoIterator for &'a Queue<T> {
     type Item = &'a T;
 
-    type IntoIter = QueueIterator<'a, T, N>;
+    type IntoIter = QueueIterator<'a, T>;
 
     fn into_iter(self) -> Self::IntoIter {
         QueueIterator {
@@ -209,14 +206,14 @@ impl<'a, T, const N: usize> IntoIterator for &'a Queue<T, N> {
     }
 }
 
-pub struct QueueIterator<'a, T, const N: usize> {
-    queue: &'a Queue<T, N>,
+pub struct QueueIterator<'a, T> {
+    queue: &'a Queue<T>,
     cur_front: usize,
     cur_back: usize,
     done: usize,
 }
 
-impl<'a, T, const N: usize> Iterator for QueueIterator<'a, T, N> {
+impl<'a, T> Iterator for QueueIterator<'a, T> {
     type Item = &'a T;
 
     fn next(&mut self) -> Option<Self::Item> {
@@ -230,7 +227,7 @@ impl<'a, T, const N: usize> Iterator for QueueIterator<'a, T, N> {
     }
 }
 
-impl<'a, T, const N: usize> DoubleEndedIterator for QueueIterator<'a, T, N> {
+impl<'a, T> DoubleEndedIterator for QueueIterator<'a, T> {
     fn next_back(&mut self) -> Option<Self::Item> {
         if self.done == self.queue.len {
             return None;
@@ -242,15 +239,15 @@ impl<'a, T, const N: usize> DoubleEndedIterator for QueueIterator<'a, T, N> {
     }
 }
 
-impl<T: Default + Debug + Clone, const N: usize> FromIterator<T> for Queue<T, N> {
-    fn from_iter<R: IntoIterator<Item = T>>(iter: R) -> Queue<T, N> {
-        let mut q = Queue::with_capacity::<N>();
+impl<T: Default + Debug + Clone> FromIterator<T> for Queue<T> {
+    fn from_iter<R: IntoIterator<Item = T>>(iter: R) -> Queue<T> {
+        let mut q = Queue::new();
         q.extend(iter);
         q
     }
 }
 
-impl<R, T, const N: usize> From<R> for Queue<T, N>
+impl<R, T> From<R> for Queue<T>
 where
     T: Default + Debug + Clone,
     R: IntoIterator<Item = T>,
@@ -272,8 +269,16 @@ mod tests {
     }
 
     #[test]
+    fn test_with_capacity() {
+        let q: Queue<i32> = Queue::with_capacity(10);
+        assert_eq!(q.nodes.len(), 10);
+        assert_eq!(q.len(), 0);
+        assert!(q.is_empty());
+    }
+
+    #[test]
     fn test_push_back_empty() {
-        let mut q: Queue<i32> = Queue::new();
+        let mut q = Queue::new();
         q.push_back(1);
         assert_eq!(q.len(), 1);
         assert!(!q.is_empty());
@@ -284,7 +289,7 @@ mod tests {
 
     #[test]
     fn test_push_back_non_empty() {
-        let mut q = Queue::with_capacity::<10>();
+        let mut q = Queue::with_capacity(5);
         q.push_back(1);
         q.push_back(2);
         assert_eq!(q.len(), 2);
@@ -298,7 +303,7 @@ mod tests {
     #[test]
     #[should_panic]
     fn test_push_back_overflow() {
-        let mut q = Queue::with_capacity::<10>();
+        let mut q = Queue::with_capacity(1);
         q.push_back(1);
         q.push_back(2);
     }
@@ -316,7 +321,7 @@ mod tests {
 
     #[test]
     fn test_push_front_non_empty() {
-        let mut q = Queue::with_capacity::<10>();
+        let mut q = Queue::with_capacity(5);
         q.push_front(2);
         q.push_front(1);
         assert_eq!(q.len(), 2);
@@ -329,7 +334,7 @@ mod tests {
     #[test]
     #[should_panic]
     fn test_push_front_overflow() {
-        let mut q = Queue::with_capacity::<10>();
+        let mut q = Queue::with_capacity(1);
         q.push_front(1);
         q.push_front(2);
     }
@@ -628,7 +633,7 @@ mod tests {
 
     #[test]
     fn test_pop_front_and_push_back_interleaved() {
-        let mut q = Queue::with_capacity::<10>();
+        let mut q = Queue::with_capacity(5);
         q.push_back(1);
         q.push_back(2);
         assert_eq!(q.pop_front(), Some(1));
@@ -642,7 +647,7 @@ mod tests {
 
     #[test]
     fn test_pop_back_and_push_front_interleaved() {
-        let mut q = Queue::with_capacity::<10>();
+        let mut q = Queue::with_capacity(5);
         q.push_front(1);
         q.push_front(2);
         assert_eq!(q.pop_back(), Some(1));
