@@ -3,6 +3,8 @@ use std::{
     isize, u8,
 };
 
+use ahash::{AHashMap, AHashSet};
+
 use crate::{hash::GlobalRandomState, linear_axis::LinearAxis};
 
 use super::{
@@ -34,12 +36,11 @@ pub struct Game {
     history: Vec<History>,
     force_num_colours: usize,
     max_events: usize,
-    states: HashMap<NormalizedState, StateStatus, GlobalRandomState>,
+    states: AHashMap<NormalizedState, StateStatus>,
     #[allow(dead_code)]
-    reductees: HashMap<
+    reductees: AHashMap<
         NormalizedState,
-        HashSet<(NormalizedState, History), GlobalRandomState>,
-        GlobalRandomState,
+        AHashSet<(NormalizedState, History)>,
     >,
     pub strategy: Option<StrategyConsumer>,
 }
@@ -69,8 +70,8 @@ impl Game {
             history: vec![],
             force_num_colours,
             max_events,
-            states: HashMap::default(),
-            reductees: HashMap::default(),
+            states: AHashMap::default(),
+            reductees: AHashMap::default(),
             strategy,
         }
     }
