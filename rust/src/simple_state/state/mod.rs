@@ -2,11 +2,12 @@
 mod test;
 
 pub mod string;
+pub mod hash;
 // Each `Event` is 4 bits,
 // 0 - 7 for start events (with colours) (first bit is 0 for start events)
 // 8 - 15 for end events (with colours) (first bit is 1 for end events)
 // We can store 32 events in u128
-#[derive(Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Clone, Copy, PartialEq, Eq)]
 pub struct State {
     pub data: u128,
     pub len: usize,
