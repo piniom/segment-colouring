@@ -86,5 +86,15 @@ fn test_limit_back() {
 #[test]
 fn test_intersections() {
     let state = State::from_string("A[BCDabcdA]a");
-    assert_eq!(state.intersections().to_vec(), [0, 1, 2, 3, 4, 3, 2, 1, 0, 1, 0, 1]);
+    let mut expected = vec![0, 1, 2, 3, 4, 3, 2, 1, 0, 1, 0];
+    expected.extend(vec![0; 32 - expected.len()]);
+    assert_eq!(state.intersections().to_vec(), expected);
+}
+
+#[test]
+fn test_intersections_2() {
+    let state = State::from_string("A[BCDabcBdAb]a");
+    let mut expected = vec![0, 1, 2, 3, 4, 3, 2, 1, 2, 1, 2, 1, 0];
+    expected.extend(vec![0; 32 - expected.len()]);
+    assert_eq!(state.intersections().to_vec(), expected);
 }
