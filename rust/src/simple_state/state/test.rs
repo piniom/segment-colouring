@@ -82,3 +82,9 @@ fn test_limit_back() {
     state.move_limit_back();
     assert_eq!(state, State::from_string("[ABC]abc"));
 }
+
+#[test]
+fn test_intersections() {
+    let state = State::from_string("A[BCDabcdA]a");
+    assert_eq!(state.intersections().to_vec(), [0, 1, 2, 3, 4, 3, 2, 1, 0, 1, 0, 1]);
+}

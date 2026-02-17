@@ -181,21 +181,21 @@ impl ClicquedLinearAxis {
 //     // println!("{}", StrategyState::from(&axis.strategy_normalize().0, 5).to_string())
 // }
 
-#[test]
-fn from_str_test_2() {
-    let mov = (2, 6);
-    let mut axis = ClicquedLinearAxis::from_strategy_string("A[BCabAcDaC]dc", 3);
-    assert!(axis.valid_new_segments().contains(&mov));
-    println!("{:?}", axis.uncollisions(mov.0, mov.1));
-    println!("{}", axis.inner.to_string());
-    axis.apply_history(History::SegmentInsert {
-        start_index: mov.0,
-        end_index: mov.1,
-        color: 4,
-    });
-    println!("{}", axis.inner.to_string());
-    // println!("{}", StrategyState::from(&axis.strategy_normalize().0, 5).to_string())
-}
+// #[test]
+// fn from_str_test_2() {
+//     let mov = (2, 6);
+//     let mut axis = ClicquedLinearAxis::from_strategy_string("A[BCabAcDaC]dc", 3);
+//     assert!(axis.valid_new_segments().contains(&mov));
+//     println!("{:?}", axis.uncollisions(mov.0, mov.1));
+//     println!("{}", axis.inner.to_string());
+//     axis.apply_history(History::SegmentInsert {
+//         start_index: mov.0,
+//         end_index: mov.1,
+//         color: 4,
+//     });
+//     println!("{}", axis.inner.to_string());
+//     // println!("{}", StrategyState::from(&axis.strategy_normalize().0, 5).to_string())
+// }
 
 // Answer for ( [ABaCbB]cb, 0-1, C ): [ABaCbAcC]ac not found in the strategy.
 

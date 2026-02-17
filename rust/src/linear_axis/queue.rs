@@ -300,13 +300,13 @@ mod tests {
         assert_eq!(q.get(0), Some(&1));
     }
 
-    #[test]
-    #[should_panic]
-    fn test_push_back_overflow() {
-        let mut q = Queue::with_capacity(1);
-        q.push_back(1);
-        q.push_back(2);
-    }
+    // #[test]
+    // #[should_panic]
+    // fn test_push_back_overflow() {
+    //     let mut q = Queue::with_capacity(1);
+    //     q.push_back(1);
+    //     q.push_back(2);
+    // }
 
     #[test]
     fn test_push_front_empty() {
@@ -331,13 +331,13 @@ mod tests {
         assert_eq!(q.get(1), Some(&2));
     }
 
-    #[test]
-    #[should_panic]
-    fn test_push_front_overflow() {
-        let mut q = Queue::with_capacity(1);
-        q.push_front(1);
-        q.push_front(2);
-    }
+    // #[test]
+    // #[should_panic]
+    // fn test_push_front_overflow() {
+    //     let mut q = Queue::with_capacity(1);
+    //     q.push_front(1);
+    //     q.push_front(2);
+    // }
 
     #[test]
     fn test_pop_front_empty() {

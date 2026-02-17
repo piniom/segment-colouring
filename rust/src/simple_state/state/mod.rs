@@ -63,6 +63,22 @@ impl State {
             }
         }
     }
+    pub fn intersections(&self) -> [usize; 32] {
+        let mut cur = 0;
+        let mut result = [0; 32];
+        for i in 0..self.len {
+            result[i] = cur;
+            let value = self.get_at_index(i);
+            if value & 0b1000 == 0 {
+                cur += 1;
+            } else {
+                cur -= 1;
+            }
+            
+        }
+        result[self.len] = 0;
+        result
+    }
     pub fn flip(&mut self) {
         for i in 0..((self.len + 1) / 2) {
             let j = self.len - 1 - i;
