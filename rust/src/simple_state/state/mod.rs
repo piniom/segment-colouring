@@ -64,7 +64,7 @@ impl State {
             }
         }
     }
-    pub fn intersections(&self) -> [usize; 32] {
+    pub fn intersection_counts(&self) -> [u32; 32] {
         let mut cur = 0;
         let mut result = [0; 32];
         for i in 0..self.len {
@@ -80,6 +80,33 @@ impl State {
         result[self.len] = 0;
         result
     }
+    pub fn intersection_masks(&self) -> [u8; 32] {
+        let mut cur = 0;
+        let mut result = [0; 32];
+        for i in 0..self.len {
+            result[i] = cur;
+            let value = self.get_at_index(i);
+            if value & 0b1000 == 0 {
+                cur |= 1 << (value & 0b111);
+            } else {
+                cur &= !(1 << (value & 0b111));
+            }
+        }
+        result[self.len] = 0;
+        result
+    }
+    pub fn allowed_colours(&self) -> [u8; 32] {
+        let mut result = self.intersection_masks();
+        result
+            .iter_mut()
+            .for_each(|m| *m = !*m);
+        result
+    }
+    // Assumes that the segment is 'proper' (i.e. there is no segment that would be entirely contained within it) 
+    pub fn allowed_colours_for_segment(&self, segment_start: usize, segment_end: usize) -> u8 {
+        let masks = self.allowed_colours();
+        masks[segment_start] & masks[segment_end]
+    }
     pub fn flip(&mut self) {
         for i in 0..((self.len + 1) / 2) {
             let j = self.len - 1 - i;
@@ -87,8 +114,7 @@ impl State {
             let right = self.get_at_index(j);
             self.replace_at_index(i, right ^ 0b1000);
             self.replace_at_index(j, left ^ 0b1000);
-        }
-        self.limit_front = self.len - self.limit_back;
+        } 
         self.limit_back = self.len - self.limit_front;
     }
     fn find_first_end(&self) -> Option<usize> {

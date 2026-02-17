@@ -84,17 +84,51 @@ fn test_limit_back() {
 }
 
 #[test]
-fn test_intersections() {
+fn test_intersection_counts() {
     let state = State::from_string("A[BCDabcdA]a");
     let mut expected = vec![0, 1, 2, 3, 4, 3, 2, 1, 0, 1, 0];
     expected.extend(vec![0; 32 - expected.len()]);
-    assert_eq!(state.intersections().to_vec(), expected);
+    assert_eq!(state.intersection_counts().to_vec(), expected);
 }
 
 #[test]
-fn test_intersections_2() {
+fn test_intersection_counts_2() {
     let state = State::from_string("A[BCDabcBdAb]a");
     let mut expected = vec![0, 1, 2, 3, 4, 3, 2, 1, 2, 1, 2, 1, 0];
     expected.extend(vec![0; 32 - expected.len()]);
-    assert_eq!(state.intersections().to_vec(), expected);
+    assert_eq!(state.intersection_counts().to_vec(), expected);
+}
+
+#[test]
+fn test_intersection_masks() {
+    let state = State::from_string("A[BCDabcdA]a");
+    let mut expected = vec![
+        0b0, 0b1, 0b11, 0b111, 0b1111, 0b1110, 0b1100, 0b1000, 0b0, 0b1, 0b0,
+    ];
+    expected.extend(vec![0; 32 - expected.len()]);
+    assert_eq!(state.intersection_masks().to_vec(), expected);
+}
+
+#[test]
+fn test_intersection_masks_counts() {
+    let state = State::from_string("A[BCDabcdA]a");
+    assert_eq!(
+        state
+            .intersection_masks()
+            .iter()
+            .map(|v| v.count_ones())
+            .collect::<Vec<_>>(),
+        state.intersection_counts().to_vec()
+    );
+}
+
+
+#[test]
+fn test_allowed_colours_for_segment() {
+    let state = State::from_string("A[BCDabcdA]a");
+    assert_eq!(state.allowed_colours_for_segment(0, 4), 0b11110000);
+    assert_eq!(state.allowed_colours_for_segment(4, 10), 0b11110000);
+    assert_eq!(state.allowed_colours_for_segment(8, 8), !0);
+    assert_eq!(state.allowed_colours_for_segment(9, 9), !0 - 1);
+    assert_eq!(state.allowed_colours_for_segment(10, 10), !0);
 }
