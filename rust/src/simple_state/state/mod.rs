@@ -1,8 +1,11 @@
 #[cfg(test)]
 mod test;
 
-pub mod string;
 pub mod hash;
+pub mod string;
+
+pub const MAX_CLIQUE: u32 = 4;
+
 // Each `Event` is 4 bits,
 // 0 - 7 for start events (with colours) (first bit is 0 for start events)
 // 8 - 15 for end events (with colours) (first bit is 1 for end events)
@@ -75,7 +78,6 @@ impl State {
             } else {
                 cur -= 1;
             }
-            
         }
         result[self.len] = 0;
         result
@@ -99,13 +101,56 @@ impl State {
         let mut result = self.intersection_masks();
         result
             .iter_mut()
+            // Each colour that is not an intersectee is allowed, so we flip the bits
             .for_each(|m| *m = !*m);
         result
     }
-    // Assumes that the segment is 'proper' (i.e. there is no segment that would be entirely contained within it) 
+    // Assumes that the segment is 'proper' (i.e. there is no segment that would be entirely contained within it)
     pub fn allowed_colours_for_segment(&self, segment_start: usize, segment_end: usize) -> u8 {
         let masks = self.allowed_colours();
         masks[segment_start] & masks[segment_end]
+    }
+    pub fn valid_segment_ends(&self, segment_start: usize) -> (usize, usize) {
+        if segment_start < self.limit_front || segment_start > self.limit_back {
+            return (segment_start, segment_start)
+        }
+        let intersections = self.intersection_counts();
+        if intersections[segment_start] >= MAX_CLIQUE {
+            return (segment_start, segment_start)
+        }
+        let mut currently_opened = 0i8;
+        for i in 0..segment_start {
+            currently_opened += -1 + 2 * event_is_start(self.get_at_index(i)) as i8;
+        }
+
+        
+        let mut i = segment_start;
+        while i < self.limit_back {
+            if currently_opened == 0 {
+                break;
+            }
+            if intersections[i + 1] >= MAX_CLIQUE {
+                return (segment_start, segment_start)
+            }
+            if event_is_end(self.get_at_index(i)) {
+                currently_opened -= 1;
+            }
+            i += 1;
+        }
+        if currently_opened != 0 {
+            return (segment_start, segment_start)
+        }
+        let min_end = i;
+        while i < self.limit_back {
+            if intersections[i + 1] >= MAX_CLIQUE {
+                break
+            }
+            if event_is_end(self.get_at_index(i)) {
+                break
+            }
+            i+=1;
+        }
+        (min_end, i+1)
     }
     pub fn flip(&mut self) {
         for i in 0..((self.len + 1) / 2) {
@@ -114,7 +159,7 @@ impl State {
             let right = self.get_at_index(j);
             self.replace_at_index(i, right ^ 0b1000);
             self.replace_at_index(j, left ^ 0b1000);
-        } 
+        }
         self.limit_back = self.len - self.limit_front;
     }
     fn find_first_end(&self) -> Option<usize> {
@@ -140,12 +185,12 @@ impl State {
         self.data |= (value as u128) << shift;
     }
     #[inline(always)]
-    // Shifts all events starting from index to the left, effectively removing the event at index
+    // Shifts all events starting from (index + 1) to the left, effectively removing the event at index
     fn remove_at_index(&mut self, index: usize) {
         let shift = index * 4;
         let mask = (1u128 << shift) - 1;
         let upper = self.data & !mask & (!(0b1111 << shift));
-        let lower = self.data & mask ;
+        let lower = self.data & mask;
         self.data = upper >> 4 | lower;
         self.len -= 1;
         if index < self.limit_front {
@@ -177,4 +222,14 @@ impl State {
         self.insert_at_index(index_a, value_a);
         self.limit_back += 2;
     }
+}
+
+#[inline(always)]
+fn event_is_start(event: u8) -> bool {
+    event & 0b1000 == 0
+}
+
+#[inline(always)]
+fn event_is_end(event: u8) -> bool {
+    event & 0b1000 == 0b1000
 }

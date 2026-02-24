@@ -122,7 +122,6 @@ fn test_intersection_masks_counts() {
     );
 }
 
-
 #[test]
 fn test_allowed_colours_for_segment() {
     let state = State::from_string("A[BCDabcdA]a");
@@ -131,4 +130,58 @@ fn test_allowed_colours_for_segment() {
     assert_eq!(state.allowed_colours_for_segment(8, 8), !0);
     assert_eq!(state.allowed_colours_for_segment(9, 9), !0 - 1);
     assert_eq!(state.allowed_colours_for_segment(10, 10), !0);
+}
+
+#[test]
+fn test_allowed_segment_ends_empty() {
+    let state = State::from_string("[]");
+    assert_eq!(state.valid_segment_ends(0), (0, 1))
+}
+
+#[test]
+fn test_allowed_segment_ends_one() {
+    let state = State::from_string("[Aa]");
+    assert_eq!(state.valid_segment_ends(0), (0, 2));
+    assert_eq!(state.valid_segment_ends(1), (2, 3));
+    assert_eq!(state.valid_segment_ends(2), (2, 3));
+}
+
+#[test]
+fn test_allowed_segment_ends_two() {
+    let state = State::from_string("[AaBb]");
+    assert_eq!(state.valid_segment_ends(0), (0, 2));
+    assert_eq!(state.valid_segment_ends(1), (2, 4));
+    assert_eq!(state.valid_segment_ends(2), (2, 4));
+    assert_eq!(state.valid_segment_ends(3), (4, 5));
+    assert_eq!(state.valid_segment_ends(4), (4, 5));
+}
+
+#[test]
+fn test_allowed_segment_ends_two_limits() {
+    let state = State::from_string("[AaB]b");
+    assert_eq!(state.valid_segment_ends(0), (0, 2));
+    assert_eq!(state.valid_segment_ends(1), (2, 4));
+    assert_eq!(state.valid_segment_ends(2), (2, 4));
+    assert_eq!(state.valid_segment_ends(3), (3, 3));
+    assert_eq!(state.valid_segment_ends(4), (4, 4));
+}
+
+#[test]
+fn test_allowed_segment_ends_clique() {
+    let mut state = State::from_string("[]");
+    let max_clique = MAX_CLIQUE as usize;
+    for i in 0..max_clique {
+        state.insert_segment(i, i * 2, i as u8);
+    }
+    dbg!(state);
+    assert_eq!(state.valid_segment_ends(0), (0, max_clique));
+    for i in 1..=max_clique {
+        assert_eq!(state.valid_segment_ends(i), (i, i));
+    }
+    for i in max_clique + 1..2 * max_clique {
+        assert_eq!(
+            state.valid_segment_ends(i),
+            (2 * max_clique, 2 * max_clique + 1)
+        )
+    }
 }
