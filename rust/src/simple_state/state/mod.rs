@@ -1,10 +1,12 @@
 #[cfg(test)]
 mod test;
 
+pub mod generate_all;
 pub mod hash;
 pub mod string;
 
 pub const MAX_CLIQUE: u32 = 4;
+pub const EXPECTED_COLOURS: u32 = MAX_CLIQUE * 2 - 1;
 
 // Each `Event` is 4 bits,
 // 0 - 7 for start events (with colours) (first bit is 0 for start events)
@@ -31,10 +33,12 @@ impl State {
     pub fn insert_segment(&mut self, segment_start: usize, segment_end: usize, color: u8) {
         self.insert_at_indexes(segment_start, color, segment_end, color | 0b1000);
     }
+    #[inline(always)]
     pub fn remove_segment(&mut self, segment_start: usize, segment_end: usize) {
         self.remove_at_index(segment_end);
         self.remove_at_index(segment_start);
     }
+    #[inline(always)]
     pub fn move_limit_front(&mut self) {
         let first_end = self.find_first_end().unwrap();
         dbg!(first_end, self.len);
@@ -44,6 +48,7 @@ impl State {
         dbg!(&self);
         self.remove_at_index(0);
     }
+    #[inline(always)]
     pub fn move_limit_back(&mut self) {
         let last_start = self.find_last_start().unwrap();
         dbg!(last_start, self.len);
@@ -51,6 +56,7 @@ impl State {
         self.remove_at_index(last_start);
         self.remove_at_index(self.len - 1);
     }
+    #[inline(always)]
     pub fn normalize(&mut self) {
         let mut color_map = [0u8; 15];
         let mut next_color = 1;
@@ -67,6 +73,7 @@ impl State {
             }
         }
     }
+    #[inline(always)]
     pub fn intersection_counts(&self) -> [u32; 32] {
         let mut cur = 0;
         let mut result = [0; 32];
@@ -82,6 +89,7 @@ impl State {
         result[self.len] = 0;
         result
     }
+    #[inline(always)]
     pub fn intersection_masks(&self) -> [u8; 32] {
         let mut cur = 0;
         let mut result = [0; 32];
@@ -97,6 +105,14 @@ impl State {
         result[self.len] = 0;
         result
     }
+    #[inline(always)]
+    pub fn colours_used(&self) -> u32 {
+        self.intersection_masks()
+            .iter()
+            .fold(0u8, |acc, cur| acc | *cur)
+            .count_ones()
+    }
+    #[inline(always)]
     pub fn allowed_colours(&self) -> [u8; 32] {
         let mut result = self.intersection_masks();
         result
@@ -105,32 +121,33 @@ impl State {
             .for_each(|m| *m = !*m);
         result
     }
+    #[inline(always)]
     // Assumes that the segment is 'proper' (i.e. there is no segment that would be entirely contained within it)
     pub fn allowed_colours_for_segment(&self, segment_start: usize, segment_end: usize) -> u8 {
         let masks = self.allowed_colours();
         masks[segment_start] & masks[segment_end]
     }
+    #[inline(always)]
     pub fn valid_segment_ends(&self, segment_start: usize) -> (usize, usize) {
         if segment_start < self.limit_front || segment_start > self.limit_back {
-            return (segment_start, segment_start)
+            return (segment_start, segment_start);
         }
         let intersections = self.intersection_counts();
         if intersections[segment_start] >= MAX_CLIQUE {
-            return (segment_start, segment_start)
+            return (segment_start, segment_start);
         }
         let mut currently_opened = 0i8;
         for i in 0..segment_start {
             currently_opened += -1 + 2 * event_is_start(self.get_at_index(i)) as i8;
         }
 
-        
         let mut i = segment_start;
         while i < self.limit_back {
             if currently_opened == 0 {
                 break;
             }
             if intersections[i + 1] >= MAX_CLIQUE {
-                return (segment_start, segment_start)
+                return (segment_start, segment_start);
             }
             if event_is_end(self.get_at_index(i)) {
                 currently_opened -= 1;
@@ -138,20 +155,21 @@ impl State {
             i += 1;
         }
         if currently_opened != 0 {
-            return (segment_start, segment_start)
+            return (segment_start, segment_start);
         }
         let min_end = i;
         while i < self.limit_back {
             if intersections[i + 1] >= MAX_CLIQUE {
-                break
+                break;
             }
             if event_is_end(self.get_at_index(i)) {
-                break
+                break;
             }
-            i+=1;
+            i += 1;
         }
-        (min_end, i+1)
+        (min_end, i + 1)
     }
+    #[inline(always)]
     pub fn flip(&mut self) {
         for i in 0..((self.len + 1) / 2) {
             let j = self.len - 1 - i;
@@ -162,6 +180,7 @@ impl State {
         }
         self.limit_back = self.len - self.limit_front;
     }
+    #[inline(always)]
     fn find_first_end(&self) -> Option<usize> {
         for i in self.limit_front..self.len {
             if self.get_at_index(i) & 0b1000 != 0 {
@@ -170,6 +189,7 @@ impl State {
         }
         None
     }
+    #[inline(always)]
     fn find_last_start(&self) -> Option<usize> {
         for i in (0..self.limit_back).rev() {
             if self.get_at_index(i) & 0b1000 == 0 {

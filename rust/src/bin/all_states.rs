@@ -1,9 +1,6 @@
-use rand::{seq::SliceRandom, Rng};
+use rand::seq::SliceRandom;
 use segment_colouring::linear_axis::{
-    clicqued::ClicquedLinearAxis,
-    event::Event,
-    game::{self, Game},
-    normalization::NormalizedState,
+    clicqued::ClicquedLinearAxis,  normalization::NormalizedState,
     strategy::StrategyState,
 };
 
@@ -13,10 +10,11 @@ const MAX_CLICQUE: usize = 5;
 #[tokio::main]
 async fn main() {
     // test().await;
-    let mut axis = ClicquedLinearAxis::new(5);
-    let mut states = axis.generate_all_states_async(9, 6).await;
+    let mut axis = ClicquedLinearAxis::new(3);
+    let mut states = axis.generate_all_states_async(7, 0).await;
     states.sort_by_key(NormalizedState::colors_used);
     let mut agr = vec![vec![]; 10];
+    println!("{}", states.len());
     for s in states {
         agr[s.colors_used()].push(s);
     }
@@ -28,6 +26,7 @@ async fn main() {
     run_parallel_loop(&select).await;
 }
 
+#[allow(unused)]
 async fn process_state(index: usize, state: NormalizedState) -> (bool, usize) {
     let mut sum = 0;
     let mut axis = ClicquedLinearAxis::from_strategy_state(
@@ -35,7 +34,7 @@ async fn process_state(index: usize, state: NormalizedState) -> (bool, usize) {
         MAX_CLICQUE,
     );
     // let result = Game::with_axis(axis, 24, MAX_COLORS, None).simulate(3);
-    let result = axis.check_if_winning(2, &mut sum);
+    let result = axis.check_if_winning(0, &mut sum);
     if result {
         // println!("{}\\n\\n", axis.inner.to_string())
     }
@@ -77,24 +76,3 @@ async fn run_parallel_loop(select: &[NormalizedState]) {
     println!("Fail : {}", failures)
 }
 
-async fn test() {
-    let state = vec![
-        Event::new_start(0),
-        Event::new_start(1),
-        Event::new_start(2),
-        Event::new_start(3),
-        Event::new_end(0),
-        Event::new_end(1),
-        Event::new_end(2),
-        Event::new_end(3),
-        Event::new_start(4),
-        Event::new_start(5),
-        Event::new_start(6),
-        Event::new_start(7),
-        Event::new_end(4),
-        Event::new_end(5),
-        Event::new_end(6),
-        Event::new_end(7),
-    ];
-    dbg!(process_state(0, NormalizedState(state)).await);
-}
