@@ -18,7 +18,6 @@ pub const EXPECTED_COLOURS: u32 = MAX_CLIQUE * 2 - 1;
 // limit_front range: 0-31, (5 bits) 
 // limit_back  range: 0-31, (5 bits) 
 #[derive(Clone, Copy, PartialEq, Eq)]
-#[repr(C)]
 pub struct State {
     pub data: u128,
 }
