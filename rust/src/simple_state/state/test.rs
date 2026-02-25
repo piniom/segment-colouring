@@ -33,7 +33,7 @@ fn test_state_remove_at_index() {
     assert_eq!(state.get_at_index(0), 3);
     assert_eq!(state.get_at_index(1), 4);
     assert_eq!(state.get_at_index(2), 2);
-    assert_eq!(state.len, 3);
+    assert_eq!(state.len(), 3);
 }
 
 #[test]

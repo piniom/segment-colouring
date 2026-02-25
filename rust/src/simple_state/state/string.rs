@@ -3,14 +3,14 @@ use super::*;
 impl State {
     pub fn to_string(&self) -> String {
         let mut result = String::new();
-        for i in 0..=self.len {
-            if self.limit_front == i {
+        for i in 0..=self.len() {
+            if self.limit_front() == i {
                 result.push('[');
             }
-            if self.limit_back == i {
+            if self.limit_back() == i {
                 result.push(']');
             }
-            if self.len <= i {
+            if self.len() <= i {
                 break;
             }
             let value = self.get_at_index(i);
@@ -27,11 +27,11 @@ impl State {
         let mut result = Self::new();
         for c in s.chars() {
             match c {
-                '[' => result.limit_front = result.len,
-                ']' => result.limit_back = result.len,
-                'A'..='H' => result.insert_at_index(result.len, (c as u8 - 'A' as u8) & 0b0111),
+                '[' => result.set_limit_front(result.len()),
+                ']' => result.set_limit_back(result.len()),
+                'A'..='H' => result.insert_at_index(result.len(), (c as u8 - 'A' as u8) & 0b0111),
                 'a'..='h' => {
-                    result.insert_at_index(result.len, ((c as u8 - 'a' as u8) & 0b0111) | 0b1000)
+                    result.insert_at_index(result.len(), ((c as u8 - 'a' as u8) & 0b0111) | 0b1000)
                 }
                 _ => panic!("Invalid character in string representation of state"),
             }
@@ -44,9 +44,9 @@ impl std::fmt::Debug for State {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("State")
             .field("data", &self.to_string().replace("[", "").replace("]", ""))
-            .field("len", &self.len)
-            .field("limit_front", &self.limit_front)
-            .field("limit_back", &self.limit_back)
+            .field("len", &self.len())
+            .field("limit_front", &self.limit_front())
+            .field("limit_back", &self.limit_back())
             .finish()
     }
 }
@@ -84,8 +84,8 @@ mod test {
         state.insert_at_index(2, 2);
         state.insert_at_index(3, 3);
         state.insert_at_index(4, 4);
-        state.limit_front = 1;
-        state.limit_back = 4;
+        state.set_limit_front(1);
+        state.set_limit_back(4);
         let s = state.to_string();
         assert_eq!(s, "A[BCD]E");
         let parsed = State::from_string(&s);
