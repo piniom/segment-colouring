@@ -11,56 +11,66 @@ pub const EXPECTED_COLOURS: u32 = MAX_CLIQUE * 2 - 1;
 // Each `Event` is 4 bits,
 // 0 - 7 for start events (with colours) (first bit is 0 for start events)
 // 8 - 15 for end events (with colours) (first bit is 1 for end events)
-// We can store 32 events in u128
+// Layout: 
+// 28 Events                (112 bits)
+// padding                  (1 bit)
+// len,        range: 0-31, (5 bits) 
+// limit_front range: 0-31, (5 bits) 
+// limit_back  range: 0-31, (5 bits) 
 #[derive(Clone, Copy, PartialEq, Eq)]
 #[repr(C)]
 pub struct State {
     pub data: u128,
-    pub len: u8,
-    pub limit_front: u8,
-    pub limit_back: u8,
 }
 
 impl State {
     pub fn new() -> Self {
         Self {
             data: 0,
-            len: 0,
-            limit_front: 0,
-            limit_back: 0,
         }
     }
     #[inline(always)]
     pub fn data(&self) -> u128 {
-        self.data
+        self.data & 0x0000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
     }
     #[inline(always)]
     pub fn set_data(&mut self, value: u128) {
-        self.data = value;
+        let value = value & 0x0000FFFFFFFFFFFFFFFFFFFFFFFFFFFF;
+        self.data &= 0xFFFF0000000000000000000000000000;
+        self.data |= value;
     }
+    // len: bits 112-116
     #[inline(always)]
     pub fn set_len(&mut self, value: u8) {
-        self.len = value;
-    }
-    #[inline(always)]
-    pub fn set_limit_front(&mut self, value: u8) {
-        self.limit_front = value;
-    }
-    #[inline(always)]
-    pub fn set_limit_back(&mut self, value: u8) {
-        self.limit_back = value;
+        let value = value & 0b1_1111;
+        self.data &= !(0b1_1111 << 112);
+        self.data |= (value as u128) << 112;
     }
     #[inline(always)]
     pub fn len(&self) -> u8 {
-        self.len
+        ((self.data >> 112) & 0b1_1111) as u8
+    }
+    // limit_front: bits 117-121
+    #[inline(always)]
+    pub fn set_limit_front(&mut self, value: u8) {
+        let value = value & 0b1_1111;
+        self.data &= !(0b1_1111 << 117);
+        self.data |= (value as u128) << 117;
     }
     #[inline(always)]
     pub fn limit_front(&self) -> u8 {
-        self.limit_front
+        ((self.data >> 117) & 0b1_1111) as u8
+    }
+    // limit_back: bits 122-126
+    #[inline(always)]
+    pub fn set_limit_back(&mut self, value: u8) {
+        let value = value & 0b1_1111;
+        self.data &= !(0b1_1111 << 122);
+        self.data |= (value as u128) << 122;
     }
     #[inline(always)]
     pub fn limit_back(&self) -> u8 {
-        self.limit_back
+        ((self.data >> 122) & 0b1_1111) as u8
     }
     // Assumes that the segment is within the limits
     #[inline(always)]
