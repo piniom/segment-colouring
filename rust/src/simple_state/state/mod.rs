@@ -5,7 +5,7 @@ pub mod generate_all;
 pub mod hash;
 pub mod string;
 
-pub const MAX_CLIQUE: u32 = 4;
+pub const MAX_CLIQUE: u32 = 3;
 pub const EXPECTED_COLOURS: u32 = MAX_CLIQUE * 2 - 1;
 
 // Each `Event` is 4 bits,
@@ -13,6 +13,7 @@ pub const EXPECTED_COLOURS: u32 = MAX_CLIQUE * 2 - 1;
 // 8 - 15 for end events (with colours) (first bit is 1 for end events)
 // We can store 32 events in u128
 #[derive(Clone, Copy, PartialEq, Eq)]
+#[repr(C)]
 pub struct State {
     pub data: u128,
     pub len: u8,
@@ -30,6 +31,7 @@ impl State {
         }
     }
     // Assumes that the segment is within the limits
+    #[inline(always)]
     pub fn insert_segment(&mut self, segment_start: u8, segment_end: u8, color: u8) {
         self.insert_at_indexes(segment_start, color, segment_end, color | 0b1000);
     }
@@ -239,7 +241,7 @@ impl State {
     // Assumes that the segment is within the limits
     fn insert_at_indexes(&mut self, index_a: u8, value_a: u8, index_b: u8, value_b: u8) {
         self.insert_at_index(index_b, value_b);
-        self.insert_at_index(index_a, value_a);
+        self.insert_at_index(index_a, value_a) ;
         self.limit_back += 2;
     }
 }

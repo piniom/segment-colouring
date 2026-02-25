@@ -11,7 +11,7 @@ const MAX_CLICQUE: usize = 5;
 async fn main() {
     // test().await;
     let mut axis = ClicquedLinearAxis::new(3);
-    let mut states = axis.generate_all_states_async(7, 0).await;
+    let mut states = axis.generate_all_states_async(10, 0).await;
     states.sort_by_key(NormalizedState::colors_used);
     let mut agr = vec![vec![]; 10];
     println!("{}", states.len());
