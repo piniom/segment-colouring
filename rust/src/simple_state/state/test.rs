@@ -169,7 +169,7 @@ fn test_allowed_segment_ends_two_limits() {
 #[test]
 fn test_allowed_segment_ends_clique() {
     let mut state = State::from_string("[]");
-    let max_clique = MAX_CLIQUE as usize;
+    let max_clique = MAX_CLIQUE as u8;
     for i in 0..max_clique {
         state.insert_segment(i, i * 2, i as u8);
     }

@@ -15,9 +15,9 @@ pub const EXPECTED_COLOURS: u32 = MAX_CLIQUE * 2 - 1;
 #[derive(Clone, Copy, PartialEq, Eq)]
 pub struct State {
     pub data: u128,
-    pub len: usize,
-    pub limit_front: usize,
-    pub limit_back: usize,
+    pub len: u8,
+    pub limit_front: u8,
+    pub limit_back: u8,
 }
 
 impl State {
@@ -30,7 +30,7 @@ impl State {
         }
     }
     // Assumes that the segment is within the limits
-    pub fn insert_segment(&mut self, segment_start: usize, segment_end: usize, color: u8) {
+    pub fn insert_segment(&mut self, segment_start: u8, segment_end: u8, color: u8) {
         self.insert_at_indexes(segment_start, color, segment_end, color | 0b1000);
     }
     #[inline(always)]
@@ -42,9 +42,9 @@ impl State {
     pub fn move_limit_front(&mut self) {
         let first_end = self.find_first_end().unwrap();
         dbg!(first_end, self.len);
-        self.limit_front = first_end;
+        self.limit_front = first_end as u8;
         dbg!(&self);
-        self.remove_at_index(first_end);
+        self.remove_at_index(first_end as usize);
         dbg!(&self);
         self.remove_at_index(0);
     }
@@ -52,9 +52,9 @@ impl State {
     pub fn move_limit_back(&mut self) {
         let last_start = self.find_last_start().unwrap();
         dbg!(last_start, self.len);
-        self.limit_back = last_start;
-        self.remove_at_index(last_start);
-        self.remove_at_index(self.len - 1);
+        self.limit_back = last_start as u8;
+        self.remove_at_index(last_start as usize);
+        self.remove_at_index(self.len as usize - 1);
     }
     #[inline(always)]
     pub fn normalize(&mut self) {
@@ -78,7 +78,7 @@ impl State {
         let mut cur = 0;
         let mut result = [0; 32];
         for i in 0..self.len {
-            result[i] = cur;
+            result[i as usize] = cur;
             let value = self.get_at_index(i);
             if value & 0b1000 == 0 {
                 cur += 1;
@@ -86,7 +86,7 @@ impl State {
                 cur -= 1;
             }
         }
-        result[self.len] = 0;
+        result[self.len as usize] = 0;
         result
     }
     #[inline(always)]
@@ -94,7 +94,7 @@ impl State {
         let mut cur = 0;
         let mut result = [0; 32];
         for i in 0..self.len {
-            result[i] = cur;
+            result[i as usize] = cur;
             let value = self.get_at_index(i);
             if value & 0b1000 == 0 {
                 cur |= 1 << (value & 0b111);
@@ -102,7 +102,7 @@ impl State {
                 cur &= !(1 << (value & 0b111));
             }
         }
-        result[self.len] = 0;
+        result[self.len as usize] = 0;
         result
     }
     #[inline(always)]
@@ -123,17 +123,17 @@ impl State {
     }
     #[inline(always)]
     // Assumes that the segment is 'proper' (i.e. there is no segment that would be entirely contained within it)
-    pub fn allowed_colours_for_segment(&self, segment_start: usize, segment_end: usize) -> u8 {
+    pub fn allowed_colours_for_segment(&self, segment_start: u8, segment_end: u8) -> u8 {
         let masks = self.allowed_colours();
-        masks[segment_start] & masks[segment_end]
+        masks[segment_start as usize] & masks[segment_end as usize]
     }
     #[inline(always)]
-    pub fn valid_segment_ends(&self, segment_start: usize) -> (usize, usize) {
+    pub fn valid_segment_ends(&self, segment_start: u8) -> (u8, u8) {
         if segment_start < self.limit_front || segment_start > self.limit_back {
             return (segment_start, segment_start);
         }
         let intersections = self.intersection_counts();
-        if intersections[segment_start] >= MAX_CLIQUE {
+        if intersections[segment_start as usize] >= MAX_CLIQUE {
             return (segment_start, segment_start);
         }
         let mut currently_opened = 0i8;
@@ -146,7 +146,7 @@ impl State {
             if currently_opened == 0 {
                 break;
             }
-            if intersections[i + 1] >= MAX_CLIQUE {
+            if intersections[i as usize + 1] >= MAX_CLIQUE {
                 return (segment_start, segment_start);
             }
             if event_is_end(self.get_at_index(i)) {
@@ -159,7 +159,7 @@ impl State {
         }
         let min_end = i;
         while i < self.limit_back {
-            if intersections[i + 1] >= MAX_CLIQUE {
+            if intersections[i as usize + 1] >= MAX_CLIQUE {
                 break;
             }
             if event_is_end(self.get_at_index(i)) {
@@ -181,7 +181,7 @@ impl State {
         self.limit_back = self.len - self.limit_front;
     }
     #[inline(always)]
-    fn find_first_end(&self) -> Option<usize> {
+    fn find_first_end(&self) -> Option<u8> {
         for i in self.limit_front..self.len {
             if self.get_at_index(i) & 0b1000 != 0 {
                 return Some(i);
@@ -190,7 +190,7 @@ impl State {
         None
     }
     #[inline(always)]
-    fn find_last_start(&self) -> Option<usize> {
+    fn find_last_start(&self) -> Option<u8> {
         for i in (0..self.limit_back).rev() {
             if self.get_at_index(i) & 0b1000 == 0 {
                 return Some(i);
@@ -199,7 +199,7 @@ impl State {
         None
     }
     #[inline(always)]
-    fn replace_at_index(&mut self, index: usize, value: u8) {
+    fn replace_at_index(&mut self, index: u8, value: u8) {
         let shift = index * 4;
         self.data &= !(0b1111 << shift);
         self.data |= (value as u128) << shift;
@@ -213,21 +213,21 @@ impl State {
         let lower = self.data & mask;
         self.data = upper >> 4 | lower;
         self.len -= 1;
-        if index < self.limit_front {
+        if index < self.limit_front as usize {
             self.limit_front -= 1;
         }
-        if index < self.limit_back {
+        if index < self.limit_back as usize {
             self.limit_back -= 1;
         }
     }
     #[inline(always)]
-    fn get_at_index(&self, index: usize) -> u8 {
+    fn get_at_index(&self, index: u8) -> u8 {
         let shift = index * 4;
         ((self.data >> shift) & 0b1111) as u8
     }
     #[inline(always)]
     // Shifts all events starting from index to the right and inserts the new value at index
-    fn insert_at_index(&mut self, index: usize, value: u8) {
+    fn insert_at_index(&mut self, index: u8, value: u8) {
         let shift = index * 4;
         let mask = (1u128 << shift) - 1;
         let upper = self.data & !mask;
@@ -237,7 +237,7 @@ impl State {
     }
     #[inline(always)]
     // Assumes that the segment is within the limits
-    fn insert_at_indexes(&mut self, index_a: usize, value_a: u8, index_b: usize, value_b: u8) {
+    fn insert_at_indexes(&mut self, index_a: u8, value_a: u8, index_b: u8, value_b: u8) {
         self.insert_at_index(index_b, value_b);
         self.insert_at_index(index_a, value_a);
         self.limit_back += 2;
