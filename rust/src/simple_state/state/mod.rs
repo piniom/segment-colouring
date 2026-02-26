@@ -105,7 +105,7 @@ impl State {
         let mut next_color = 1;
         for i in 0..self.len() {
             let value = self.get_at_index(i);
-            if value & 0b1000 == 0 {
+            if event_is_start(value) {
                 if color_map[value as usize] == 0 {
                     color_map[value as usize] = next_color;
                     next_color += 1;
