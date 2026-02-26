@@ -69,6 +69,20 @@ fn test_state_flip_2() {
 }
 
 #[test]
+fn test_state_flip_limits() {
+    let mut state = State::from_string("A[Ba]b");
+    state.flip();
+    assert_eq!(state.to_string(), "B[Ab]a");
+}
+
+#[test]
+fn test_state_flip_limits_2() {
+    let mut state = State::from_string("A[BCa]bc");
+    state.flip();
+    assert_eq!(state.to_string(), "CB[Acb]a");
+}
+
+#[test]
 fn test_limit_front() {
     let mut state = State::from_string("[ABCDabcd]");
     assert_eq!(state.to_string(), "[ABCDabcd]");

@@ -214,14 +214,17 @@ impl State {
     }
     #[inline(always)]
     pub fn flip(&mut self) {
-        for i in 0..((self.len() + 1) / 2) {
-            let j = self.len() - 1 - i;
+        let len = self.len();
+        for i in 0..((len + 1) / 2) {
+            let j = len - 1 - i;
             let left = self.get_at_index(i);
             let right = self.get_at_index(j);
             self.replace_at_index(i, right ^ 0b1000);
             self.replace_at_index(j, left ^ 0b1000);
         }
+        let old_limit_back = self.limit_back();
         self.set_limit_back(self.len() - self.limit_front());
+        self.set_limit_front(self.len() - old_limit_back);
     }
     #[inline(always)]
     fn find_first_end(&self) -> Option<u8> {
