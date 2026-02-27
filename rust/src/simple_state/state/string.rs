@@ -1,6 +1,7 @@
 use super::*;
 
-impl State {
+
+impl<const MAX_CLIQUE: u32>  State<MAX_CLIQUE> {
     pub fn to_string(&self) -> String {
         let mut result = String::new();
         for i in 0..=self.len() {
@@ -40,7 +41,7 @@ impl State {
     }
 }
 
-impl std::fmt::Debug for State {
+impl<const MAX_CLIQUE: u32>  std::fmt::Debug for State<MAX_CLIQUE>  {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("State")
             .field("data", &self.to_string().replace("[", "").replace("]", ""))
@@ -51,7 +52,7 @@ impl std::fmt::Debug for State {
     }
 }
 
-impl std::fmt::Display for State {
+impl<const MAX_CLIQUE: u32>  std::fmt::Display for State<MAX_CLIQUE>  {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.to_string())
     }
@@ -78,7 +79,7 @@ mod test {
 
     #[test]
     fn test_string_conversion() {
-        let mut state = State::new();
+        let mut state = State::<4>::new();
         state.insert_at_index(0, 0);
         state.insert_at_index(1, 1);
         state.insert_at_index(2, 2);
@@ -93,7 +94,7 @@ mod test {
     }
     #[test]
     fn test_string_conversion_empty() {
-        let state = State::new();
+        let state = State::<4>::new();
         let s = state.to_string();
         assert_eq!(s, "[]");
         let parsed = State::from_string(&s);
@@ -112,7 +113,7 @@ mod test {
             (1, 2, 7),
             (0, 2, 4),
         ];
-        let mut state = State::new();
+        let mut state = State::<4>::new();
         for i in segments {
             state.insert_segment(i.0, i.1, i.2);
         }

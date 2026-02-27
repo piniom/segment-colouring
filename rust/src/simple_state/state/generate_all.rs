@@ -1,6 +1,6 @@
-use crate::simple_state::state::{State, EXPECTED_COLOURS};
+use crate::simple_state::state::{State};
 
-impl State {
+impl<const MAX_CLIQUE: u32>  State<MAX_CLIQUE> {
     pub fn generate_all(&self, depth: usize) -> Vec<Self> {
         if depth == 0 {
             let mut clone = self.clone();
@@ -11,7 +11,7 @@ impl State {
         let mut states = vec![];
         for end in ends_start..ends_end {
             let allowed = self.allowed_colours_for_segment(0, end);
-            for c in 0..EXPECTED_COLOURS.min(self.colours_used() + 1) {
+            for c in 0..Self::EXPECTED_COLOURS.min(self.colours_used() + 1) {
                 if !(allowed >> c) & 0b1 == 1 {
                     continue;
                 }

@@ -5,9 +5,6 @@ pub mod generate_all;
 pub mod hash;
 pub mod string;
 
-pub const MAX_CLIQUE: u32 = 3;
-pub const EXPECTED_COLOURS: u32 = MAX_CLIQUE * 2 - 1;
-
 // Each `Event` is 4 bits,
 // 0 - 7 for start events (with colours) (first bit is 0 for start events)
 // 8 - 15 for end events (with colours) (first bit is 1 for end events)
@@ -18,15 +15,20 @@ pub const EXPECTED_COLOURS: u32 = MAX_CLIQUE * 2 - 1;
 // limit_front range: 0-31, (5 bits) 
 // limit_back  range: 0-31, (5 bits) 
 #[derive(Clone, Copy, PartialEq, Eq)]
-pub struct State {
+pub struct State<const MAX_CLIQUE: u32> {
     pub data: u128,
 }
 
-impl State {
+impl<const MAX_CLIQUE: u32>  State<MAX_CLIQUE> {
+    pub const EXPECTED_COLOURS: u32 = MAX_CLIQUE * 2 - 1;
     pub fn new() -> Self {
         Self {
             data: 0,
         }
+    }
+     #[inline(always)]
+    pub const fn max_clique(&self) -> u32 {
+        MAX_CLIQUE
     }
     #[inline(always)]
     pub fn data(&self) -> u128 {
