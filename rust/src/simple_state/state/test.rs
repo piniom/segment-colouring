@@ -139,11 +139,11 @@ fn test_intersection_masks_counts() {
 #[test]
 fn test_allowed_colours_for_segment() {
     let state = State::<4>::from_string("A[BCDabcdA]a");
-    assert_eq!(state.allowed_colours_for_segment(0, 4), 0b11110000);
-    assert_eq!(state.allowed_colours_for_segment(4, 10), 0b11110000);
-    assert_eq!(state.allowed_colours_for_segment(8, 8), !0);
-    assert_eq!(state.allowed_colours_for_segment(9, 9), !0 - 1);
-    assert_eq!(state.allowed_colours_for_segment(10, 10), !0);
+    assert_eq!(state.allowed_colours_for_segment_bits(0, 4), 0b11110000);
+    assert_eq!(state.allowed_colours_for_segment_bits(4, 10), 0b11110000);
+    assert_eq!(state.allowed_colours_for_segment_bits(8, 8), !0);
+    assert_eq!(state.allowed_colours_for_segment_bits(9, 9), !0 - 1);
+    assert_eq!(state.allowed_colours_for_segment_bits(10, 10), !0);
 }
 
 #[test]

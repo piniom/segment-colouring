@@ -151,7 +151,7 @@ impl<const MAX_CLIQUE: u32>  State<MAX_CLIQUE> {
         result
     }
     #[inline(always)]
-    pub fn colours_used(&self) -> u32 {
+    pub fn colours_used_count(&self) -> u32 {
         self.intersection_masks()
             .iter()
             .fold(0u8, |acc, cur| acc | *cur)
@@ -162,15 +162,20 @@ impl<const MAX_CLIQUE: u32>  State<MAX_CLIQUE> {
         let mut result = self.intersection_masks();
         result
             .iter_mut()
-            // Each colour that is not an intersectee is allowed, so we flip the bits
+            // Each colour that is not an intersect is allowed, so we flip the bits
             .for_each(|m| *m = !*m);
         result
     }
     #[inline(always)]
     // Assumes that the segment is 'proper' (i.e. there is no segment that would be entirely contained within it)
-    pub fn allowed_colours_for_segment(&self, segment_start: u8, segment_end: u8) -> u8 {
+    pub fn allowed_colours_for_segment_bits(&self, segment_start: u8, segment_end: u8) -> u8 {
         let masks = self.allowed_colours();
         masks[segment_start as usize] & masks[segment_end as usize]
+    }
+    #[inline(always)]
+    pub fn allowed_colours_for_segment(&self, segment_start: u8, segment_end: u8) -> impl Iterator<Item = u32> {
+        let bits = self.allowed_colours_for_segment_bits(segment_start, segment_end);
+        (0..(Self::EXPECTED_COLOURS - 1).min(self.colours_used_count() + 1)).filter(move |i| (bits & (1 << i)) != 0)
     }
     #[inline(always)]
     pub fn valid_segment_ends(&self, segment_start: u8) -> (u8, u8) {
