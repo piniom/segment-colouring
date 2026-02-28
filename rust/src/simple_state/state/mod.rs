@@ -20,7 +20,7 @@ pub struct State<const MAX_CLIQUE: u32> {
 }
 
 impl<const MAX_CLIQUE: u32>  State<MAX_CLIQUE> {
-    pub const EXPECTED_COLOURS: u32 = MAX_CLIQUE * 2 - 1;
+    pub const EXPECTED_COLOURS: u8 = MAX_CLIQUE as u8* 2 - 1;
     pub fn new() -> Self {
         Self {
             data: 0,
@@ -151,11 +151,11 @@ impl<const MAX_CLIQUE: u32>  State<MAX_CLIQUE> {
         result
     }
     #[inline(always)]
-    pub fn colours_used_count(&self) -> u32 {
+    pub fn colours_used_count(&self) -> u8 {
         self.intersection_masks()
             .iter()
             .fold(0u8, |acc, cur| acc | *cur)
-            .count_ones()
+            .count_ones() as u8
     }
     #[inline(always)]
     pub fn allowed_colours(&self) -> [u8; 32] {
@@ -173,7 +173,7 @@ impl<const MAX_CLIQUE: u32>  State<MAX_CLIQUE> {
         masks[segment_start as usize] & masks[segment_end as usize]
     }
     #[inline(always)]
-    pub fn allowed_colours_for_segment(&self, segment_start: u8, segment_end: u8) -> impl Iterator<Item = u32> {
+    pub fn allowed_colours_for_segment(&self, segment_start: u8, segment_end: u8) -> impl Iterator<Item = u8> {
         let bits = self.allowed_colours_for_segment_bits(segment_start, segment_end);
         (0..(Self::EXPECTED_COLOURS - 1).min(self.colours_used_count() + 1)).filter(move |i| (bits & (1 << i)) != 0)
     }

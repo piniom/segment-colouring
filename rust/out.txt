@@ -1,0 +1,8 @@
+2 3
+[] 0 0
+[Aa] 0 0
+[AaAa] 1 2
+[ABabAa] 3 5
+[AaBb] 0 0
+[AaAaBb] 3 5
+[AaBbAa] 1 3

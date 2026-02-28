@@ -1,7 +1,8 @@
 use crate::simple_state::state::State;
 
-pub mod state;
 pub mod find;
+pub mod state;
+pub mod print_strategy;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Move(u8, u8);
@@ -13,10 +14,11 @@ pub struct StateWithMove<'a, const MAX_CLIQUE: u32> {
 }
 
 impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {
+    // This can be done on bits as well but that is probably not necessary 
     pub fn allowed_colours_count(&self) -> u8 {
         self.state
-            .allowed_colours_for_segment_bits(self.move_.0, self.move_.1)
-            .count_ones() as u8
+            .allowed_colours_for_segment(self.move_.0, self.move_.1)
+            .count() as u8
     }
     pub fn outcomes(&'a self) -> impl Iterator<Item = State<MAX_CLIQUE>> + use<'a, MAX_CLIQUE> {
         self.state

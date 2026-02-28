@@ -6,7 +6,7 @@ default-run = "segment-colouring"
 
 [dependencies]
 ahash = "0.8.12"
-clap = { version = "4.5.23", features = ["derive"] }
+clap = { version = "4.5.60", features = ["derive"] }
 futures = "0.3.31"
 rand = "0.9.1"
 serde = { version = "1.0.219", features = ["derive"] }
