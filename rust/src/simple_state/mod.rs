@@ -1,19 +1,11 @@
-use ahash::HashMap;
-
 use crate::simple_state::state::State;
 
 pub mod state;
+pub mod find;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Move(u8, u8);
 
-#[derive(Debug, Default)]
-pub enum Visited {
-    #[default]
-    No,
-    Active,
-    Winning(Move),
-}
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct StateWithMove<'a, const MAX_CLIQUE: u32> {
     state: &'a State<MAX_CLIQUE>,
@@ -38,7 +30,6 @@ impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {
 }
 
 impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
-    pub fn find_strategy(&self, _map: &mut HashMap<Self, Visited>) {}
     pub fn moves<'a>(
         &'a self,
     ) -> impl Iterator<Item = StateWithMove<'a, MAX_CLIQUE>> + use<'a, MAX_CLIQUE> {

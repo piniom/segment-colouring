@@ -5,6 +5,9 @@ impl<const MAX_CLIQUE: u32>  State<MAX_CLIQUE> {
         if depth == 0 {
             let mut clone = self.clone();
             clone.normalize();
+            clone.flip();
+            clone.limit_front();
+            clone.limit_back();
             return vec![clone];
         }
         let mut states = vec![];
