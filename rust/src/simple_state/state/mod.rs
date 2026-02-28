@@ -222,13 +222,14 @@ impl<const MAX_CLIQUE: u32>  State<MAX_CLIQUE> {
     #[inline(always)]
     pub fn flip(&mut self) {
         let len = self.len();
-        for i in 0..((len + 1) / 2) {
-            let j = len - 1 - i;
-            let left = self.get_at_index(i);
-            let right = self.get_at_index(j);
-            self.replace_at_index(i, right ^ 0b1000);
-            self.replace_at_index(j, left ^ 0b1000);
+        let mut new_data: u128 = 0;
+        for i in 0..len {
+            let orig_shift = (len - 1 - i) * 4;
+            let event = ((self.data >> orig_shift) & 0b1111) as u8;
+            let flipped = event ^ 0b1000;
+            new_data |= (flipped as u128) << (i * 4);
         }
+        self.set_data(new_data);
         let old_limit_back = self.limit_back();
         self.set_limit_back(self.len() - self.limit_front());
         self.set_limit_front(self.len() - old_limit_back);
