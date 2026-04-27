@@ -139,7 +139,7 @@ impl<const MAX_CLIQUE: u32> StrategyGraphPrinter<MAX_CLIQUE> {
                     "  \\node[vertex] ({}) at ({}, {}) {{{}}};",
                     idx,
                     x,
-                    -(y as f32) * 2f32,
+                    -(y as f32) * 1.5f32,
                     state
                 )?;
                 node_idx_by_state.insert(*state, idx);
