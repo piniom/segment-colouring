@@ -35,7 +35,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
                 search_state.map.insert(*self, Visited::Active(count - 1));
             }
             Visited::No => {
-                search_state.map.insert(*self, Visited::Active(1));
+                search_state.map.insert(*self, Visited::Active(0));
             }
         }
 
@@ -51,7 +51,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         }
 
         let mut moves = self.moves().collect::<Vec<_>>();
-        moves.sort_by_key(|sm| sm.allowed_colours_count());
+        moves.sort_by_key(|sm| (self.max_clique() as i32 / 2 - 1).abs_diff(sm.allowed_colours_count() as i32));
 
         for move_ in moves {
             if move_.find_strategy(search_state, depth, max_size) {
