@@ -1,24 +1,24 @@
 use ahash::{HashMap, HashMapExt};
-use segment_colouring::simple_state::{find::Visited, state::State};
+use segment_colouring::simple_state::{find::{Visited, SearchState}, state::State};
 
 fn main() {
-    let state = State::<4>::new();
-    let mut map = HashMap::new();
-    let result = state.find_strategy(&mut map, 50, 11);
+    let state = State::<3>::new();
+    let mut search_state = SearchState { map: HashMap::new() };
+    let result = state.find_strategy(&mut search_state, 50, 7);
     println!("{:?}", result);
-    if result {
-        let mut file = std::fs::File::create("out.txt").unwrap();
-        state.print_strategy(&map, &mut file);
-    }
-    println!("Visited states: {}", map.len());
+    println!("Visited states: {}", search_state.map.len());
     println!(
         "Winning states {}",
-        map.values()
+        search_state.map.values()
             .filter(|v| if let Visited::Winning(_) = v {
                 true
             } else {
                 false
             })
             .count()
-    )
+    );
+    if result {
+        let mut file = std::fs::File::create("out.txt").unwrap();
+        state.print_strategy(&search_state, &mut file);
+    }
 }
