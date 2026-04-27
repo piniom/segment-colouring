@@ -21,12 +21,15 @@ impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {
             .count() as u8
     }
     pub fn outcomes(&'a self) -> impl Iterator<Item = State<MAX_CLIQUE>> + use<'a, MAX_CLIQUE> {
+        self.outcomes_with_colours().map(|(o, _)| o)
+    }
+    pub fn outcomes_with_colours(&'a self) -> impl Iterator<Item = (State<MAX_CLIQUE>, u8)> + use<'a, MAX_CLIQUE> {
         self.state
             .allowed_colours_for_segment(self.move_.0, self.move_.1)
             .map(move |c| {
                 let mut clone = self.state.clone();
                 clone.insert_segment(self.move_.0, self.move_.1, c as u8);
-                clone
+                (clone, c)
             })
     }
 }

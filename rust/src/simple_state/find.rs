@@ -11,8 +11,17 @@ pub enum Visited {
     Winning(Move),
 }
 
+#[derive(Debug, Clone, Copy)]
+pub enum Reduction {
+    Front,
+    Back
+}
+
+
+#[derive(Debug, Default, Clone)]
 pub struct SearchState<const MAX_CLIQUE: u32> {
     pub map: HashMap<State<MAX_CLIQUE>, Visited>,
+    pub reductees: HashMap<State<MAX_CLIQUE>, (State<MAX_CLIQUE>, Reduction)>
 }
 
 impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
@@ -51,7 +60,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         }
 
         let mut moves = self.moves().collect::<Vec<_>>();
-        moves.sort_by_key(|sm| (self.max_clique() as i32 / 2 - 1).abs_diff(sm.allowed_colours_count() as i32));
+        moves.sort_by_key(|sm| sm.allowed_colours_count());
 
         for move_ in moves {
             if move_.find_strategy(search_state, depth, max_size) {
