@@ -49,4 +49,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     pub fn with_move<'a>(&'a self, move_: Move) -> StateWithMove<'a, MAX_CLIQUE> {
         StateWithMove { state: self, move_ }
     }
+    pub fn flip_move(&self, move_: Move) -> Move {
+        Move(self.len() - move_.1, self.len() - move_.0)
+    }
 }

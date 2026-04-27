@@ -12,3 +12,7 @@ Fail : 104284
 
 
 cargo run --release --bin all_states  20.53s user 0.13s system 876% cpu 2.356 total
+
+
+2 - 4
+3 - 7

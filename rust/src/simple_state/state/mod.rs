@@ -26,6 +26,9 @@ impl<const MAX_CLIQUE: u32>  State<MAX_CLIQUE> {
             data: 0,
         }
     }
+    pub fn size(&self) -> u8 {
+        self.len() / 2
+    }
      #[inline(always)]
     pub const fn max_clique(&self) -> u32 {
         MAX_CLIQUE
@@ -102,7 +105,11 @@ impl<const MAX_CLIQUE: u32>  State<MAX_CLIQUE> {
         self.remove_at_index(self.len() as usize - 1);
     }
     #[inline(always)]
-    pub fn normalize(&mut self) {
+    pub fn normalize(&mut self) -> bool {
+        self.normalize_inner(true)
+    }
+    #[inline(always)]
+    pub fn normalize_inner(&mut self, with_flip: bool) -> bool {
         let mut color_map = [0u8; 15];
         let mut next_color = 1;
         for i in 0..self.len() {
@@ -116,6 +123,18 @@ impl<const MAX_CLIQUE: u32>  State<MAX_CLIQUE> {
             } else {
                 self.replace_at_index(i, color_map[(value & 0b111) as usize] - 1 | 0b1000);
             }
+        }
+        if !with_flip {
+            return false
+        }
+        let mut flipped = *self;
+        flipped.flip();
+        flipped.normalize_inner(false);
+        if flipped.data < self.data {
+            *self = flipped;
+            true
+        } else {
+            false
         }
     }
     #[inline(always)]
