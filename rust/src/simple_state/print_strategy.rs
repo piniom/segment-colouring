@@ -83,7 +83,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
             printer.edges.push(StrategyGraphEdge {
                 source: norm,
                 target: result,
-                label: format!("[{}, {}] - {}", move_.0, move_.1, ('A' as u8 + colour) as char),
+                label: format!("!({}, {})!", move_.0, move_.1),
             });
         }
 
@@ -93,7 +93,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
             printer.edges.push(StrategyGraphEdge {
                 source: norm,
                 target: child_norm,
-                label: format!("[{}, {}] - {}", move_.0, move_.1, ('A' as u8 + c) as char),
+                label: format!("({}, {}):{}", move_.0, move_.1, ('A' as u8 + c) as char),
             });
             child.graph_strategy_inner(search_state, printer);
         }
