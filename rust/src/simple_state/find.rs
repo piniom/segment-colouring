@@ -67,6 +67,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
                 return true;
             }
         }
+
         false
     }
 }
@@ -78,12 +79,6 @@ impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {
         depth: usize,
         max_size: u8,
     ) -> bool {
-        if self.allowed_colours() == <State<MAX_CLIQUE>>::EXPECTED_COLOURS as usize - 1 {
-            let mut norm = *self.state;
-            norm.normalize();
-            search_state.map.insert(norm, Visited::Losing);
-            return false;
-        }
         for color in self
             .state
             .allowed_colours_for_segment(self.move_.0, self.move_.1)
@@ -93,7 +88,7 @@ impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {
             if !(clone.find_strategy(search_state, depth - 1, max_size)) {
                 let mut norm = *self.state;
                 norm.normalize();
-                search_state.map.insert(norm, Visited::Losing);
+                // search_state.map.insert(norm, Visited::Losing);
                 return false;
             }
         }
@@ -106,6 +101,7 @@ impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {
         search_state.map.insert(norm, Visited::Winning(move_));
         return true;
     }
+    #[allow(dead_code)]
     fn allowed_colours(&self) -> usize {
         self.state
             .allowed_colours_for_segment(self.move_.0, self.move_.1)
