@@ -78,7 +78,7 @@ impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {
         depth: usize,
         max_size: u8,
     ) -> bool {
-        if self.allowed_colours() >= MAX_CLIQUE as usize + 1 {
+        if self.allowed_colours() == <State<MAX_CLIQUE>>::EXPECTED_COLOURS as usize - 1 {
             let mut norm = *self.state;
             norm.normalize();
             search_state.map.insert(norm, Visited::Losing);
