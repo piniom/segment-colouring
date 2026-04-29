@@ -6,7 +6,7 @@ use crate::simple_state::{state::State, Move, StateWithMove};
 pub enum Visited {
     #[default]
     No,
-    Active(u8),
+    Active,
     Losing,
     Winning(Move),
 }
@@ -37,14 +37,9 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         match search_state.map.get(self).copied().unwrap_or_default() {
             Visited::Winning(_) => return true,
             Visited::Losing => return false,
-            Visited::Active(count) => {
-                if count == 0 {
-                    return false;
-                }
-                search_state.map.insert(*self, Visited::Active(count - 1));
-            }
+            Visited::Active => return false,
             Visited::No => {
-                search_state.map.insert(*self, Visited::Active(0));
+                search_state.map.insert(*self, Visited::Active);
             }
         }
 
@@ -67,7 +62,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
                 return true;
             }
         }
-
+        search_state.map.insert(*self, Visited::Losing);
         false
     }
 }

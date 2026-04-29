@@ -1,14 +1,28 @@
-use segment_colouring::simple_state::{find::{Visited, SearchState}, state::State};
+use segment_colouring::simple_state::{
+    find::{SearchState, Visited},
+    state::State,
+};
 
 fn main() {
     let state = State::<3>::new();
     let mut search_state = SearchState::default();
-    let result = state.find_strategy(&mut search_state, 20, 7);
-    println!("{:?}", result);
+    let result = state.find_strategy(&mut search_state, 7, 7);
+    for ws in search_state.map.iter().filter(|(_, v)| {
+        if let Visited::Winning(_) = v {
+            true
+        } else {
+            false
+        }
+    }).map(|(ws, _)| ws) {
+        print!("{ws}, ")
+    }
+    println!("\n\n{:?}", result);
     println!("Visited states: {}", search_state.map.len());
     println!(
         "Winning states {}",
-        search_state.map.values()
+        search_state
+            .map
+            .values()
             .filter(|v| if let Visited::Winning(_) = v {
                 true
             } else {
