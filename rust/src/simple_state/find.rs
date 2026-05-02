@@ -38,10 +38,10 @@ pub struct SearchState<const MAX_CLIQUE: u32> {
     pub reductees: HashMap<State<MAX_CLIQUE>, (State<MAX_CLIQUE>, Reduction)>,
 }
 
-impl <const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
+impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
     pub fn get_winning(&self, state: &State<MAX_CLIQUE>) -> Option<&Visited> {
         match self.map.get(state) {
-            v @Some(_) => v,
+            v @ Some(_) => v,
             None => {
                 let mut flip = *state;
                 flip.normalize_inner(false);
@@ -49,11 +49,11 @@ impl <const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
             }
         }
     }
-} 
+}
 
 #[derive(Debug, Clone, Copy)]
 pub enum FindStateResult {
-    True (FindBarrier),
+    True(FindBarrier),
     False,
 }
 
@@ -70,22 +70,34 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         depth: usize,
         max_size: u8,
     ) -> FindStateResult {
+        let mut norm = *self;
+        let was_flipped = norm.normalize();
+        let result = norm.find_strategy_inner(search_state, depth, max_size);
+        match result {
+            FindStateResult::True(mut barrier) => {
+                if was_flipped {
+                    barrier = barrier.flip();
+                };
+                FindStateResult::True(barrier)
+            }
+            FindStateResult::False => FindStateResult::False,
+        }
+    }
+    fn find_strategy_inner(
+        &self,
+        search_state: &mut SearchState<MAX_CLIQUE>,
+        depth: usize,
+        max_size: u8,
+    ) -> FindStateResult {
         if depth == 0 {
             return FindStateResult::False;
         }
-        let mut norm = *self;
-        let was_flipped = norm.normalize();
-        match search_state.map.get(&norm).copied().unwrap_or_default() {
-            Visited::Winning { mut barrier, ..} => {
-                if was_flipped {
-                    barrier = barrier.flip();
-                }
-                return FindStateResult::True(barrier);
-            },
+        match search_state.map.get(&self).copied().unwrap_or_default() {
+            Visited::Winning { barrier, .. } => return FindStateResult::True(barrier),
             Visited::Losing => return FindStateResult::False,
             Visited::Active => return FindStateResult::False,
             Visited::No => {
-                search_state.map.insert(norm, Visited::Active);
+                search_state.map.insert(*self, Visited::Active);
             }
         }
 
@@ -100,29 +112,24 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         //     return cloned.find_strategy(search_state, depth - 1, max_size);
         // }
 
-        let mut moves = norm.moves().collect::<Vec<_>>();
+        let mut moves = self.moves().collect::<Vec<_>>();
         moves.sort_by_key(|sm| sm.preferable_order());
 
         for move_ in moves {
-            if let FindMoveResult::True(mut barrier) =
+            if let FindMoveResult::True(barrier) =
                 move_.find_strategy(search_state, depth, max_size)
             {
                 search_state.map.insert(
-                    norm,
+                    *self,
                     Visited::Winning {
                         move_: move_.move_,
                         barrier,
                     },
                 );
-                if was_flipped {
-                    barrier = barrier.flip()
-                }
-                return FindStateResult::True (
-                    barrier,
-                );
+                return FindStateResult::True(barrier);
             }
         }
-        search_state.map.insert(norm, Visited::Losing);
+        search_state.map.insert(*self, Visited::Losing);
         FindStateResult::False
     }
 }
@@ -143,13 +150,14 @@ impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {
             clone.insert_segment(self.move_.0, self.move_.1, color);
             match clone.find_strategy(search_state, depth - 1, max_size) {
                 FindStateResult::False => return FindMoveResult::False,
-                FindStateResult::True (new_barrier) => barrier = barrier.confine(&new_barrier),
+                FindStateResult::True(new_barrier) => barrier = barrier.confine(&new_barrier),
             }
         }
         return FindMoveResult::True(barrier);
     }
     fn preferable_order(&self) -> (u8, u8) {
-        let confining_factor = self.move_.0 - self.state.limit_front() + self.state.limit_back() - self.state.limit_back();
+        let confining_factor = self.move_.0 - self.state.limit_front() + self.state.limit_back()
+            - self.state.limit_back();
         (self.allowed_colours_count(), confining_factor)
     }
     fn find_barrier(&self) -> FindBarrier {

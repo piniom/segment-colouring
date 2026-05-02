@@ -107,11 +107,19 @@ impl<const MAX_CLIQUE: u32>  State<MAX_CLIQUE> {
     }
     #[inline(always)]
     pub fn move_limit_front_by_one(&mut self) {
-        self.set_limit_front(self.limit_front() + 1);
+        if self.get_at_index(self.limit_front()) & 0b1000 != 0 {
+            self.move_limit_front();
+        } else {
+            self.set_limit_front(self.limit_front() + 1);
+        }
     }
     #[inline(always)]
     pub fn move_limit_back_by_one(&mut self) {
-        self.set_limit_back(self.limit_back() - 1);
+        if self.get_at_index(self.limit_back() - 1) & 0b1000 == 0 {
+            self.move_limit_back();
+        } else {
+            self.set_limit_back(self.limit_back() - 1);
+        }
     }
     #[inline(always)]
     pub fn normalize(&mut self) -> bool {

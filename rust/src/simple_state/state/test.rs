@@ -181,6 +181,28 @@ fn test_allowed_segment_ends_two_limits() {
 }
 
 #[test]
+fn test_limit_front_by_one() {
+    let mut state = State::<4>::from_string("[AaBb]");
+    state.move_limit_front_by_one();
+    assert_eq!(state.to_string(), "A[aBb]");
+    let mut state = State::<4>::from_string("A[aBb]");
+    state.move_limit_front_by_one();
+    state.normalize();
+    assert_eq!(state.to_string(), "[Aa]");
+}
+
+#[test]
+fn test_limit_back_by_one() {
+    let mut state = State::<4>::from_string("[AaBb]");
+    dbg!(state.limit_back());
+    state.move_limit_back_by_one();
+    assert_eq!(state.to_string(), "[AaB]b");
+    let mut state = State::<4>::from_string("[AaB]b");
+    state.move_limit_back_by_one();
+    assert_eq!(state.to_string(), "[Aa]");
+}
+
+#[test]
 fn test_allowed_segment_ends_clique() {
     let mut state = State::<5>::from_string("[]");
     let max_clique = state.max_clique() as u8;
