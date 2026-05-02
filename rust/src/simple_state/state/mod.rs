@@ -4,6 +4,7 @@ mod test;
 pub mod generate_all;
 pub mod hash;
 pub mod string;
+pub mod find_barrier;
 
 // Each `Event` is 4 bits,
 // 0 - 7 for start events (with colours) (first bit is 0 for start events)
@@ -56,7 +57,7 @@ impl<const MAX_CLIQUE: u32>  State<MAX_CLIQUE> {
     }
     // limit_front: bits 117-121
     #[inline(always)]
-    pub fn set_limit_front(&mut self, value: u8) {
+    fn set_limit_front(&mut self, value: u8) {
         let value = value & 0b1_1111;
         self.data &= !(0b1_1111 << 117);
         self.data |= (value as u128) << 117;
@@ -67,7 +68,7 @@ impl<const MAX_CLIQUE: u32>  State<MAX_CLIQUE> {
     }
     // limit_back: bits 122-126
     #[inline(always)]
-    pub fn set_limit_back(&mut self, value: u8) {
+    fn set_limit_back(&mut self, value: u8) {
         let value = value & 0b1_1111;
         self.data &= !(0b1_1111 << 122);
         self.data |= (value as u128) << 122;
@@ -103,6 +104,14 @@ impl<const MAX_CLIQUE: u32>  State<MAX_CLIQUE> {
         self.set_limit_back(last_start as u8);
         self.remove_at_index(last_start as usize);
         self.remove_at_index(self.len() as usize - 1);
+    }
+    #[inline(always)]
+    pub fn move_limit_front_by_one(&mut self) {
+        self.set_limit_front(self.limit_front() + 1);
+    }
+    #[inline(always)]
+    pub fn move_limit_back_by_one(&mut self) {
+        self.set_limit_back(self.limit_back() - 1);
     }
     #[inline(always)]
     pub fn normalize(&mut self) -> bool {

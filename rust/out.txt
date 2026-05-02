@@ -1,15 +1,15 @@
 3 5
 [] 0 0
-[Aa] 1 2
-[ABab] 4 4
-[ABabAa] 5 6
+[Aa] 0 1
+[ABab] 0 0
+[ABabBb] 4 5
 [ABabABab] 2 4
 [ABCabcABab] 4 7
 [ABCaDbcAdBab] 6 10
 [ABabCBcb] 5 7
 [ABabCDBcdb] 2 6
-[ABabBb] 4 5
+[ABabAa] 5 6
 [ABabCc] 5 6
-[ABabCAca] 3 6
+[ABabCAca] 2 5
 [ABCabDcAda] 4 8
 [ABabCDcd] 2 6
