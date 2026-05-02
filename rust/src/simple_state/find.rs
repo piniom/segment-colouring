@@ -157,7 +157,7 @@ impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {
     }
     fn preferable_order(&self) -> (u8, u8) {
         let confining_factor = self.move_.0 - self.state.limit_front() + self.state.limit_back()
-            - self.state.limit_back();
+            - self.move_.1;
         (self.allowed_colours_count(), confining_factor)
     }
     fn find_barrier(&self) -> FindBarrier {
