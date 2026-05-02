@@ -1,6 +1,6 @@
-use crate::simple_state::state::{State};
+use crate::simple_state::state::State;
 
-impl<const MAX_CLIQUE: u32>  State<MAX_CLIQUE> {
+impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     pub fn generate_all(&self, depth: usize) -> Vec<Self> {
         if depth == 0 {
             let mut clone = self.clone();

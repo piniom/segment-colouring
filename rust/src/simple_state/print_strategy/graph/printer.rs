@@ -2,7 +2,6 @@ use std::{collections::HashSet, io::Write};
 
 use crate::simple_state::state::State;
 
-
 #[derive(Debug, Clone, Default)]
 pub struct StrategyGraphPrinter<const MAX_CLIQUE: u32> {
     pub printed: HashSet<State<MAX_CLIQUE>>,

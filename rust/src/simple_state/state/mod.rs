@@ -1,36 +1,34 @@
 #[cfg(test)]
 mod test;
 
+pub mod find_barrier;
 pub mod generate_all;
 pub mod hash;
 pub mod string;
-pub mod find_barrier;
 
 // Each `Event` is 4 bits,
 // 0 - 7 for start events (with colours) (first bit is 0 for start events)
 // 8 - 15 for end events (with colours) (first bit is 1 for end events)
-// Layout: 
+// Layout:
 // 28 Events                (112 bits)
 // padding                  (1 bit)
-// len,        range: 0-31, (5 bits) 
-// limit_front range: 0-31, (5 bits) 
-// limit_back  range: 0-31, (5 bits) 
+// len,        range: 0-31, (5 bits)
+// limit_front range: 0-31, (5 bits)
+// limit_back  range: 0-31, (5 bits)
 #[derive(Clone, Copy, PartialEq, Eq)]
 pub struct State<const MAX_CLIQUE: u32> {
     pub data: u128,
 }
 
-impl<const MAX_CLIQUE: u32>  State<MAX_CLIQUE> {
-    pub const EXPECTED_COLOURS: u8 = MAX_CLIQUE as u8* 2 - 1;
+impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
+    pub const EXPECTED_COLOURS: u8 = MAX_CLIQUE as u8 * 2 - 1;
     pub fn new() -> Self {
-        Self {
-            data: 0,
-        }
+        Self { data: 0 }
     }
     pub fn size(&self) -> u8 {
         self.len() / 2
     }
-     #[inline(always)]
+    #[inline(always)]
     pub const fn max_clique(&self) -> u32 {
         MAX_CLIQUE
     }
@@ -142,7 +140,7 @@ impl<const MAX_CLIQUE: u32>  State<MAX_CLIQUE> {
             }
         }
         if !with_flip {
-            return false
+            return false;
         }
         let mut flipped = *self;
         flipped.flip();
@@ -209,9 +207,14 @@ impl<const MAX_CLIQUE: u32>  State<MAX_CLIQUE> {
         masks[segment_start as usize] & masks[segment_end as usize]
     }
     #[inline(always)]
-    pub fn allowed_colours_for_segment(&self, segment_start: u8, segment_end: u8) -> impl Iterator<Item = u8> {
+    pub fn allowed_colours_for_segment(
+        &self,
+        segment_start: u8,
+        segment_end: u8,
+    ) -> impl Iterator<Item = u8> {
         let bits = self.allowed_colours_for_segment_bits(segment_start, segment_end);
-        (0..(Self::EXPECTED_COLOURS - 1).min(self.colours_used_count() + 1)).filter(move |i| (bits & (1 << i)) != 0)
+        (0..(Self::EXPECTED_COLOURS - 1).min(self.colours_used_count() + 1))
+            .filter(move |i| (bits & (1 << i)) != 0)
     }
     #[inline(always)]
     pub fn valid_segment_ends(&self, segment_start: u8) -> (u8, u8) {

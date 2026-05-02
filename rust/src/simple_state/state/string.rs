@@ -1,7 +1,6 @@
 use super::*;
 
-
-impl<const MAX_CLIQUE: u32>  State<MAX_CLIQUE> {
+impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     pub fn to_string(&self) -> String {
         let mut result = String::new();
         for i in 0..=self.len() {
@@ -41,7 +40,7 @@ impl<const MAX_CLIQUE: u32>  State<MAX_CLIQUE> {
     }
 }
 
-impl<const MAX_CLIQUE: u32>  std::fmt::Debug for State<MAX_CLIQUE>  {
+impl<const MAX_CLIQUE: u32> std::fmt::Debug for State<MAX_CLIQUE> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("State")
             .field("data", &self.to_string().replace("[", "").replace("]", ""))
@@ -52,7 +51,7 @@ impl<const MAX_CLIQUE: u32>  std::fmt::Debug for State<MAX_CLIQUE>  {
     }
 }
 
-impl<const MAX_CLIQUE: u32>  std::fmt::Display for State<MAX_CLIQUE>  {
+impl<const MAX_CLIQUE: u32> std::fmt::Display for State<MAX_CLIQUE> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.to_string())
     }

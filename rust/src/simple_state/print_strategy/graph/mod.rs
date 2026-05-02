@@ -23,7 +23,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     ) {
         let mut norm = *self;
         norm.normalize();
-        let Some(Visited::Winning{move_, ..}) = search_state.get_winning(&norm) else {
+        let Some(Visited::Winning { move_, .. }) = search_state.get_winning(&norm) else {
             panic!("Strategy incomplete! {}", &norm)
         };
         if printer.printed.contains(&norm) {

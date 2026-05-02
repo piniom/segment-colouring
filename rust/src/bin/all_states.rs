@@ -1,7 +1,6 @@
 use rand::seq::SliceRandom;
 use segment_colouring::linear_axis::{
-    clicqued::ClicquedLinearAxis,  normalization::NormalizedState,
-    strategy::StrategyState,
+    clicqued::ClicquedLinearAxis, normalization::NormalizedState, strategy::StrategyState,
 };
 
 const MAX_COLORS: usize = 9;
@@ -75,4 +74,3 @@ async fn run_parallel_loop(select: &[NormalizedState]) {
     println!("Succ : {}", successes);
     println!("Fail : {}", failures)
 }
-
