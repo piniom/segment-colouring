@@ -57,12 +57,6 @@ pub enum FindStateResult {
     False,
 }
 
-#[derive(Debug, Clone, Copy)]
-pub enum FindMoveResult {
-    True(FindBarrier),
-    False,
-}
-
 impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     pub fn find_strategy(
         &self,
@@ -116,7 +110,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         moves.sort_by_key(|sm| sm.preferable_order());
 
         for move_ in moves {
-            if let FindMoveResult::True(barrier) =
+            if let FindStateResult::True(barrier) =
                 move_.find_strategy(search_state, depth, max_size)
             {
                 search_state.map.insert(
@@ -140,7 +134,7 @@ impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {
         search_state: &mut SearchState<MAX_CLIQUE>,
         depth: usize,
         max_size: u8,
-    ) -> FindMoveResult {
+    ) -> FindStateResult {
         let mut barrier = self.find_barrier();
         for color in self
             .state
@@ -149,11 +143,11 @@ impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {
             let mut clone = *self.state;
             clone.insert_segment(self.move_.0, self.move_.1, color);
             match clone.find_strategy(search_state, depth - 1, max_size) {
-                FindStateResult::False => return FindMoveResult::False,
+                FindStateResult::False => return FindStateResult::False,
                 FindStateResult::True(new_barrier) => barrier = barrier.confine(&new_barrier),
             }
         }
-        return FindMoveResult::True(barrier);
+        return FindStateResult::True(barrier);
     }
     fn preferable_order(&self) -> (u8, i8) {
         let confining_factor= self.move_.0 - self.state.limit_front() + self.state.limit_back()
