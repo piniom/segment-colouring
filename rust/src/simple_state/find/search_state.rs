@@ -26,7 +26,7 @@ impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
             .combine_barrier(state)
     }
     pub fn update_status(&mut self, state: &State<MAX_CLIQUE>, knowledge: StateKnowledge) {
-        let representative = Representative::new(state);
+        let representative = Representative::new(*state);
         let knowledge = knowledge.combine_barrier(state);
         let mut not_overridden = self
             .map
@@ -43,7 +43,7 @@ impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
         &'a self,
         state: &'a State<MAX_CLIQUE>,
     ) -> impl Iterator<Item = &'a StateKnowledge> {
-        let representative = Representative::new(state);
+        let representative = Representative::new(*state);
         self.map
             .get(&representative)
             .map(Vec::as_slice)
