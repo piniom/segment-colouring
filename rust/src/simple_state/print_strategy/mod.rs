@@ -3,11 +3,11 @@ use std::io::Write;
 use ahash::{HashSet, HashSetExt};
 
 use crate::simple_state::{
-    find::{SearchState, Visited},
+    find::search_state::{SearchState, StateKnowledgeStatus, WinningMove},
     state::State,
 };
 
-pub mod graph;
+// pub mod graph;
 
 impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     pub fn print_strategy(&self, search_state: &SearchState<MAX_CLIQUE>, w: &mut impl Write) {
@@ -22,15 +22,18 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     ) {
         let mut norm = *self;
         norm.normalize();
-        let Some(Visited::Winning { move_, .. }) = search_state.map.get(&norm) else {
+        let StateKnowledgeStatus::Winning(move_) = search_state.get_knowledge(&norm).status else {
             panic!("Strategy incomplete! {}", &norm)
+        };
+        let WinningMove::Move(move_) = move_ else {
+            unimplemented!("Reduction move")
         };
         if printed.contains(&norm) {
             return;
         }
         writeln!(w, "{} {} {}", norm.to_string(), move_.0, move_.1).unwrap();
         printed.insert(norm);
-        for child in norm.with_move(*move_).outcomes() {
+        for child in norm.with_move(move_).outcomes() {
             child.print_strategy_inner(search_state, w, printed);
         }
     }

@@ -4,6 +4,7 @@ mod test;
 pub mod find_barrier;
 pub mod generate_all;
 pub mod hash;
+pub mod representative;
 pub mod string;
 
 // Each `Event` is 4 bits,
@@ -111,6 +112,21 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
             self.set_limit_front(self.limit_front() + 1);
         }
     }
+
+    #[inline(always)]
+    pub fn front_moved(&self) -> Self {
+        let mut cloned = *self;
+        cloned.move_limit_front_by_one();
+        cloned
+    }
+
+    #[inline(always)]
+    pub fn back_moved(&self) -> Self {
+        let mut cloned = *self;
+        cloned.move_limit_back_by_one();
+        cloned
+    }
+
     #[inline(always)]
     pub fn move_limit_back_by_one(&mut self) {
         if self.get_at_index(self.limit_back() - 1) & 0b1000 == 0 {
