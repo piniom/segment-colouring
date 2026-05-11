@@ -11,48 +11,52 @@ pub enum Reduction {
     Back,
 }
 
+#[derive(Debug, Clone, Default)]
+pub struct RepresentativeKnowledge {
+    barriered: Vec<BarrieredKnowledge>,
+}
+
 #[derive(Debug, Default, Clone)]
 pub struct SearchState<const MAX_CLIQUE: u32> {
-    pub map: HashMap<Representative<MAX_CLIQUE>, Vec<StateKnowledge>>,
-    pub reductees: HashMap<State<MAX_CLIQUE>, (State<MAX_CLIQUE>, Reduction)>,
+    pub map: HashMap<Representative<MAX_CLIQUE>, RepresentativeKnowledge>,
 }
 
 impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
-    pub fn get_knowledge(&self, state: &State<MAX_CLIQUE>) -> StateKnowledge {
+    pub fn get_knowledge(&self, state: &State<MAX_CLIQUE>) -> BarrieredKnowledge {
         self.get_applicable(state)
             .min_by_key(|sk| sk.status.success_key())
             .cloned()
             .unwrap_or_default()
             .combine_barrier(state)
     }
-    pub fn update_status(&mut self, state: &State<MAX_CLIQUE>, knowledge: StateKnowledge) {
+    pub fn update_status(&mut self, state: &State<MAX_CLIQUE>, knowledge: BarrieredKnowledge) {
         let state = state.set_barrier_as_limits(&state.representative_barrier(knowledge.barrier));
-        let knowledge = StateKnowledge::with_default_barrier(knowledge.status);
+        let knowledge = BarrieredKnowledge::with_default_barrier(knowledge.status);
         for substate in state.substates() {
             self.update_status_inner(&substate, knowledge);
         }
     }
-    fn update_status_inner(&mut self, state: &State<MAX_CLIQUE>, knowledge: StateKnowledge) {
+    fn update_status_inner(&mut self, state: &State<MAX_CLIQUE>, knowledge: BarrieredKnowledge) {
         let representative = Representative::new(*state);
-        let knowledge = knowledge.combine_barrier(state);
-        let mut new_knowledges = self
-            .map
-            .remove(&representative)
-            .unwrap_or_default()
+        let barriered = knowledge.combine_barrier(state);
+        let mut knowledge = self.map.remove(&representative).unwrap_or_default();
+        knowledge.barriered = knowledge
+            .barriered
             .into_iter()
-            .filter(|sk| sk.should_not_be_overridden_by(&knowledge))
-            .collect::<Vec<_>>();
-        new_knowledges.push(knowledge);
-        self.map.insert(representative, new_knowledges);
+            .filter(|sk| sk.should_not_be_overridden_by(&barriered))
+            .collect();
+        knowledge.barriered.push(barriered);
+        self.map.insert(representative, knowledge);
     }
 
     fn get_applicable<'a>(
         &'a self,
         state: &'a State<MAX_CLIQUE>,
-    ) -> impl Iterator<Item = &'a StateKnowledge> {
+    ) -> impl Iterator<Item = &'a BarrieredKnowledge> {
         let representative = Representative::new(*state);
         self.map
             .get(&representative)
+            .map(|k| &k.barriered)
             .map(Vec::as_slice)
             .unwrap_or(&[])
             .iter()
@@ -61,25 +65,25 @@ impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
 }
 
 #[derive(Debug, Clone, Copy, Default)]
-pub struct StateKnowledge {
+pub struct BarrieredKnowledge {
     pub barrier: FindBarrier,
-    pub status: StateKnowledgeStatus,
+    pub status: FindStatus,
 }
 
-impl StateKnowledge {
+impl BarrieredKnowledge {
     pub fn new_winning(barrier: FindBarrier, move_: WinningMove) -> Self {
         Self {
             barrier,
-            status: StateKnowledgeStatus::Winning(move_),
+            status: FindStatus::Winning(move_),
         }
     }
     pub fn new_losing(depth: usize) -> Self {
-        Self::with_default_barrier(StateKnowledgeStatus::Losing { depth })
+        Self::with_default_barrier(FindStatus::Losing { depth })
     }
     pub fn new_in_progress() -> Self {
-        Self::with_default_barrier(StateKnowledgeStatus::InProgress)
+        Self::with_default_barrier(FindStatus::InProgress)
     }
-    pub fn with_default_barrier(status: StateKnowledgeStatus) -> Self {
+    pub fn with_default_barrier(status: FindStatus) -> Self {
         Self {
             barrier: FindBarrier::default(),
             status,
@@ -88,11 +92,11 @@ impl StateKnowledge {
     pub fn applies_to<const MAX_CLIQUE: u32>(&self, state: &State<MAX_CLIQUE>) -> bool {
         state.limits_to_barrier() >= self.barrier
     }
-    fn should_not_be_overridden_by(&self, other: &StateKnowledge) -> bool {
+    fn should_not_be_overridden_by(&self, other: &BarrieredKnowledge) -> bool {
         !self.might_be_overridden_by(other)
             && self.status.success_key() < other.status.success_key()
     }
-    fn might_be_overridden_by(&self, other: &StateKnowledge) -> bool {
+    fn might_be_overridden_by(&self, other: &BarrieredKnowledge) -> bool {
         other.barrier <= self.barrier
     }
     pub fn combine_barrier<const MAX_CLIQUE: u32>(&self, state: &State<MAX_CLIQUE>) -> Self {
@@ -104,7 +108,7 @@ impl StateKnowledge {
 }
 
 #[derive(Debug, Clone, Copy, Default)]
-pub enum StateKnowledgeStatus {
+pub enum FindStatus {
     Winning(WinningMove),
     Losing {
         depth: usize,
@@ -114,13 +118,13 @@ pub enum StateKnowledgeStatus {
     Unknown,
 }
 
-impl StateKnowledgeStatus {
+impl FindStatus {
     fn success_key(&self) -> usize {
         match self {
-            StateKnowledgeStatus::Winning(_) => 0,
-            StateKnowledgeStatus::InProgress => 1,
-            StateKnowledgeStatus::Losing { depth } => usize::MAX - 1 - *depth,
-            StateKnowledgeStatus::Unknown => usize::MAX,
+            FindStatus::Winning(_) => 0,
+            FindStatus::InProgress => 1,
+            FindStatus::Losing { depth } => usize::MAX - 1 - *depth,
+            FindStatus::Unknown => usize::MAX,
         }
     }
 }

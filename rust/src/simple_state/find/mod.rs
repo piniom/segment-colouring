@@ -50,14 +50,14 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         }
         let knowledge = search_state.get_knowledge(self);
         match knowledge.status {
-            StateKnowledgeStatus::Winning(_) => return FindResult::Winning(knowledge.barrier),
-            StateKnowledgeStatus::Losing { depth: old_depth } => {
+            FindStatus::Winning(_) => return FindResult::Winning(knowledge.barrier),
+            FindStatus::Losing { depth: old_depth } => {
                 if old_depth >= depth {
                     return FindResult::Losing;
                 }
             }
-            StateKnowledgeStatus::InProgress => return FindResult::Losing,
-            StateKnowledgeStatus::Unknown => {}
+            FindStatus::InProgress => return FindResult::Losing,
+            FindStatus::Unknown => {}
         }
 
         let mut moves = self.moves().collect::<Vec<_>>();
@@ -68,12 +68,12 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
             {
                 search_state.update_status(
                     self,
-                    StateKnowledge::new_winning(barrier, WinningMove::Move(move_.move_)),
+                    BarrieredKnowledge::new_winning(barrier, WinningMove::Move(move_.move_)),
                 );
                 return FindResult::Winning(barrier);
             }
         }
-        search_state.update_status(&self, StateKnowledge::new_losing(depth));
+        search_state.update_status(&self, BarrieredKnowledge::new_losing(depth));
         FindResult::Losing
     }
 }

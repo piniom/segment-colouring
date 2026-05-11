@@ -3,7 +3,7 @@ use std::io::Write;
 use ahash::{HashSet, HashSetExt};
 
 use crate::simple_state::{
-    find::search_state::{SearchState, StateKnowledgeStatus, WinningMove},
+    find::search_state::{SearchState, FindStatus, WinningMove},
     state::State,
 };
 
@@ -22,7 +22,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     ) {
         let mut norm = *self;
         norm.normalize();
-        let StateKnowledgeStatus::Winning(move_) = search_state.get_knowledge(&norm).status else {
+        let FindStatus::Winning(move_) = search_state.get_knowledge(&norm).status else {
             panic!("Strategy incomplete! {}", &norm)
         };
         let WinningMove::Move(move_) = move_ else {
