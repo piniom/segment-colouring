@@ -89,6 +89,15 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         search_state.update_status(&self, BarrieredKnowledge::new_losing(depth));
         FindResult::Losing
     }
+
+    // fn check_reductions(
+    //     &self,
+    //     search_state: &mut SearchState<MAX_CLIQUE>,
+    //     depth: usize,
+    //     max_size: u8,
+    // ) -> FindResult {
+
+    // }
 }
 
 impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {

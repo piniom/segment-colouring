@@ -11,9 +11,18 @@ pub enum Reduction {
     Back,
 }
 
+impl Reduction {
+    pub fn flip(&self) -> Self {
+        match self {
+            Reduction::Front => Reduction::Back,
+            Reduction::Back => Reduction::Front,
+        }
+    }
+}
+
 #[derive(Debug, Clone, Default)]
 pub struct RepresentativeKnowledge {
-    barriered: Vec<BarrieredKnowledge>, 
+    barriered: Vec<BarrieredKnowledge>,
 }
 
 #[derive(Debug, Default, Clone)]
@@ -33,12 +42,23 @@ impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
         let state = state.set_barrier_as_limits(&state.representative_barrier(knowledge.barrier));
         let knowledge = BarrieredKnowledge::with_default_barrier(knowledge.status);
         for substate in state.substates() {
-            self.update_status_inner(&substate, knowledge);
+            self.update_status_inner(&substate, knowledge)
         }
     }
-    fn update_status_inner(&mut self, state: &State<MAX_CLIQUE>, knowledge: BarrieredKnowledge) {
-        let representative = Representative::new(*state);
-        let barriered = knowledge.combine_barrier(state);
+    fn update_status_inner(
+        &mut self,
+        state: &State<MAX_CLIQUE>,
+        mut knowledge: BarrieredKnowledge,
+    ) {
+        let mut state = *state;
+        if state.normalize() {
+            knowledge.barrier = knowledge.barrier.flip();
+            if let FindStatus::Winning(move_) = &mut knowledge.status {
+                move_.flip(state);
+            }
+        }
+        let representative = Representative::new(state);
+        let barriered = knowledge.combine_barrier(&state);
         let mut knowledge = self.map.remove(&representative).unwrap_or_default();
         knowledge.barriered = knowledge
             .barriered
@@ -94,7 +114,7 @@ impl BarrieredKnowledge {
     }
     fn should_not_be_overridden_by(&self, other: &BarrieredKnowledge) -> bool {
         !self.might_be_overridden_by(other)
-            && self.status.success_key() < other.status.success_key()
+            && self.status.success_key() <= other.status.success_key()
     }
     fn might_be_overridden_by(&self, other: &BarrieredKnowledge) -> bool {
         other.barrier <= self.barrier
@@ -133,4 +153,13 @@ impl FindStatus {
 pub enum WinningMove {
     Move(Move),
     Reduction(Reduction),
+}
+
+impl WinningMove {
+    pub fn flip<const MAX_CLIQUE: u32>(&mut self, state: State<MAX_CLIQUE>) {
+        match self {
+            WinningMove::Move(move_) => *move_ = state.flip_move(*move_),
+            WinningMove::Reduction(reduction) => *reduction = reduction.flip(),
+        }
+    }
 }

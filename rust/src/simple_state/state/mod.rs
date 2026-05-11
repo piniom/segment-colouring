@@ -92,7 +92,8 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         let mut flipped = *self;
         flipped.flip();
         flipped.normalize_inner(false);
-        if flipped.data < self.data {
+        let ev_mask: u128 = 0x0000FFFFFFFFFFFFFFFFFFFFFFFFFFFF;
+        if flipped.data & ev_mask < self.data & ev_mask {
             *self = flipped;
             true
         } else {
