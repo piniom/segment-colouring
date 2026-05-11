@@ -20,6 +20,19 @@ pub enum FindResult {
 }
 
 impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
+    pub fn find_strategy_root(
+        &self,
+        search_state: &mut SearchState<MAX_CLIQUE>,
+        depth: usize,
+        max_size: u8,
+    ) -> FindResult {
+        for d in 2..=depth {
+            if let w @ FindResult::Winning(_) = self.find_strategy(search_state, d, max_size) {
+                return w;
+            }
+        }
+        return FindResult::Losing;
+    }
     pub fn find_strategy(
         &self,
         search_state: &mut SearchState<MAX_CLIQUE>,
@@ -108,5 +121,3 @@ impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {
         self.state.find_barrier(self.move_.0, self.move_.1)
     }
 }
-
-

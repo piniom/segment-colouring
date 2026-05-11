@@ -6,7 +6,7 @@ use segment_colouring::simple_state::{
 fn main() {
     let state = State::<3>::new();
     let mut search_state = SearchState::default();
-    let result = state.find_strategy(&mut search_state, 7, 7);
+    let result = state.find_strategy_root(&mut search_state, 10, 8);
     println!("\n\n{:?}", result);
     println!("Visited states: {}", search_state.map.len());
     if let FindResult::Winning { .. } = result {

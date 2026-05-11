@@ -13,7 +13,7 @@ pub enum Reduction {
 
 #[derive(Debug, Clone, Default)]
 pub struct RepresentativeKnowledge {
-    barriered: Vec<BarrieredKnowledge>,
+    barriered: Vec<BarrieredKnowledge>, 
 }
 
 #[derive(Debug, Default, Clone)]
