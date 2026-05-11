@@ -26,17 +26,24 @@ impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
             .combine_barrier(state)
     }
     pub fn update_status(&mut self, state: &State<MAX_CLIQUE>, knowledge: StateKnowledge) {
+        let state = state.set_barrier_as_limits(&state.representative_barrier(knowledge.barrier));
+        let knowledge = StateKnowledge::with_default_barrier(knowledge.status);
+        for substate in state.substates() {
+            self.update_status_inner(&substate, knowledge);
+        }
+    }
+    fn update_status_inner(&mut self, state: &State<MAX_CLIQUE>, knowledge: StateKnowledge) {
         let representative = Representative::new(*state);
         let knowledge = knowledge.combine_barrier(state);
-        let mut not_overridden = self
+        let mut new_knowledges = self
             .map
             .remove(&representative)
             .unwrap_or_default()
             .into_iter()
             .filter(|sk| sk.should_not_be_overridden_by(&knowledge))
             .collect::<Vec<_>>();
-        not_overridden.push(knowledge);
-        self.map.insert(representative, not_overridden);
+        new_knowledges.push(knowledge);
+        self.map.insert(representative, new_knowledges);
     }
 
     fn get_applicable<'a>(

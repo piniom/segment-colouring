@@ -6,6 +6,8 @@ pub mod generate_all;
 pub mod hash;
 pub mod representative;
 pub mod string;
+pub mod limits;
+pub mod substates;
 
 // Each `Event` is 4 bits,
 // 0 - 7 for start events (with colours) (first bit is 0 for start events)
@@ -54,28 +56,6 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     pub fn len(&self) -> u8 {
         ((self.data >> 112) & 0b1_1111) as u8
     }
-    // limit_front: bits 117-121
-    #[inline(always)]
-    fn set_limit_front(&mut self, value: u8) {
-        let value = value & 0b1_1111;
-        self.data &= !(0b1_1111 << 117);
-        self.data |= (value as u128) << 117;
-    }
-    #[inline(always)]
-    pub fn limit_front(&self) -> u8 {
-        ((self.data >> 117) & 0b1_1111) as u8
-    }
-    // limit_back: bits 122-126
-    #[inline(always)]
-    fn set_limit_back(&mut self, value: u8) {
-        let value = value & 0b1_1111;
-        self.data &= !(0b1_1111 << 122);
-        self.data |= (value as u128) << 122;
-    }
-    #[inline(always)]
-    pub fn limit_back(&self) -> u8 {
-        ((self.data >> 122) & 0b1_1111) as u8
-    }
     // Assumes that the segment is within the limits
     #[inline(always)]
     pub fn insert_segment(&mut self, segment_start: u8, segment_end: u8, color: u8) {
@@ -85,55 +65,6 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     pub fn remove_segment(&mut self, segment_start: usize, segment_end: usize) {
         self.remove_at_index(segment_end);
         self.remove_at_index(segment_start);
-    }
-    #[inline(always)]
-    pub fn move_limit_front(&mut self) {
-        let first_end = self.find_first_end().unwrap();
-        dbg!(first_end, self.len());
-        self.set_limit_front(first_end as u8);
-        dbg!(&self);
-        self.remove_at_index(first_end as usize);
-        dbg!(&self);
-        self.remove_at_index(0);
-    }
-    #[inline(always)]
-    pub fn move_limit_back(&mut self) {
-        let last_start = self.find_last_start().unwrap();
-        dbg!(last_start, self.len());
-        self.set_limit_back(last_start as u8);
-        self.remove_at_index(last_start as usize);
-        self.remove_at_index(self.len() as usize - 1);
-    }
-    #[inline(always)]
-    pub fn move_limit_front_by_one(&mut self) {
-        if self.get_at_index(self.limit_front()) & 0b1000 != 0 {
-            self.move_limit_front();
-        } else {
-            self.set_limit_front(self.limit_front() + 1);
-        }
-    }
-
-    #[inline(always)]
-    pub fn front_moved(&self) -> Self {
-        let mut cloned = *self;
-        cloned.move_limit_front_by_one();
-        cloned
-    }
-
-    #[inline(always)]
-    pub fn back_moved(&self) -> Self {
-        let mut cloned = *self;
-        cloned.move_limit_back_by_one();
-        cloned
-    }
-
-    #[inline(always)]
-    pub fn move_limit_back_by_one(&mut self) {
-        if self.get_at_index(self.limit_back() - 1) & 0b1000 == 0 {
-            self.move_limit_back();
-        } else {
-            self.set_limit_back(self.limit_back() - 1);
-        }
     }
     #[inline(always)]
     pub fn normalize(&mut self) -> bool {
@@ -288,24 +219,6 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         let old_limit_back = self.limit_back();
         self.set_limit_back(self.len() - self.limit_front());
         self.set_limit_front(self.len() - old_limit_back);
-    }
-    #[inline(always)]
-    fn find_first_end(&self) -> Option<u8> {
-        for i in self.limit_front()..self.len() {
-            if self.get_at_index(i) & 0b1000 != 0 {
-                return Some(i);
-            }
-        }
-        None
-    }
-    #[inline(always)]
-    fn find_last_start(&self) -> Option<u8> {
-        for i in (0..self.limit_back()).rev() {
-            if self.get_at_index(i) & 0b1000 == 0 {
-                return Some(i);
-            }
-        }
-        None
     }
     #[inline(always)]
     fn replace_at_index(&mut self, index: u8, value: u8) {

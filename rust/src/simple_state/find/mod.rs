@@ -109,10 +109,4 @@ impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {
     }
 }
 
-#[test]
-fn test() {
-    let mut s = State::<3>::from_string("[AaABCacb]");
-    s.flip();
-    s.normalize_inner(false);
-    panic!("{}", s.to_string())
-}
+
