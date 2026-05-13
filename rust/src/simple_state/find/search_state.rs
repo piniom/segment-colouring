@@ -36,14 +36,16 @@ impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
             .min_by_key(|sk| sk.status.success_key())
             .cloned()
             .unwrap_or_default()
-            .combine_barrier(state)
+            // .combine_barrier(state)
     }
     pub fn update_status(&mut self, state: &State<MAX_CLIQUE>, knowledge: BarrieredKnowledge) {
-        let state = state.set_barrier_as_limits(&state.representative_barrier(knowledge.barrier));
+        // println!("{state:?} {knowledge:?}");
+        // let state = state.set_barrier_as_limits(&state.representative_barrier(knowledge.barrier));
         let knowledge = BarrieredKnowledge::with_default_barrier(knowledge.status);
         for substate in state.substates() {
             self.update_status_inner(&substate, knowledge)
         }
+        // self.update_status_inner(state, knowledge);
     }
     fn update_status_inner(
         &mut self,
@@ -63,13 +65,31 @@ impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
         knowledge.barriered = knowledge
             .barriered
             .into_iter()
-            .filter(|sk| sk.should_not_be_overridden_by(&barriered))
+            .filter(|sk| !sk.might_be_overridden_by(&barriered))
             .collect();
-        knowledge.barriered.push(barriered);
+
+        if knowledge
+            .barriered
+            .iter()
+            .find(|sk| barriered.might_be_overridden_by(sk))
+            .is_none()
+        {
+            knowledge.barriered.push(barriered);
+        }
+
+        if state.is_symmetric() {
+            let mut barriered = barriered.clone();
+            barriered.barrier = barriered.barrier.flip();
+            if let FindStatus::Winning(move_) = &mut barriered.status {
+                move_.flip(state);
+            }
+            knowledge.barriered.push(barriered);
+        }
+
         self.map.insert(representative, knowledge);
     }
 
-    fn get_applicable<'a>(
+    pub fn get_applicable<'a>(
         &'a self,
         state: &'a State<MAX_CLIQUE>,
     ) -> impl Iterator<Item = &'a BarrieredKnowledge> {
@@ -91,17 +111,23 @@ pub struct BarrieredKnowledge {
 }
 
 impl BarrieredKnowledge {
-    pub fn new_winning(barrier: FindBarrier, move_: WinningMove) -> Self {
+    pub fn new_winning<const MAX_CLIQUE: u32>(state: &State<MAX_CLIQUE>, move_: WinningMove) -> Self {
         Self {
-            barrier,
+            barrier: state.limits_to_barrier(),
             status: FindStatus::Winning(move_),
         }
     }
-    pub fn new_losing(depth: usize) -> Self {
-        Self::with_default_barrier(FindStatus::Losing { depth })
+    pub fn new_losing<const MAX_CLIQUE: u32>(state: &State<MAX_CLIQUE>, depth: usize) -> Self {
+        Self {
+            barrier: state.limits_to_barrier(),
+            status: FindStatus::Losing { depth }
+        }
     }
-    pub fn new_in_progress() -> Self {
-        Self::with_default_barrier(FindStatus::InProgress)
+    pub fn new_in_progress<const MAX_CLIQUE: u32>(state: &State<MAX_CLIQUE>) -> Self {
+        Self {
+            barrier: state.limits_to_barrier(),
+            status: FindStatus::InProgress
+        }
     }
     pub fn with_default_barrier(status: FindStatus) -> Self {
         Self {
@@ -110,14 +136,22 @@ impl BarrieredKnowledge {
         }
     }
     pub fn applies_to<const MAX_CLIQUE: u32>(&self, state: &State<MAX_CLIQUE>) -> bool {
-        state.limits_to_barrier() >= self.barrier
-    }
-    fn should_not_be_overridden_by(&self, other: &BarrieredKnowledge) -> bool {
-        !self.might_be_overridden_by(other)
-            && self.status.success_key() <= other.status.success_key()
+        if self.status.is_winning() {
+            state.limits_to_barrier() >= self.barrier
+        } else {
+            state.limits_to_barrier() <= self.barrier
+        }
     }
     fn might_be_overridden_by(&self, other: &BarrieredKnowledge) -> bool {
-        other.barrier <= self.barrier
+        if self.status.is_winning() {
+             false
+        } else if self.status.success_key() < other.status.success_key() {
+            false
+        } else if other.status.is_winning() {
+            other.barrier <= self.barrier
+        } else {
+            other.barrier >= self.barrier
+        }
     }
     pub fn combine_barrier<const MAX_CLIQUE: u32>(&self, state: &State<MAX_CLIQUE>) -> Self {
         Self {
@@ -142,9 +176,15 @@ impl FindStatus {
     fn success_key(&self) -> usize {
         match self {
             FindStatus::Winning(_) => 0,
-            FindStatus::InProgress => 1,
             FindStatus::Losing { depth } => usize::MAX - 1 - *depth,
+            FindStatus::InProgress => usize::MAX - 1,
             FindStatus::Unknown => usize::MAX,
+        }
+    }
+    fn is_winning(&self) -> bool {
+        match self {
+            FindStatus::Winning(_) => true,
+            _ => false
         }
     }
 }

@@ -8,12 +8,6 @@ pub mod search_state;
 use search_state::*;
 
 #[derive(Debug, Clone, Copy)]
-pub enum Reduction {
-    Front,
-    Back,
-}
-
-#[derive(Debug, Clone, Copy)]
 pub enum FindResult {
     Winning(FindBarrier),
     Losing,
@@ -27,6 +21,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         max_size: u8,
     ) -> FindResult {
         for d in 2..=depth {
+            println!("{d}");
             if let w @ FindResult::Winning(_) = self.find_strategy(search_state, d, max_size) {
                 return w;
             }
@@ -58,10 +53,8 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         depth: usize,
         max_size: u8,
     ) -> FindResult {
-        if depth == 0 {
-            return FindResult::Losing;
-        }
         let knowledge = search_state.get_knowledge(self);
+        // println!("{knowledge:?}");
         match knowledge.status {
             FindStatus::Winning(_) => return FindResult::Winning(knowledge.barrier),
             FindStatus::Losing { depth: old_depth } => {
@@ -72,6 +65,22 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
             FindStatus::InProgress => return FindResult::Losing,
             FindStatus::Unknown => {}
         }
+        if depth == 0 {
+            search_state.update_status(&self, BarrieredKnowledge::new_losing(self, 0));
+            return FindResult::Losing;
+        }
+
+        search_state.update_status(&self, BarrieredKnowledge::new_in_progress(self));
+
+        if let w @ FindResult::Winning(_) = self.check_reductions(search_state, 1, max_size)
+        {
+            return w;
+        }
+
+        if self.size() >= max_size {
+            search_state.update_status(&self, BarrieredKnowledge::new_losing(&self, depth));
+            return FindResult::Losing;
+        }
 
         let mut moves = self.moves().collect::<Vec<_>>();
         moves.sort_by_key(|sm| sm.preferable_order());
@@ -81,23 +90,46 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
             {
                 search_state.update_status(
                     self,
-                    BarrieredKnowledge::new_winning(barrier, WinningMove::Move(move_.move_)),
+                    BarrieredKnowledge::new_winning(self, WinningMove::Move(move_.move_)),
                 );
                 return FindResult::Winning(barrier);
             }
         }
-        search_state.update_status(&self, BarrieredKnowledge::new_losing(depth));
+        search_state.update_status(&self, BarrieredKnowledge::new_losing(&self, depth));
         FindResult::Losing
     }
 
-    // fn check_reductions(
-    //     &self,
-    //     search_state: &mut SearchState<MAX_CLIQUE>,
-    //     depth: usize,
-    //     max_size: u8,
-    // ) -> FindResult {
+    fn check_reductions(
+        &self,
+        search_state: &mut SearchState<MAX_CLIQUE>,
+        depth: usize,
+        max_size: u8,
+    ) -> FindResult {
+        if let Some(FindResult::Winning(barrier)) = self
+            .try_moved_limit_front()
+            .map(|c| c.find_strategy(search_state, depth, max_size))
+        {
+            let barrier = barrier.limit_front();
+            search_state.update_status(
+                &self,
+                BarrieredKnowledge::new_winning(self, WinningMove::Reduction(Reduction::Front)),
+            );
+            return FindResult::Winning(barrier);
+        }
+        if let Some((_clone, FindResult::Winning(barrier))) = self
+            .try_moved_limit_back()
+            .map(|c| (c, c.find_strategy(search_state, depth, max_size)))
+        {
+            let barrier = barrier.limit_back();
+            search_state.update_status(
+                self,
+                BarrieredKnowledge::new_winning(self, WinningMove::Reduction(Reduction::Back)),
+            );
+            return FindResult::Winning(barrier);
+        }
 
-    // }
+        FindResult::Losing
+    }
 }
 
 impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {

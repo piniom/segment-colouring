@@ -5,11 +5,33 @@
 [ABabBb] 4 5
 [ABabABab] 2 4
 [ABCabcABab] 4 7
-[ABCaDbcAdBab] 6 10
+[ABCaDbcAdBab] >
+AB[CabDcAda] >
+AB[aCbDcd] 2 6
 [ABabCBcb] 5 7
-[ABabCDBcdb] 2 6
+[ABabCDBcdb] <
+[ABabCD]cd 2 6
 [ABabAa] 5 6
-[ABabCc] 5 6
+[ABabCc] 4 5
+[ABabBCbc] 0 0
+[ABabBCbcCc] 8 9
+[ABabACacCBcb] <
+A[aABabCBcb] >
+[ABabABabBCbc] <
+[ABabABabB]b <
+[ABabBCbcDCdc] >
+[ABabBCbcBb] 9 10
+[ABabCBcbBAba] <
+[ABabCBcbB]b <
+[ABabCBcbBDbd] <
+[ABabBCbcAa] 9 10
+[ABabCAcaABab] <
+[ABabCAcaA]a <
 [ABabCAca] 2 5
-[ABCabDcAda] 4 8
+[ABCabDcAda] >
+[ABabCDcdDBdb] <
+[ABabCDcdD]d <
 [ABabCDcd] 2 6
+[ABabBCbcDd] 9 10
+[ABabBCbcDAda] >
+[ABabBCbcDBdb] >

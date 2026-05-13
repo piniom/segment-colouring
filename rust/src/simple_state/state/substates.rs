@@ -11,6 +11,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
                 clone
             })
             .collect()
+        // vec![*self]
     }
     fn substate_combinations(&self) -> Vec<(usize, usize)> {
         let before = self.segments_before_start_count();

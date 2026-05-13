@@ -70,6 +70,18 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     pub fn normalize(&mut self) -> bool {
         self.normalize_inner(true)
     }
+     #[inline(always)]
+    pub fn is_symmetric(&self) -> bool {
+        let mut flipped = *self;
+        flipped.flip();
+        flipped.normalize_inner(false);
+        let ev_mask: u128 = 0x0000FFFFFFFFFFFFFFFFFFFFFFFFFFFF;
+        if flipped.data & ev_mask == self.data & ev_mask {
+            true
+        } else {
+            false
+        }
+    }
     #[inline(always)]
     pub fn normalize_inner(&mut self, with_flip: bool) -> bool {
         let mut color_map = [0u8; 15];

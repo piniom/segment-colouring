@@ -6,9 +6,12 @@ use segment_colouring::simple_state::{
 fn main() {
     let state = State::<3>::new();
     let mut search_state = SearchState::default();
-    let result = state.find_strategy_root(&mut search_state, 10, 8);
+    let result = state.find_strategy_root(&mut search_state, 7, 7);
     println!("\n\n{:?}", result);
     println!("Visited states: {}", search_state.map.len());
+    // for k in search_state.map.iter() {
+    //     println!("{k:?}");
+    // }
     if let FindResult::Winning { .. } = result {
         let mut file = std::fs::File::create("out.txt").unwrap();
         state.print_strategy(&search_state, &mut file);

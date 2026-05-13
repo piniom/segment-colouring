@@ -10,6 +10,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     pub fn limit_back(&self) -> u8 {
         ((self.data >> 122) & 0b1_1111) as u8
     }
+    
     #[inline(always)]
     pub fn move_limit_front(&mut self) {
         let first_end = self.find_first_end().unwrap();
@@ -29,6 +30,24 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         self.set_limit_back(last_start as u8);
         self.remove_at_index(last_start as usize);
         self.remove_at_index(self.len() as usize - 1);
+    }
+    #[inline(always)]
+    pub fn try_moved_limit_front(&self) -> Option<Self> {
+        let first_end = self.find_first_end()?;
+        let mut clone = *self;
+        clone.set_limit_front(first_end as u8);
+        clone.remove_at_index(first_end as usize);
+        clone.remove_at_index(0);
+        Some(clone)
+    }
+    #[inline(always)]
+    pub fn try_moved_limit_back(&self) -> Option<Self> {
+        let last_start = self.find_last_start()?;
+        let mut clone = *self;
+        clone.set_limit_back(last_start as u8);
+        clone.remove_at_index(last_start as usize);
+        clone.remove_at_index(self.len() as usize - 1);
+        Some(clone)
     }
     #[inline(always)]
     pub fn move_limit_back_n_times(&mut self, n: usize) {

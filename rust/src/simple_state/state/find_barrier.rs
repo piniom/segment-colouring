@@ -41,6 +41,21 @@ impl FindBarrier {
     pub fn flip(&self) -> Self {
         Self::new(self.back, self.front)
     }
+    pub fn limit_front(&self) -> Self {
+        Self {
+            front: self.front + 2,
+            back: self.back
+        }
+    }
+    pub fn limit_back(&self) -> Self {
+        Self {
+            front: self.front,
+            back: self.back + 2
+        }
+    }
+    pub fn limiting_factor(&self) -> i32 {
+        -((self.front + self.back) as i32)
+    }
 }
 
 impl PartialOrd for FindBarrier {
