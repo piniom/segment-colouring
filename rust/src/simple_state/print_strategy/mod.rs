@@ -41,23 +41,30 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         if printed.contains(&norm) {
             return;
         }
+        if norm.is_symmetric()
+            && printed.contains(&{
+                let mut flipped = norm.clone();
+                flipped.flip();
+                flipped.normalize_inner(false);
+                flipped
+            })
+        {
+            return;
+        }
         writeln!(w, "{} {}", norm.to_string(), move_str).unwrap();
         printed.insert(norm);
         match move_ {
             WinningMove::Move(move_) => {
                 for child in norm.with_move(move_).outcomes() {
-                    // println!("move");
                     child.print_strategy_inner(search_state, w, printed);
                 }
             }
             WinningMove::Reduction(Reduction::Front) => {
                 norm.move_limit_front();
-                // println!("limit_front");
                 norm.print_strategy_inner(search_state, w, printed);
             }
             WinningMove::Reduction(Reduction::Back) => {
                 norm.move_limit_back();
-                // println!("limit_front");
                 norm.print_strategy_inner(search_state, w, printed);
             }
         }

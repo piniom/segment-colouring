@@ -2,6 +2,7 @@ use crate::simple_state::{
     state::{find_barrier::FindBarrier, State},
     StateWithMove,
 };
+use std::{io::Write, time::Instant};
 
 pub mod search_state;
 
@@ -20,11 +21,15 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         depth: usize,
         max_size: u8,
     ) -> FindResult {
-        for d in 2..=depth {
-            println!("{d}");
+        for d in 7..=depth {
+            let start = Instant::now();
+            print!("{d}");
+            std::io::stdout().flush().unwrap();
             if let w @ FindResult::Winning(_) = self.find_strategy(search_state, d, max_size) {
+                println!(": {:?}", start.elapsed());
                 return w;
             }
+            println!(": {:?}", start.elapsed());
         }
         return FindResult::Losing;
     }
@@ -54,7 +59,6 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         max_size: u8,
     ) -> FindResult {
         let knowledge = search_state.get_knowledge(self);
-        // println!("{knowledge:?}");
         match knowledge.status {
             FindStatus::Winning(_) => return FindResult::Winning(knowledge.barrier),
             FindStatus::Losing { depth: old_depth } => {
@@ -72,7 +76,10 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
 
         search_state.update_status(&self, BarrieredKnowledge::new_in_progress(self));
 
-        if let w @ FindResult::Winning(_) = self.check_reductions(search_state, 1, max_size)
+        let reduction_search_depth = if self.size() >= max_size { depth } else { 1 };
+
+        if let w @ FindResult::Winning(_) =
+            self.check_reductions(search_state, reduction_search_depth, max_size)
         {
             return w;
         }

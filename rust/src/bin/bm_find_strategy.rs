@@ -3,17 +3,21 @@ use segment_colouring::simple_state::{
     state::State,
 };
 
+const MAX_CLIQUE: u32 = 4;
+const DEPTH: usize = 13;
+const MAX_SIZE: u8 = 8;
+const FILENAME: &str = "out5.txt";
+
 fn main() {
-    let state = State::<3>::new();
+    println!("Out: {FILENAME} (MQ: {MAX_CLIQUE}, D: {DEPTH}, MS: {MAX_SIZE})");
+    let state = State::<MAX_CLIQUE>::new();
     let mut search_state = SearchState::default();
-    let result = state.find_strategy_root(&mut search_state, 7, 7);
+    let result = state.find_strategy_root(&mut search_state, DEPTH, MAX_SIZE);
     println!("\n\n{:?}", result);
     println!("Visited states: {}", search_state.map.len());
-    // for k in search_state.map.iter() {
-    //     println!("{k:?}");
-    // }
     if let FindResult::Winning { .. } = result {
-        let mut file = std::fs::File::create("out.txt").unwrap();
+        
+        let mut file = std::fs::File::create(FILENAME).unwrap();
         state.print_strategy(&search_state, &mut file);
         // let mut file = std::fs::File::create("draw.tex").unwrap();
         // let graph = state.graph_strategy(&search_state);

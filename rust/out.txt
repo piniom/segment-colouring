@@ -1,37 +1,6498 @@
-3 5
+4 7
 [] 0 0
 [Aa] 0 1
 [ABab] 0 0
-[ABabBb] 4 5
-[ABabABab] 2 4
-[ABCabcABab] 4 7
-[ABCaDbcAdBab] >
-AB[CabDcAda] >
-AB[aCbDcd] 2 6
-[ABabCBcb] 5 7
-[ABabCDBcdb] <
-[ABabCD]cd 2 6
-[ABabAa] 5 6
-[ABabCc] 4 5
-[ABabBCbc] 0 0
-[ABabBCbcCc] 8 9
-[ABabACacCBcb] <
-A[aABabCBcb] >
-[ABabABabBCbc] <
-[ABabABabB]b <
-[ABabBCbcDCdc] >
-[ABabBCbcBb] 9 10
-[ABabCBcbBAba] <
-[ABabCBcbB]b <
-[ABabCBcbBDbd] <
-[ABabBCbcAa] 9 10
-[ABabCAcaABab] <
-[ABabCAcaA]a <
-[ABabCAca] 2 5
-[ABCabDcAda] >
-[ABabCDcdDBdb] <
-[ABabCDcdD]d <
-[ABabCDcd] 2 6
-[ABabBCbcDd] 9 10
-[ABabBCbcDAda] >
-[ABabBCbcDBdb] >
+[ABabBb] 3 4
+[ABaAbaBb] 5 7
+[ABaAbCaBcb] 1 3
+[ABCabAcBaCbc] 1 4
+[ABaCbAcBDCabdc] 2 5
+[ABCDabcAdBCaDbcd] 5 9
+[ABCDaEbcAdeBCaDbcd] 7 12
+[ABCDaEbFcAdeBfCaDbcd] >
+ABC[DaEbFcdAeBfCabc] >
+ABC[DaEbcFdAeBfab] >
+ABC[DabEcFdAefa] >
+ABC[aDbEcFdef] 3 9
+[ABCDabcAdECaDecd] 10 14
+[ABCDabcAdEBCaDebcd] <
+[ABCDabcAdEBCa]ebc >
+ABC[DabcEdAB]eab 6 11
+ABC[DabEcFdABe]fab >
+ABC[DabEcFdA]efa 5 11
+[ABCDabcAdEFCaDefcd] >
+ABC[abDcEFBdCefbc] <
+ABC[abDcEFBd]efb <
+ABC[abDcEF]def 3 9
+[ABCabAcDaCdc] 2 5
+[ABaCbAcDECadec] 1 4
+[ABCDabcAdEBaDebd] 5 10
+[ABCDaEbcAdFeBaDfbd] >
+[ABCaDbEcAdFBe]afb >
+ABC[DabEcFdAe]fa 5 11
+[ABCDabcAdEFaDefd] >
+ABC[abDcEFdCefc] <
+ABC[abDcEFd]ef 3 9
+[ABaCbcBb] 0 2
+[AaBAbCBacb] 1 3
+[ABCabDcdCc] 9 10
+[ABCabDcdCAca] 4 7
+[ABCaAbDcadCAca] 9 12
+[ABCaAbDcaBdCAbca] 5 9
+[ABCaADbEcadBeCAbca] >
+AB[CDaEbcdAeBCabc] >
+ABC[DabcEdABeab] 5 10
+[ABCaAbDcaEdCAeca] 10 14
+[ABCDabEcdABeCaAbca] 5 10
+[ABCDaEbFcdAeBfCaAbca] >
+[ABCaAbDcEaFBdCe]fbc >
+ABC[DaEbcFdAeBf]ab >
+[ABCaAbDcaEFdCAefca] >
+AB[CaDbcEFdBCefbc] <
+AB[CaDbcEFdB]efb <
+AB[CaDbcEFd]ef 3 9
+[ABCaDbEcdeCAca] 8 12
+[ABCaDbEcBdeCAbca] 3 8
+[ABCDaEbFcdBefCAbca] >
+[ABCabDEcFBdCe]fbc <
+[ABCabDEcFBd]efb <
+ABC[aDbcEFdef] 3 9
+[ABCaDbEcFdeCAfca] <
+[ABCaDbEcFdeC]fc <
+[ABCaDbEcFde]f 3 9
+[ABCabDcdCBcb] 7 10
+[ABCabDcAdCBacb] 7 11
+[ABCabDcEAdCBeacb] <
+ABC[aDbcAdEBaeb] >
+AB[CabDcEAdea] 3 8
+AB[CDabEcFdAefa] >
+[ABCabDcEdCBecb] 8 12
+[ABCabDcEFdCBefcb] <
+[ABCabDcEFdC]efc <
+[ABCabDcEFd]ef 3 9
+[ABCabDcdCDcd] 7 9
+[ABaCbAcBaDCbdc] 8 12
+[ABaCbAcBDaECbdec] <
+ABC[aDbcEdCeDcd] >
+AB[CabDcBdCbc] 7 10
+[ABCaDbcAdBCa]bc 3 7
+[ABCDaEbcdAeBCa]bc >
+ABC[DabcEdABe]ab 6 11
+ABC[DabEcFdABef]ab >
+AB[CDabEcFdA]efa 5 11
+AB[CabDcEBdCebc] 8 12
+AB[CabDcEFBdCefbc] <
+AB[CabDcEFBd]efb <
+[ABCabDcBdCbDcd] <
+[ABCabDcBdCb]c 7 10
+A[BCaDbcAdBCabc] 3 7
+A[BCDaEbcdAeBCabc] >
+[ABCabDcEBdCeb]c 8 12
+[ABCabDcEFBdCefb]c <
+[ABCabDcEFBd]efb <
+[ABCabDcEF]def 3 9
+[ABCabDcEdCeDcd] <
+[ABCabDcEdCe]c 8 11
+A[BCaDbcAdEBaeb] >
+[ABCabDcEFdCef]c <
+[ABCabDcdCEce] 0 2
+[ABabCBcDEbBdeb] 10 13
+[ABCDabAcdEaeABab] 11 13
+[ABCDabAcdEaBeAbBab] <
+[ABCDabAcdEaBeAb]a >
+A[BaCbAcDEaB]deb <
+AB[CabDcEdCe]c 8 11
+A[BCaDbcAdEBa]eb 6 11
+A[BCaDbEcAdFBea]fb >
+AB[CDabEcFdAe]fa 5 11
+AB[CabDcEBdCeb]c 8 12
+A[BCDaEbcdAeBCa]bc >
+AB[CabDcEFBdCefb]c <
+AB[CabDcEFdCef]c <
+AB[CabDcEFd]ef 3 9
+[ABCDabAcdEaCeAcBab] 12 16
+[ABCDabAcdEaCDeAcBdab] >
+[ABCaDbEcdBeCDbA]cda <
+[ABCaDbEcdBeCDb]cd >
+AB[CaDbcAdBCa]bc 3 7
+AB[CDaEbcdAeBCa]bc >
+[ABCaDbEcdBeFDbABfdab] <
+[ABCaDbEcdBeFDbA]fda >
+ABC[aDbcEdBFeDb]fd <
+ABC[aDbcEdBFe]bf 6 10
+AB[CaDbEcFdBeD]fbd <
+AB[CaDbEcFdBe]fb 3 9
+ABC[aDbEcFdBeEf]be <
+ABC[aDbEcFdBe]fb 3 9
+[ABCDabAcdEaDeAdBab] >
+ABC[aDbcEdCeDcAda] >
+AB[CabDcBdCbEce] <
+AB[CabDcBdCb]c 7 10
+A[BCaDbcAdBCa]bc 3 7
+[ABCDabAcdEaFeAfBab] >
+ABC[aDbcEdFeDfAda] >
+AB[CabDcEdCeFcf] <
+[ABabCBcDEbCBdecb] 3 5
+[ABaAbCaBcDEbCBdecb] <
+[ABaAbCaBcDEbC]dec <
+AB[CabDcEdCeEce] <
+[ABaCbDcBdCEbDBcedb] >
+A[BaCbAcBDaCAbdca] <
+A[BaCbAcBDaC]bdc <
+[ABaCbDcBdECbDBecdb] 9 13
+[ABaCbDcBdAECbDaBecdb] <
+[ABaCbDcBdAECbDa]ecd <
+ABC[DabcEdAeDaCdc] >
+ABC[abDcEdCeBcb] 8 12
+ABC[abDcEAdCeBacb] <
+AB[CaDbcAdEB]aeb 6 11
+AB[CaDbEcAdFBe]afb >
+ABC[abDcEFdCeBfcb] <
+ABC[abDcEFdCe]fc <
+[ABaCbDcBdEFCbDeBfcdb] <
+[ABaCbDcBdEFCbDe]fcd <
+[ABaCbDcBdEFCb]efc <
+ABC[abDcEdCeFcf] <
+ABC[abDcEdCe]c 8 11
+A[BCaDbcAdEB]aeb 6 11
+A[BCaDbEcAdFBe]afb >
+ABC[abDcEBdCeb]c 8 12
+A[BCDaEbcdAeBC]abc >
+ABC[abDcEFBdCefb]c <
+ABC[abDcEFdCef]c <
+[ABaCbDcBdEFbDBefdb] <
+[ABaCbDcBdEFbD]efd <
+[ABabCBcDEbFBdefb] 3 5
+[ABaAbCaBcDEbFBdefb] >
+[ABCDabAcdEaFeAf]a >
+ABC[aDbcEdFeDf]d >
+[ABaCbDcBdCEbFBcefb] >
+[ABCDabAcdEaDeAd]a >
+ABC[aDbcEdCeDc]d >
+[ABaCbDcBdECbFBecfb] 8 13
+[ABaCbDcBAdECbFaBecfb] <
+ABC[DaEbcFdeBfEbDed] >
+ABC[DabEcdAeDaCdc] 10 14
+ABC[DabEcdABeDaCbdc] >
+ABC[aDbcEAdCeBacb] 3 8
+ABC[DaEbcFdAeCfBacb] >
+ABC[DabEcFdBeAfba] >
+[ABCaDbEcFdB]efb <
+[ABCaDbEcFd]ef 3 9
+ABC[DabEcdAFeDaCfdc] >
+ABC[aDbcEFdCeBfcb] <
+ABC[aDbcEFdCe]fc <
+ABC[aDbcEFd]ef 3 9
+[ABaCbDcBdEFbCBefcb] >
+[ABabCBcDEbCdec] 2 5
+[ABCabDcBdCEbDced] >
+AB[aCbAcBDaCbdc] <
+AB[CabDcBdC]bc 7 10
+AB[CabDcEBdCe]bc 8 12
+AB[CabDcEFBdCef]bc <
+[ABCabDcBdECbDecd] 2 6
+[ABCDabEcdBeCDbEcde] <
+[ABCDabEcdBeCDb]cd >
+ABC[aDbcAdBCa]bc 3 7
+ABC[DaEbcdAeBCa]bc >
+[ABCDabEcdBeFDbEfde] >
+ABC[aDbcAdECaDecd] >
+[ABCabDcBdEFbDefd] 2 6
+[ABCDabEcdBeCFbEcfe] 5 9
+[ABCaDbcAdEFCaDeEfcde] >
+AB[CabDcEFBdCeEfbce] <
+AB[CabDcEFBdCe]fbc <
+[ABCaDbcAdBECaDbFecdf] <
+[ABCaDbcAdBECaDb]ecd <
+[ABCaDbcAdBECa]bec <
+ABC[abDcEBdCebc] 8 12
+[ABCDaEbcdAeBC]abc >
+[ABCDabEcdBeFCbEfce] <
+[ABCDabEcdBeFCb]fc >
+ABC[aDbcAdEBa]eb 6 11
+ABC[aDbEcAdFBea]fb >
+[ABCaDbcEdeDAda] <
+[ABCaDbcEdeD]d 9 11
+A[BaCbAcDEaBdeb] <
+[ABCaDbcEdBeDb]d 10 13
+A[BCaDbcAdECaBecb] >
+[ABCaDbcEdBAe]ba 6 11
+AB[CDabEcFdBeAfba] >
+[ABCaDbcEdBCeDbc]d >
+[ABCaDbcEdBFeDbf]d <
+[ABCaDbcEdBFe]bf 6 10
+AB[CaDbEcFdBeDfbd] <
+[ABCaDbEcFdBeEf]be <
+[ABCaDbEcFdBe]fb <
+[ABCaDbcEdCeDc]d >
+[ABCaDbcEdFeDf]d >
+[ABCaDbcEdeDFdf] <
+[ABabAa] 3 5
+[ABaCbAca] 0 1
+[ABaCbAcBab] 2 5
+[ABCaDbcAdBab] 10 12
+[ABCaDbcAdBCabc] 7 11
+[ABCDabEcdABeCabc] 5 10
+[ABCDaEbFcdAeBfCabc] >
+[ABCabAcDBaCdbc] 1 4
+[ABCabDcEBdCebc] 8 12
+[ABCDaEbcdAeBCabc] 7 12
+[ABCabDcEFBdCefbc] <
+[ABaCbDcBdb] 9 10
+[ABaCbDcBdAba] 2 6
+[ABCaDbEcdBeAba] 8 12
+[ABCaDbEcCdBeAcba] 3 8
+[ABCDaEbFcdCeBfAcba] >
+[ABCaDbEcFCdBe]fcb <
+[ABCaDbEcFCd]efc 3 9
+[ABCaDbEcFdBeAfba] >
+[ABaCbDcBdCbc] 1 4
+[ABCaDbcBdCbDcd] 2 6
+[ABaCbAcBDCaEbdce] <
+[ABaCbAcBDCa]bdc <
+ABC[abDcBdCbc] 7 10
+[ABCaDbcAdBC]abc 3 7
+[ABCaDbcEdCeDcd] >
+[ABaAbCaBcDbd] 1 3
+[ABCabAcBaCbDcd] <
+[ABCabAcBaCb]c 7 10
+[ABCabAcDBaCdb]c 1 4
+[ABCDabcAdBCaDbc]d >
+A[BCaDbcAdBC]abc 3 7
+[ABCDabcAdECaDec]d >
+[ABCabAcDaCdBcb] >
+AB[aCbDcBdAba] 2 6
+AB[CaDbEcdBeAba] 8 12
+AB[CaDbEcCdBeAcba] 3 8
+AB[CDaEbFcdCeBfAcba] >
+AB[CaDbEcFdBeAfba] >
+[ABaCbDcBdEDbed] >
+[ABCabAcDaCd]c 2 5
+A[BaCbAcBDCabdc] <
+ABC[abDcBdCb]c 7 10
+A[BaCbAcDECadec] <
+[ABaCbDcBdEbe] 0 2
+[ABaCbDcBdECbec] 0 2
+[ABCabDcAdCaEAcea] >
+AB[aCbDcBdEDbed] >
+[ABCabDcAdCaEDced] 2 6
+[ABCabDcAdCBaEDcbed] <
+ABC[aDbcEdCeBDcbd] >
+[ABCabDcAdCBa]cb 7 11
+[ABCabDcEAdCBea]cb <
+[ABCabDcAdCEaFDcefd] 8 13
+[ABCabDcABdCEaFbDcefd] <
+ABC[DaEbcFdeCfDEcde] >
+ABC[DabEcdBeCDbcd] >
+ABC[aDbcAdBCabc] 3 7
+ABC[DaEbcdAeBCabc] >
+[ABCabDcAdCaEBceb] >
+[ABCabDcEdCeA]ca <
+[ABCabDcEdCeFDcfd] <
+[ABCabDcEdCeF]cf <
+[ABCabDcEdCeAca] <
+[ABCabDcEdCeFcf] <
+[ABabCc] 2 5
+[ABCabDcd] 0 0
+[ABaCDbcdDd] 9 10
+[ABaCDbcdDAda] 0 0
+[ABabBCDbcAdaAa] 12 13
+[ABabBCDbcAdaBAba] >
+[ABabACaDBcdbB]b <
+[ABabACaDBcdb] 3 5
+[ABaCbAcCaDBcdb] 7 11
+[ABaCbAcDCaEBdceb] 7 11
+[ABaCbAcBDCaEbBdceb] <
+[ABaCbAcBDCaEb]dce <
+[ABaCbAcDECaFdBecfb] <
+ABC[DaEbcdBeFbEfe] >
+[ABaCbAcDECa]dec <
+ABC[abDcEdCec] 8 11
+[ABCaDbcAdEB]aeb 6 11
+[ABaCbAcDaCBdcb] 8 12
+[ABaCbAcDEaCBdecb] <
+[ABaCbAcDEaC]dec <
+AB[CabDcEdCec] 8 11
+[ABCaDbcAdEBa]eb 6 11
+[ABCaDbEcAdFBea]fb >
+AB[CabDcEFdCefc] <
+[ABaCbAcDaEBdeb] 8 12
+[ABaCbAcDEaFBdefb] <
+ABC[aDbcEdFeDfd] >
+[ABabBCDbcAdaCAca] >
+[ABabACaBDcbdD]d <
+[ABCabDcdBDbd] 7 9
+[ABaCbAcDaBCdbc] >
+[ABCabDcAdBa]b 8 11
+[ABCabDcACdBac]b 7 11
+[ABCabDcEACdBeac]b <
+ABC[DabcAdEBaeb] 6 11
+ABC[DabEcAdFBeafb] >
+[ABCDabEcFdA]efa 5 11
+[ABCabDcAEdBae]b 2 6
+[ABCDabEcdACeBac]b 8 13
+[ABCDabEcFdACeBfac]b >
+A[BCDaEbcFdBeA]fba >
+ABC[aDbEcFBd]efb 3 9
+[ABCDabEcdAFeBaf]b >
+ABC[aDbcEFdAef]a >
+A[BCaDbcEFd]ef 3 9
+[ABCabDcCdBcDbd] 7 10
+[ABCabDcACdBacDbd] 7 11
+[ABCabDcEACdBeacDbd] <
+[ABCabDcECdBecDbd] <
+[ABCabDcECdBec]b 8 12
+[ABCabDcEFCdBefc]b <
+[ABCabDcEFCd]efc <
+[ABCabDcEdBeDbd] <
+[ABCabDcEdBe]b 8 11
+A[BCaDbcEdABeab] >
+[ABCabDcEFdBef]b <
+[ABabBCDbcAdaDAda] >
+[ABabABaCDbcdD]d <
+[ABabBCDbcAdaEAea] 4 4
+[ABabACaDEcdeAaEAea] 5 9
+[ABabABCaDEbcdeAaEAea] >
+A[aBACbDEacdeBbEBeb] >
+[ABCaDEbcdeAaEAea] 11 13
+[ABaCbAcaBDECbdAeca] <
+[ABaCbAcaBDECbd]ec <
+ABC[abcDEdCeDcd] >
+AB[abCDcBdCbc] >
+[ABaCbAcaB]b 7 9
+[ABaCbAcCaBc]b 7 9
+[ABaCbAcBCabBc]b 2 5
+[ABCaDbcAdBDabBd]b 10 13
+[ABCaDbcAdBCDabcBd]b <
+A[BCDabcAdBCaDbcd] >
+[ABCaDbcAdBEDabeBd]b <
+A[BCDabcAdECaDecd] >
+[ABaCbAcDCadBc]b <
+A[BCabAcDaCdc] 2 5
+[ABaCbAcBDCabd]c <
+[ABaCbAcDECade]c <
+[ABaCbAcDaBd]b 8 11
+[ABaCbAcDCaBdc]b <
+AB[CabAcDaCdc] 2 5
+[ABaCbAcBDCab]dc <
+[ABaCbAcDECad]ec <
+[ABaCbAcDEaBde]b <
+[ABCaDEbcdeACaEcAea] >
+[ABaCbAcaBDCEbd]ce <
+[ABaCbAcaBDC]bdc <
+[ABCaDEbcdeADaEdAea] >
+AB[CDabcdECeDcEde] >
+ABC[abcDBdCbDcd] >
+[ABaCbAcaBC]bc <
+[ABCaDEbcdeAFaEfAea] >
+AB[CDabcdEFeDfEde] >
+[ABabACDaEFcdefAaFAfa] >
+A[aBCDbEFcdefBbFBfb] >
+[ABabBbBCDbcAdaEAea] 2 4
+[ABCabcBbBCDbcAdaEAea] <
+A[aBCbDEcdeEeDEBdeb] >
+[ABCabcBbBCDbcAda] <
+[ABCabcBbBCDbc]d >
+A[BCabcCcBC]bc >
+AB[abAaAB]ab <
+AB[abAaA]a 6 6
+AB[abAaAaA]a <
+AB[abAaAa] >
+[AaAaB]b 1 2
+[ABabAaB]b 5 7
+[ABabACaBc]b 3 5
+A[aBbCBcb] >
+AB[abAaBbA]a 7 8
+AB[abAaBAbaA]a >
+A[aABabAaB]b 5 7
+A[aABaCbAcaB]b >
+AB[abAaBCbcA]a >
+A[aBbACacB]b 3 6
+A[aBCbADcadB]b <
+[ABCabDcdB]b 7 9
+[ABCabDcCdBc]b 7 10
+AB[abAaCcA]a 4 5
+AB[abBAbaCcA]a >
+A[aABabCcB]b 4 7
+A[aABCabDcdB]b >
+AB[abCAcaCcA]a <
+[AaBAbaCB]cb 1 3
+[ABaCbAcaDC]dc 7 10
+[ABaCbAcBaDCb]dc 8 12
+[ABaCbAcBDaECbd]ec <
+[ABaCbAcDaECd]ec 7 11
+[ABaCbAcDEaFCde]fc <
+AB[abCAcaDdA]a >
+A[aBCbcDdC]c 4 7
+A[aBCAbcDadC]c >
+A[aBCDbcEdeC]c >
+[ABCabcBbBDCbdAcaEAea] >
+AB[abAaACBacDbdEDed] <
+AB[abAaACBacDbdE]e <
+[ABaCDbcdDdBD]bd >
+AB[abAaACBac]b <
+AB[abBbCB]cb >
+[ABCabcBbBDEbdAeaCAca] <
+A[aBCbDEcdeEeAEBaeb] >
+[ABaCDbcdDdEDAeda] >
+A[BCabcCcDCEdce] >
+[ABCabcBbBD]bd >
+[ABabACaDEcdeEeFEAfea] >
+A[aBCbDEcdeEeFEBfeb] >
+[ABabCcBCDbcAdaEAea] 8 12
+[ABabCcBCDEbcAdeaDAda] <
+A[aBCAbDEcadeDdEBeb] >
+[ABCaDEbcdeDdEAea] >
+AB[CDabcdCcDEde] 7 9
+[ABabCDcBdCEDbc]ed <
+ABC[abDcBdbCEce] >
+[ABabCDcBdC]bc <
+[ABabCDcBd]b 2 5
+AB[CDabcBdCbcDEde] >
+ABC[abAcBabCDcd] >
+AB[CDabcEdCecDEde] >
+ABC[abDcBdbCDcd] 5 8
+ABC[abADcBadbCDcd] >
+[ABabCADcBadC]bc 2 5
+[ABCabDcACdBacD]bd 7 11
+[ABCabDcEACdBeacD]bd <
+[ABCabDcAEdBaeD]bd <
+ABC[abDEcBdebCEce] >
+AB[CDabcEdCecDFdf] >
+[ABabCcBCDEbcAdeaFAfa] <
+A[aBCDbEFcdefEeFBfb] >
+[ABabCcBDCbdAcaEAea] <
+A[aBCbDEcdeCcEBeb] >
+[ABabCcBDCbdAca] <
+[ABabCcBDCbd]c 2 5
+[ABCabDcdBCDbc]d 7 10
+A[BCaDbcAdBaCDbcd] 5 9
+A[BCaDEbcAdeBaCDbcd] >
+AB[CDabEcdAeBCabc] >
+ABC[aDbcEdABeab] >
+[ABCabDcEdBCeDbc]d <
+[ABCabDcEdBCe]bc 8 12
+[ABCabDcEFdBCef]bc <
+[ABCabDcEFdB]efb <
+[ABCabDcdBEDbe]d <
+[ABCabDcdBE]be <
+[ABabCcBDEbdAeaCAca] 2 5
+[ABCabDcdBCEbcAeaDAda] >
+AB[aCbcABDabEdeCEce] <
+AB[aCbcABDabEdeC]c <
+[ABaCDbcdECeD]cd >
+A[BCabcDBdC]bc 7 10
+AB[CaDbcdABCab]c 7 11
+A[BCDabcEdABeCa]bc <
+A[BCDabcEdABe]ab 6 11
+A[BCDabEcFdABef]ab >
+A[BCabcDEBdCe]bc 8 12
+AB[CDaEbcdeABCab]c >
+ABC[DabcdEABea]b 6 11
+ABC[DabEcdFABefa]b >
+A[BCDabcEFdA]efa >
+ABC[aDbcEF]def 3 9
+A[BCabcDEFBdCef]bc <
+A[BCabcDEFBd]efb <
+A[BCabcDEF]def 3 9
+[ABCabDcdBECbeAcaDAda] <
+A[aBCbDEcdeACaEBceb] >
+[ABCabDcdBECbeAca] <
+[ABCabDcdBECbe]c <
+[ABCabDcdBEFbeAfaDAda] <
+A[aBCbDEcdeAFaEBfeb] >
+[ABaCDbcdEFeDAfda] >
+A[BCabcDEdCFecf] >
+[ABabACaDEcdeFfEAea] 5 9
+[ABabABCaDEbcdeFfEAea] >
+A[aBACbDEacdeFfEBeb] >
+[ABCaDEbcdeFfEAea] 9 11
+[ABCaDEbcdAeFafEAea] >
+AB[CDabcEdFefDEde] >
+ABC[abDcEdeCDcd] >
+AB[aCbDcdBCbc] >
+A[BaCbcABab] 5 8
+[ABabCDcBdEFDbeAfda] <
+[ABabCDcBdEFDbe]fd <
+ABC[abDcEdeCFcf] >
+AB[aCbDcdBEbe] >
+[ABCaDEbcdCeFcfEAea] >
+AB[CDabcBdEbeDFdf] >
+[ABabCDcBdED]bed <
+[ABCaDEbcdDeFdfEAea] >
+AB[CDabcCdEceDFdf] >
+ABC[abBcDbdCEce] >
+AB[aAbCacBDbd] >
+[ABabCcBDECbdAecaFAfa] <
+A[aBCDbEFcdefCcFBfb] >
+[ABabCcBDECbdAeca] <
+[ABabCcBDECbd]ec 5 7
+[ABabCAcBaDECbd]ec 0 0
+[AaABabCAcBaDECbd]ec <
+ABC[abDcEdeCDcdDd] >
+AB[aCbDcdBCbcCc] <
+[AaBAbaCBcAbDECad]ec <
+ABC[abDcEdeCDcdCc] >
+AB[aCbDcdBCbcBb] >
+A[BaCbcABabAa] <
+AB[CDabcEdAeaDEdeAa] >
+ABC[abDcEdeCDcdEe] >
+AB[aCbDcdBCbcDd] >
+A[BaCbcABabCc] <
+AB[CDabcEdAeaDEdeCc] >
+ABC[abDcEdeCDcdBb] >
+AB[aCbDcdBCbcAa] >
+[AaBCbcDBdCb]c >
+AB[CDabcEdAeaDEdeBb] >
+ABC[abDcEdeCDcdAa] >
+AB[aCbDcdBCbcEe] >
+[AaBCbcDBdCbEFDce]fd <
+ABC[abDcEdeCDcdFf] >
+[ABabCDcBdDECbd]ec <
+[ABabCDcBdEDCbe]dc <
+[ABabCDcBdEFCbe]fc <
+[AaBAbCDacdDBdb] 10 12
+[AaBAbCDacdADBadb] 1 3
+[ABCabcBDCbdAcDaCdc] 3 8
+[ABaCbAcBDaEbdADCeadc] <
+ABC[abADcBadEbDeBdb] >
+AB[aCDbAcdEaDeAda] >
+A[BCaDbcEdCeDcd] >
+[ABCabcBDCbdAcBaCbc] 14 17
+[ABCabcBDCbdAcBDaCbdc] >
+AB[abACBacDbACdBacb] >
+[ABCaDbcAdBCabcA]a <
+[ABCabcBDCbdAcBEaCbec] >
+AB[abACBacDbAEdBaeb] <
+AB[CabDcEBdebDB]db <
+AB[CabDcEBdebD]d 10 13
+A[BaCDbAcdEaCBe]cb >
+A[BCaDbcEdBAe]ba 6 11
+AB[CDabEcFdBeAfb]a >
+A[BCaDbEcFdB]efb 3 9
+AB[CabDcEBdCebDc]d <
+AB[CabDcEBdFebDf]d <
+A[BCaDbcEdBFe]bf 6 10
+AB[CaDbEcFdBeDfb]d <
+A[BCaDbEcFdBeEf]be <
+A[BCaDbEcFdBe]fb 3 9
+[ABCabcBDCbdAcEaCec] >
+AB[abACBacDbEdBeb] >
+[ABaCbAcDEadeA]a <
+[ABCabDcEdCec] 8 11
+[ABCaDbcAdEBaeb] >
+[ABCabDcEFdCefc] <
+[AaBAbCDacdCDBcdb] >
+[ABCabcBCDbcAda] 5 7
+[ABCabAcBaCDbcAda] >
+AB[aCbAcBDabCdc] <
+A[BCabDcBdC]bc 7 10
+AB[CaDbcAdBCab]c 3 7
+AB[CDaEbcdAeBCab]c >
+ABC[DabcEdABea]b 6 11
+ABC[DabEcFdABefa]b >
+A[BCDabEcFdA]efa 5 11
+A[BCabDcEBdCe]bc 8 12
+A[BCabDcEFBdCef]bc <
+A[BCabDcEFBd]efb <
+A[BCabDcEF]def 3 9
+[ABCabDcBdCDbcAda] <
+A[BCabAcBaCDbcd] >
+[ABCabDcBdC]bc 7 10
+AB[CaDbcAdBCabc] 3 7
+[ABCabDcEBdCe]bc 8 12
+[ABCabDcEFBdCef]bc <
+[ABaCDbcEdCeDAcda] <
+[ABaCDbcEdCeD]cd >
+[AaBAbCDacdEDBedb] 0 1
+[ABabABaCDbcdEDAeda] <
+[ABabABaCDbcdED]ed <
+[ABabABaCDbcdE]e <
+[ABabCBcADbadEDCedc] 2 5
+[ABCabDcBdACbacECDecd] <
+AB[abACDacEdAeDCadc] >
+A[aBCDbcEdBeDCbdc] >
+[ABCabDcBdAEbaeCEDced] <
+AB[abACDacEdBeDCbdc] >
+[ABCabDcBdAEbaeC]c <
+[ABCabDcBdAEbaeFEDfed] <
+AB[abACDacEdFeDCfdc] >
+A[aBCDbcEdFeDCfdc] >
+[ABCabcBDEbdAeaEBeb] 10 13
+[ABCabcBDEbBdAebaEBeb] >
+AB[abACDaAcEdaeDAda] >
+A[aBCDbBcEdbeDBdb] >
+[ABCabcBDEbCdAecaEBeb] >
+[ABabCDBcEdAbeaDA]da <
+A[aBCDbAcEdaeDBdb] >
+[ABCabcBDEbFdAefaEBeb] >
+AB[abACDaEcFdefDAda] >
+A[aBCDbEcFdefDBdb] >
+[ABCabcBDEbdAeaECec] 6 6
+[ABCabcAaBDEbdAeaECec] >
+AB[abCcADEadCecEBeb] >
+[ABabCBcDEbdeCcA]a <
+[ABabCBcDEbdeCc] <
+[ABCabcBbBDEbdAeaECec] >
+AB[abAaACDacEdeDBdb] >
+[ABabCBcDEbdeEeA]a <
+[ABabCBcDEbdeEe] <
+[ABCabcCcBDEbdAeaECec] >
+AB[abBbACDacEdeDBdb] >
+[ABabCBcDEbdeAaA]a <
+[ABabCBcDEbdeAa] <
+[ABCabcDdBDEbdAeaECec] >
+AB[abCcACDacEdeDBdb] >
+[ABabCBcDEbdeDdA]a <
+[ABabCBcDEbdeDd] <
+[ABCabcDdBEDbeAdaDCdc] >
+AB[abCcADCadEceCBcb] >
+[ABabCBcDEbdeBbA]a <
+[ABabCBcDEbdeBb] >
+[AaBCAbcDadA]a 9 11
+A[BaCbAcDBadbAa] 1 4
+A[BCaDbcAdBCabcAa] <
+A[BCaDbcAdECaecAa] >
+AB[CabDcEBdebDd] 10 13
+[ABaCDbAcdEaCBe]cb >
+AB[CabDcEBdCebDcd] <
+AB[CabDcEBdFebDfd] <
+A[BaCbAcBDabdAa] <
+A[BaCbAcDEadeAa] <
+[ABabCBcDEbdeFfAECaec] <
+AB[abCcADEadFefEBeb] >
+[ABabCBcDEbdeFfA]a <
+[ABabCBcDEbdeFf] <
+[ABabCBcDEbdeFECfec] <
+[ABabCBcDEbdeFE]fe <
+[ABabCBcDEbdeF]f <
+[AaBCbADcadDBdb] <
+A[aABCabDcdBb] >
+[ABCabDcdBb] 7 9
+[ABCabDcAdBab] 10 12
+[ABCabDcAdBCabc] 3 7
+[ABCDabEcdAeBCabc] >
+[ABCabAcDaBCdbc] 2 5
+[ABCDabcAdCaBDcbd] 5 9
+[ABCDaEbcAdeCaBDcbd] >
+[ABCabDcEAdCBe]acb <
+[ABCDabcAdEaBDebd] 10 14
+[ABCDabcAdECaBDecbd] <
+[ABCDabcAdECaB]ecb >
+ABC[aDbcEdBA]eba 6 11
+ABC[DabEcFdBeA]fba >
+ABC[aDbEcFdB]efb 3 9
+[ABCDabcAdEFaBDefbd] >
+[ABCDabEcdAeFB]afb >
+ABC[aDbcEdFA]efa >
+[ABCabDcEdBCebc] 8 12
+[ABCabDcEFdBCefbc] <
+[ABCabDcCdBcb] 7 10
+[ABCabDcACdBacb] 4 8
+[ABCaDbEcAdCeBacb] 3 8
+[ABCDaEbFcdAeCfBacb] >
+ABC[DaEbcFdBeAfba] >
+[ABCaDbEcFBd]efb <
+[ABCabDcECdBecb] 8 12
+[ABCabDcEACdBeacb] 3 8
+[ABCDabEcFdACeBfacb] >
+[ABCDaEbcFdBeA]fba >
+[ABCabDcEFCdBefcb] <
+[ABCabDcEdBeb] 8 11
+[ABCaDbcEdABeab] >
+[ABCabDcEFdBefb] <
+[ABabBCDbcAdaBb] 12 13
+[ABabBCDbcAdaABab] 11 12
+[ABabABaCbDAcdaABab] >
+[ABabBCDbcAdBabA]a >
+A[aBAbCaDBcdbB]b <
+A[aBAbCaDBcdb] 1 3
+A[BaCbAcBaDCbdc] 8 12
+A[BaCbAcBDaECbdec] <
+A[BaCbAcDaBCdbc] >
+A[BaCbAcDaECdec] 7 11
+A[BaCbAcDEaFCdefc] <
+[ABabCBcDbCAdcaABab] <
+[ABabCBcDbCAdcaA]a <
+[ABabCBcDbCAdca] 3 5
+[ABaAbCaBcDbCAdca] 10 14
+[ABaAbCaBcDEbCAdeca] <
+[ABCabDcBdCbDcAda] <
+[ABCabDcBdCbDc]d <
+[ABCabDcBdEbDeAda] 3 7
+[ABaCbDcBdCEbDAceda] >
+A[BaCbAcBDaCEbdce] <
+[ABaCbDcBdEFbDAefda] <
+[ABabCBcCbDAcdaABab] 7 9
+[ABabCBcACbaDAcdaABab] <
+[ABabCBcACbaDAcdaA]a <
+[ABCabADcaCdcDAda] >
+AB[aCDbcBdbDCdc] >
+A[BCabAcaCBcb] 1 4
+A[BCDabcAdaDCdc] >
+ABC[abDcdCBcb] 7 10
+ABC[abDcAdCBacb] 7 11
+ABC[abDcEAdCBeacb] <
+ABC[aDbcAdEB]aeb 6 11
+ABC[aDbEcAdFBe]afb >
+ABC[abDcEdCBecb] 8 12
+ABC[abDcEFdCBefcb] <
+ABC[abDcEFdC]efc <
+[ABabCBcDCbdDAcdaABab] <
+[ABabCBcDCbdDAcdaA]a <
+[ABCabBDcbCdcDAda] >
+AB[aACbaBcbCDcd] >
+[ABabCBcDCbd]c >
+A[aBAbCBac]b 1 3
+A[BCabAcBaCb]c 1 4
+A[BaCbAcBDCabd]c <
+A[BCabAcDaCd]c 2 5
+A[BaCbAcDECade]c <
+[ABabCBcDCbdEAceaABab] <
+[ABabCBcDCbdEAceaA]a <
+[ABCabDEcdCecEAea] >
+[ABabCBcDCbdE]ce >
+AB[aCDbcBdbD]d >
+[ABabCBcDbEAdeaABab] 2 4
+[ABCabcCBcDbEAdeaABab] <
+[ABCabcCBcDbEAdeaA]a <
+[ABCabDcEdeEDAeda] 9 10
+[ABCabDcEdAeaEDAeda] <
+AB[abCBcAbDaECdec] >
+A[aBAbCaDcEBdeb] 6 11
+A[aBAbCDaEcFBdefb] <
+ABC[aDbEcdFefE]e >
+AB[CaDbcEdeD]d 9 11
+A[BaCbAcDEaBd]eb <
+AB[CaDbcEdBeDb]d 10 13
+A[BCaDbcAdECaBe]cb >
+AB[CaDbcEdBAe]ba 6 11
+AB[CDabEcFdBeAf]ba >
+AB[CaDbEcFdB]efb 3 9
+AB[CaDbcEdBCeDbc]d >
+AB[CaDbcEdBFeDbf]d <
+AB[CaDbcEdBFe]bf 6 10
+AB[CaDbEcFdBeDf]bd <
+AB[CaDbEcFdBeEf]be <
+AB[CaDbcEdCeDc]d >
+AB[CaDbcEdFeDf]d >
+[ABCabDcEdBebEDAeda] >
+[ABCabcDCdBcEbD]ed >
+AB[aCbDcAdaDC]dc 2 6
+AB[abCBcADbEaCd]ec <
+AB[CaDbcEdeDC]dc >
+AB[CabDcdCB]cb 7 10
+AB[CabDcAdCBa]cb 7 11
+AB[CabDcEAdCBea]cb <
+AB[CabDcEdCBe]cb 8 12
+AB[CabDcEFdCBef]cb <
+AB[CabDcEFdC]efc <
+[ABCabDcEdCecEDAeda] >
+AB[aCbDcBdbDCEdce] >
+[ABCabcDCdBcDb]d <
+[ABCabcDCdBc]b 7 10
+[ABCabcDACdBac]b 3 7
+[ABCDabcEdACeBac]b >
+A[BCaDbcEdBA]eba 6 11
+ABC[DabEcFdBeAfb]a >
+[ABCabcDECdBec]b 8 12
+[ABCabcDEACdBeac]b <
+ABC[DabcdAEBaeb] 5 10
+ABC[DaEbcdAFeBafb] >
+ABC[DabcEFdAefa] >
+[ABCaDbcEF]def 3 9
+[ABCabcDEFCdBefc]b <
+[ABCabcDEFCd]efc <
+[ABCabcDEF]def 3 9
+[ABCabDcEdDedEDAeda] >
+AB[aCbDcCdcDCEdce] >
+[ABCabcBCbBcDb]d 8 12
+A[BCaDbBcdbDBCdbc] >
+AB[CaAbcaCABcab] >
+AB[CabcBCAbca] 6 8
+[ABCaAbcaBCAb]ca 5 8
+[ABCaADbcadBCAb]ca >
+AB[CDabcdABCa]bc 5 9
+[ABCaDbcdBCAb]ca <
+[ABCaDbcdBC]bc 7 10
+[ABCaDbcEdBCe]bc 8 12
+AB[CDabEcdABeCabc] 5 10
+AB[CDaEbFcdAeBfCabc] >
+[ABCaDbcEFdBCef]bc <
+[ABCaDbcEFdB]efb <
+[ABCaDbcEFd]ef 3 9
+A[BCaDbBcdbDBEdbe] >
+[ABCabcBCDbBc]db 5 7
+[ABCabAcBaCDbBc]db >
+AB[CaAbcDaCdA]ca >
+[ABCabDcBdCDbBc]db <
+AB[CabAcBaCDbcd] >
+[ABCabDcBdCEbBc]eb >
+[ABCabDcEdFefEDAeda] >
+AB[aCbDcEdeDCFdcf] >
+[ABCabcDCdBcEb]e <
+[ABCabcDBdCbEAceaABab] <
+[ABCabcDBdCbEAceaA]a <
+[ABCabDcEdeCDAcda] >
+[ABCabcDBdCbE]ce <
+[ABCabcDBdCb]c 7 10
+A[BCaDbcdABCabc] 5 9
+A[BCaDEbcdAeBCabc] >
+AB[CDabcEdABeab] 5 10
+AB[CDaEbcFdAeBfab] >
+[ABCabcDEBdCeb]c 8 12
+A[BCDaEbcdeABCabc] >
+ABC[DabcdEABeab] 6 11
+ABC[DabEcdFABefab] >
+[ABCDabcEFdA]efa >
+[ABCabcDEFBdCefb]c <
+[ABCabcDEFBd]efb <
+[ABCabcDBdEbCAecaABab] >
+[ABabBCDbcAdEaeCA]ca >
+A[aABCabDcEdeBD]bd >
+[ABCabDcEdeBD]bd <
+[ABCabDcEdeB]b 8 11
+[ABCabDcEAdeBa]b <
+[ABCabDcEAde]a 4 9
+A[BCDabEcFdAefa] >
+[ABCabDcECdeBc]b 8 12
+[ABCabDcEACdeBac]b <
+AB[CDabcAdEBaeb] 6 11
+AB[CDabEcAdFBeafb] >
+[ABCabDcEFCdeBfc]b <
+[ABCabDcEFCde]fc <
+[ABCabDcEFdeBf]b <
+[ABCabDcEFde]f 3 9
+[ABCabcDBdEbFAefaABab] <
+[ABCabcDBdEbFAefaA]a <
+[ABCabDcEdeFDAfda] 9 13
+[ABCDabcEdBeFbDAfda] >
+[ABCabDcEdBeFD]bfd <
+[ABCabDcEdBeF]bf <
+[ABCabDcEdCeFDAcfda] <
+[ABCabDcEdCeFD]cfd <
+[ABabBCDbcAdaCBcb] <
+A[aBCbADcadDBdb] <
+[ABabBCDbcAdaDBdb] >
+[ABabCBcDAbdaA]a <
+[ABabBCDbcAdaEBeb] 4 4
+[ABabAaBCDbcAdaEBeb] 8 12
+[ABabAaBCDEbcAdeaDBdb] <
+A[aBCAbDEcadeBbEBeb] >
+[ABabAaBCDEbcAdeaFBfb] <
+[ABabBbBCDbcAdaEBeb] 2 4
+[ABCabcBbBCDbcAdaEBeb] <
+[ABCabcBbBDCbdAcaEBeb] >
+[ABabCDcEAdeaAaDA]da >
+[ABCabcBbBDEbdAeaCBcb] <
+[ABCabcBbBDEbdAeaFBfb] <
+[ABabCcBCDbcAdaEBeb] 8 12
+[ABabCcBCDEbcAdeaDBdb] <
+[ABabCcBCDEbcAdeaFBfb] <
+[ABabCcBDCbdAcaEBeb] <
+[ABabCcBDEbdAeaCBcb] 8 12
+[ABabCcBDCEbdAceaCBcb] <
+A[aBCAbDEcadeAaEBeb] >
+[ABCaDEbcdeCcEAea] >
+[ABabCcBDCEbd]ce <
+[ABabCcBDC]bdc 5 7
+[ABabCAcBaDC]bdc <
+[ABabCDcBdDC]bdc <
+[ABabCDcBdEC]bec <
+[ABabCcBDEFbdAefaCBcb] <
+A[aBCDbEFcdefAaFBfb] >
+[ABabCcBDEbdAeaFBfb] 8 12
+[ABabCcBDCEbdAceaFBfb] <
+A[aBCDbEFcdefDdFBfb] >
+[ABabCcBDEFbdAefaEBeb] <
+A[aBCAbDEcadeFfEBeb] >
+[AaBCbDEcdeEBeb] 10 10
+[AaBCbDEcdeAaEBeb] 3 7
+[AaBACbDEacdeAaEBeb] >
+[AaBCDbEFcdefAaFBfb] >
+[AaBCbDEcdeBbEBeb] <
+[AaBCbDEcdeBbE]e >
+A[aBbACDacBdb] 1 3
+A[BaCbcABDabCdc] <
+A[BCabcDBdCb]c 7 10
+A[BCaDbcdABCab]c 7 11
+A[BCDabcEdABeCab]c <
+A[BCabcDEBdCeb]c 8 12
+A[BCDaEbcdeABCab]c >
+A[BCabcDEFBdCefb]c <
+A[BaCbcADBadCbc] 1 4
+A[BCaDbcdABCabDcd] >
+AB[CabcDABdaCbc] 5 9
+AB[CabDcEABdeaCbc] <
+A[BCaDbcdAECaeDcd] 10 14
+A[BCaDbcdAEBCaeDbcd] <
+A[BCaDbcdAEBCae]bc <
+A[BCaDbcdAEB]aeb 6 11
+A[BCaDbEcdAFBe]afb >
+ABC[DabcEFdAe]fa >
+AB[CaDbcEF]def 3 9
+A[BCaDbcdAEFCaeDfcd] >
+AB[CabcDEFBdeCfbc] <
+AB[CabcDEFBde]fb <
+AB[CabcDEF]def 3 9
+A[BaCbcADEadCec] <
+A[BCabcDEdCe]c 8 11
+A[BCaDbcdAEBae]b 6 11
+A[BCaDbEcdAFBeaf]b >
+A[BCDabcEFdAe]fa >
+A[BCabcDEFdCef]c <
+A[BCabcDEFd]ef 3 9
+[AaBCbDEcdeCcEBeb] >
+[AaBCbDEcdeDdEBeb] >
+[ABaCDbcdCcDAda] 2 6
+[AaBCbDEcdeEeEBeb] >
+[ABaCDbcdDdDAda] 10 12
+[ABCabcBbBDCbdAca] <
+[ABCabcBbBDCbd]c <
+[AaBCbDEcdeFfEBeb] 3 7
+[AaBACbDEacdeFfEBeb] >
+[AaBCDbEFcdefCcFBfb] >
+[ABaCDbcdDBdb] >
+A[BCabcCAca] 6 7
+A[BCabcACaAca] >
+[ABaAbaBC]bc 1 3
+[ABCabAcaCB]cb 1 4
+[ABCDabcAdaDC]dc >
+ABC[abDcdCB]cb 7 10
+ABC[abDcAdCBa]cb 7 11
+ABC[abDcEAdCBea]cb <
+ABC[abDcEdCBe]cb 8 12
+ABC[abDcEFdCBef]cb <
+AB[abCBcDCbdc] >
+A[aBAbCBacb] 1 3
+A[BCabcBCbAca] 5 7
+A[BCabAcBaCbAca] 10 13
+[ABCaDbcAdCaDAcd]a <
+A[BCabDcBdCbAca] <
+A[BCabDcBdCb]c 7 10
+A[BCaDbcAdBCab]c 3 7
+A[BCDaEbcdAeBCab]c >
+A[BCabDcEBdCeb]c 8 12
+A[BCabDcEFBdCefb]c <
+A[BCabcDCdAca] 4 7
+A[BCaAbcDaCdAca] >
+A[BCaDbcEdCeAca] 8 12
+[ABCaDbEcdBCeAbc]a 8 13
+A[BCDaEbcFdBeCfAbca] >
+[ABCaDbEcFdBCe]fbc <
+A[BCaDbcEFdCeAfca] <
+A[BCaDbcEFdCe]fc <
+[ABaCDbcdDCdc] 0 2
+[ABCabADcadDAda] 10 11
+[ABCabADcadADaAda] 9 11
+[ABaAbCaBcADbaCAdca] <
+[ABaAbCaBcADbaC]dc <
+A[BCabDcBdCbBcb] <
+[ABCabADcaCdAcDaAda] 4 8
+[ABCaDbAEcdaCeAcEaAea] >
+AB[CaDEbcdBeDbEdDed] >
+AB[CDabcAdCaDcCdc] >
+ABC[abDcBdCbBcb] 7 10
+ABC[abDcABdCabBcb] <
+ABC[abDcEBdCebBcb] 8 12
+ABC[abDcEABdCeabBcb] <
+ABC[abDcEFBdCefbBcb] <
+[ABCabADcaEdAeDaAda] >
+AB[aCDbcEdCeDcCdc] >
+[ABaCbcBADbaCAdca] <
+AB[aCDbcdADaCdc] >
+A[BCabcDCdBcb] 7 10
+A[BCabcDACdBacb] 3 7
+A[BCDabcEdACeBacb] >
+[ABCaDbcEdBA]eba 6 11
+A[BCabcDECdBecb] 8 12
+A[BCabcDEACdBeacb] 3 8
+A[BCDabcEFdACeBfacb] >
+[ABCDaEbcFdeBA]fba >
+ABC[abDEcFBd]efb <
+A[BCabcDEFCdBefcb] <
+A[BCabcDEFCd]efc <
+[ABCabADcadCDcAda] 14 16
+[ABCabDcdCBDcbABdab] <
+AB[aCDbcdBDbCAdca] >
+[ABCabDcdCBDcb]d <
+[ABCabDcdCB]cb 7 10
+[ABCabDcEdCBe]cb 8 12
+[ABCabDcEFdCBef]cb <
+[ABCabAcaCBAcbDBadb] <
+AB[aCDbcdBDbCBdcb] >
+[ABCabAcaCBAcb]a <
+[ABCabDcdCBDcbEBdeb] <
+AB[aCDbcdBDbCEdce] >
+[ABCabADcadEDeAda] 0 3
+[ABCDabcBAdbaEAeBab] 16 18
+[ABCDabcBAdbaEAeBCabc] >
+ABC[abADcadEDeABdab] >
+AB[aCDbcdEDeCAdca] >
+[ABCabDcdCBEcb]e <
+[ABCabDcdCBAcbEBCaebc] <
+[ABCabDcdCBAcbEB]aeb <
+AB[aCDbcdEDeCBdcb] >
+[ABCabDcdCBAcb]a <
+[ABCabAcaCBDcbEBCdebc] <
+[ABCabAcaCBDcbEB]deb <
+AB[aCDbcdEDeCEdce] >
+[ABCabAcaCBDcb]d <
+[ABCabDcdCBEcbFBCefbc] <
+[ABCabDcdCBEcbFB]efb <
+AB[aCDbcdEDeCFdcf] >
+[ABCDabcBEdbeAEaBeb] 16 18
+[ABCDabcBEdbeAEaBAeba] >
+[ABCDabcBEdbeAEaBCebc] >
+[ABCDabcBEdbeAEaBDebd] >
+[ABCabDcdCBEcbFBDefbd] <
+[ABCDabcBEdbeFEfBeb] 16 18
+[ABCDabcBEdbeFEfBAeba] >
+[ABCDabcBEdbeFEfBCebc] >
+[ABCDabcBEdbeFEfBDebd] >
+[ABCDabcBEdbeFEfBFebf] >
+[ABabBACbaDBcdb] 3 4
+[ABaAbaBACbaDBcdb] >
+[ABCabDAcdaDAd]a >
+AB[aCDbcdCDc]d >
+A[BCabcBCb]c 5 7
+[ABaCbcBACbaDBcdb] 10 14
+[ABaCbcBACbDaEBcdeb] 0 0
+[AaABaCbcBACbDaEBcdeb] <
+ABC[aDbEcdeCEcDedDd] <
+ABC[aDbEcdeCEcDed] >
+AB[CaDbcdBDbCdc] >
+AB[CabcACaBcb] >
+[ABaCbcBA]ba 0 2
+[ABCDabEcAdeaDAdEaeAa] >
+ABC[aDbEcdeCEcDedEe] >
+AB[CaDbcdBDbCdcDd] >
+AB[CabcACaBcbCc] <
+[AaBCbAcaCBAcDbECadec] <
+ABC[aDbEcdeCEcDedCc] <
+[ABCDabEcAdeaDAdEaeCc] >
+ABC[aDbEcdeCEcDedBb] >
+AB[CaDbcdBDbCdcAa] 3 7
+AB[CDaEbcdeBEbCecAa] >
+[AaBCbDcdCEBDc]ebd <
+[AaBCbDcdCEB]ceb >
+ABC[abcDCdAca] 4 7
+ABC[aAbcDaCdAca] >
+ABC[aDbcEdCeAca] 8 12
+[ABCaDbEcdBCeA]bca 8 13
+ABC[DaEbcFdBeCfAbca] >
+ABC[aDbcEFdCeAfca] <
+[ABCDabEcAdeaDAdEaeBb] >
+ABC[aDbEcdeCEcDedAa] >
+AB[CaDbcdBDbCdcEe] >
+AB[CabcACaBcbDd] 2 5
+AB[CDabcdADaBdbCc] >
+ABC[abcDCdAcaBb] <
+[AaBCbDcdCEBDce]bd <
+[AaBCbDcdCBDcEbFCdefc] <
+ABC[aDbEcdeCEcDedFf] >
+[ABaCbcBADbaCBdcb] <
+[ABaCbcBADbaEBdeb] 0 0
+[AaABaCbcBADbaEBdeb] <
+AB[aCDbcdEDeCdcCc] >
+A[BCabcDCdBcbBb] <
+[ABCabDAcdaEAeDadAa] >
+AB[aCDbcdEDeCdcDd] >
+A[BCabcDCdBcbCc] <
+[AaBCbAcaCBDcbECdec] <
+AB[aCDbcdEDeCdcEe] >
+A[BCabcDCdBcbDd] <
+[ABCabDAcdaEAeDadCc] >
+AB[aCDbcdEDeCdcBb] >
+A[BCabcDCdBcbAa] <
+[ABCabDAcdaEAeDadBb] >
+AB[aCDbcdEDeCdcAa] >
+A[BCabcDCdBcbEe] <
+[AaBCbDcdCBEcbFCefc] <
+AB[aCDbcdEDeCdcFf] >
+[ABCabDEcdeEDed] 12 14
+[ABCabDEcdeEDAeda] >
+AB[aCDbcdDCEdce] 8 9
+[ABCabDcdCBEcbD]ed <
+AB[aCDbcdCDcCEdce] <
+AB[aCDbcdCDcC]dc <
+[ABCabDEcdeEDBedb] >
+AB[aCDbcdDCAdca] 8 9
+AB[aCDbcdADaCAdca] >
+AB[aCDbcdCDcCAdca] <
+[ABCabDEcdeEDCedc] 10 11
+[ABCabDEcdeAEaDCedc] >
+[ABCabDEcdeBEbDCedc] >
+AB[aCDbcdADaCBdcb] >
+[ABCabDEcdeCEcDCedc] >
+[ABCabDEcdeDEdDCedc] <
+[ABCabDEcdeDEdD]ed >
+[ABCabDEcdeFEfDCedc] >
+[ABCabDEcdeEDFedf] >
+[ABaCDbcdDEde] 4 7
+[ABabBCDEbcdCec] 11 13
+[ABCabDAEcdaeEBeb] 12 12
+[ABCabDAEcdaeAaEBeb] 2 6
+[ABCDabEcACdeacAaCBcb] >
+ABC[aDbEBcdebEeBAba] >
+[ABabCcBCDEbcBd]eb <
+[ABCDabEcAFdeafAaFBfb] >
+ABC[aDbEFcdefEeFAfa] >
+AB[CaDEbcdeDdEFef] >
+[ABCabDAEcdaeBbEBeb] 13 15
+[ABCabDAEcdaeBAbEaBeb] >
+AB[aCDEbcdeADaEdAea] >
+A[BCDabcdECeDcEde] >
+[ABCabDAEcdaeBCbEcBeb] >
+[ABaCbAcaBDECbdeA]ca <
+[ABaCbAcaBDECbde]c <
+[ABCabDAEcdaeBDbEdBeb] >
+AB[aCDEbcdeACaEcAea] >
+[ABaCbAcaBDCEbdc]e <
+[ABCabDAEcdaeBFbEfBeb] >
+AB[aCDEbcdeAFaEfAea] >
+A[BCDabcdEFeDfEde] >
+[ABCabDAEcdaeCcEBeb] >
+[ABabCcBDECbdeA]ca <
+[ABabCcBDECbde]c 5 7
+[ABabCAcBaDECbde]c 0 0
+[AaABabCAcBaDECbde]c <
+[AaBAbaCBcAbDECade]c <
+A[BCDabcEdAeaDEdeAa] >
+A[BCDabcEdAeaDEdeCc] >
+A[BCDabcEdAeaDEdeBb] >
+[AaBCbcDBdCbEFDcef]d <
+[ABabCDcBdDECbde]c <
+[ABabCDcBdEDCbed]c <
+[ABabCDcBdEFCbef]c <
+[ABCabDAEcdaeDdEBeb] 2 6
+[ABCDabEcACdeacEeCBcb] >
+ABC[aDbEBcdebDdBAba] >
+[ABabCcBDCEbdBc]eb <
+[ABCDabEcAFdeafEeFBfb] >
+ABC[aDbEFcdefDdFAfa] >
+AB[CaDEbcdeCcEFef] >
+[ABCabDAEcdaeEeEBeb] >
+AB[aCDEbcdeEeEAea] >
+A[BCDabcdDdDEde] 10 12
+[ABCabcBbBDECbde]c <
+ABC[abcCcDCEdce] >
+[ABCabcBbBDCEbdc]e <
+[ABCabcBbBDC]bdc <
+A[BCDabcdDdCDEcde] >
+[ABCabcBbBCD]bcd >
+ABC[abcCcBC]bc >
+A[BCDabcdDdEDFedf] >
+[ABCabDAEcdaeFfEBeb] >
+AB[aCDEbcdeFfEAea] >
+A[BCDabcdEeDFdf] 7 9
+[ABabCDcBdEFDbef]d <
+A[BCDabcBdEbeDFdf] >
+A[BCDabcCdEceDFdf] >
+A[BCDabcEdFefDEde] >
+[ABabBCDEbcdBCebc] <
+[ABabBCDEbcdB]eb 4 4
+[ABabAaBCDEbcdB]eb <
+A[BCDabcdEeDEde] 9 11
+[ABabBbBCDEbcdB]eb <
+[ABabCcBCDEbcdB]eb <
+A[BCDabcdCcDEde] 7 9
+[ABabCDcBdCEDbce]d <
+A[BCDabcBdCbcDEde] >
+A[BCDabcEdCecDEde] >
+A[BCDabcEdCecDFdf] >
+[ABabCcBDCEbdcB]eb <
+[ABabCcBDCEbdc]e <
+[ABabCcBDECbdeB]cb <
+[ABabCcBDEFbdeB]fb <
+[ABabBCDEbcdDCedc] 0 0
+[AaABabBCDEbcdDCedc] <
+[AaABabBCDEbcdD]ed <
+A[BCDabcdDEdeEe] 8 8
+[AaABabCcBDECbde]c >
+A[BCDabcdBbDEdeEe] >
+[AaABabCcBDC]bdc <
+AB[abCcBDbdDd] >
+[AaABabCcB]b 4 7
+[AaABCabDcdB]b >
+A[BCDabcdCcDEdeEe] <
+A[BCDabcdDdDEdeEe] <
+A[BCDabcdEeDEdeEe] >
+ABC[abcDdCDcdDd] >
+AB[abCcBCbcCc] >
+[AaABabAaB]b 5 7
+[AaABaCbAcaB]b >
+A[BCDabcdEeDFdfFf] <
+[AaBAbaACDEacdDCedc] 6 6
+[AaBAbaAaACDEacdDCedc] >
+[ABabBbBCDEbcdDCedc] <
+[ABabBbBCDEbcdD]ed <
+[AaBAbaBbACDEacdDCedc] >
+[ABabAaBCDEbcdDCedc] <
+[ABabAaBCDEbcdD]ed <
+[AaBAbaCcACDEacdDCedc] >
+[ABabCcBCDEbcdDCedc] <
+[ABabCcBCDEbcdD]ed <
+[ABCabBADcbadBbDEdeDd] >
+[AaBAbaCcADCEadcC]ec >
+[ABabCcBDCEbdcC]ec <
+[ABCabBADcbadCcDEdeDd] <
+[ABabCcBDECbdeEDced] <
+[ABabCcBDECbdeE]ce <
+[ABCabBADcbadEeDFdfDd] >
+AB[aACDbacdEeDFdfDd] >
+A[BCDabcdEeDFdfDd] >
+ABC[abcDdCEceCc] >
+AB[abCcBDbdBb] >
+[AaBAbaCcA]a 4 7
+A[aBCbADcadAa] 1 3
+A[BaCbBcADbadAa] 2 5
+A[BCaDbcBdACbacAa] <
+A[BCaDbcBdAEbaeAa] <
+A[BaCbDcABdabAa] <
+A[BaCbDcAEdaeAa] <
+[ABCabBADcbadDEdeAa] 12 12
+[ABCabBADcbadAaDEdeAa] >
+AB[aACDbacdCcDEdeCc] >
+A[BCDabcdCcDEdeCc] >
+ABC[abcBbCDcdBb] >
+AB[abAaBCbcAa] >
+A[aBbACacBb] 3 6
+A[aBCbADcadBb] <
+[ABCabBADcbadBbDEdeAa] >
+AB[aACDbacdAaDEdeCc] >
+A[BCDabcdBbDEdeCc] <
+[ABCabBADcbadCcDEdeAa] >
+AB[aACDbacdBbDEdeCc] >
+A[BCDabcdAaDEdeCc] <
+[ABCabBADcbadDdDEdeAa] >
+AB[aACDbacdDdDEdeCc] >
+A[BCDabcdDdDEdeCc] <
+[ABCabBADcbadEeDEdeAa] >
+AB[aACDbacdEeDEdeCc] >
+A[BCDabcdEeDEdeCc] >
+ABC[abcDdCDcdBb] >
+AB[abCcBCbcAa] <
+[ABabAaBC]bc <
+[ABCabBADcbadEeDFdfAa] >
+AB[aACDbacdEeDFdfCc] >
+A[BCDabcdEeDFdfCc] <
+[ABCabBADcbadDEdeBb] 12 12
+[ABCabBADcbadAaDEdeBb] >
+AB[aACDbacdCcDEdeAa] >
+A[BCDabcdCcDEdeBb] >
+ABC[abcBbCDcdAa] >
+AB[abAaBCbcDd] >
+[AaBCbcDdC]c 4 7
+[AaBCAbcDadC]c >
+[AaBCDbcEdeC]c >
+[ABCabBADcbadBbDEdeBb] >
+AB[aACDbacdAaDEdeAa] >
+A[BCDabcdBbDEdeBb] <
+[ABCabBADcbadCcDEdeBb] >
+AB[aACDbacdBbDEdeAa] >
+A[BCDabcdAaDEdeBb] <
+[ABCabBADcbadDdDEdeBb] >
+AB[aACDbacdDdDEdeAa] >
+A[BCDabcdDdDEdeBb] <
+[ABCabBADcbadEeDEdeBb] >
+AB[aACDbacdEeDEdeAa] >
+A[BCDabcdEeDEdeBb] >
+ABC[abcDdCDcdAa] >
+AB[abCcBCbcDd] <
+[ABCabBADcbadEeDFdfBb] >
+AB[aACDbacdEeDFdfAa] >
+A[BCDabcdEeDFdfBb] <
+[ABCabBADcbadDEdeCc] 12 12
+[ABCabBADcbadAaDEdeCc] >
+AB[aACDbacdCcDEdeBb] >
+A[BCDabcdCcDEdeAa] >
+ABC[abcBbCDcdEe] >
+[ABCabBADcbadBbDEdeCc] >
+AB[aACDbacdAaDEdeBb] <
+[ABCabBADcbadCcDEdeCc] >
+AB[aACDbacdBbDEdeBb] <
+[ABCabBADcbadDdDEdeCc] >
+AB[aACDbacdDdDEdeBb] >
+A[BCDabcdDdDEdeAa] <
+[ABCabBADcbadEeDEdeCc] >
+AB[aACDbacdEeDEdeBb] >
+A[BCDabcdEeDEdeAa] >
+ABC[abcDdCDcdEe] >
+[ABCabBADcbadEeDFdfCc] >
+AB[aACDbacdEeDFdfBb] >
+A[BCDabcdEeDFdfAa] >
+ABC[abcDdCEceFf] >
+AB[abCcBDbdEe] >
+[AaBCbcCDEFcdeEDfed] <
+[AaBCbcCDEFcdeE]fe <
+A[BCDabcdDEdeFf] 8 8
+[AaBCbcDdCEFDcef]d >
+A[BCDabcdBbDEdeFf] <
+A[BCDabcdCcDEdeFf] >
+A[BCDabcdDdDEdeFf] <
+A[BCDabcdEeDEdeFf] >
+A[BCDabcdEeDFdfEe] >
+ABC[abcDdCEceDd] 7 10
+ABC[abcDAdCEaceDd] >
+AB[abCDcBEdbeCc] >
+ABC[abcDBdCEbceDd] <
+[ABCabDcdBCE]bce <
+[ABCabDcdBC]bc <
+ABC[abcDEdCFecfDd] >
+[ABabBCDEbcdFCefc] <
+AB[aCDEbcdeEFef] 10 10
+[ABabCcBDEFbdeC]fc <
+[ABabCcBDECbdeF]cf <
+AB[aCDEbcdeCcEFef] >
+AB[aCDEbcdeDdEFef] >
+AB[aCDEbcdeEeEFef] >
+AB[aCDEbcdeFfEFef] >
+[ABaCDEbcdeEDed] 10 11
+[ABaCbcBADEbadCec] 2 5
+[ABCaDbcdBACEbacDed] <
+A[BCDabcdEBDeCbdc] >
+ABC[abcDACdBacb] 3 7
+ABC[DabcEdACeBacb] >
+[ABCaDbcdBAECbaeDcd] 2 6
+[ABaCDEbcdeABCEaDbced] >
+A[BCDabcdEABDeCabdc] >
+ABC[abcDEACdBeacb] 3 8
+ABC[DabcEFdACeBfacb] >
+[ABaCDEbcdeABFEaDbfed] >
+A[BCDabcdEAFDeCafdc] >
+ABC[abcDEFCdBefcb] <
+ABC[abcDEFCd]efc <
+ABC[abcDEF]def 3 9
+[ABaCDEbcdeAFEaDfed] >
+A[BCDabcdEFDeCfdc] >
+ABC[abcDECdBecb] 8 12
+[ABaCDEbcdeBEbDed] 14 16
+[ABCabDcdCBEDcbeAda] <
+[ABCabDcdCBEDcbe]d <
+[ABCabDcdCBE]cbe <
+[ABaCDEbcdeBEbDBedb] >
+A[BCDabcdADaCAdca] >
+[ABCabAcaCBD]cbd <
+[ABaCDEbcdeBEbDCedc] >
+A[BCDabcdADaCBdcb] >
+[ABCabDcdCBA]cba <
+[ABCabDcdCBEDcbeFdf] <
+[ABaCDEbcdeCEcDed] 14 16
+[ABaCDEbcdeCEcDAeda] >
+A[BCDabcdBDbCEdce] >
+[ABCabDcdCBD]cbd <
+[ABaCDEbcdeCEcDBedb] >
+A[BCDabcdBDbCAdca] >
+[ABaCDEbcdeCEcDCedc] >
+A[BCDabcdBDbCBdcb] >
+[ABCabAcaCBA]cba <
+[ABaCDEbcdeCEcDFedf] >
+[ABaCDEbcdeDEdDed] >
+A[BCDabcdCDcCdc] >
+ABC[abcBCbBcb] >
+[ABaAbaBA]ba <
+[ABaAbaB]b 1 3
+[ABaCDEbcdeFEfDed] 11 14
+[ABCaDbcdBAEFbaeCfc] <
+[ABaCDEbcdeFBEfDbed] 12 16
+[ABCDaEbcdeBAFDbafCdc] >
+ABC[DabcdAEFCaefBcb] >
+ABC[abcDEFBdefAba] <
+ABC[abcDEFBdef]b <
+[ABaCDEbcdeFBCEfDbced] >
+[ABaCDEbcdeFCEfDced] >
+[ABaCDEbcdeEFef] 10 10
+[ABabCcBDEFbdeCfc] <
+[ABabCcBDECbdeFcf] <
+[ABaCDEbcdeCcEFef] >
+[ABaCDEbcdeDdEFef] >
+[ABaCDEbcdeEeEFef] >
+[ABaCDEbcdeFfEFef] >
+[ABaCDbcdCc] 0 0
+[AaABaCDbcdCc] 0 1
+[ABabBAbCDacdCc] <
+[ABCabDcdDCdc] 8 9
+[ABCabDcdADaCdc] >
+AB[aCbcDCdBcb] >
+[ABaCbcBAb]a 7 9
+[ABCabDcdBDbCdc] 5 7
+[ABCabADcadBDbCdc] >
+AB[aCDbcdADaBdb] >
+[ABCabBDcbdBDbCdc] >
+AB[aACbacACaBcb] >
+[ABCabDEcdeBEbCec] >
+[ABCabDcdCDcCdc] 7 9
+[ABCabDcAdCaDcCdc] 2 6
+[ABaAbCaBcADbECadec] <
+ABC[aDbcEdCeDcCdc] >
+AB[CabDcBdCbBcb] <
+[ABCabDcBdCbDcCdc] <
+[ABCabDcEdCeDcCdc] <
+[ABCabDcEdCeDc]d <
+[ABCabDcdEDeCdc] >
+[ABabBCbADcadAa] 4 5
+[ABabABaCbADcadAa] <
+[ABCabDcBdbDBdb] >
+AB[aCbAcaCAca] >
+A[BaCbcBCbc] 1 4
+A[BCaDbcdCDcd] 7 9
+[ABaCbAcBDaCbd]c <
+A[BCaDbcBdCbDcd] 2 6
+[ABaCbAcBDCaEbdc]e <
+[ABabCBcCbADcadAa] <
+[ABCabDcCdcDBdb] >
+AB[aCbBcbCAca] >
+A[BaAbaBCbc] <
+A[BaAbaB]b 1 3
+[ABabCBcDbACdacAa] <
+[ABCabDcAdaDBdb] <
+[ABabCBcDbAEdaeAa] 2 6
+[ABCabDBcdCbAEcaeAa] 3 8
+[ABCDabEBcdeCbADcadAa] >
+[AaBACbaDcEBCdeD]bcd <
+[AaBACbaDcEBCde]bc >
+[ABCDabEBcdeCbAFcafAa] >
+[AaBACbaDcEFCdeD]fcd >
+[ABCabDcEFCdeD]fcd <
+[ABCabDBcdEbACeacAa] >
+[AaBACbaDcEBdeD]bd >
+AB[aCAbcDaEBdeb] >
+[ABCabDBcdEbAFeafAa] >
+[AaBACbaDcEFdeD]fd >
+[ABCabDcEFdeD]fd <
+[AaBACbaDcdDBdb] >
+[ABCabDcdDAda] 7 8
+[ABCabDcAdaDAda] 5 8
+[ABabABCaDbcCAdca] <
+[ABabABCaDbcC]dc <
+[ABCabDEcAdeaEAea] >
+AB[aCDbEcdeDEde] >
+[ABCabDcCdcDAda] >
+AB[aCbBcbCDcd] >
+[ABCabDcEdeDAda] 10 12
+[ABCabcDBdEbCAeca] >
+[ABabBCbDEcdeDd] 10 12
+[AaBCAbDcaEdeEBeb] 12 12
+[AaBCAbDcaEdeAaEBeb] >
+[ABCaDbcEdeCcEAea] >
+[ABabCcBDbCEd]ce <
+[ABabCcBDbC]dc 7 10
+AB[CaDbcdAaDCdc] >
+AB[CabcDdCBcb] 7 10
+AB[CabcDAdCBacb] 7 11
+AB[CabcDEAdCBeacb] <
+ABC[aDbcdAEBa]eb 6 11
+ABC[aDbEcdAFBea]fb >
+AB[CDabcEFdAe]fa >
+AB[CabcDEdCBecb] 8 12
+AB[CabcDEFdCBefcb] <
+AB[CabcDEFdC]efc <
+AB[CabcDEFd]ef 3 9
+[ABabCcBDEbCd]ec 5 7
+[ABabCAcBaDEbCd]ec 0 0
+[AaABabCAcBaDEbCd]ec <
+AB[CabDcEdeCDcdDd] >
+[AaBAbaCBcAbDEaCd]ec <
+AB[CabDcEdeCDcdCc] >
+AB[CaDbcEdAeaDEdeAa] >
+AB[CabDcEdeCDcdEe] >
+AB[CaDbcEdAeaDEdeCc] >
+AB[CabDcEdeCDcdBb] >
+AB[CaDbcEdAeaDEdeBb] >
+AB[CabDcEdeCDcdAa] >
+[AaBCbcDBdCbEFcDe]fd <
+AB[CabDcEdeCDcdFf] >
+[ABabCDcBdDEbCd]ec <
+AB[CabBcDbdCEce] >
+[ABabCDcBdEDbCe]dc <
+[ABabCDcBdEDb]ed <
+[ABabCDcBdEFbCe]fc <
+AB[CabDcEdeCFcf] >
+[AaBCAbDcaEdeBbEBeb] 13 15
+[AaBCAbDcaEdeBAbEaBeb] >
+[ABCaDbcEdeACaEcAea] <
+A[BaCbcADaBEdCbec] <
+AB[CabDcdEBeDb]d >
+A[BaCbcADaB]db <
+A[BabCDcBd]b 2 5
+A[BCabDcCdBc]b 7 10
+A[BCabDcACdBac]b 7 11
+A[BCabDcEACdBeac]b <
+ABC[DabcAdEBae]b 6 11
+ABC[DabEcAdFBeaf]b >
+A[BCabDcECdBec]b 8 12
+A[BCabDcEFCdBefc]b <
+A[BCabDcEFCd]efc <
+A[BCabDcEdBe]b 8 11
+A[BCaDbcEdABea]b >
+AB[CabDcEAde]a 3 8
+AB[CDabEcFdAef]a 5 11
+A[BCabDcEFdBef]b <
+A[BCabDcEFd]ef 3 9
+[AaBCAbDcaEdeBCbEcBeb] >
+[ABaCbAcaBDbECdAeca] <
+[ABaCbAcaBDbECd]ec <
+AB[aCbcDEdCeDcd] >
+A[BabCDcBdCbc] >
+[AaBCAbDcaEdeBDbEdBeb] >
+[ABCaDbcEdeADaEdAea] >
+AB[CabDcdECeDcEde] >
+[ABaCbAcaBCbD]cd <
+[ABaCbAcaBCb]c 7 9
+A[BaAbCaAcBaCbc] >
+[ABaCbAcDaBdCb]c 8 12
+[ABaCbAcDEaBdCeb]c <
+[ABaCbAcDEaBd]eb <
+[AaBCAbDcaEdeBFbEfBeb] >
+[ABCaDbcEdeAFaEfAea] >
+AB[CabDcdEFeDfEde] >
+[AaBCAbDcaEdeCcEBeb] >
+[ABabCcBDbECdAeca] <
+[ABabCcBDbECd]ec 2 5
+[ABCabDcdBCbEDc]ed <
+[ABCabDcdBCbE]ce <
+[ABCabDcdBCb]c 7 10
+[ABCabDcAdBCab]c 7 11
+A[BCDabEcdAeBCabc] >
+[ABCabDcEdBCeb]c 8 12
+[ABCabDcEFdBCefb]c <
+[ABCabDcdBEbCDe]cd <
+[ABCabDcdBEbC]ec <
+[ABCabDcdBEb]e <
+[ABCabDcdBEbFDe]fd <
+AB[aCbcDEdCFecf] >
+[AaBCAbDcaEdeDdEBeb] >
+[ABCaDbcEdeDdEAea] <
+[ABCaDbcEdeDdE]e <
+[ABCaDbcEdeDd] 9 11
+[ABaCbAcDEaBdeb] <
+[ABCaDbcEdBeDbd] 10 13
+[ABCaDbcAdECaBecb] >
+[ABCaDbcEdBCeDbcd] >
+[ABCaDbcEdBFeDbfd] <
+[ABCaDbcEdFeDfd] >
+[AaBCAbDcaEdeEeEBeb] 14 16
+[AaBCAbDcaEdeEeAEBaeb] >
+[ABCaDbcEdeEeCEAcea] >
+[ABCabcBbBDbCEd]ce <
+[ABCabcBbBDbC]dc <
+[ABCabcBbBDb]d >
+A[BabBbCB]cb >
+[AaBCAbDcaEdeEeCEBceb] >
+[ABCabcBbBDbECdAeca] <
+[ABCabcBbBDbECd]ec <
+AB[aCbcCcDCEdce] >
+[AaBCAbDcaEdeEeDEBdeb] >
+[ABCaDbcEdeEeDEAdea] <
+[ABCaDbcEdeEeDE]de >
+AB[CabDcdDdCD]cd >
+AB[aCbcCcBC]bc >
+AB[abAaABa]b <
+[AaBCAbDcaEdeEeFEBfeb] >
+[ABCaDbcEdeEeFEAfea] >
+AB[CabDcdDdEDFedf] >
+[AaBCAbDcaEdeFfEBeb] 5 10
+[AaBCADbEcaFdefDdFBfb] >
+[ABCDaEbcFdefDdFAfa] >
+ABC[DabEcdeCcEFef] >
+[ABabCcBDCbE]dce <
+[ABabCcBDCb]dc 2 5
+[ABCabDcdBCDb]cd 7 10
+AB[CaDbcAdBaCDbcd] 5 9
+AB[CaDEbcAdeBaCDbcd] >
+[ABCabDcEdBCeDb]cd <
+[ABCabDcdBEDb]ed <
+[ABabBCbDEcBdebDd] 4 4
+[ABabAaBCbDEcBdebDd] 3 5
+[ABaCbAcaBCbDEcBdebDd] <
+[ABaCbAcaBCbDEcBdeb] <
+[ABaCbAcaBDbCEdBcebCc] >
+A[BaCbcADaBEdAbeaBb] <
+[ABCaDbcAdaECeAc]a >
+[ABaCbAcaBDbECdBecbEe] <
+[ABaCbAcaBDbECdBecb] <
+[ABaCbAcaBDbEFdBefbEe] <
+[ABaCbAcaBDbEFdBefb] <
+[ABabBbBCbDEcBdebDd] 2 4
+[ABCabcBbBCbDEcBdebDd] <
+[ABCabcBbBCbDEcBdeb] >
+[ABCaDbcAdaAaDA]da >
+[ABCabcBbBDbCEdBcebCc] <
+[ABCabcBbBDbCEdBceb] <
+[ABCabcBbBDbECdBecbEe] <
+[ABCabcBbBDbECdBecb] <
+[ABCabcBbBDbEFdBefbEe] <
+[ABCabcBbBDbEFdBefb] <
+[ABabCcBCbDEcBdebDd] >
+[AaBCAbDcaBdbDdB]b >
+[ABCaDbcAdaDdA]a <
+[AaBAbCDaBcdb] 1 3
+[ABaCbAcBDaCbdc] <
+[ABaCbAcDBaCdbc] 8 12
+[ABaCbAcDEBaCdebc] <
+[ABaCbAcDEBa]deb <
+[ABaCbAcDEaCdec] <
+[ABabCcBDbCEdBcebCc] >
+[AaBCAbDcaBdbAaB]b >
+[ABCaDbcAdaCcA]a <
+[AaBCbADcBadb] 1 3
+[ABCaDbcAdDaCdc] 9 12
+[ABCaDbcAdBDaCbdc] >
+AB[CabDcACdBacb] 3 7
+AB[CDabEcdACeBacb] 8 13
+AB[CDabEcFdACeBfacb] >
+[ABCaDbcAdEDaCedc] >
+AB[CabDcECdBecb] 8 12
+AB[CabDcEACdBeacb] 3 8
+AB[CabDcEFCdBefcb] <
+AB[CabDcEFCd]efc <
+[ABCaDbcAdBaCbc] 2 6
+[ABaCbDcAEBdCaebc] 1 4
+[ABCaDbcBdAECbDaecd] 2 6
+[ABCDaEbcdAeBCEaDbced] <
+ABC[DabcAdEBCaDebcd] >
+[ABCDaEbcdAeBFEaDbfed] >
+ABC[DabcEdAFDeCafdc] >
+ABC[abDcEFCdBefcb] <
+ABC[abDcEFCd]efc <
+[ABCDaEbcdAeBCaDbcd] <
+[ABCaDbcEdAFCeDafcd] >
+[ABCaDbcAdEaCec] 1 4
+[ABaCbDcAEdDCaedc] 1 4
+[ABCDabBcdAbEBaDebd] >
+[ABCaDbcBdAEbB]aeb <
+[ABCDabBcdAbECaDecd] >
+ABC[aAbcDaEBdCebc] >
+[ABCaDbcEdABe]ab 5 10
+[ABCaDEbcFdAeBf]ab >
+[ABCaDbcEdAFeEDafed] >
+AB[CabDcEFdDCefdc] <
+AB[CabDcEFdD]efd <
+[ABaCbDcAEdBCaebc] 2 6
+[ABCDabEcdACeBaDcbd] <
+[ABCDabEcdACeBa]cb 8 13
+[ABCDabEcFdACeBfa]cb >
+AB[CDaEbcFdBeA]fba >
+[ABCDabEcdAFeBaDfbd] >
+[ABCaDbEcdAFeB]afb >
+AB[CaDbcEFdA]efa >
+[ABaCbDcAEdFCaefc] 1 4
+[ABCDabEcdAeFEaDfed] 12 16
+[ABCDabEcdAeFBEaDfbed] >
+ABC[aDbcEdFADeCfadc] >
+[ABCDabEcdAeFCEaDfced] >
+ABC[aDbcEdFBDeCfbdc] >
+[ABCDabEcdAeFCaDfcd] >
+ABC[aDbcEdFBeCfbc] >
+[ABCDabEcdAeFBaDfbd] >
+[ABCaDbcEdAFeB]afb >
+ABC[aDbcEdFAe]fa >
+[ABabCcBDbECdBecbEe] <
+[ABabCcBDbECdBecb] 2 5
+[ABCabDcdBCbEDcBedb] <
+[ABCabDcdBEbCDeBcdb] <
+[ABCabDcdBEbFDeBfdb] <
+[ABabCcBDbEFdBefbEe] 2 5
+[ABCabDcdBCbEFcBefbEe] <
+[ABCabDcdBCbEFcBefb] <
+AB[CabDcdECeDFcdf] >
+[ABCabDcdBEbCFeBcfbCc] <
+[ABCabDcdBEbCFeBcfb] <
+[ABCabDcdBEbCFe]cf <
+[ABCabDcdBEbFCeBfcbFf] <
+[ABCabDcdBEbFCeBfcb] <
+[ABCabDcdBEbFCe]fc <
+[ABabBCbDEcCdecDd] 4 4
+[ABabAaBCbDEcCdecDd] 3 5
+[ABaCbAcaBCbDEcCdecDd] <
+[ABaCbAcaBCbDEcCdec] <
+[ABaCbAcaBDbCEdDcedCc] >
+A[BaCbcADaBEdDbedBb] <
+[ABCaAbcDadECeDc]d >
+[ABaCbAcaBDbECdDecdEe] <
+[ABaCbAcaBDbECdDecd] <
+[ABaCbAcaBDbEFdDefdEe] <
+[ABaCbAcaBDbEFdDefd] <
+[ABabBbBCbDEcCdecDd] 2 4
+[ABCabcBbBCbDEcCdecDd] >
+AB[abAaABaCDbBcdbCc] <
+AB[abAaABaCDbBcdb] <
+[ABCabcBbBDbCEdDcedCc] >
+AB[abAaACaBDcCbdcBb] <
+AB[abAaACaBDcCbdc] <
+AB[CabDcdDdBD]bd >
+AB[abAaACaB]cb <
+[ABCabcBbBDbECdDecdEe] <
+[ABCabcBbBDbECdDecd] <
+[ABCabcBbBDbEFdDefdEe] <
+[ABCabcBbBDbEFdDefd] <
+[ABabCcBCbDEcCdecDd] 2 5
+[ABCabDcdBDbCEdDcedCc] >
+AB[aCbcACaBDcCbdcBb] >
+A[BabCBcADbBadbAa] <
+A[BabCBcADbBadb] <
+AB[CabDcdCBc]b 7 10
+AB[CabDcAdCBac]b 7 11
+AB[CabDcEAdCBeac]b <
+AB[CabDcEdCBec]b 8 12
+AB[CabDcEFdCBefc]b <
+[ABCabDcdBDbECdDecdEe] <
+[ABCabDcdBDbECdDecd] <
+[ABCabDcdBDbECd]ec <
+AB[aCbcBDbCEdce] >
+[ABCabDcdBDb]d <
+[ABCabDcdBDbEFdDefdEe] <
+[ABCabDcdBDbEFdDefd] <
+AB[CabDcdCEcDFedf] >
+[ABabCcBDbCEdDcedCc] <
+[ABabCcBDbCEdDced] <
+[ABabCcBDbECdDecdEe] <
+[ABabCcBDbECdDecd] <
+[ABabCcBDbEFdDefdEe] 2 5
+[ABCabDcdBCbEFcCefcEe] <
+[ABCabDcdBCbEFcCefc] <
+[ABCabDcdBEbCFeEcfeCc] <
+[ABCabDcdBEbCFeEcfe] <
+[ABCabDcdBEbFCeEfceFf] <
+[ABCabDcdBEbFCeEfce] <
+[ABabBCbDEcFdefDd] 4 4
+[ABabAaBCbDEcFdefDd] 3 5
+[ABaCbAcaBCbDEcFdefDd] <
+[ABCaDbcEdeFDfEdFef] >
+[ABaCbAcaBDbCEdFcefCc] >
+A[BaCbcADaBEdFbefBb] <
+[ABCaDbcEdeFCfEc]e >
+[ABaCbAcaBDbECdFecfEe] <
+[ABaCbAcaBDbECdFecf] <
+[ABaCbAcaBDbEFdCefcEe] <
+[ABaCbAcaBDbEFdCefc] <
+[ABabBbBCbDEcFdefDd] 2 4
+[ABCabcBbBCbDEcFdefDd] >
+AB[abAaABaCDbEcdeCc] <
+[ABCabcBbBDbCEdFcefCc] >
+AB[abAaACaBDcEbdeBb] <
+[ABCaDbcEdeEeCE]ce >
+[ABCabcBbBDbECdFecfEe] <
+[ABCabcBbBDbECdFecf] <
+[ABCabcBbBDbEFdCefcEe] <
+[ABCabcBbBDbEFdCefc] <
+[ABabCcBCbDEcFdefDd] >
+A[aBbABaCDbEcdeCc] >
+[AaBAbCDaEcdeCc] <
+[ABabCcBDbCEdFcefCc] <
+[ABCaDbcEdeCcEFef] >
+[ABabCcBDbECdFecfEe] <
+[ABabCcBDbECdFecf] <
+[ABabCcBDbEFdCefcEe] 2 5
+[ABCabDcdBCbEFcDefdEe] <
+[ABCabDcdBCbEFcDefd] <
+[ABCabDcdBEbCFeDcfdCc] <
+[ABCabDcdBEbCFeDcfd] <
+[ABCabDcdBEbFCeDfcdFf] <
+[ABCabDcdBEbFCeDfcd] <
+[AaBACbaDcdCc] >
+[AaBCbADcadAa] <
+[AaBACbaDcdBb] 10 11
+[ABabCDcBAdbaBb] >
+[AaBACbaDcdCBcb] >
+[AaBACbaDcdEBeb] 10 10
+[AaBACbaDcdAaEBeb] >
+[ABabCcDEdCAeca] >
+[ABCabDcdBbE]e <
+[AaBACbaDcdBbEBeb] 10 10
+[AaBACbaDcdAaBbEBeb] >
+[ABabAaCcDEdCAeca] >
+A[aBbCcDEdCBecb] >
+[ABCabDcdBbAa] <
+[AaBACbaDcdBbBbEBeb] 11 12
+[AaBACbaDcdBAbaBbEBeb] <
+A[aBbCBcbDEdCBecbCc] >
+[AaBACbaDcdBAbaBb] >
+[ABCabDcdABabAa] <
+[ABCabDcdABab] 10 12
+[ABCabDcdABCabc] 7 11
+[ABCDabcEdAeBCabc] 5 10
+[ABCDaEbcFdAefBCabc] >
+ABC[DabEcFdeABfab] >
+ABC[aDbEcdFAefa] >
+AB[CaDbcEFdef] 3 9
+[ABCabcADaBCdbc] 1 4
+[ABCDabcdABaCDbcd] 5 9
+[ABCDaEbcdAeBaCDbcd] 7 12
+[ABCDaEbFcdAeBfaCDbcd] >
+ABC[DaEbcFdAefBCabc] >
+[ABCDabcdAEaCDecd] 10 14
+[ABCDabcdAEBaCDebcd] <
+[ABCDabcdAEBaC]ebc <
+[ABCDabcdAEBa]eb 5 10
+[ABCDaEbcdAFeBa]fb >
+[ABCDabcdAEFaCDefcd] >
+ABC[abcDEFdBCefbc] <
+ABC[abcDEFdB]efb <
+[ABCabcDEdBCebc] 8 12
+[ABCDabEcdeABCabc] >
+ABC[aDbcdEABeab] 5 10
+ABC[aDEbcdFAeBfab] >
+AB[CDabcEFdAefa] >
+[ABCabcDEFdBCefbc] <
+[ABCabcDEFdB]efb <
+[ABCabcDEFd]ef 3 9
+[AaBACbaDcdBCbcBbEBeb] >
+[ABCabDcdACacAaEAea] >
+AB[aCbcDBdbDdEDed] >
+[ABabAaCAcaDCd]c >
+A[aBbCBcbDCd]c >
+[AaBAbaCBc]b 1 3
+[ABaCbAcaDCd]c 7 10
+[ABaCbAcBaDCbd]c 8 12
+[ABaCbAcBDaECbde]c <
+[ABaCbAcDaECde]c 7 11
+[ABaCbAcDEaFCdef]c <
+[AaBACbaDcdBDbdBbEBeb] >
+[ABCabDcdADadAaEAea] <
+A[aBbCBcbCDcEBdeb] >
+[ABCabDcdADadAa] 7 9
+[ABCabDcBdAbDadAa] >
+[AaBAbCaBcDbC]dc 9 12
+AB[CaDbcAdCaDcdCc] <
+[ABaCbAcBDaCb]dc <
+[AaBAbCaBcDEbCd]ec >
+[ABaCbAcDEaCd]ec <
+[ABCabDcCdAcDadAa] >
+AB[aCbBcDbCdcDd] >
+A[BaAbCaBcbCc] 9 11
+[ABaCbAcBaCbBc]b 8 11
+[ABaCbAcBDaCbdBc]b <
+A[BaAbCaBcDbCdc] 9 12
+[ABCaDbcAdCaDcCd]c <
+A[BaCbAcBDaCbdc] <
+A[BaAbCaBcDEbCdec] <
+AB[CabDcEdCeEc]e <
+[ABCabDcEdAeDadAa] >
+AB[aCbDcEdCecEe] 11 13
+[ABaCbAcDaCdEcB]eb <
+A[BaCbDcBdEbDed] 4 7
+[ABaCbAcDEaCdeDc]d <
+[ABaCbAcDEaCde]c <
+[ABaCbAcBDaCbdEc]e <
+A[BaCDbEcdBeFbEfe] >
+[ABaCbAcDaCdBcE]be <
+[ABaCbAcDaCdBc]b 7 10
+[ABaCbAcDEaCdeBc]b <
+[ABaCbAcBaCbDcE]de <
+[ABaCbAcBaCbDc]d 10 13
+A[BCaDbcBdCbDcBdb] >
+AB[CabAcBaCbAca] 10 13
+[ABCaDbcAdCaDAc]da <
+A[BCaDbcEdCeDcEde] >
+AB[CabDcBdCbDcd] <
+AB[aCbDcEdCeFcEfe] >
+[AaBACbaDcdBEbeBbEBeb] >
+[ABCabDcdAEaeAaEAea] >
+AB[aCbcDEdeDdEDed] >
+A[BabCDcdCcDCdc] >
+A[aBCbcBbCBcb] 3 5
+A[aBACbacBbCBcb] >
+[ABCabcAaCAca] 7 9
+[ABCabcABaCbAca] 1 4
+[ABCDabcdACaDcAda] 9 12
+[ABCDabcdABCaDbcAda] 5 9
+[ABCDaEbcdAeBCaDbcAda] <
+[ABCDaEbcdAeBCaDbc]d <
+[ABCDabcdAECaDecAda] 10 14
+[ABCDabcdAEBCaDebcAda] <
+[ABCDabcdAEBCaDebc]d <
+[ABCDabcdAEBCa]ebc >
+ABC[DabcdEAB]eab 6 11
+ABC[DabEcdFABe]fab >
+ABC[DabcEFdA]efa >
+[ABCDabcdAEFCaDefcAda] >
+ABC[abcDEFBdCefbDcd] <
+ABC[abcDEFBdCefb]c <
+ABC[abcDEFBd]efb <
+[ABCabcADaCdAca] 2 5
+[ABCDabcdAEaDeAda] 10 13
+[ABaCDbAcdaBECAbeca] >
+[ABCDabcdAEBaDeb]d >
+[ABCDabcdAEFaDefAda] >
+ABC[abcDEFdCefDcd] <
+ABC[abcDEFdCef]c <
+A[aBCDbcdBbDBdb] >
+[AaBACbaDcdBEbeBbFBfb] >
+[ABCabDcdAEaeAaFAfa] >
+AB[aCbcDEdeDdFDfd] <
+AB[aCbcDEdeDdF]f >
+A[BabCDcdCcE]e >
+A[aBCbcBbD]d >
+[AaBACbaDcdCcBbEBeb] >
+[ABCabDcdCcAaEAea] <
+A[aBbCcDCdEBceb] >
+[ABCabDcdCcAa] 9 11
+[ABCabDcdCBcAba] <
+[ABCabDcdCBc]b 7 10
+[ABCabDcAdCBac]b 7 11
+[ABCabDcEAdCBeac]b <
+[ABCabDcEdCBec]b 8 12
+[ABCabDcEFdCBefc]b <
+[ABCabDcdCDcAda] <
+[ABCabDcdCDc]d 7 9
+[ABCabDcdCEcAea] 7 9
+[ABCabDcAdCaEcAea] 11 14
+[ABCaDbcAdEaDeCAdca] >
+AB[CabDcEdCeBDcbd] <
+AB[CabDcEdCeB]cb <
+[ABCaDbcAdCaDcEAdea] >
+AB[CabDcBdCbEDced] <
+AB[CabDcBdCbE]ce <
+[ABCaDbcAdEaDeFAdfa] >
+AB[CabDcEdCeFDcfd] <
+AB[CabDcEdCeF]cf <
+[ABaCbDcEdCeDAcda] >
+[ABCabDcBdCbEc]e <
+[ABCabDcEdCeEcAea] <
+[ABCabDcEdCeEc]e <
+[ABCabDcEdCeFcAfa] <
+[ABCabDcEdCeFc]f <
+[AaBACbaDcdDdBbEBeb] <
+[AaBACbaDcdDdBbE]e <
+[AaBACbaDcdDdBb] <
+[AaBACbaDcdEeBbEBeb] >
+[ABCabDcdEeAaEAea] <
+A[aBbAaCDcEBdeb] <
+AB[aCbcDdEeD]d >
+A[BabCcDdC]c >
+A[aBbCcB]b 5 7
+A[BaCbcAaB]b <
+A[BaCbcAa] 7 8
+A[aBbCDcBd]b >
+[AaBACbaDcdEeBbFBfb] 14 15
+[AaBACbaDcdEeBbAFaBfb] >
+[ABaCbcAaDdEFeCAfca] <
+[ABaCbcAaDdEFeC]fc <
+A[BabCcDdEFeDfd] >
+A[aBbCcDEdCec] >
+[AaBbCDcBdb] >
+[ABaCbcAa] 7 8
+[ABaCbcABab] 5 8
+[ABabACaBcb] 1 3
+[ABCabcABaCbc] 7 10
+[ABCabcADBaCdbc] 1 4
+[ABCDabcdABCaDbcd] 5 9
+[ABCDabcdAECaDecd] 10 14
+[ABCDabcdAEBCaDebcd] <
+[ABCDabcdAEFCaDefcd] >
+ABC[abcDEFBdCefbc] <
+[ABCabcADaCdc] 2 5
+[ABaCbcABDCabdc] 2 5
+[ABaCbcADECadec] 1 4
+[ABCDabcdAEBaDebd] >
+[ABCaDbcdAEB]aeb 6 11
+[ABCaDbEcdAFBe]afb >
+[ABCDabcdAEFaDefd] >
+ABC[abcDEFdCefc] <
+[ABabCDcBdb] 2 5
+[AaBACbaDcdEeBbBFbBfb] >
+[ABCabDcdEeAaAFaAfa] >
+AB[aCbcDdEeEFeEfe] <
+AB[aCbcDdEeEFe]f >
+A[BabBbCcDEd]e 4 4
+A[BabAaBbCcDEd]e <
+A[BabAaBbCcD]d <
+A[BabAaBbCc] >
+[AaBbCcB]b 5 7
+A[BaCbcAaBb] <
+[AaBbCDcBd]b >
+A[BabBbBbCcDEd]e >
+A[BabCcDdDdD]d >
+A[aAaAaBbC]c <
+A[aAaAaBb] >
+[AaAaBb] 1 2
+[ABabAaBb] 5 7
+[AaBbCBcb] >
+A[BabCcBbCcDEd]e >
+A[BabCcDdCcD]d >
+A[aBbAaBbC]c >
+A[aBbCcBb] 5 7
+[ABaCbcAaB]b <
+A[aBbCDcBdb] >
+A[BabCcBbDdCEc]e <
+A[BabCcBbDdC]c <
+A[BabCcBbDd] <
+A[BabCcBb] 2 5
+A[BCabDcdBb] 7 9
+A[BCabDcAdBab] 10 12
+[ABCabAcDaBCdb]c 2 5
+[ABCDabcAdCaBDcb]d 9 13
+[ABCDabcAdECaBDecb]d <
+[ABCDabcAdEaBDeb]d 10 14
+[ABCDabcAdEFaBDefb]d >
+A[BCDabEcdAeFB]afb >
+A[BCabDcCdBcb] 7 10
+A[BCabDcACdBacb] 3 7
+A[BCDabEcdACeBacb] 8 13
+A[BCDabEcFdACeBfacb] >
+A[BCabDcECdBecb] 8 12
+A[BCabDcEACdBeacb] 3 8
+A[BCabDcEFCdBefcb] <
+A[BCabDcEdBeb] 8 11
+[ABCaDbcEdABea]b >
+A[BCabDcEFdBefb] <
+A[BabCcBbDdECe]c <
+A[BabCcBbDdE]e <
+A[BabCcDdEeDFd]f >
+[AaBACbaDcdEeBbCFcBfb] >
+[ABCabDcdEeAaCFcAfa] >
+AB[aCbcDdEeBFbEfe] >
+[ABaCbcAaDdECe]c <
+[AaBACbaDcdEeBbDFdBfb] >
+[ABCabDcdEeAaDFdAfa] >
+AB[aCbcDdEeCFcEfe] >
+A[BabCcDdBEbDed] >
+[ABaCbcAaDdC]c <
+[AaBACbaDcdEeBbEFeBfb] >
+[ABCabDcdEeAaEFeAfa] >
+AB[aCbcDdEeDFdEfe] >
+A[BabCcDdCEcDed] >
+A[aBbCcBDbCdc] <
+A[BabCcBbD]d <
+[AaBACbaDcdCcEBeb] >
+[ABCabDcdCcEAea] 9 12
+[ABCabDcdEDeCAdca] >
+[ABCabDcdCBcE]be <
+[ABCabDcdCDcEAdea] >
+[ABCabDcdCDcE]de <
+[ABCabDcdEDeFAdfa] 3 7
+[ABCDabEcdeDEdFAefa] >
+ABC[aDbcdCDcEFdef] >
+[ABCabDcdCDEc]de 7 9
+[ABCabDcBdCbDEc]de >
+AB[CabDcBdCbD]cd <
+AB[CabAcBaCbDEcde] >
+[ABCabDcEdCeD]cd <
+[ABCabDcEdCeDFc]df <
+[ABCDabEcdeFEfDAeda] >
+ABC[aDbcdEDeCFdcf] >
+[ABCabDcdCBEc]be <
+[AaBACbaDcdDdEBeb] 12 14
+[AaBACbaDcdDdAEBaeb] 0 0
+[AaAaBACbaDcdDdAEBaeb] <
+AB[abCcCDcBEdbeBbBb] <
+AB[abCcCDcBEdbeBb] >
+[AaBACbaDcdDdA]a <
+[ABCabcDdDEdCAecaCcAa] >
+AB[abCcCDcBEdbeBbEe] >
+[AaBbABCabDcdDdB]b >
+[AaBbCBAcbDadDdBECbec] <
+AB[abCcCDcBEdbeBbDd] >
+[AaBbCBAcbDadDdB]b >
+[AaBbCBDcbAdaAaBECbec] <
+AB[abCcCDcBEdbeBbCc] <
+[ABCabcDdDEdCAecaCcBb] >
+AB[abCcCDcBEdbeBbAa] >
+[AaBbCBDcbEdeEeB]b >
+[AaBbCBDcbEdeEeBFCbfc] <
+AB[abCcCDcBEdbeBbFf] >
+[AaBACbaDcdDdCEBceb] >
+[ABCabDcdDdCEAcea] >
+[ABCabcDdDCdE]ce >
+AB[aCbcCcBD]bd >
+AB[abCcCBc]b 6 6
+AB[abCcAaCBc]b >
+A[BabCcBbA]a <
+AB[abCcBbCBc]b >
+A[BabAaBbA]a 7 8
+A[BabAaBAbaA]a 3 5
+A[BaCbAcaBAbaA]a <
+A[BaCbAcaBAba] >
+A[BabAaBCbcA]a >
+AB[abCcCcCBc]b <
+AB[abCcCcC]c >
+A[aAaAaB]b >
+AB[abCcDdCBc]b >
+[AaBACbaDcdDdDEBdeb] 12 15
+[AaBACbaDcdDdADEBadeb] >
+[ABCDabcdCcCEcDAeda] >
+ABC[abcBbBDbCEdce] >
+[ABCabDcdDdBD]bd >
+[AaBACbaDcdDdCDEBcdeb] >
+[ABCDabcdCcCDcEAdea] <
+[ABCDabcdCcCDcE]de >
+ABC[abcBbBCbD]cd >
+[AaBACbaDcdDdEDFBedfb] >
+[ABCabDcdDdEDFAedfa] >
+[ABCDabcdCcCEcF]ef >
+AB[aCbcCcDCE]dce >
+ABC[abcBbBDb]d >
+[AaBACbaDcdDdEFBefb] 12 15
+[AaBACbaDcdDdAEFBaefb] <
+ABC[abcDdDEdCFecfCc] >
+[AaBACbaDcdDdCEFBcefb] >
+[ABCDabcdEeEDeFAdfa] >
+[ABCabDcdDdCEF]cef >
+ABC[abcDdDCdE]ce >
+[AaBACbaDcdDdDEFBdefb] >
+[ABCDabcdDdDEdFAefa] <
+[ABCDabcdDdDEdF]ef <
+[ABCDabcdDdDEd]e >
+ABC[abcCcCDc]d 8 10
+A[BCabcBbBDC]bdc <
+A[BCabcBbBD]bd >
+A[BCabcBbBCD]bcd >
+ABC[abcCcDCEdc]e >
+[AaBACbaDcdEeEBeb] 8 10
+[AaBACbaDAcdaEeEBeb] 14 14
+[AaBACbaDAcdaEeAaEBeb] >
+[ABabCcBbCDEcdCAeca] >
+[ABCabDBcdbEeBbE]e >
+A[aBbAaBCDbcB]db >
+AB[aCAbcaDdAa] 9 11
+AB[aCAbcaDBdAba] >
+[ABaCbcADBad]b 2 5
+[ABCaDbcdACBac]b 7 10
+[ABCaDbcBdACbBac]b <
+[ABCaDbcEdACeBac]b >
+[ABCaDbcdAEBae]b 6 11
+[ABCaDbEcdAFBeaf]b >
+AB[aCAbcaDCdAca] >
+A[BCabcDBdCbc] 7 10
+[ABCaDbcdABCab]c 7 11
+A[BCDabcEdABeCabc] <
+A[BCabcDEBdCebc] 8 12
+[ABCDaEbcdeABCab]c >
+A[BCabcDEFBdCefbc] <
+AB[aCAbcaDEdAea] >
+A[BCabcDEdCec] 8 11
+A[BCabcDEFdCefc] <
+[AaBACbaDAcdaEeBbEBeb] >
+[ABabAaBbCDEcdCAeca] >
+A[aBbAaCDEcdCBecb] <
+A[aBbAaCDEcdC]ec <
+A[BCabcDdEeD]d >
+AB[abCcDdC]c >
+[AaBACbaDAcdaEeCcEBeb] >
+[ABabCcBbDECdeDAcda] >
+[ABCabDBcdbEeCcE]e >
+A[aBbAaCDBcdC]bc <
+A[aBbAaCDBcd]b <
+[AaBACbaDAcdaEeDdEBeb] >
+[ABabCcBbDCEdcDAeda] <
+[ABabCcBbDCEdcD]ed <
+[ABabCcBbDCEdc]e <
+[ABabCcBbDC]dc <
+[ABabCcBbD]d 5 7
+A[aBCbDcdBCbc] 3 6
+A[aBACbDacdBCbc] >
+[ABabCADcBadb] 2 5
+[ABCabDcAEdBaeb] 2 6
+[ABCDabEcdACeBacb] 8 13
+[ABCDabEcdAFeBafb] >
+ABC[aDbcEFdAefa] >
+A[aBCDbEcdeBDbd] >
+[ABabCDcBdbD]d <
+[ABabCDcBdbE]e <
+[AaBACbaDAcdaEeEeEBeb] >
+[ABabBbBbCDEcdCAeca] <
+[ABabBbBbCDEcdC]ec <
+A[BCabcDdDdDEde] >
+[ABabBbBbCD]cd >
+[AaBACbaDAcdaEeFfEBeb] >
+[ABabCcBbDEFdeDAfda] >
+[ABCabDBcdbEeFfE]e >
+[AaBACbaDBcdbEeEBeb] 3 6
+[AaBCADbcaCBdcbEeEBeb] >
+[ABabBbACDacECAdeca] <
+[ABabBbACDacEC]dec <
+AB[aCDbcdEeEDed] >
+A[BCabcDdDCdc] >
+AB[abCcCBcb] 6 6
+AB[abCcAaCBcb] >
+[ABabCcBbA]a 5 7
+[ABabCAcBabA]a 2 5
+[ABCabDcAdBabA]a 8 11
+[ABCabDcACdBacbA]a <
+[ABCabDcAEdBaebA]a <
+[ABabCDcBdbA]a <
+AB[abCcBbCBcb] >
+[ABabAaBbA]a 5 7
+[ABabACaBcbA]a 1 3
+[ABCabcABaCbcA]a 2 5
+[ABCDabcdABaDbdA]a <
+[ABaCbcADBCadbc] 5 9
+[ABCabcADaCdcA]a <
+AB[abCcCcCBcb] <
+AB[abCcDdCBcb] >
+[AaBCADbcaEBdebCcCBcb] >
+[ABCDabcEAdeaBbBAba] >
+[ABabBbACDacEB]deb <
+[AaBCADbcaEBdebFfFBfb] >
+[ABCDabcEAdeaFfFAfa] >
+ABC[abDEcdeFfFEfe] >
+[AaBACbaDEcdeEeEBeb] 4 9
+[AaBACDbaEFcdefFfFBfb] >
+[ABCDabEFcdefFfFAfa] >
+ABC[aDEbcdeEeEFef] >
+AB[CDabcdDdDEde] >
+ABC[abcCcCDcd] 8 10
+[AaBACbaDEcdeFfFBfb] 14 14
+[AaBACbaDEcdeFfAaFBfb] >
+[ABabCcBbDEFdeCAfca] <
+[ABabCcBbDEFdeC]fc <
+A[BCabcDdEeDFdf] >
+AB[abCcDdCEce] <
+[AaBACbaDEcdeFfBbFBfb] >
+[ABCabDEcdeFfAaFAfa] >
+AB[aCDbcdEeFfEFef] >
+A[BCabcDdEeDEde] >
+[ABabAaBbCD]cd >
+[AaBACbaDEcdeFfCcFBfb] >
+[ABCabDEcdeFfCcFAfa] >
+[ABabCcBbDECdeF]cf >
+AB[aCDbcdEeBbE]e >
+[AaBACbaDEcdeFfDdFBfb] >
+[ABCabDEcdeFfDdFAfa] >
+AB[aCDbcdEeCcEFef] >
+[AaBACbaDEcdeFfEeFBfb] >
+[ABCabDEcdeFfEeFAfa] >
+AB[aCDbcdEeDdEFef] <
+AB[aCDbcdEeDdE]e <
+AB[aCDbcdEeDd] 9 11
+[ABaCbcADEadB]eb <
+AB[aCDbcdEBeDbd] >
+AB[aCDbcdECeDcd] >
+AB[aCDbcdEFeDfd] >
+[AaBACbaDEcdeFfFfFBfb] >
+[ABCabDEcdeFfFfFAfa] >
+AB[aCDbcdEeEeEFef] >
+[AaBACbaDcdEeFBfb] 10 10
+[AaBACbaDcdAaEeFBfb] >
+[ABabCcDdEFeDAfda] >
+[ABCabDcdBbEeF]f <
+[ABCabDcdBbEe] <
+[AaBACbaDcdBbEeFBfb] 11 12
+[AaBACbaDcdBAbaEeFBfb] <
+A[aBbCDcdEFeCDfcdCc] >
+[AaBCbcDEdBCebcBb] >
+[ABabCDcABdabAa] <
+[AaBACbaDcdBCbcEeFBfb] >
+[ABCabDcdACacEeFAfa] <
+A[aBbCDcdECeFDcfd] >
+[AaBCbcDBdECbec] >
+[ABabCAcDBadb] 2 5
+[ABCabDcAdEBaeb] 2 6
+[ABCDabEcdAeCBacb] >
+ABC[aDbcEdBAeba] 6 11
+[ABCDabEcFdBeA]fba >
+[ABCDabEcdAeFBafb] >
+ABC[aDbcEdFAefa] >
+[AaBACbaDcdBDbdEeFBfb] >
+[ABCabDcdADadEeFAfa] <
+A[aBbCDcdCEcFDefd] >
+[AaBCbcBDbECdec] >
+[AaBACbaDcdBEbeEeFBfb] >
+[ABCabDcdAEaeEeFAfa] >
+AB[aCbcDEdeEeFDfd] >
+A[BabCDcdDdECec] <
+A[BabCDcdDdE]e >
+A[aBCbcCcD]d <
+[AaABabC]c <
+[AaBACbaDcdBEbeFfEBeb] >
+[ABCabDcdAEaeFfEAea] >
+AB[aCbcDEdeFfEDed] >
+A[BabCDcdEeDCdc] >
+A[aBCbcDdCBcb] <
+[AaBACbaDcdCcEeFBfb] >
+[ABCabDcdCcEeFAfa] <
+[ABCabDcdCcEeF]f <
+[ABCabDcdCcEe] <
+[AaBACbaDcdDdEeFBfb] >
+[ABCabDcdDdEeFAfa] >
+AB[aCbcCcDdEFef] >
+A[BabBbCcDEde] 4 4
+A[BabAaBbCcDEde] <
+A[BabBbBbCcDEde] >
+[ABabCcDdDdD]d >
+A[BabCcBbCcDEde] >
+[ABabCcDdCcD]d >
+A[BabCcBbDdCEce] <
+A[BabCcBbDdECec] <
+[ABabCcDdEeDFd]f >
+[AaBACbaDcdEeEeFBfb] 10 11
+[AaBACbaDcdAEaeEeFBfb] >
+[ABabCcCDcdEFeDAfda] >
+[ABCabDcdBEbeEeF]f <
+[ABCabDcdBEbeEe] <
+[ABCabDcdBEbe] <
+[AaBACbaDcdCEceEeFBfb] >
+[ABCabDcdCEceEeFAfa] >
+[ABabCcCDcdEDeF]df <
+[ABabCcCDcdEDe]d <
+[ABabCcCDcdE]e >
+[AaBACbaDcdDEdeEeFBfb] <
+A[aBbBCbcCDcEFdefEe] >
+[AaABabBCbDEcdeDd] >
+[AaBACbaDcdEFefFfEBeb] >
+[ABCabDcdEFefFfEAea] >
+AB[aCbcDEdeEeDFdf] >
+A[BabCDcdDdCEce] >
+[ABabCcCBcbD]d <
+[ABabCcCBcb] 6 6
+[ABabCcAaCBcb] >
+[ABabCcBbCBcb] >
+[ABabCcCcCBcb] <
+[ABabCcCcC]c >
+[ABabCcDdCBcb] >
+[AaBACbaDcdEeFfEBeb] >
+[ABCabDcdEeFfEAea] >
+AB[aCbcDdEeDFdf] >
+A[BabCcDdCEce] <
+[AaBCbDEcdeDd] 0 1
+[ABabACaDEcdeDd] 4 4
+[ABabAaACaDEcdeDd] 0 2
+[AaBACbaDcdDdEDCedc] >
+[ABCabDcdDdEDCedc] >
+AB[aCbcCcDCBdcb] >
+[ABCabcBbBAb]a >
+[ABCabcBbBDbAEdaeAa] 0 3
+[ABCDabcdCcCAcBEabeBb] <
+[ABCabDcdDdEDBCedbc] <
+[ABCabDcdDdEDB]edb >
+AB[aCbcCcDCA]dca >
+[ABCDabcdCcCEcBAebaBb] <
+[ABCabDcdDdEDBAedba] <
+[ABCDabcdCcCEcBFebfBb] <
+[ABCabDcdDdEDBFedbf] <
+[AaBACbaDcdDdEDBedb] >
+[ABCabDcdDdEDAeda] >
+[ABCabcBbBDbEFdefEe] <
+[ABCabDcdDdEDFedf] >
+[ABabBbACaDEcdeDd] 0 2
+[AaBACbaDcdEeEDCedc] >
+[ABCabDcdEeEDCedc] >
+AB[aCbcDdDCBdcb] >
+[ABCabcCcBAb]a >
+A[BabCcCB]cb 6 6
+A[BabCcAaCB]cb >
+AB[abCcBbA]a 7 8
+AB[abCcBAbaA]a >
+AB[abCcBCbcA]a <
+AB[abCcBDbdA]a >
+A[BabCcBbCB]cb <
+A[BabCcBbC]c <
+A[BabCcCcCB]cb <
+A[BabCcCcC]c >
+A[BabCcDdCB]cb >
+[ABCabcCcBDbAEdaeAa] 1 4
+[ABCDabcdDdCBcAEbaeAa] <
+[ABCabDcdEeEDCBedcb] <
+[ABCabDcdEeEDC]edc >
+AB[aCbcDdDCB]dcb >
+ABC[abcCcBAb]a >
+[ABCDabcdDdCEcABeabAa] <
+[ABCabDcdEeEDABedab] <
+[ABCabDcdEeEDA]eda >
+AB[aCbcDdDCE]dce >
+ABC[abcCcBDb]d >
+[ABCDabcdDdCEcAFeafAa] >
+ABC[abcCcBDbEFdefEe] <
+[ABCabDcdEeEDF]edf >
+[AaBACbaDcdEeEDBedb] >
+[ABCabDcdEeEDAeda] >
+AB[aCbcDdDCEdce] >
+[ABCabcCcBDb]d >
+[ABCabcCcBDbEFdefEe] <
+[ABCabDcdEeEDFedf] >
+[ABabCcACaDEcdeDd] <
+[ABCabDcdCcEDed] <
+[ABCabDcdCcE]e <
+[ABabCcADaCEdceCc] <
+[ABCabDcdBbEDed] <
+[AaBACbaDcdBbEDed] <
+[AaBACbaDcdBbE]e <
+[AaBACbaDcdEeFDfd] 10 10
+[ABabCcDdAEaDFedfDd] >
+A[aBbCcDEdCFecfCc] >
+[AaBbCDcBEdbeBb] >
+[AaBACbaDcdBbEeFDfd] 11 12
+[ABabCcDEdeAFaDEfdeDd] >
+[AaBACbaDcdBCbcEeFDfd] >
+[ABCabDcdACacEeFDfd] <
+[AaBACbaDcdBDbdEeFDfd] >
+[ABCabDcdADadEeFDfd] <
+[AaBACbaDcdBEbeEeFDfd] >
+[ABCabDcdAEaeEeFDfd] >
+AB[aCbcDEdeEeFCfc] <
+AB[aCbcDEdeEeF]f >
+[AaBACbaDcdBEbeFfEDed] >
+[ABCabDcdAEaeFfEDed] >
+AB[aCbcDEdeFfECec] <
+AB[aCbcDEdeFfE]e >
+A[BabCDcdEeD]d >
+[AaBACbaDcdCcEeFDfd] >
+[ABCabDcdCcEeFDfd] <
+[AaBACbaDcdDdEeFDfd] 11 12
+[ABabCcDAdaAEaDFedfDd] >
+A[aBbCDcdDEdCFecfCc] >
+[AaBCbcCDcBEdbeBb] >
+[AaBACbaDcdDBdbEeFDfd] >
+[ABCabDcdDAdaEeFDfd] <
+A[aBbCDcdDEdFCefc] >
+[AaBCbcCDcEBdeb] >
+[AaBACbaDcdDCdcEeFDfd] >
+[ABCabDcdDCdcEeFDfd] <
+[ABCabDcdDCdcEeF]f <
+[ABCabDcdDCdcEe] <
+[AaBACbaDcdDEdeEeFDfd] <
+[AaBACbaDcdDEdeFfEDed] >
+[ABCabDcdDEdeFfEDed] >
+AB[aCbcCDcdEeDCdc] >
+A[BabBCbcDdCBcb] >
+[ABabCcBAbaA]a >
+[AaBACbaDcdEeEeFDfd] >
+[ABCabDcdEeEeFDfd] >
+AB[aCbcDdDdECec] >
+A[BabCcCcDBdb] >
+[ABabCcCcA]a 6 7
+[ABabCcACacA]a >
+A[aBAbaBbC]c 1 2
+A[BabBAbaBbC]c <
+A[BabBAbaBb] 1 3
+[AaBAbaACBac]b 5 6
+[AaBAbBabACBac]b 1 3
+A[BCabcACaAcBaCbc] >
+[ABaCbAcCacAB]ab <
+[ABaCbAcCacA]a <
+A[BCabcACaAcDaCdc] >
+AB[abCBcCbDcBdb] >
+[AaBAbCacACBac]b >
+[AaBAbCacADBad]b >
+A[BabCAcaCcB]b <
+[ABabCcBCbcA]a <
+[ABabAaBCbc] 3 5
+[ABaCbAcaBCbc] 7 9
+[ABaAbCaAcBaCbc] >
+[ABaCbAcDaBdCbc] 8 12
+[ABaCbAcDEaBdCebc] <
+[ABabCDcBdCbc] 2 5
+[ABabCcDCdcA]a >
+[AaBACbaDcdEeFfEDed] >
+[ABCabDcdEeFfEDed] <
+[ABCabDcdEeFfE]e >
+[AaBACbaDcdECec] 10 10
+[ABabCcDAdCEaceCc] <
+[ABCabDcdBbECec] <
+[AaBACbaDcdBbECec] <
+[AaBACbaDcdCcECec] <
+A[aBbCBcDEbdeDd] >
+[AaBACbaDcdDdECec] <
+A[aBbBCbDEcdeDd] >
+[AaBACbaDcdEeECec] 10 10
+[ABabBbCcDAdCEaceCc] >
+A[aAaBbCDcBEdbeBb] >
+[AaBACbaDcdBbEeECec] 0 0
+[AaAaBACbaDcdBbEeECec] <
+[AaAaBACbaDcdBbEeE]e <
+[AaAaBACbaDcdBbEe] >
+[AaBACbaDcdBbEe] <
+[ABabBbCcDAdECaecEeCc] >
+A[aAaBbCDcEBdebEeBb] >
+[AaBbCDcEBdebEeBb] <
+[ABabBbCcDAdECaecEeAa] >
+A[aAaBbCDcEBdebEeDd] >
+[AaBbCDcEBdebEeDd] <
+[ABabBbCcDAdECaecEeDd] >
+A[aAaBbCDcEBdebEeCc] <
+A[aAaBbCDcEBdebEe] >
+[ABabBbCcDAdECaecEeBb] >
+[AaBbCBDcbEdeCcAaA]a >
+[AaBbCBDcbEdeCcFfFDfd] <
+A[aAaBbCDcEBdebEeFf] >
+[AaBbCBDcbEdeCcFf] >
+[AaBACbaDcdCcEeECec] >
+[ABCabDcdCcEeECec] <
+[ABCabDcdCcEeE]e <
+[AaBACbaDcdDdEeECec] <
+A[aAaBbBCbDEcdeDd] >
+[AaBbBCbDEcdeDd] >
+[AaBACbaDcdEeEeECec] 7 9
+[AaBACbaADcadEeEeECec] >
+[ABCabBDcbdEeEeECec] >
+AB[aACbacDdDdDBdb] >
+A[BCabcDdDdDAda] >
+[AaBACbaBDcbdEeEeECec] >
+[ABCabADcadEeEeECec] >
+AB[aCDbcdEeEeEBeb] >
+[AaBACbaDEcdeDdDdDCdc] <
+[AaBACbaDEcdeDdDdD]d <
+[AaBACbaDEcdeDdDd] 15 16
+[ABabBbCBDcbAEdaeAa] <
+[ABCabDEcdeDdDBdb] >
+AB[aCDbcdCcCAca] >
+A[BCabcBbBDbd] >
+[ABabBbCB]cb >
+[AaBACbaDEcdeDdDBdb] >
+[ABCabDEcdeDdDAda] >
+AB[aCDbcdCcCEce] >
+[AaBACbaDEcdeDdDCdc] >
+[ABCabDEcdeDdDCdc] >
+AB[aCDbcdCcCBcb] >
+A[BCabcBbBAba] >
+[ABabBbABCabDEcdeDd] 7 10
+[ABabBbACBDacbCEdceCc] <
+[ABabBbACBDacbCEdce] <
+[ABabBbACBDacbC]dc <
+A[BCDabcdBbBDbd] >
+[ABabBbACB]acb <
+[ABabBbACBDacbECdecEe] <
+[ABabBbACBDacbECdec] <
+AB[aCDEbcdeCcCEce] >
+[ABabBbACBDacbEFdefEe] <
+[ABCabDEFcdefDdDFdf] >
+[ABabBbCBDcbEFdefEe] <
+[ABCabDEcdeDdDFdf] >
+[AaBACbaDEcdeFfFfFCfc] >
+[ABCabDEcdeFfFfFCfc] >
+[AaBACbaDcdEeFfFCfc] 14 14
+[ABabCcBbDdEAeCFacfCc] <
+[ABCabDcdEeFfBbFCfc] >
+AB[aCbcDdEeAaEBeb] >
+A[BabCcDdEeDAda] >
+[ABabCcBbDdE]e <
+[ABabCcBbDd] 5 7
+[AaBCbDcdBCbc] 3 6
+[AaBACbDacdBCbc] >
+[AaBCDbEcdeBDbd] >
+[ABabCDcBdbDd] <
+[ABabCDcBdbEe] <
+[AaBACbaDcdEeFfBbFCfc] >
+[ABCabDcdEeFfAaFCfc] >
+AB[aCbcDdEeFfEBeb] >
+[AaBACbaDcdEeFfCcFCfc] >
+[ABCabDcdEeFfCcFCfc] >
+AB[aCbcDdEeBbEBeb] >
+A[BabCcDdAaDAda] >
+[ABabAaBbCcD]d <
+[ABabAaBbCc] >
+[AaBACbaDcdEeFfDdFCfc] >
+[ABCabDcdEeFfDdFCfc] >
+AB[aCbcDdEeCcEBeb] >
+[ABabCcBbDdCAc]a <
+[ABabCcBbDdC]c <
+[AaBACbaDcdEeFfEeFCfc] >
+[ABCabDcdEeFfEeFCfc] >
+AB[aCbcDdEeDdEBeb] >
+[ABabCcBbCcDAd]a <
+[ABabCcBbCcD]d >
+[AaBACbaDcdEeFfFfFCfc] >
+[ABCabDcdEeFfFfFCfc] >
+AB[aCbcDdEeEeEBeb] <
+AB[aCbcDdEeEeE]e >
+[AaBACbaDcdEeFCfc] 10 10
+[AaBACbaDcdAaEeFCfc] >
+[ABCabDcdBbEeFCfc] <
+[AaBACbaDcdBbEeFCfc] 11 12
+[AaBACbaDcdBAbaEeFCfc] <
+[AaBACbaDcdBCbcEeFCfc] >
+[ABCabDcdACacEeFCfc] <
+[AaBACbaDcdBDbdEeFCfc] >
+[ABCabDcdADadEeFCfc] <
+[AaBACbaDcdBEbeEeFCfc] >
+[ABCabDcdAEaeEeFCfc] >
+AB[aCbcDEdeEeFBfb] >
+A[BabCDcdDdEAea] <
+[AaBACbaDcdBEbeFfECec] >
+[ABCabDcdAEaeFfECec] >
+AB[aCbcDEdeFfEBeb] >
+A[BabCDcdEeDAda] >
+[ABabCcBDbdE]e >
+[AaBACbaDcdCcEeFCfc] >
+[ABCabDcdCcEeFCfc] <
+[AaBACbaDcdDdEeFCfc] 11 12
+[AaBACbaDcdDAdaEeFCfc] <
+[AaBACbaDcdDBdbEeFCfc] >
+[ABCabDcdDAdaEeFCfc] <
+[AaBACbaDcdDCdcEeFCfc] >
+[ABCabDcdDCdcEeFCfc] <
+[AaBACbaDcdDEdeEeFCfc] <
+[AaBACbaDcdDEdeFfECec] >
+[ABCabDcdDEdeFfECec] >
+AB[aCbcCDcdEeDBdb] >
+A[BabBCbcDdCAca] >
+[ABabCcBDbdD]d >
+[AaBACbaDcdEeEeFCfc] 11 12
+[AaBACbaDcdEAeaEeFCfc] >
+[ABCabDcdEBebEeFCfc] <
+[ABCabDcdEBebEeF]f >
+A[aBbCBcbDEdC]ec <
+[AaBACbaDcdEBebEeFCfc] >
+[ABCabDcdEAeaEeFCfc] >
+AB[aCbcDEdeDdFBfb] >
+A[BabCDcdCcEAea] <
+[AaBACbaDcdECecEeFCfc] >
+[ABCabDcdECecEeFCfc] >
+AB[aCbcDBdbDdEBeb] >
+A[BabCAcaCcDAda] <
+[AaBACbaDcdEDedEeFCfc] >
+[ABCabDcdEDedEeFCfc] >
+AB[aCbcDCdcDdEBeb] >
+A[BabCBcbCcDAda] <
+A[BabCBcbCcD]d >
+[AaBACbaDcdEFefEeFCfc] >
+[ABCabDcdEFefEeFCfc] >
+AB[aCbcDEdeDdEBeb] >
+A[BabCDcdCcDAda] >
+[ABabCcBCbcD]d <
+[AaBACbaDcdEeFfECec] >
+[ABCabDcdEeFfECec] >
+AB[aCbcDdEeDBdb] >
+A[BabCcDdCAca] >
+[ABabCDcAEdaeAa] 4 4
+[ABabAaCDcAEdaeAa] <
+[ABCabDcdBbEBeb] <
+[ABabBbCDcAEdaeAa] 0 2
+[ABCabcCcADaBEdbeBb] <
+[ABCabDcdEeEBDebd] >
+[ABCabcCcADaB]db <
+A[BabCcCDBcdb] 6 6
+A[BabCcAaCDBcdb] <
+AB[abCcBbDCd]c <
+AB[abCcBbD]d >
+A[BabCcBbCDBcdb] >
+[ABCabcAaCcA]a 2 5
+[ABCDabcdAaDdA]a <
+[AaBbACDBacdb] 1 3
+A[BabCcCcCDBcdb] <
+AB[abBbBbCDc]d >
+A[BabCcDdCDBcdb] <
+AB[abAaBbCDc]d >
+A[BabCcDdCEBceb] >
+[ABCabcDdCcA]a >
+[ABCabcCcDAdBEabeBb] 6 6
+[ABCabcAaCcDAdBEabeBb] <
+[ABCabDcdEeCcEBCebc] >
+[ABCabcAaCcDAdB]ab <
+[ABCabcAaCcDAd]a <
+A[aBbCcBDCbdc] >
+[AaBbACBacb] 6 9
+[ABCabcBbCcDAdBEabeBb] >
+AB[abAaBbCDcAEdaeAa] >
+A[aBbAaCDcBEdbeBb] <
+[ABCabDcdEeBbE]e >
+A[aBbAaCDcB]db <
+[ABCabcCcCcDAdBEabeBb] >
+AB[abBbBbCDcAEdaeAa] <
+[ABCabDcdEeEeEB]eb >
+AB[aCbcDdDdDA]da >
+[ABCabcDdCcDAdBEabeBb] >
+AB[abCcBbCDcAEdaeAa] >
+A[aBbAaBCbDEcdeDd] <
+[ABCabDcdEeDdE]e >
+AB[aCbcDdCcD]d >
+[ABCabcDdCcEAeBDabdBb] >
+AB[abCcBbDEdACeacAa] >
+[AaBACbaDcdEeBbE]e >
+[ABCabcDdCcEAeBFabfBb] >
+AB[abCcBbDEdAFeafAa] >
+[AaBACbaDcdEeFfE]e >
+[ABCabcCcDEdBAebaBb] 6 6
+[ABCabcAaCcDEdBAebaBb] >
+[ABCabcBbCcDEdBAebaBb] >
+[ABCabcCcCcDEdBAebaBb] >
+[ABCabcDdCcDEdBAebaBb] >
+[ABCabcDdCcEDeBAdbaBb] <
+[ABCabcDdCcEDeBAdba] <
+[ABCabcDdCcEDeB]db <
+[ABCabcDdCcEDe]d >
+[ABCabcDdCcEFeBAfbaBb] >
+[ABCabcCcDEdBFebfBb] 6 6
+[ABCabcAaCcDEdBFebfBb] >
+[ABCabcBbCcDEdBFebfBb] >
+[ABCabcCcCcDEdBFebfBb] >
+[ABCabcDdCcDEdBFebfBb] >
+[ABCabcDdCcEDeBFdbfBb] <
+[ABCabcDdCcEDeBFdbf] <
+[ABCabcDdCcEFeBDfbdBb] >
+[ABabCcCDcAEdaeAa] >
+[ABabCcDCdAEcaeAa] >
+[ABabCcDEdACeacAa] >
+[ABabCcDEdAFeafAa] 6 6
+[ABabCcAaDEdAFeafAa] >
+[ABabCcBbDEdAFeafAa] >
+[ABabCcCcDEdAFeafAa] 5 6
+[ABabCAcaCcDEdAFeafAa] <
+[ABCabDcdEeBEbeFBfb] >
+AB[aCbcDdADadEAea] >
+A[BabCcDCdcEDed] >
+A[aBbCBcbDCdc] >
+[AaBAbaCBcb] 1 3
+[ABaCbAcaDCdc] 7 10
+[ABaCbAcDaECdec] 7 11
+[ABaCbAcDEaFCdefc] <
+[ABabCBcbCcDEdAFeafAa] <
+[ABCabDcdEeFEfeFBfb] >
+AB[aCbcDdEDedEAea] >
+[ABabCBcbCcDEd]e <
+[ABabCBcbCcD]d >
+[ABabCDcdCcDEdAFeafAa] >
+A[aBCbcBbCDcEFdefEe] >
+[ABabAaBCbDEcdeDd] <
+[ABCabDcdEeDEde] 9 11
+[ABaCbAcaBDbECdec] <
+[ABaCbAcaBDbCEdce] <
+[ABaCbAcaBDbC]dc <
+[ABCabDcdECeDcEde] >
+[ABCabDcdEFeDfEde] >
+[ABabCDcdCcEDeAFdafAa] >
+A[aBCbcBbDCdEFcefEe] <
+[ABCabDcdEeCEceF]f >
+AB[aCbcDdBDbdE]e >
+A[aBCbcBbDCd]c 7 10
+A[BCabDcdADadC]c 7 9
+A[BCabDcBdAbDadC]c <
+[ABaCbAcDaCBdc]b 8 12
+[ABaCbAcDEaCBdec]b <
+A[BCabDcCdAcDadC]c >
+AB[aCbBcDbCdcB]b >
+A[BaAbCaBcbA]a <
+A[BaAbCaBcb] 1 3
+A[BCabAcBaCbc] 7 10
+A[BCabAcDBaCdbc] 1 4
+A[BCabDcEdAeDadC]c <
+[ABaCbAcDaEBde]b 8 12
+[ABaCbAcDCaEBdce]b 7 11
+[ABaCbAcBDCaEbBdce]b <
+[ABaCbAcDECaFdBecf]b <
+[ABaCbAcDEaFBdef]b <
+A[aBCbcBDbECde]c >
+[ABabACaDBcd]b 3 5
+[ABaCbAcCaDBcd]b 7 11
+[ABabCDcdCcEFeADfadAa] >
+A[aBCbcBbDEdFCefcFf] <
+A[aBCbcBbDEdFCefc] <
+AB[aCbcDdEDedF]f >
+A[BabCcDCdcE]e >
+[ABabCcDdDEdAFeafAa] 2 5
+[ABCabDcdCcCEcAFeafAa] >
+AB[aCbcBbBDbEFdefEe] >
+A[BabAaACaDEcdeDd] >
+[ABCabDcdEeECeAFcafAa] >
+AB[aCbcDdDBdEFbefEe] >
+[AaBACbaDcdDdECe]c <
+[ABCabDcdEeEFeACfacAa] >
+AB[aCbcDdDEdFBefbFf] >
+[AaBACbaDcdDdEBe]b <
+[ABabCcDdEDeAFdafAa] >
+A[aBbCcDCdEFcefEe] >
+[AaBbCBcDEbdeDd] <
+[ABabCcDdEFeADfadAa] 2 5
+[ABCabDcdCcEFeACfacAa] >
+AB[aCbcBbDEdFBefbFf] >
+[AaBACbaDcdBbEBe]b <
+[ABCabDcdEeCFcAEfaeAa] >
+AB[aCbcDdBEbFDefdFf] >
+[AaBACbaDcdBbEDe]d <
+[ABCabDcdEeFCfAEcaeAa] >
+AB[aCbcDdEBeFDbfdFf] >
+[AaBACbaDcdBbECe]c <
+[ABabCDcEFdefEe] 4 4
+[ABabAaCDcEFdefEe] 5 6
+[ABabABabCDcEFdefEe] <
+[ABCabDcdEFefEFef] >
+AB[aCbcDEdeDEde] >
+[ABabABabCDc]d <
+[ABabABabC]c 3 5
+[ABaCbAcBabC]c 8 11
+[ABaCbAcBDabCd]c <
+A[BCabDcBdCbc] 7 10
+[ABCaDbcAdBCab]c 3 7
+[ABCDaEbcdAeBCab]c >
+A[BCabDcEBdCebc] 8 12
+A[BCabDcEFBdCefbc] <
+A[aBCbDcBdCbc] 10 12
+[ABCabDcBdCbcA]a <
+[ABCabDcBdCbc] 7 10
+[ABCabAcBaCbcD]d <
+[ABCabDcBdCbcE]e <
+[ABabACacCDcEFdefEe] >
+A[aBCbcCDcEFdefEe] >
+[ABabACacDCdEFcefEe] >
+A[aBCbcDCdEFcefEe] >
+[ABabACacDEdCFecfCc] >
+A[aBCbcDEdCFecfCc] >
+[ABabCDcBEdbeBb] >
+[AaBACbaDcdBEbeFEfe] 10 10
+[ABabACacDdEFeDCfdcDd] >
+A[aBCbcDdEFeDCfdcDd] >
+[ABabCcDEdCBecbCc] <
+[ABabCcDEdCBecb] >
+[ABCabDcdBbA]a <
+[AaBACbaDcdBbBEbeFEfe] >
+[ABabACacCcDEdFCefc] >
+A[aBCbcCcDEdFCefc] <
+AB[aCbcDdDEdeF]f >
+A[BabCcCDcdE]e >
+[AaBACbaDcdCcBEbeFEfe] >
+[ABabACacDdEDeFCdfc] >
+A[aBCbcDdEDeFCdfc] >
+[ABabCcDCdEBceb] >
+[ABCabDcdCcA]a 9 11
+[ABCabDcdCBcAb]a <
+[ABCabDcdCDcAd]a <
+[ABCabDcdCEcAe]a 7 9
+[ABCabDcAdCaEcAe]a 11 14
+A[BCaDbcAdEaDeCAdca] >
+A[BCaDbcAdCaDcEAdea] >
+A[BCaDbcAdEaDeFAdfa] >
+A[BaCbDcEdCeDAcda] >
+[ABCabDcEdCeEcAe]a <
+[ABCabDcEdCeFcAf]a <
+[AaBACbaDcdDdBEbeFEfe] <
+A[aBCbcDdDEdFCefcFf] >
+[ABabCcCDcEBdebEe] >
+[AaBACbaDcdDdB]b <
+[AaBACbaDcdEeBEbeFEfe] >
+[ABabACacAaDEdFCefc] >
+[ABabACacBbDEdFCefcFf] <
+[ABabACacBbDEdFCefc] <
+AB[aCbcDdEFefDFdf] >
+A[BabCcDEdeCEce] >
+[ABabACacBbD]d <
+[ABabACacBb] 3 5
+[ABaCbAcCacBb] <
+[ABaCbAcDadBb] 8 11
+[ABaCbAcDCadBcb] <
+[ABaCbAcDEadBeb] <
+A[BCabDcEdCec] 8 11
+[ABCaDbcAdEBae]b >
+A[BCabDcEFdCefc] <
+[ABabBbCDcEFdefEe] 1 3
+[ABCabcCcDBdEFbefEe] 6 6
+[ABCabcAaCcDBdEFbefEe] >
+[AaBACbaDcdEeFfEC]ec >
+[ABCabDcdEeFfEC]ec >
+AB[aCbcDdEeDB]db >
+A[BabCcDdCA]ca >
+[ABCabcBbCcDBdEFbefEe] <
+[ABCabDcdEeCcECFecf] >
+[ABCabcBbCcDBdE]be >
+AB[aCbcDdBbDB]db >
+A[BabCcAaCA]ca >
+AB[abAaBbC]c >
+[ABCabcCcCcDBdEFbefEe] <
+[ABCabDcdEeEeECFecf] >
+[ABCabcCcCcDBdE]be <
+[ABCabcCcCcDBd]b >
+AB[abBbBbCAc]a >
+[ABCabcDdCcDBdEFbefEe] >
+[AaBACbaDcdEeDdEC]ec >
+[ABCabDcdEeDdEC]ec <
+[ABCabcDdCcEBeDFbdfDd] >
+AB[abCcBbDAdCEaceCc] >
+[ABCabcDdCcEBeFDbfdFf] >
+[AaBACbaDcdEeBbEC]ec >
+[ABCabDcdEeAaEC]ec >
+[ABCabcCcDEdFBefbFf] 6 6
+[ABCabcAaCcDEdFBefbFf] >
+[AaBACbaDcdEeFfEB]eb >
+[ABCabDcdEeFfEA]ea >
+AB[aCbcDdEeDF]df >
+A[BabCcDdCE]ce <
+[ABCabcBbCcDEdFBefbFf] >
+[AaBACbaDcdEeBbEB]eb >
+[ABCabDcdEeAaEA]ea <
+[ABCabcCcCcDEdFBefbFf] <
+[ABCabcCcCcDEdFBefb] <
+[ABCabcCcCcDEdF]ef <
+[ABCabcCcCcDEd]e >
+[ABCabcDdCcDEdFBefbFf] >
+[AaBACbaDcdEeDdEB]eb >
+[ABCabDcdEeDdEA]ea <
+[ABCabcDdCcEDeFBdfbFf] <
+[ABCabcDdCcEDeFBdfb] <
+[ABCabcDdCcEDeF]df <
+[ABCabcDdCcEFeDBfdbDd] >
+[AaBACbaDcdEeAaEB]eb >
+AB[abCcBbDEdCAeca] >
+[ABabCcCDcEFdefEe] >
+[ABabCcDCdEFcefEe] >
+[ABabCcDEdCFecfCc] <
+[ABabCcDEdCFecf] >
+[ABabCcDEdFCefcFf] >
+[ABaCDbcdBb] 8 9
+[ABaCDbcdABab] 10 12
+[ABCabcDABdaCbc] 3 7
+[ABCDabcEdABeaCbc] <
+[ABCDabcEdABea]b 6 11
+[ABCDabEcFdABefa]b <
+[ABCabcADBadCbc] 1 4
+[ABCDabcdABCabDcd] 5 9
+[ABCDaEbcdAeBCabDcd] <
+[ABCDabcdAECaeDcd] 10 14
+[ABCDabcdAEBCaeDbcd] <
+[ABCDabcdAEBCae]bc >
+AB[CDabcdEAB]eab 6 11
+AB[CDabEcdFABe]fab >
+[ABCDabcdAEFCaeDfcd] >
+ABC[abcDEFBdeCfbc] <
+ABC[abcDEFBde]fb <
+[ABCabcDEBdeCbc] 8 12
+[ABCaDEbcdeABCabc] >
+AB[CDabcdEABeab] 6 11
+AB[CDabEcdFABefab] >
+[ABCabcDEFBdeCfbc] <
+[ABCabcDEFBde]fb <
+[ABaCDbcdCBcb] 1 4
+[ABCaDbBcdbDCdc] 10 10
+[ABCaDbBcdbAaDCdc] >
+AB[CaAbcaDdCBcb] >
+AB[CabcDdBAba] 4 7
+AB[CaAbcDadBAba] 9 12
+AB[CaAbcDaCdBAcba] >
+AB[CaAbcDaEdBAeba] 10 14
+[ABCDabEcdAeCBaAc]ba >
+AB[CaAbcDaECdB]ecb >
+ABC[aDbcEdBAe]ba 6 11
+AB[CDabEcFdBeA]fba >
+[ABCDabEcdAeFBaAf]ba >
+AB[CaAbcDaEFdB]efb >
+AB[CaDbcEdeBAba] 8 12
+AB[CaDbcECdeBAcba] 8 13
+[ABCDabEFcdeCBfAc]ba >
+AB[CaDbcEFCdeB]fcb <
+AB[CaDbcEFCde]fc <
+AB[CaDbcEFdeBAfba] <
+AB[CaDbcEFdeB]fb <
+AB[CaDbcEFde]f 3 9
+[ABCaDbBcdbBbDCdc] 13 15
+[ABCabcDdDCAdDcBadb] >
+AB[abCcCBDcCbAdca] <
+AB[abCcCBDcCb]dc <
+AB[CabcCcBD]bd >
+AB[abCcCB]cb 6 6
+AB[abCcAaCB]cb >
+AB[abCcBbCB]cb >
+AB[abCcCcCB]cb <
+AB[abCcDdCB]cb >
+[ABCaDbBcdbBbDBCdbc] <
+[ABCaDbBcdbBbDB]db >
+AB[CaAbcaAaCA]ca >
+AB[CabcCcBC]bc >
+[ABCaDbBcdbBbDECdec] 1 5
+[ABCDaEbcCdecCcEBDebd] <
+[ABCDaEbcCdecCcEB]eb >
+AB[abCcCBDcCAb]dca <
+AB[abCcCBDcC]bdc <
+[ABCDaEbcCdecCcEFDefd] <
+[ABCDaEbcCdecCcEF]ef >
+AB[abCcCBDcCEb]dce <
+[ABCaDbBcdbCcDCdc] 10 11
+[ABCaDbBcdbACacDCdc] >
+AB[CaAbcaDBdbCBcb] >
+AB[CabcDAdaBAba] >
+[ABabACacDB]db 3 5
+[ABaCbAcCacDB]db <
+A[aBCbBcDbCdc] >
+[ABaCbAcDadCB]cb <
+[ABaCbAcDadC]c 8 11
+[ABaCbAcDBadCb]c 8 12
+[ABaCbAcDEBadCeb]c <
+[ABaCbAcDEBad]eb <
+[ABaCbAcDEadCe]c <
+[ABaCbAcDadEB]eb 8 12
+[ABaCbAcDCadEBc]eb <
+AB[aCDbcBdEbDed] >
+[ABaCbAcDEadFBe]fb <
+AB[aCDbcEdFeDfd] >
+[ABCaDbBcdbBCbcDCdc] 2 6
+[ABCDaEbcBdebBDbdEDed] <
+[ABCDaEbcBdebBDbdE]e >
+A[aBCbcCABcDCa]bdc <
+ABC[aDbcdDBdbC]c >
+AB[CabcCAcaB]b <
+AB[CabcCAca] 6 7
+AB[CabcACaAca] >
+AB[CabcBCbAca] 5 7
+AB[CabDcBdCbAca] <
+AB[CabcDCdAca] 4 7
+AB[CaAbcDaCdAca] >
+AB[CaDbcEdCeAca] 8 12
+[ABCaDbEcdBCeAb]ca 8 13
+AB[CDaEbcFdBeCfAbca] >
+AB[CaDbcEFdCeAfca] <
+AB[CaDbcEFdCe]fc <
+[ABCaDbBcdbDCdcDCdc] >
+AB[CaAbcaCBcbCBcb] >
+AB[CabcBAbaBAba] >
+[ABabABabCB]cb <
+[ABCaDbBcdbECecDCdc] >
+[ABCaDbBcdbDdDCdc] 13 15
+[ABCabcCcDCAdDcBadb] >
+AB[abBbCBDcCbAdca] <
+AB[abBbCBDcCb]dc <
+AB[CabcBbBD]bd >
+[ABCaDbBcdbDdDBCdbc] 6 9
+[ABCaDbABcdabDdDBCdbc] <
+[ABCaDbABcdabDdDB]db >
+AB[CaDAbcdaCcCA]ca >
+AB[CDabcdBbBD]bd >
+AB[abBbACB]acb <
+[ABCaDbEBcdebDdDBCdbc] <
+[ABCaDbEBcdebDdDB]db >
+[ABCaDbBcdbDdDECdec] 1 5
+[ABCDaEbcCdecEeEBDebd] <
+[ABCDaEbcCdecEeEB]eb >
+AB[abBbCBDcCAb]dca <
+AB[abBbCBDcC]bdc <
+[ABCDaEbcCdecEeEFDefd] <
+[ABCDaEbcCdecEeEF]ef >
+AB[abBbCBDcCEb]dce <
+[ABCaDbBcdbEeDCdc] >
+[ABCaDbEcdeDCdc] 10 10
+[ABCaDbEcdeAaDCdc] >
+AB[CaDbcdEeCBcb] >
+[ABCaDbEcdeBbDCdc] >
+AB[CaDbcdAaCBcb] >
+[ABCaDbEcdeCcDCdc] 9 11
+[ABCaDbEcdAeCacDCdc] <
+A[aBCbDcABdEaCbec] >
+[ABaCbDAcEdBaeb] 2 6
+[ABCaDbEcAdFeBafb] >
+AB[CaDbEcFdAefa] >
+[ABCaDbEcdBeCbcDCdc] <
+[ABCaDbEcdBeCbcD]d <
+[ABCaDbEcdBeCbc] 8 12
+[ABCaDbEcAdBeCabc] 3 8
+[ABCaDbEcFdBeCfbc] <
+[ABCaDbEcdDeCdcDCdc] 9 12
+[ABCaDbEcdADeCadcDCdc] >
+AB[CaDbcECdBecbCBcb] >
+AB[CabDBcAdbaBAba] >
+[ABabABCaDbcB]db <
+[ABCaDbEcdBDeCbdcDCdc] >
+AB[CaDbcACdBacbCBcb] >
+[ABCaDbEcdFDeCfdcDCdc] >
+[ABCaDbEcdFeCfcDCdc] 10 13
+[ABCaDbEcdFAeCfacDCdc] >
+AB[CaDbcEFdBefbCBcb] <
+AB[CaDbcEFdBefbC]c <
+AB[CaDbcEFdBefb] <
+[ABCaDbEcdFBeCfbcDCdc] >
+AB[CaDbcEAdBeabCBcb] <
+AB[CaDbcEAdBeabC]c <
+AB[CaDbcEAdBeab] 3 8
+[ABCaDbEcdeDdDCdc] 13 15
+[ABCabcCcDCAdEcBaeb] >
+[ABCaDbEcdeDdDA]da >
+AB[CaDbcdCcCE]ce >
+[ABCaDbEcdeDdDBCdbc] <
+[ABCaDbEcdeDdDB]db >
+AB[CaDbcdCcCA]ca >
+[ABCaDbEcdeDdDECdec] >
+AB[CaDbcdCcCDBcdb] >
+AB[CabcBbBCAbca] >
+[ABCabcCcBC]bc >
+[ABCaDbEcdeDdDFCdfc] <
+[ABCaDbEcdeDdDF]df >
+[ABCaDbEcdeEeDCdc] 3 8
+[ABCDaEbFcdefFfECec] >
+ABC[DaEbcdeEeDBdb] >
+ABC[DabcdDdCAca] >
+ABC[abcCcBDbd] >
+[ABabCcCB]cb 6 6
+[ABabCcAaCB]cb >
+[ABabCcBbCB]cb <
+[ABabCcBbC]c <
+[ABabCcBb] 2 5
+[ABabCcCcCB]cb <
+[ABabCcDdCB]cb >
+[ABCaDbEcdeFfDCdc] >
+[ABaCDbcdEBeb] 8 8
+[ABaCDbcdAaEBeb] 9 10
+[ABaCDbcdABabEBeb] <
+A[aBCbcDEBdeCbc] >
+[ABaCDbcdACacEBeb] 12 14
+[ABaCDbcdACacAEBaeb] 7 9
+[ABaCDbcBdAbCacAEBaeb] >
+[ABCabcDCdAcEaDAed]a >
+AB[abCBcDbEdCDec]d >
+A[aBAbCaDcBCdb]c 6 11
+A[aBAbCDaEcBCdeb]c <
+A[aBAbCDaEcB]deb <
+[ABaCDbcCdAcCacAEBaeb] >
+[ABCabcDCdDcEdDAed]a <
+[ABCabcDCdDcEdD]ed <
+[ABCabcDCdDcEd]e >
+A[BaCbBcbCD]cd >
+A[BaAbaBC]bc <
+[ABaCDbcEdAeCacAEBaeb] >
+A[BCabDcEdBebEDAeda] >
+[ABaCDbcEdAeCacAFBafb] >
+[ABCabcDCdEcFeDAfd]a >
+AB[abCBcDbEdCFec]f >
+A[BCabDcEdBebE]e >
+A[aBAbCaDcB]db 6 10
+A[aBAbCDaEcBd]eb <
+[ABaCDbcdACacCEBceb] 13 16
+[ABaCDbcdACacCAEBcaeb] >
+[ABCDabcdDCdcEDAed]a <
+[ABCDabcdDCdcED]ed <
+[ABCDabcdDCdcE]e >
+ABC[abcCBcbD]d 5 6
+ABC[abAcaCBcbD]d >
+A[aBCbcDCdB]cb >
+AB[aCbcBAba] 7 9
+[ABCabcBCbA]ca 5 7
+[ABCabAcBaCbA]ca 2 6
+AB[aCbAcBDaCAbdca] <
+AB[aCbAcBDaC]bdc <
+[ABCabDcBdCbA]ca <
+[ABCabcDCdA]ca 4 7
+[ABCaAbcDaCdA]ca >
+[ABCaDbcEdCeA]ca 8 12
+AB[CaDbEcdBCeAbca] 3 8
+AB[CDaEbFcdeBCfAbca] >
+[ABCaDbcEFBdCe]fbc <
+[ABCaDbcEFBd]efb <
+[ABCaDbcEFdCeAf]ca <
+[ABCaDbcEFdCe]fc <
+ABC[abBcbCBcbD]d >
+A[aBCbcBCbB]cb 1 4
+A[BaCDbcdCDcC]dc <
+A[BaCDbcdCDc]d >
+ABC[abDcdCBcbD]d <
+ABC[abDcdCBcbE]e <
+[ABaCDbcdACacCDEBcdeb] >
+[ABCDabcdDEdeCDAcd]a <
+[ABCDabcdDEdeCD]cd <
+[ABCDabcdDEdeC]c <
+[ABCDabcdDEde] 8 8
+[ABabCcBDECbdec] 5 7
+[ABabCAcBaDECbdec] 0 0
+[AaABabCAcBaDECbdec] <
+[AaBAbaCBcAbDECadec] <
+[ABCDabcEdAeaDEdeAa] >
+[ABCDabcEdAeaDEdeCc] >
+[ABCDabcEdAeaDEdeBb] >
+[AaBCbcDBdCbEFDcefd] <
+[ABabCDcBdDECbdec] <
+[ABabCDcBdEDCbedc] <
+[ABabCDcBdEFCbefc] <
+[ABabCcBDCEbdce] <
+[ABCDabcdCcDEde] 7 9
+[ABabCDcBdCEDbced] <
+[ABCDabcBdCbcDEde] >
+[ABCDabcEdCecDEde] >
+[ABCDabcEdCecDFdf] >
+[ABCDabcdDdDEde] 10 12
+[ABCabcBbBDECbdec] <
+[ABCabcBbBDCEbdce] <
+[ABCDabcdDdCDEcde] >
+[ABCDabcdDdEDFedf] >
+[ABCDabcdEeDEde] 9 11
+[ABaCbAcaBDECbdec] <
+[ABaCbAcaBDCEbdce] <
+[ABCDabcdECeDcEde] >
+[ABCDabcdEFeDfEde] >
+[ABCDabcdEeDFdf] 7 9
+[ABabCDcBdEFDbefd] <
+[ABCDabcBdEbeDFdf] >
+[ABCDabcCdEceDFdf] >
+[ABCDabcEdFefDEde] >
+[ABaCDbcdACacCEFBcefb] >
+[ABCDabcdDEdeFDAfd]a <
+[ABCDabcdDEdeFD]fd <
+[ABCDabcdDEdeF]f <
+[ABaCDbcdACacDEBdeb] 7 10
+[ABaCDbcBdACbacDEBdeb] >
+[ABCabcDEAdeCaDAcd]a <
+AB[aCbDAcdaBECbec] >
+A[BaCDbcdAEBaeb] >
+A[BCabcDEAdea] 3 8
+A[BCDabcEFdAefa] >
+[ABaCDbcEdACeacDEBdeb] >
+A[BCabDcEBdebCDAcda] >
+[ABCabcDEBdeCbD]cd <
+[ABCabcDEBdeCb]c 8 12
+A[BCaDEbcdeABCabc] >
+[ABCabcDEFBdeCfb]c <
+[ABaCDbcEdACeacDFBdfb] >
+[ABCabcDEFdeCfDAcd]a <
+[ABCabcDEFdeCfD]cd <
+[ABCabcDEFdeCf]c <
+[ABCabcDEFde]f 3 9
+[ABaCDbcdACacEFBefb] 10 15
+[ABaCDbcdACDacEFBdefb] >
+[ABCDabcEFdefDEAde]a >
+ABC[abDEcdeCDFcd]f >
+A[BCabcDBCdbE]ce 5 8
+A[BCabAcDBaCdbE]ce <
+A[BCabAcDBaCdb]c 1 4
+A[BCDabcAdBCaDbc]d >
+A[BCDabcAdECaDec]d >
+A[BCabDcEBdCebD]cd <
+A[BCabDcEBdCebF]cf <
+[ABaCDbcdADadEBeb] <
+A[aBCbcBDEbdCec] >
+[ABabACDacBdb] 1 3
+[ABCabcABDabCdc] <
+A[BCabcDBCdbc] 5 8
+[ABCabcADEadCec] 1 4
+[ABaCDbcdAECDaecd] 7 11
+[ABaCDbcBdAECbDaecd] 2 6
+[ABCDaEbcdAeBCEabDced] >
+ABC[DabcEdABDeaCbdc] <
+AB[CDabcAdEBCa]ebc >
+[ABCDaEbcdAeBFEabDfed] >
+ABC[DabcEdAFDeaCfdc] >
+ABC[abDcEFCdeBfcb] <
+ABC[abDcEFCde]fc <
+[ABaCDbcEdAFCeDafcd] >
+[ABCDabcdAEBaeDbd] <
+[ABCDabcdAEBae]b 6 11
+[ABCDabEcdAFBeaf]b >
+[ABCDabcdAEFaeDfd] >
+ABC[abcDEFdeCfc] <
+[ABaCDbcdAEaeEBeb] <
+A[aABabCDEcdBeb] >
+[ABabCDEcdBeb] 0 2
+[ABCabcDAEdaCec] 3 7
+[ABCDabcEdADeaCdc] 10 14
+[ABCDabcEdABDeaCbdc] <
+AB[CDabcAdEBCaebc] >
+[ABCDabcEdAB]eab 6 11
+[ABCDabEcFdABe]fab <
+[ABCDabcEdAFDeaCfdc] >
+[ABCDabcEdAFeaCfc] >
+ABC[abDcEFdeBfb] <
+[ABaCDbcdAEBaeb] >
+[ABCabcDEFdeCfc] <
+[ABaCDbcdAEaeFBfb] <
+A[aBCbcDEFdeCfc] >
+[ABaCDbcdBbEBeb] 10 11
+[ABaCDbcdBbAEaBeb] >
+A[BCabcAaDEdAea] 14 14
+A[BCabcAaDEdAeaAa] >
+AB[abCcDEdCecCc] >
+A[aBbCDcBdbBb] <
+A[BCabcAaDEdAeaBb] >
+AB[abCcDEdCecAa] >
+[AaBCbDcdBbE]e >
+[AaBCbDcdBbAEBae]b <
+AB[abCcDEdCecBb] >
+[AaBCbDcdBbA]a >
+[AaBCbAcaBbDEBde]b <
+AB[abCcDEdCecDd] >
+A[aBbCDcBdbCc] <
+[AaBAbCacBbDEBde]b <
+AB[abCcDEdCecEe] >
+[AaBAbCacBbD]d >
+[AaBCbDcdBbEFBef]b <
+AB[abCcDEdCecFf] >
+[ABaCDbcdBbBEbBeb] <
+[ABaCDbcdBbBEb]e >
+A[BabBbCDBcd]b 4 4
+A[BabAaBbCDBcd]b <
+A[BabAaBbCD]cd >
+A[BabBbBbCDBcd]b <
+A[BabBbBbCD]cd >
+A[BabCcBbCDBcd]b >
+A[BCabcAaCcA]a 10 11
+A[BCabcAaCcBAb]a >
+A[BCabcAaCcCAc]a >
+A[BabBbAaBC]bc >
+AB[abCcBbB]b >
+A[aBbAaA]a 1 3
+A[BaCbcAaA]a 7 8
+A[BaCbcABabA]a <
+A[BaCbcACacA]a <
+A[BaCbcADadA]a 5 8
+A[BaCbBcADbadA]a 2 5
+A[BCaDbcBdACbacA]a <
+A[BCaDbcBdAEbaeA]a <
+A[BaCbDcAEdaeA]a <
+A[BCabcAaCcDAd]a <
+A[aBbCcBDCbd]c <
+A[BabCcBbDCBdc]b <
+A[BabCcBbDC]dc <
+A[BabCcBbDEBde]b >
+A[BCabcAaDdA]a >
+[ABaCDbcdBbCEcBeb] >
+[ABaCbcAaDCAdc]a <
+[ABaCbcAaDC]dc <
+[ABaCDbcdBbDEdBeb] >
+A[BCabcAaCDcAda] >
+AB[abCcBDbCdc] >
+A[aBbACaBcb] >
+[ABaCDbcdBbEFeBfb] >
+[ABaCDbcdCcEBeb] <
+[ABaCDbcdCcE]e <
+[ABaCDbcdDdEBeb] 8 8
+[ABaCDbcdAaDdEBeb] >
+A[BCabcDdCcEAea] >
+[ABabCcDdCE]ce <
+[ABabCcDdC]c >
+[ABaCDbcdBbDdEBeb] >
+A[BCabcAaCcDAda] <
+[ABaCDbcdCcDdEBeb] >
+A[BCabcBbCcDAda] >
+AB[abAaBbCDcd] >
+[ABaCDbcdDdDdEBeb] >
+A[BCabcCcCcDAda] >
+AB[abBbBbCDcd] >
+[ABaCDbcdEeDdEBeb] <
+[ABaCDbcdEeDdE]e <
+[ABaCDbcdEeDd] 9 11
+[ABaCbcADEadBeb] <
+[ABaCDbcdEBeDbd] >
+[ABaCDbcdECeDcd] >
+[ABaCDbcdEFeDfd] >
+[ABaCDbcdEeDdFBfb] >
+[ABaCDbcdEeEBeb] 10 10
+[ABaCDbcdEeAaEBeb] >
+A[BCabcDdEeDAda] <
+[ABaCDbcdEeBbEBeb] >
+A[BCabcDdAaDAda] <
+[ABaCDbcdEeCcEBeb] >
+[ABabCcBbDCAdc]a <
+[ABaCDbcdEeEeEBeb] >
+[ABaCDbcdEeFfEBeb] >
+[ABaCDbcdEeFBfb] 9 10
+[ABaCDbcdEAeaFBfb] 12 14
+[ABaCDbcdEAeaAFBafb] 12 15
+[ABaCDbcdEAeaCAFBcafb] <
+ABC[abcBDbdECFecBfb] <
+ABC[abcBDbdECFec]f >
+A[BCabcDEdeBE]be <
+A[BCabcDEdeB]b 8 11
+A[BCabcDEAdeBa]b <
+A[BCabcDEAde]a 3 8
+A[BCDabcEFdAef]a >
+A[BCaDbcEF]def 3 9
+A[BCabcDECdeBc]b 8 12
+A[BCabcDEACdeBac]b <
+AB[CDabcdAEBae]b 6 11
+AB[CDabEcdAFBeaf]b >
+A[BCabcDEFCdeBfc]b <
+A[BCabcDEFCde]fc <
+A[BCabcDEFdeBf]b <
+A[BCabcDEFde]f 3 9
+[ABaCDbcdEAeaDAFBdafb] <
+ABC[abcBDbdCEFceBfb] <
+ABC[abcBDbdCEFce]f >
+A[BCabcDEdeCE]ce <
+A[BCabcDEdeC]c 8 11
+A[BaCDbcdAEBae]b >
+A[BCabcDEBdeCb]c 8 12
+A[BCaDEbcdeABCab]c >
+AB[CDabcdEABea]b 6 11
+AB[CDabEcdFABefa]b >
+A[BCabcDEFBdeCfb]c <
+A[BCabcDEFBde]fb <
+A[BCabcDEFdeCf]c <
+[ABaCDbcdEAeaEAFBeafb] >
+[ABCDabcdCDcdEFAef]a >
+ABC[abcBCbcDEFde]f <
+ABC[abcBCbcDE]de >
+AB[abABabCD]cd <
+AB[abABabC]c 6 9
+A[BaCDbcdCD]cd >
+A[BCabcBC]bc 5 7
+A[BCabAcBaC]bc 1 4
+AB[aCbAcBDCabd]c <
+ABC[abDcBdC]bc 7 10
+AB[CaDbcAdBC]abc 3 7
+AB[CDaEbcdAeBC]abc >
+ABC[abDcEBdCe]bc 8 12
+ABC[abDcEFBdCef]bc <
+[ABaCDbcdEAeaCFBcfb] >
+[ABCabcDEdeFCAfc]a >
+A[BCabcDEdeBF]bf <
+[ABaCDbcdEAeaDFBdfb] >
+A[BCabcDEdeCFAcfa] <
+A[BCabcDEdeCF]cf <
+[ABaCDbcdEAeaEFBefb] 5 9
+[ABaCDAbcdEaAeaEFBefb] >
+A[BCDabcEdDedEFAefa] >
+ABC[abDcCdcDEFdef] >
+[ABCabcDCdDcE]de >
+AB[aCbBcbCD]cd >
+[ABaCDEbcdFeAfaFEBfeb] >
+A[BCDabcEdFefEDAeda] >
+ABC[abDcEdeDCFdcf] >
+[ABCabcDCdBcE]be <
+[ABaCDbcdEBebFBfb] 11 13
+[ABaCDbcdEBeAbFaBfb] <
+A[BaCbDcdEFCefBcb] <
+A[BaCbDcdEFCef]c 2 6
+A[BCaDbEcdeCFDcf]d >
+AB[CaDbcdBECbe]c 7 11
+AB[CaDbcAdBECabe]c <
+AB[CaDbcEdBFCebf]c <
+AB[CaDbcEdBF]ebf 6 10
+ABC[aDbEcFdBeDf]bd <
+AB[CaDbEcFdBeE]fbe <
+A[BCaDbEcdeFCDfc]d >
+AB[CaDbcdEBCeb]c 7 11
+AB[CaDbcAdEBCaeb]c <
+AB[CaDbcEdFBCefb]c >
+[ABaCDbcdEBeCbFcBfb] >
+[ABaCbAcDadECAec]a <
+[ABaCbAcDadEC]ec 8 12
+[ABaCbAcDBadECb]ec 8 13
+[ABaCbAcDEBadFCeb]fc <
+ABC[aDEbcdFeBfEbe] >
+[ABaCbAcDEadFCe]fc <
+[ABaCDbcdEBeDbFdBfb] 7 10
+[ABaCDbcAdEBaeDbFdBfb] >
+A[BCabDcEAdeCaFcAfa] >
+AB[aCbDEcdBeFbEfe] >
+[ABaCDbcCdEBceDbFdBfb] >
+A[BCabBcDAbdCaEcAea] >
+AB[aAbCDacBdEbDed] >
+[ABaCDbcEdFBefDbEdBeb] >
+A[BCabDcEAdeCaDcAda] <
+A[BaCbDAcdBaECbe]c >
+A[BaCDbcAdEBae]b >
+A[BCabDcEAde]a 3 8
+A[BCDabEcFdAef]a 5 11
+[ABaCDbcdEBeEbFeBfb] >
+A[BCabcDAdDaEdAea] >
+AB[abCDcCdEcDed] >
+[ABaCDbcdECecFBfb] 12 14
+[ABaCDbcdECecAFBafb] 10 15
+[ABaCDbcdECDecAFBdafb] >
+[ABaCDbcdECecCFBcfb] 13 16
+[ABaCDbcdECecCAFBcafb] >
+[ABaCDbcdECecCDFBcdfb] >
+[ABaCDbcdECecCEFBcefb] >
+[ABaCDbcdECecDFBdfb] 7 10
+[ABaCDbcAdECaecDFBdfb] >
+[ABaCDbcBdECbecDFBdfb] >
+[ABaCDbcEdFCefcDEBdeb] >
+[ABaCDbcdECecEFBefb] 7 9
+[ABaCDbcAdEaCecEFBefb] >
+[ABaCDbcBdEbCecEFBefb] >
+[ABaCDbcCdEcCecEFBefb] >
+[ABaCDbcEdFeCfcFEBfeb] >
+[ABaCDbcdEDedFBfb] 11 14
+[ABaCDbcdEDeAdFBafb] 5 9
+[ABaCDAbcdEaDeAdFBafb] >
+A[BCDabcEdCeDcFAdfa] >
+[ABCabDcEdCeDF]cdf <
+[ABaCDEbcdFeDfAdEBaeb] >
+A[BCDabcEdCeFcDAfda] >
+ABC[abDcBdEbCFecf] >
+[ABCabDcEdBeD]bd <
+[ABaCDbcdEDeCdFBcfb] >
+[ABCabDcEdeDCAdc]a >
+A[BCabcDCdBcE]be <
+A[BCabcDCdBc]b 7 10
+A[BCabcDACdBac]b 3 7
+A[BCDabcEdACeBac]b >
+A[BCabcDECdBec]b 8 12
+A[BCabcDEACdBeac]b <
+ABC[DabcdAEBae]b 6 11
+ABC[DabEcdAFBeaf]b >
+A[BCabcDEFCdBefc]b <
+[ABaCDbcdEDeEdFBefb] <
+[ABaCDbcdEDeEdF]ef >
+A[BCabcDCdDcE]de >
+[ABaCDbcdEFefFBfb] 1 5
+[ABCaDEbcdeBFbfFCfc] 14 14
+[ABabCcBDbdEFADefCadc] >
+A[aBbACacDEFCdeBfcb] <
+A[aBbACacDEFCde]fc <
+ABC[abcDEdeFfE]e >
+AB[abCDcdEeD]d >
+[ABCaDEbcdeBFbfBbFCfc] >
+AB[CDabcdAEaeAaEBeb] >
+ABC[abcDEdeDdEAea] >
+AB[abCDcdCcDEde] >
+[ABCaDEbcdeBFbfCcFCfc] <
+[ABCaDEbcdeBFbfCcF]f >
+A[aBbACacDEBCde]bc <
+A[aBbACacDEB]deb <
+[ABCaDEbcdeBFbfDdFCfc] >
+AB[CDabcdAEaeCcEBeb] >
+[ABabCcBDbdECA]eca >
+ABC[abcDEdeBbE]e >
+A[aBbACacDB]db <
+[ABCaDEbcdeBFbfEeFCfc] >
+AB[CDabcdAEaeDdEBeb] >
+ABC[abcDEdeCcEAea] >
+[ABabCcBDbdCE]ce >
+AB[abCDcdBbD]d >
+[ABCaDEbcdeBFbfFfFCfc] <
+[ABCaDEbcdeBFbfFfF]f >
+A[aAaABabCDEBcd]eb <
+ABC[abcDEdeEeE]e >
+AB[abCDcdDdD]d >
+A[aAaABabC]c >
+[ABCaDEbcdeFBfbBCbc] 14 14
+[ABCaDEbcdeFBfbAaBCbc] >
+AB[CDabcdEAeaFfABab] >
+ABC[abcDEdeFfEAea] >
+AB[abCDcdEeDFdf] >
+[ABCaDEbcdeFBfbBbBCbc] <
+[ABCaDEbcdeFBfbBbB]b >
+AB[CDabcdEAeaAaA]a >
+[ABCaDEbcdeFBfbCcBCbc] >
+AB[CDabcdEAeaBbABab] <
+AB[CDabcdEAeaBbA]a >
+[ABCaDEbcdeFBfbDdBCbc] >
+AB[CDabcdEAeaCcABab] >
+[ABCaDEbcdeFBfbEeBCbc] >
+AB[CDabcdEAeaDdABab] >
+[ABCaDEbcdeFBfbFfBCbc] >
+AB[CDabcdEAeaEeABab] >
+[ABaCDbcdAa] 0 0
+[AaBCDbcAdaAa] 1 2
+[ABabCBDcbAdaAa] 11 12
+[ABabCBDcbAdBabAa] >
+[AaBAbCaBDcbdB]b <
+[ABCabDcBdbDd] 9 11
+[ABCabDcBdEbDed] 4 7
+[ABaCbAcDEaCdDecd] <
+[ABaCbAcBDaCbEdce] <
+[ABCaDbEcdBeFbEfe] >
+[ABabCBDcbAdCacAa] >
+A[aBACbaDcBdbDd] >
+[AaBAbCaDBcdb] 1 3
+[ABabCBDcbAdDadAa] 13 15
+[ABaCbAcCaBDcbdBAba] >
+[ABabCBDcbAdDaBd]b >
+[ABabCBDcbAdDaCdAca] 7 11
+[ABabCBDEcbAdeDaCdAca] >
+[ABaCbAcDCaEBdcebE]e <
+[ABaCbAcCaDEcdeDAda] 7 9
+[ABaCbAcBCabDEcdeDAda] <
+[ABaCbAcBCabDEcdeD]d <
+[ABCabDEcdCeDcEde] 5 8
+[ABaCbAcBDCabdEDced] <
+[ABaCbAcBDCabdE]ce <
+[ABCabBDEcbdCeDcEde] >
+AB[aACDbacBdCbDcd] >
+[ABCabDEFcdeCfEcFef] >
+[ABaCbAcDCadDEcdeDAda] <
+[ABaCbAcDCadDEcdeD]d <
+[ABCabBDcbCdEcDed] 6 9
+[ABCabBADcbaCdEcDed] >
+AB[aACDbacBdEbDed] >
+[ABCabBDEcbdCeFcEfe] >
+[ABaCbAcDCadEDcedEAea] <
+A[aBACbaBDcbCdEcDed] >
+[ABCabADcaCdEcDed] >
+[ABaCbAcDCadEFcefEAea] <
+[ABaCbAcDCadEFcefE]e <
+[ABCabDEcdCeFcEfe] >
+[ABabCBDcbAdEaeAa] 4 5
+[ABabACaBDcbAdEaeAa] <
+[ABaCbDEcdBebDBdb] >
+A[BaCDbcAdaCAca] >
+A[BCabDcdBDbd] 7 9
+[ABaCbAcDaBCdb]c 8 12
+[ABaCbAcDEaBCdeb]c <
+[ABaCbAcDEaB]deb <
+A[BCabDcCdBcDbd] >
+[ABaCbAcCaB]cb 7 10
+[ABaCbAcDCaBd]cb <
+A[BCabDcEdBeDbd] <
+[ABabBCbBDcbAdEaeAa] >
+[AaBAbCaDEcdDedD]d <
+[ABaACbaDcEdeDd] 13 14
+[ABaACbaDcEdeDAda] 10 14
+[ABCabDBcdEbACeaAca] >
+[ABaACbaDcEBdeD]bd >
+AB[aCAbcDaEBde]b >
+[ABaACbaDcECdeDAcda] 10 15
+[ABCDabEBcdeCbADcaAda] >
+[ABaACbaDcEBCdeD]bcd <
+[ABaACbaDcEBCde]bc <
+[ABaACbaDcEB]deb 6 11
+[ABaACbDaEcFBd]efb >
+ABC[DabEcFdAef]a 5 11
+[ABaACbaDcEFCdeDAfcda] >
+A[BCabDcEFCdeDBfcdb] <
+A[BCabDcEFCdeD]fcd <
+A[BCabDcEFCde]fc <
+[ABaACbaDcEFdeDAfda] >
+A[BCabDcEFdeDBfdb] <
+A[BCabDcEFdeD]fd <
+A[BCabDcEFde]f 3 9
+[ABaACbaDcEdeDBdb] 12 14
+[ABaACbaDcEdeADBadb] >
+[ABCabcDBdEbCAec]a >
+A[BCabDcEdeBD]bd <
+A[BCabDcEdeB]b 8 11
+A[BCabDcEAdeBa]b <
+A[BCabDcECdeBc]b 8 12
+A[BCabDcEACdeBac]b <
+AB[CDabcAdEBae]b 6 11
+AB[CDabEcAdFBeaf]b >
+A[BCabDcEFCdeBfc]b <
+A[BCabDcEFdeBf]b <
+[ABaACbaDcEdeCDBcdb] <
+[ABaACbaDcEdeCD]cd <
+[ABaACbaDcEdeC]c >
+A[BCabDcEdeC]c 8 11
+A[BCabDcEBdeCb]c 8 12
+A[BCaDEbcdAeBCab]c >
+AB[CDabcEdABea]b 6 11
+A[BCabDcEFBdeCfb]c <
+A[BCabDcEFBde]fb <
+A[BCabDcEFdeCf]c <
+[ABaACbaDcEdeEDBedb] 11 12
+[ABaACbaDcEdAeaEDBedb] >
+[ABaACbaDcEdBebEDBedb] >
+A[BCabDcEdAeaEDAeda] <
+AB[abCBcAbDaECde]c >
+A[aBAbCaDcEBde]b 6 11
+A[aBAbCDaEcFBdef]b <
+[ABaACbaDcEdCecEDBedb] >
+A[BCabDcEdCecEDAeda] >
+[ABaACbaDcEdDedEDBedb] >
+A[BCabDcEdDedEDAeda] >
+[ABaACbaDcEdFefEDBedb] >
+A[BCabDcEdFefEDAeda] >
+[ABaACbaDcEdeFDBfdb] 11 15
+[ABaACbaDcEdAeFDBafdb] >
+[ABCDabcEdBeFbDAfd]a >
+A[BCabDcEdBeFD]bfd <
+A[BCabDcEdBeF]bf <
+[ABaACbaDcEdCeFDBcfdb] >
+A[BCabDcEdCeFDAcfda] <
+A[BCabDcEdCeFD]cfd <
+A[BCabDcEdCeF]cf <
+A[BCabDcEdCe]c 8 11
+A[BCaDbcAdEBae]b >
+A[BCabDcEFdCef]c <
+[ABaACbaDcEdeDCdc] >
+A[BCabDcEdeDCdc] 8 12
+A[BCabDcEAdeDCadc] <
+A[BCabDcEBdeDCbdc] 10 14
+[ABCDabEcBdeAbDCad]c >
+ABC[aDbAcdEaCBec]b >
+AB[CaDbcEdBAeb]a 6 11
+A[BCDabEcFdBeAf]ba >
+A[BCabDcEBdFeDCbfdc] <
+A[BCabDcEBdFeD]bfd <
+AB[CaDbcEdBFeb]f 6 10
+A[BCaDbEcFdBeDf]bd <
+AB[CaDbEcFdBeEfb]e <
+A[BCabDcEFdeDCfdc] <
+[ABabABaCbDEcdDed] <
+A[BCabDcEdeDEde] 5 8
+[ABabABCaDbcECde]c 3 5
+[ABaCbAcBCaDbcECde]c <
+AB[aCDbEcdCeDcEde] >
+[ABaCbAcBDaCbdEDce]d <
+[ABaCbAcBDaCbdE]ce <
+[ABaCbAcBDaEbdCDec]d <
+[ABaCbAcBDaEbdC]ec <
+[ABaCbAcBDaEbdFDef]d <
+AB[aCDbEcdFeDfEde] >
+[ABabABCaDbcCEdc]e <
+A[BCabDEcFdefEFef] >
+[ABabCBcDbEFdeEfe] 2 4
+[ABCabcCBcDbEFdeEfe] 6 7
+[ABCabcACaBcDbEFdeEfe] >
+[ABaACbaDcEdFefED]ed >
+A[BCabDcEdFefED]ed <
+A[BCabDcEdFefE]e 4 8
+A[aBAbCDaEcFdDef]d <
+AB[CaDbEcdFefE]e >
+A[BCaDbEcFdeDfdF]f <
+A[BCaDbEcFdeDfd] 3 9
+[ABCabcBCbBcDbEFdeEfe] <
+A[BCabDcEdDedEDFedf] >
+[ABCabcDCdBcDbEFdeEfe] >
+[ABaACbaDcEdCecED]ed >
+A[BCabDcEdCecED]ed <
+A[BCabDcEdCecE]e <
+[ABCabcDCdBcEbDFedDfd] >
+AB[abCBcAbDaCEdcCec] >
+A[aBAbCaDcBEdbBeb] <
+[ABCabcDCdBcEbFDefFdf] >
+[ABaACbaDcEdBebED]ed >
+[ABCabcDBdCbEFceEfe] >
+[ABCabcDBdEbCFecCfc] <
+[ABCabcDBdEbCFec]f >
+[ABCabcDBdEbFCefFcf] 3 7
+[ABCDabcEdBeDbFCdfFcf] <
+[ABCDabcEdBeDbFCdf]c >
+ABC[abDcAdCaEBce]b >
+A[BCabDcEdCeA]ca <
+[ABCDabcEdBeFbDCfdDcd] >
+ABC[abDcAdEaCBecCbc] >
+AB[aCbDcEdBAebBab] >
+A[BaCbDcAEdaAea] <
+[ABabCDcBCdbAcEaeAa] <
+[ABaCbDEcdCecDBdb] >
+A[BaCDbcBdbCAca] >
+[ABabCDcBCdb]c 2 5
+A[BCabAcCaBDcbd] >
+[ABCabDcCdB]cb 7 10
+[ABCabDcACdBa]cb 7 11
+[ABCabDcEACdBea]cb <
+[ABCabDcECdBe]cb 8 12
+[ABCabDcEFCdBef]cb <
+[ABCabDcEdBDeb]d 10 13
+A[BCDabcAdEaCBecb] 5 10
+A[BCDaEbcAdFeaCBfcb] >
+ABC[DabEcFdeBAfba] >
+[ABCabDEcFdB]efb <
+[ABCabDcEdBCDebc]d <
+[ABCabDcEdBC]ebc 7 11
+[ABCabDcAEdBCa]ebc <
+[ABCabDcAEdB]aeb 2 6
+[ABCDabEcdACeB]acb 8 13
+[ABCDabEcFdACeBf]acb >
+ABC[DaEbcFdBeA]fba >
+[ABCDabEcdAFeB]afb >
+ABC[aDbcEFdA]efa >
+[ABCabDcEFdBCe]fbc <
+[ABCabDcEdBFDebf]d 6 10
+[ABCabDAcEdBaFDebf]d >
+A[BCDabEcAdFeaC]fc >
+ABC[aDbEcFdeB]fb 3 9
+[ABCabDEcFdBeEDfbe]d <
+[ABCabDEcFdBeE]fbe <
+[ABCabDEcFdBe]fb <
+[ABabCDcBEdbAeCacAa] <
+[ABaCbDEcdAeaDBdb] >
+A[BaCDbcEdeCAca] 9 12
+[ABCabDcEdBCebAc]a <
+A[BaCDbcEdDeCAdca] <
+A[BaCDbcEdDeC]dc >
+A[BCabDcCdB]cb 7 10
+A[BCabDcACdBa]cb 7 11
+A[BCabDcEACdBea]cb <
+A[BCabDcECdBe]cb 8 12
+A[BCabDcEFCdBef]cb <
+A[BaCDbcEdFeCAfca] >
+A[BCabDcEdBFebf] 4 8
+[ABCabDEcFdBeEfb]e <
+A[BCaDbEcFdeBDfbd] <
+A[BCaDbEcFdeB]fb <
+A[BCaDbEcFde]f 3 9
+[ABabCDcBEdbAeFafAa] <
+[ABaCbDEcdFefDBdb] >
+[ABabCDBcdAbaAa] 11 12
+[ABabCDBcdAbBabAa] >
+[AaBAbBaCDbcdB]b <
+[ABCabDcCdcDd] 9 11
+[ABCabDcCdEcDed] >
+AB[aCbBcDbCdc] >
+[ABabCDBcdAbCacAa] >
+[AaBAbCaDBcdbC]c <
+[ABabCDBcdAbDadAa] >
+[AaBAbCaBDcbdC]c <
+[ABabCDBcdAbEaeAa] 2 6
+[ABCabDEcBdeAbCacAa] 10 13
+[ABCabDEcBdCeAbcCacAa] <
+[ABaACbDaEcAdeCBacb] >
+A[BCaDbEcBdeCAbca] 3 8
+A[BCDaEbFcdBefCAbca] >
+[ABCabDEcBdDeAbdCacAa] >
+[AaBAbCDaEcCdBecD]bd <
+[AaBAbCDaEcCdBec]b <
+[AaBAbCDaEcCd]ec <
+AB[CaDbcEdeDd] 9 11
+AB[CaDbcEdBeDbd] 10 13
+[ABCaDbcAdECaBe]cb >
+AB[CaDbcEdBCeDbcd] >
+AB[CaDbcEdBFeDbfd] <
+AB[CaDbcEdCeDcd] >
+AB[CaDbcEdFeDfd] >
+[ABCabDEcBdFeAbfCacAa] >
+[AaBAbCDaEcFdBefD]bd >
+AB[aCDbAcEdFaeBfb] >
+A[BCaDbEcFdeAfa] 3 9
+[ABCabDEcBdeAbFafAa] >
+[AaBAbCaDEcFdeC]fc <
+A[BCaDbcEdFefEe] 6 9
+[AaBAbCDaEcFdCef]c <
+AB[CaDbEcdFefEe] >
+A[BCaDbBcEdbFefEe] >
+A[BCaDbEcFdeEfeFf] <
+A[BCaDbEcFdeEfe] <
+[ABabCDEcdAeaAa] 13 14
+[ABabCDEcdAeaABab] >
+[ABabBCbDEcdeA]a <
+[ABCabDcdDEde] 8 8
+[ABabCcBDbECdec] 3 5
+[ABaAbCacBDbECdec] <
+AB[aCbcDEdCeEce] >
+[ABaAbCacBDb]d >
+[ABaCbDcdBCbEDced] >
+A[BaCbcABaDCbdc] >
+A[BabCAcDBadb] 2 5
+A[BCabDcAdCBacb] 7 11
+A[BCabDcEAdCBeacb] <
+ABC[aDbcAdEBae]b >
+A[BCabDcAdEBaeb] 2 6
+A[BCDabEcdAeCBacb] >
+A[BCDabEcdAeFBafb] >
+[ABaCbDcdBEbCDecd] >
+A[BaCbcADaBCdbc] 1 4
+A[BCaDbcdABaCDbcd] 9 13
+A[BCaDbcdAEBaCDebcd] <
+A[BCaDbcdAEBaC]ebc <
+A[BCaDbcdAEBa]eb 6 11
+A[BCaDbEcdAFBea]fb >
+A[BCaDbcdAEaCDecd] 10 14
+A[BCaDbcdAEFaCDefcd] >
+AB[CabcDEFdBCefbc] <
+AB[CabcDEFdB]efb <
+[ABaCbDcdBEbFDefd] <
+AB[aCbcDEdCeFcf] >
+[ABaCbDcdBEb]e >
+[ABabCcBDbCEdce] >
+[ABCabDcdBbD]d <
+[ABCabDcdCcDEde] >
+AB[aCbcBbCDcd] >
+A[BabAaBCbc] 5 8
+[ABCabDcdDdDEde] >
+AB[aCbcCcCDcd] 8 10
+[ABCabcBbBCbD]cd >
+[ABCabDcdEeDFdf] 9 12
+[ABCabDcdBEbFCefc] <
+[ABCabDcdBEbCFecf] <
+[ABCabDcdECeDFcdf] >
+[ABabBCbDAcdaEBeb] 12 14
+[ABabBCbDAcdaAEBaeb] <
+AB[abBCDbcEdeEBeb] >
+[ABabBCbDAcdaA]a <
+[ABabBCbDAcdaCEBceb] 0 0
+[AaABabBCbDAcdaCEBceb] <
+AB[abCDBcdEbeECecCc] <
+AB[abCDBcdEbeECec] >
+A[aBCAbcDadDBdb] >
+[ABCabcDECdeAcaADadAa] >
+AB[abCDBcdEbeECecEe] <
+[ABCabcDECdeAcaADadCc] >
+AB[abCDBcdEbeECecBb] >
+A[aBCAbcDadDBdbAa] <
+[AaBCbcCDcABdabDECdec] <
+AB[abCDBcdEbeECecDd] >
+A[aBCAbcDadDBdbCc] >
+[ABCabDcdDAdaBb] <
+[ABCabcDECdeAcaADadBb] >
+AB[abCDBcdEbeECecAa] >
+[AaBCbcCDcEBdebD]d >
+[AaBCbcCDcEBdebDFCdfc] <
+AB[abCDBcdEbeECecFf] >
+[ABabBCbDAcdaDEBdeb] <
+AB[abCBDcbEdeECec] >
+A[aBACbaDcdDBdb] >
+[ABabBCbDAcdaEFBefb] >
+[ABCabcDEFdeAfaA]a <
+[ABCabcDEFdeAfa] <
+[ABabBCbADcadEBeb] <
+A[aBCDbcEdeECec] 10 10
+[ABabCcBDbAEdaeC]c <
+[ABCabDcdEeDBdb] >
+AB[aCbcDdCAca] 4 7
+AB[aCAbcDadCAca] >
+A[BCabDcdBCbc] 2 6
+A[BCDabEcdeBDbd] >
+[ABabCADcB]adb 2 5
+[ABCabDcACdB]acb 3 7
+AB[aCDbcEdeCAca] 9 12
+[ABCabDcEdBCebA]ca <
+AB[aCDbcEdDeCAdca] <
+AB[aCDbcEdDeC]dc >
+AB[aCDbcEdFeCAfca] >
+A[aBCDbcEdeBbECec] 11 14
+[ABCabDcdBEbADeadC]c <
+[ABCabDcdAEaDBedb] 2 6
+[ABCDabEcdeACaEBceb] >
+[ABCabDcdBECbA]eca <
+[ABCabDcdBECb]ec <
+[ABCDabEcdeAFaEBfeb] >
+ABC[aDbcdEFeDAfda] >
+AB[CabcDEdCFecf] >
+A[aBCDbcEdeBDbECdec] >
+[ABCabDcdACaDBcdb] >
+[ABCabDcdBCbA]ca <
+A[aBCDbcEdeBFbECfec] >
+A[aBCDbcEdeCcECec] >
+[ABCabDcdBbDBdb] <
+A[aBCDbcEdeDdECec] >
+[ABCabDcdCcDBdb] 3 7
+[ABCDabEcdeCcEBeb] >
+[ABabCcBDCbA]dca <
+A[aBCDbcEdeEeECec] >
+[ABCabDcdDdDBdb] >
+AB[aCbcCcCAca] 2 5
+AB[CaDbcdDdDAda] >
+AB[CabcCcCDcd] 8 10
+[ABCabcBbBDCb]dc <
+[ABCabcBbBCDb]cd >
+AB[CabcCcDCEdce] >
+A[aBCDbcEdeFfECec] >
+[ABabBAbCDacdEBeb] 10 14
+[ABabBAbCDaAcdEBaeb] 11 16
+[ABabBAbCDaAEcdFBaefb] <
+ABC[aDEbcCdeFcfFCfc] >
+AB[CDabBcdEbeEBeb] >
+ABC[aAbcDadDAda] >
+AB[CabDcdDCdc] 8 9
+AB[CabDcdADaCdc] >
+AB[CabDcdBDbCdc] 5 7
+AB[CabADcadBDbCdc] >
+AB[CabBDcbdBDbCdc] >
+AB[CabDEcdeBEbCec] >
+AB[CabDcdCDcCdc] <
+AB[CabDcdCDc]d 7 9
+A[BaCbAcBaDCb]dc 8 12
+A[BaCbAcBDaECbd]ec <
+AB[CabDcBdCbDc]d <
+AB[CabDcEdCeDc]d <
+AB[CabDcdEDeCdc] >
+[ABabBAbCDaEcdFBefb] >
+[ABCabDEcFdeAfaA]a <
+[ABCabDEcFdeAfa] <
+A[BCaDbcEFdef] 3 9
+[ABabBCbDEcdeFBfb] <
+[ABabBCbDEcdeF]f <
+[AaBAbCDacdBb] <
+[AaBCbADcadBb] <
+[AaBCDbcAdaBb] 10 11
+[ABabBCbDAcdaBb] <
+[AaBCDbcAdaCBcb] <
+[AaBCDbcAdaDBdb] >
+[AaBCDbcAdaEBeb] 0 0
+[AaAaBCDbcAdaEBeb] <
+A[aBCbDEcdeBbBb] >
+[ABaCDbcdAaAa] 11 12
+[ABaCDbcdAaABab] >
+A[BCabcDdDAda] >
+[ABabBbCD]cd 6 8
+AB[CabcDdDCdc] >
+AB[CabcDdDEde] 8 8
+[ABabCcBbDECd]ec >
+A[aBbAaCDBc]db <
+[ABabCcBbDCEd]ce <
+AB[CabcDdCcDEde] <
+AB[CabcDdCcD]d 9 11
+A[BaCbcAaCDBc]db <
+AB[abCcBDbCd]c >
+A[aBbACaBc]b >
+AB[CabcDdCBcDb]d 7 10
+AB[CabcDAdCBacDb]d <
+AB[CabcDAdCBac]b 7 11
+AB[CabcDEAdCBeac]b <
+AB[CabcDEdCBecDb]d <
+AB[CabcDEdCBec]b 8 12
+AB[CabcDEFdCBefc]b <
+AB[CabcDdCEcDe]d >
+AB[CabcDdDdDEde] >
+AB[CabcDdEeDEde] >
+AB[CabcDdEeDFdf] >
+[ABabBbCADcaBdb] 4 4
+[ABabAaBbCADcaBdb] <
+A[BCabcDdBbDBdb] >
+AB[abCcAaCAca] >
+[ABabAaBbC]c >
+[ABabBbBbCADcaBdb] <
+A[BCabcDdDdDBdb] >
+[ABabBbBbCA]ca >
+[ABabCcBbCADcaBdb] 2 5
+[ABCabDcdBbDACdaBcb] <
+A[BCabcDdCAcDBadb] >
+AB[abCcBDbCAdca] >
+[ABCabDcdBbDAEdaBeb] <
+A[BCabcDdCEcDBedb] >
+[ABabCcBbDACdaBcb] >
+[ABaCDbcdAaBbA]a >
+[ABabCcBbDAEdaBeb] <
+A[BCabcDdEeDBdb] >
+AB[abCcDdCAca] >
+[ABabBbACDacBdb] <
+[ABabBbCDEcdBeb] <
+A[BCabcDdDEde] 8 8
+[ABabCcBbDECde]c >
+A[BCabcDdCcDEde] <
+A[BCabcDdCcD]d 9 11
+A[BaCbcAaCDBcd]b <
+A[BCabcDdCBcDb]d 7 10
+A[BCabcDAdCBacDb]d <
+A[BCabcDAdCBac]b 7 11
+A[BCabcDEAdCBeac]b <
+ABC[aDbcdAEBae]b 6 11
+ABC[aDbEcdAFBeaf]b >
+A[BCabcDEdCBecDb]d <
+A[BCabcDEdCBec]b 8 12
+A[BCabcDEFdCBefc]b <
+A[BCabcDEFdC]efc <
+A[BCabcDdCEcDe]d <
+A[BCabcDdCEc]e 5 7
+A[BabCDcBdEDbe]d <
+AB[aCbDcdBEb]e >
+A[BCabBcDbdCEc]e >
+AB[aAbCacBDb]d >
+A[BCabDcEdeCDc]d <
+A[BCabDcEdeCFc]f >
+[ABabCDcEAdeaCcAa] 2 6
+[ABCabDEcdCAecaDdAa] 2 7
+[ABCDabEFcdeDAfdaEeAa] >
+ABC[aDEbcdCFecfDdFf] >
+AB[CDabcBEdbeCcEe] >
+[AaBbACDacBC]dbc <
+[AaBbACDacB]db 1 3
+[ABaCbcABDabC]dc <
+[ABaCbcADBadC]bc <
+[ABaCbcADEadC]ec <
+[ABCabDEcdFAefaDdAa] >
+AB[aCDbcEFdefCcFf] >
+A[BCabDEcdeBbEe] >
+[AaBbCADcaBdbECec] 10 14
+[ABCabDEcdCAecaDdCc] >
+AB[aCDbcBEdbeCcBb] >
+A[BCabADcadBbAa] >
+[AaBbCADcaB]db 1 3
+AB[aCDbcdABaCbc] 2 6
+[ABaCbcDAEBdaCe]bc <
+[ABaCbcDAEBda]eb <
+ABC[abcDEdBeb] 8 11
+[ABCaDbcdEAB]eab 6 11
+ABC[DabcEFdAeBfab] >
+[ABCaDbEcdFA]efa >
+ABC[abcDEFdBefb] <
+AB[aCDbcdAEaCec] >
+A[BCabcDEdBeb] 8 11
+[ABCaDbcdEABea]b 6 11
+A[BCDabcEFdAeBfab] >
+A[BCabcDEFdBefb] <
+[AaBbCADcaBEdbFCefc] <
+AB[aCDbcEFdefCcEe] >
+A[BCabDEcdeBbDd] >
+[AaBbCDAcdBabECec] 12 12
+[ABabCcDCdEAceaDdCc] >
+A[aBbCBcDEbdeCcBb] <
+A[aBbCBcDEbdeCc] <
+[AaBbCDAcdBabBbECec] 8 11
+[AaBbCDAcCdBacbBbECec] >
+[AaBCDbBcAdbaAaEBeb] 14 15
+[AaBCDbBcAdbaAaAEaBeb] >
+[ABCaAbDcadDdDEdAea] <
+A[BabBbBCDbEcCdec] <
+AB[CaDbcdDdDEd]e >
+AB[CabcCcCDc]d 8 10
+A[BCabcBbBDCb]dc <
+A[BCabcBbBCDb]cd >
+AB[CabcCcDCEdc]e >
+[AaBCDbBcAdbaAaBEbBeb] <
+A[BabCcCBDcEbBdebCc] <
+A[BabCcCBDcEbBdeb] <
+AB[CaDbcdDdCEc]e >
+AB[CabcCcBDb]d >
+[AaBCDbBcAdbaAaCEcBeb] <
+A[BabCcCDEcBdDebdCc] <
+A[BabCcCDEcBdDebd] <
+A[BabCcCDEcBd]eb <
+AB[CabcCcDEd]e >
+AB[abBbCDc]d 6 8
+A[BCabcDdDC]dc >
+A[BCabcCcCD]cd 8 10
+AB[CabcBbBDCbd]c >
+AB[CabcBbBCDbc]d >
+A[BCabcCcDCEd]ce >
+A[BCabcDdDE]de 8 8
+AB[abCcBbDECde]c <
+AB[abCcDdCE]ce <
+AB[abCcBbDCEdc]e <
+AB[abCcBbDC]dc <
+A[BCabcDdCcDE]de <
+A[BCabcDdDdDE]de >
+AB[abBbBbCD]cd >
+A[BCabcDdEeDE]de >
+AB[abAaBbCD]cd >
+A[BCabcDdEeDF]df >
+[AaBCDbBcAdbaAaDEdBeb] >
+[ABCaAbDcadDdCEcAea] <
+A[BabCcCDBcEdDbed] <
+AB[CaDbcdDdBEb]e >
+A[BabCcCDBc]db 6 6
+A[BabCcAaCDBc]db <
+A[BabCcBbCDBc]db >
+AB[CabcAaCcA]a 10 11
+AB[CabcAaCcBAb]a >
+AB[CabcAaCcCAc]a >
+AB[CabcAaCcDAd]a >
+A[BabCcCcCDBc]db <
+A[BabCcDdCDBc]db <
+A[BabCcDdCEBc]eb >
+AB[CabcDdCcA]a >
+[AaBCDbBcAdbaAaEFeBfb] >
+[ABCaAbDcadDdEFeAfa] >
+AB[CaDbcdDdEFeCfc] <
+AB[CaDbcdDdEFe]f >
+[AaBbCDAcEdBaebBbECec] >
+[AaBCDbEcAdeaAaEBeb] >
+[ABCaDbEcdeEeDAda] >
+AB[CaDbcdDdCEce] >
+AB[CabcCcBDbd] >
+[AaBbCDAcEdBaebBbFCfc] >
+[AaBCDbEcAdeaAaFBfb] >
+[ABCaDbEcdeEeFAfa] >
+AB[CaDbcdDdEFef] >
+AB[CabcCcDEde] 6 6
+[ABabCcDdCEDc]ed >
+A[aBbCcBDCb]dc <
+AB[CabcBbCcDEde] >
+AB[CabcCcCcDEde] >
+AB[CabcDdCcEDed] >
+AB[abCcBbDCdc] <
+AB[CabcDdCcEFef] >
+[AaBbCDAcdBabCcECec] 17 18
+[ABaCbcBbDAdEBaebDdAa] <
+[ABaCbcBbDAdEBaebDd] <
+[ABaCbcBbDAdEBaeb] <
+AB[aCbcDdEDeBdb] >
+A[BabCcDCdAca] >
+[ABaCbcBbD]d <
+[AaBbCDAcdBabCcECeBcb] >
+[ABaCbcBbADaEBdebAa] <
+[ABaCbcBbADaEBdeb] <
+AB[aCbcDdEDeCdc] >
+A[BabCcDCdBcb] >
+[ABaCbcBbA]a <
+[AaBbCDAcdBabCcECeDcd] >
+[AaBCDbcAdaBbEBeCbc] 12 13
+[AaBCDbcAdaBbAEaBeCbc] >
+[ABCabDcdAaDEdAeBab] >
+AB[aCbcDdCEcDeAda] >
+A[BabCcBDbCdEce] >
+[ABaCbDcdBbD]d >
+[AaBCDbcAdaBbBEbBeCbc] <
+[AaBCDbcAdaBbBEbBe]b <
+A[BabBbCDcEBdebCc] <
+A[BabBbCDcEBdeb] <
+AB[aCbcDdDEd]e >
+A[BabBbCDc]d 6 8
+A[BCabcDdDCd]c >
+A[BCabcCcCDc]d 8 10
+A[BCabcBbBDCbd]c <
+A[BCabcBbBCDbc]d >
+A[BCabcCcDCEdc]e >
+A[BCabcDdDEd]e 8 8
+A[BabCcBbDECde]c >
+A[BabCcBbDCEdc]e <
+A[BCabcDdCcDEd]e <
+A[BCabcDdDdDEd]e >
+A[BCabcDdEeDEd]e >
+A[BCabcDdEeDFd]f >
+AB[abCcDdCEc]e <
+[AaBCDbcAdaBbCEcBeCbc] >
+[ABCabDcdAaBEbAeBab] >
+AB[aCbcDdAEaDeAda] >
+A[BabCcDEdCeDcd] >
+A[aBbCDcBdCbc] <
+[AaBCDbcAdaBbDEdBeCbc] >
+[ABCabDcdAaCEcAeBab] >
+[ABaCbDcdBbEDeA]da <
+[ABaCbDcdBbEDe]d <
+[ABaCbDcdBbE]e >
+[AaBCDbcAdaBbEFeBfCbc] >
+[ABCabDcdAaEFeAfBab] >
+AB[aCbcDdEFeDfAda] >
+A[BabCcDEdCeFcf] >
+[ABaAbaBbCDcEBdebCcDd] <
+[ABaAbaBbCDcEBdebCc] <
+[ABaAbaBbCDcEBdeb] <
+[ABaAbaBbCDcE]de <
+[ABaAbaBbCDc]d <
+[ABaAbaBbC]c 1 3
+[ABCabAcaCcB]b <
+A[aBbCBcDCbdc] >
+[ABaCbcBbDEdFBefbDdEe] <
+[ABaCbcBbDEdFBefbDd] <
+[ABaCbcBbDEdFBefb] <
+AB[aCbcDdEDeFdf] >
+A[BabCcDCdEce] >
+[AaBbCDAcdBabDdECec] >
+[AaBCDbcAdaCcEBeb] >
+[AaBbCDAcdBabEeECec] >
+[AaBCDbcAdaEeEBeb] >
+[ABCabDcdEeEAea] >
+AB[aCbcDdDEde] >
+[ABabBbCDc]d 6 8
+A[BCabcCcCDcd] 8 10
+[AaBbCDAcdBabEeFCfc] 14 16
+[ABCabcDdECeFAcfaEeCc] >
+AB[abCcDBdEFbefDdBb] >
+A[aBbCAcDEadeCcAa] >
+[AaBCbDEcdeBbCc] >
+[ABaCDbcdAaBb] 10 11
+[ABaCDbcdAaCBcb] 9 11
+[ABaCDbcdABaCbBcb] <
+[ABaCDbcdABaCb]c 10 13
+[ABaCDbcdABDaCbd]c >
+[ABaCDbcdABEaCbe]c 2 6
+[ABCaDEbcdeABCaDbc]d >
+AB[CDabcdEABeCab]c <
+AB[CDabcdEABe]ab 6 11
+AB[CDabEcdFABef]ab >
+AB[CDabcEFdA]efa >
+A[BCaDbcdEAFCeaDfcd] >
+[ABaCDbcdADaCdBcb] >
+A[BCabcDCdBcAba] <
+[ABaCDbcdAEaCeBcb] >
+A[BCabcDEdBeAba] <
+A[BCabcDEdBe]b 8 11
+A[BCaDbcdEABea]b 6 11
+A[BCDabcEFdAeBfa]b >
+A[BCaDbEcdFA]efa >
+A[BCabcDEFdBef]b <
+[ABaCDbcdAaDBdb] 9 12
+[ABaCDbcdACaDBcdb] >
+[ABCabDcdBCAbc]a 7 10
+A[BCaAbcDaBdCAbca] 5 9
+A[BCaADbcEadBeCAbca] >
+A[BCaDbcEdBeCAbca] >
+[ABaCDbcdAEaDBedb] 10 14
+[ABaCDbcdAECaDBecdb] <
+[ABaCDbcdAECaD]ecd <
+AB[CabcDAEdaCec] 3 7
+AB[CDabcEdADeaCdc] 10 14
+AB[CDabcEdABDeaCbdc] <
+AB[CDabcAdEBCae]bc >
+AB[CDabcEdAB]eab 6 11
+AB[CDabcEdAFDeaCfdc] >
+AB[CDabcEdAFeaCfc] >
+[ABaCDbcdAEFaDBefdb] >
+A[BCabcDEFdCAefca] <
+[AaBbCDAcdBabEeBFCbfc] >
+[AaBCDbcAdaEeAFBafb] >
+[ABCabDcdEeDFAdfa] >
+[ABCabcDdCEcF]ef <
+[ABCabcDdCEc]e 5 7
+A[BabCDcBdEDbed] <
+[ABCabBcDbdCEc]e >
+[ABCabDcEdeCDc]d 8 12
+A[BCabDAcdBaECbec] >
+AB[aCDbcAdEBaeb] >
+[ABCabDcEBdeCDbc]d <
+[ABCabDcEBdeC]bc 8 12
+AB[CaDEbcdAeBCabc] >
+[ABCabDcEFBdeCf]bc <
+[ABCabDcEFBde]fb <
+[ABCabDcEFdeCDfc]d <
+[ABCabDcEFdeC]fc <
+[ABCabDcEdeCFc]f <
+[ABCabDcEdeC]c 8 11
+A[BaCDbcAdEBaeb] >
+[ABCabDcEBdeCb]c 8 12
+[ABCabDcEFBdeCfb]c <
+[ABCabDcEFdeCf]c <
+[AaBbCDAcdBabEeDFCdfc] <
+AB[abCcDEdBFebfDdEe] >
+A[aBbCDcAEdaeCcDd] >
+[AaBbCDAcdBabEeEFCefc] >
+[AaBCDbcAdaEeEFBefb] >
+[ABCabDcdEeEFAefa] <
+[ABCabDcdEeEF]ef >
+AB[aCbcDdDE]de >
+[ABabCDcEAdeaCcBb] 14 14
+[ABabCDcEAdeaCcAaBb] >
+[AaBbCcBDEbdCecA]a <
+[AaBbCcBDEbdCec] >
+[AaBbACDacBdb] 1 3
+[ABaCbcABDabCdc] <
+[ABaCbcADBadCbc] <
+[ABaCbcADEadCec] <
+[ABabCDcEAdeaCcBbBb] 12 12
+[ABabCDcEAdeaAaCcBbBb] >
+A[aBCbDEcdeEeBbAaAa] >
+[AaAaBbCcCDEcdBeb] >
+[AaBbCcCDEcdBeb] >
+[ABaCDbcdDdAa] <
+[ABabCDcEAdeaBbCcBbBb] >
+A[aBCbDEcdeAaBbAaAa] >
+[AaAaBbAaCDEcdBeb] <
+A[BCabcDdEeDdDd] >
+AB[abCcDdCcCc] >
+A[aBbCcBbBb] <
+[ABabCDcEAdeaCcCcBbBb] >
+A[aBCbDEcdeBbBbAaAa] >
+[AaAaBbBbCDEcdBeb] >
+[AaBbBbCDEcdBeb] >
+[ABabCDcEAdeaDdCcBbBb] >
+A[aBCbDEcdeCcBbAaAa] >
+[AaAaBbCcDECdeBcb] >
+[AaBbCcDECdeBcb] >
+[ABaCDbcdBbAa] <
+[ABabCDcEAdeaEeCcBbBb] >
+A[aBCbDEcdeDdBbAaAa] >
+[AaAaBbCcDCEdcBeb] <
+A[BCabcBbDdEeEe] >
+[AaAaBbCcDC]dc <
+[AaAaBbCcD]d <
+[AaAaBbCc] <
+[ABabCDcEAdeaFfCcBbBb] >
+A[aBCbDEcdeFfBbAaAa] >
+[AaAaBbCcDEFdeBfb] <
+A[BCabcDdEeFfFf] >
+AB[abCcDdEeEe] >
+[ABabCDcEAdeaCcCcBb] >
+A[aBCbDEcdeBbBbAa] >
+[ABabCDcEAdeaCcDdBb] <
+[ABabCDcEAdeaCcEeBb] <
+[ABabCDcEAdeaCcFfBb] 15 16
+[ABabCDcEAdeaCcFAfaBb] >
+[AaBCbcDdBEFbeDfdA]a >
+A[aBCbDEcdeBbFEfe] >
+[ABabCcADEadCec] 2 5
+[ABCabDcdACEacDed] <
+A[BCabcDBdECbec] >
+AB[abCAcDBadb] 2 5
+AB[CabDcAdCBacb] 7 11
+AB[CabDcEAdCBeacb] <
+AB[CabDcAdEBaeb] 2 6
+AB[CDabEcdAeCBacb] >
+AB[CDabEcdAeFBafb] >
+[ABCabDcdAECaeDcd] <
+[ABCabDcdAECae]c 7 11
+A[BCDabcEdAeDCadc] >
+A[BCDabcEdAeFCafc] >
+ABC[abDcEdFBefb] 4 8
+ABC[aAbDcEadFBefb] >
+AB[CaDbEcdFAefa] >
+ABC[aDbEcFdeDBfdb] <
+ABC[aDbEcFdeD]fd 3 9
+[ABCabDcdAEFaeDfd] 2 6
+[ABaCDbcdAECaFDecfd] <
+ABC[aDbcdEBFebDfd] >
+[ABaCDbcdAEBaFDebfd] <
+ABC[aDbcdEFBefDbd] >
+[ABaCDbcdAEBa]eb 5 10
+[ABaCDEbcdAFeBa]fb >
+[ABabCDcEAdeaCcFBfbBb] >
+A[aBCbDEcdeBbFAfaAa] >
+[AaABabCcDEFdeCfc] <
+A[BCabcDdEFefFf] >
+AB[abCcDEdeEe] >
+[AaABabCcD]d <
+[AaABabCc] <
+[ABabCDcEAdeaCcFCfcBb] >
+A[aBCbDEcdeBbFBfbAa] >
+[AaBCbcBbDEFdeBfb] <
+A[BCabcDdEDedFf] >
+AB[abCcDCdcEe] >
+[AaBCbcBbD]d >
+[ABabCDcEAdeaCcFDfdBb] >
+A[aBCbDEcdeBbFCfcAa] >
+[AaBCbcDdEFBefDbd] >
+[ABabCDcEAdeaCcFEfeBb] >
+A[aBCbDEcdeBbFDfdAa] >
+[AaBCbcDdEBFebDfd] >
+[ABaCDbcdAaECec] 9 10
+[ABaCDbcdABabECec] <
+[ABaCDbcdACacECec] >
+A[BCabcDBdbEBeb] 9 11
+A[BCabcDBdAbEaBeb] 7 9
+A[BCabcDABdaAbEaBeb] <
+A[BaCbBDcbdECBec]b >
+A[BCabcDABdaAb]a 5 9
+A[BCabDcEABdeaAb]a <
+A[BCDabcEdABea]b 6 11
+A[BCDabEcFdABefa]b >
+A[BCabcDCBdcAbEaBeb] >
+[ABaCbAcDEadeDA]da <
+A[aBACbaDcEdCec] >
+A[BCabcDEBdeAbEaBeb] >
+AB[abCDAcdEaDeAda] >
+A[aBCDbcEdCeDcd] >
+A[BCabcDEBdeAbFaBfb] >
+[ABaCbAcDEadeFA]fa <
+A[aBCDbcEdFeDfd] >
+A[BCabcDBdCbEcBeb] >
+[ABaCbAcDadCA]ca <
+A[BCabcDBdDbEdBeb] >
+[ABaCbAcCacDA]da <
+A[BCabcDBdEbFeBfb] 3 7
+A[BCDabcEdBeDbFdBfb] >
+ABC[abDcAdCaEcAea] >
+AB[aCbDcBdEbDed] 4 7
+[ABaCbAcDEaCdeD]cd <
+AB[aCDbEcdBeFbEfe] >
+A[BCDabcEdBeFbDfBdb] >
+ABC[abDcAdEaCeAca] >
+AB[aCbDcEdBeDbd] >
+[ABaCDbcdADadECec] <
+[ABaCDbcdAEaeECec] <
+[ABaCDbcdAEaeFCfc] <
+[AaBbCDEcdBebFCfc] 0 1
+[ABabAaCDEcdAeaFCfc] 5 6
+[ABabABabCDEcdAeaFCfc] <
+A[aBCbDEcdeFBfbFBfb] >
+[ABaCDbcdEAeaEAea] >
+A[BCabcDEdeDEde] >
+[ABabABabCD]cd <
+[ABabACacCDEcdAeaFCfc] >
+A[aBCbcCDEcdBebFCfc] >
+[ABabCDcEAdeaECecFCfc] >
+A[aBCbDEcdeDBdbFBfb] >
+[ABaCDbcdCAcaEAea] 12 13
+[ABaCDbcdCAcaAEaAea] 12 12
+[ABaCDbcdCAcaAaAEaAea] <
+A[BabBbBCbcDCEdcBeb] <
+A[BabBbBCbcDCEdc]e >
+A[BCabcBDbdDdD]d >
+A[aAaABabCB]cb <
+[ABaAbaCcADadEDCedAca] >
+A[BabCcBDbdEDCedBcb] >
+[ABaCDbcdCAcaBbA]a >
+A[aBbACacDCBdc]b 3 6
+A[aBCbADcadCDBcd]b <
+AB[abACBacDbdC]c >
+A[aBCbADcadEDBed]b <
+AB[abACDacEdeC]c >
+[ABaCDbcdCAcaCcAEaAea] >
+A[BCabcBDbdBbDEdDed] <
+A[BabCcBCbcDCEdc]e <
+A[BabCcBCbcDC]dc <
+A[BabCcBCbcD]d <
+[ABabAaBCb]c 3 5
+[ABaCDbcdCAcaDdAEaAea] >
+A[BCabcBDbdCcDEdDed] <
+A[BCabcBDbdCcDEd]e >
+AB[abACacBbCDc]d <
+AB[abACacBbC]c >
+[ABaCDbcdCAcaEeAEaAea] >
+A[BCabcBDbdEeDEdDed] >
+[ABaAbaBbACacDC]dc <
+A[aBCbcDdCDcCdc] >
+[ABabCcBCbBcb] >
+[ABaAbaBbA]a 1 3
+[ABCabAcaCcA]a <
+[ABaCDbcdCAcaEeAFaAfa] >
+A[BCabcBDbdEeDFdDfd] >
+AB[abACacDdCEcCec] >
+A[aBCbcDdCEcCec] <
+A[BabCcBDbdE]e >
+[ABaCbcADadEDCedAca] <
+[ABaCbcADadEDCed]c <
+AB[abACacDEdCec] >
+A[aBCbcDEdCec] >
+[ABaCDbcdCAcaCEcAea] >
+A[BCabcBDbdBEbDed] >
+[ABaCbcACacDC]dc <
+A[aBCbcBDbCdc] >
+[ABaCDbcdCAcaDEdAea] >
+A[BCabcBDbdCEcDed] >
+AB[abACacBDbCdc] >
+[ABaCbcADadC]c <
+[ABaCbcADadEDFedAfa] <
+A[BCabcBDbdEFeDfd] >
+[ABabCDcEAdeaDCdcFCfc] >
+A[aBCbDEcdeCBcbFBfb] <
+A[aBCbDEcdeCBcbF]f <
+A[aBCbDEcdeCBcb] >
+[ABaCDbcdBAba] 0 0
+[ABabCDBcdAbaBb] >
+A[aBCAbcDadAa] 1 4
+A[BaCDbAcdBabAa] >
+[AaBAbCDaBcd]b 1 3
+[ABaCbAcDBaCdb]c 7 11
+[ABaCbAcDEBaCdeb]c <
+A[BaCDbAcdEaeAa] >
+A[BCaDbcEdeDd] 9 11
+A[BCaDbcEdBeDbd] 10 13
+[ABCaDbcAdECaBec]b >
+A[BCaDbcEdBCeDbcd] >
+A[BCaDbcEdBFeDbfd] <
+A[BCaDbcEdFeDfd] >
+[AaBCbADcadCBcb] 1 3
+[ABaCbBcADbadBCbc] <
+[ABaCbBcADbadB]b <
+[ABaCbDcABdabDCdc] <
+A[aBCAbcDaBdCbc] >
+[ABaCbDcAEdaeDCdc] <
+A[aBCAbcDaEdCec] >
+[AaBCbDAcdaCBcb] 8 12
+[AaBCbDAcEdaCBecb] 1 4
+[ABaCDbcBAdEbaDCedc] 2 6
+[ABCaDEbcdBAeCbaEDced] >
+AB[CDabcAEdBaeDCbdc] >
+ABC[abDEcAdeCBacb] 8 13
+ABC[abDEcFAdeCBfacb] <
+ABC[aDEbcAdeFB]afb >
+AB[CDabEcdFA]efa >
+[ABCaDEbcdBAeFbaEDfed] >
+AB[CDabcAEdFaeDCfdc] >
+ABC[abDEcFdeCBfcb] <
+ABC[abDEcFdeC]fc <
+[ABaCDbcEAdBeaDCbdc] >
+A[BCabDEcAdeCBacb] 8 13
+A[BCabDEcFAdeCBfacb] <
+ABC[aDEbcAdeFBaf]b >
+AB[CDabEcdFAef]a >
+ABC[aDbcEFde]f 3 9
+[ABaCDbcEAdFeaDCfdc] >
+A[BCabDEcFdeCBfcb] <
+A[BCabDEcFdeC]fc <
+A[BCaDbcEFde]f 3 9
+[AaBCbDEcdeCBcb] 1 2
+[ABabBCbDEcdeCBcb] <
+[ABabBCbDEcdeC]c <
+[ABabCBcDEbdeBCbc] <
+[ABabCBcDEbdeB]b >
+A[aBCAbcDadA]a 1 4
+A[BaCDbAcdBabA]a >
+A[aBAbCDaBcd]b 1 3
+A[BaCbAcBDaCbd]c <
+A[BaCbAcDBaCdb]c 8 12
+A[BaCbAcDEBaCdeb]c <
+A[BaCbAcDEBa]deb <
+A[BaCbAcDEaCde]c <
+A[BaCDbAcdEaeA]a >
+A[BCaDbcEdeD]d 9 11
+A[BaCbAcDEaBde]b <
+A[BCaDbcEdBeDb]d 10 13
+A[BCaDbcAdECaBec]b >
+A[BCaDbcEdBCeDbc]d >
+A[BCaDbcEdBFeDbf]d <
+A[BCaDbcEdCeDc]d >
+A[BCaDbcEdFeDf]d >
+[ABabCDcBEdbeDCdc] <
+[ABabCDcBEdbeD]d >
+[ABabCDcEBdebDCdc] 10 14
+[ABCabDEcBdeAbaDCdc] >
+AB[aCDbAcdEaeCBcb] >
+A[BCaDbcEdeBAba] 8 12
+A[BCaDbcECdeBAcba] 8 13
+[ABCDabEFcdeCBfAcb]a >
+A[BCaDbcEFCdeB]fcb <
+A[BCaDbcEFCde]fc <
+A[BCaDbcEFdeBAfba] <
+A[BCaDbcEFdeB]fb <
+[ABabCDcEBdFebDCfdc] 10 15
+[ABabCDcEBdAFebDCafdc] <
+ABC[aDEbcAdeFafDCdc] >
+AB[CDabEcdFefCBcb] >
+ABC[aDbcEdeBAba] 8 12
+ABC[aDbcECdeBAcba] 8 13
+[ABCDabEFcdeCBfA]cba >
+ABC[aDbcEFCdeB]fcb <
+ABC[aDbcEFCde]fc <
+ABC[aDbcEFdeBAfba] <
+ABC[aDbcEFdeB]fb <
+[ABabCDcEFdefDCdc] 4 4
+[ABabAaCDcEFdefDCdc] 5 6
+[ABabABabCDcEFdefDCdc] <
+[ABabABabCDcEFdefD]d <
+[ABabACacCDcEFdefDCdc] >
+A[aBCbcCDcEFdefDCdc] >
+[ABabACacDCdEFcefCDcd] >
+A[aBCbcDCdEFcefCDcd] >
+[ABabACacDEdCFecfEDed] >
+A[aBCbcDEdCFecfEDed] >
+[ABabACacDEdFCefcEDed] >
+A[aBCbcDEdFCefcEDed] >
+[ABabBbCDcEFdefDCdc] 7 10
+[ABabBbCADcEaFdefDCdc] >
+A[aAaBCDbEcFdefDBdb] >
+[AaBCDbEcFdefDBdb] >
+[ABabBbCBDcEbFdefDCdc] >
+A[aAaBACbDaEcdeCBcb] >
+[AaBACbDaEcdeCBcb] >
+[ABabBbCDEcFdDefdECec] <
+[ABabBbCDEcFdDefdE]e <
+[ABabBbCDEcFdDefd] <
+AB[CaDbcdEeEFef] >
+[ABabCcCDcEFdefDCdc] 2 4
+[ABCabcCcCDcEFdefDCdc] <
+[ABCabcCcCDcEFdefD]d <
+[ABCabDcdDdDEFdef] >
+[ABCabcCcCDcE]de <
+[ABCabcCcCDc]d 8 10
+A[BCabcBbBDCbdc] <
+A[BCabcBbBCDbcd] >
+[ABCabcCcDCEdc]e >
+[ABCabcDdDCdEFcefCDcd] >
+AB[abCcCBcDEbdeBCbc] <
+AB[abCcCBcDEbdeB]b <
+[ABCabDcdDdCE]ce >
+[ABCabcDdDEdCFecfEDed] <
+[ABCabcDdDEdCFecfE]e <
+[ABCabcDdDEdCFecf] <
+[ABCabcDdDEdC]ec <
+[ABCabcDdDEd]e 8 8
+A[BabCcBbDECdec] >
+A[aBbAaCDBcdb] <
+A[BabCcBbDCEdce] <
+[ABCabcDdCcDEd]e 2 5
+[ABCDabcdCcDdCEc]e >
+ABC[abcBbCcBDb]d >
+[ABCDabcdEeDdECe]c <
+[ABCDabcdEeDdE]e 12 13
+A[BabCcAaCDEBcdeb] <
+ABC[abcDdCcEDe]d >
+[ABCDabcdEeDdBEb]e >
+A[BabCcAaCDB]cdb >
+ABC[abcDdCcA]a >
+[ABCDabcdEeDdCEc]e >
+ABC[abcDdCcBDb]d >
+[ABCDabcdEeDdDEd]e >
+ABC[abcDdCcCDc]d >
+[ABCDabcdEeDdFEf]e >
+[ABCDabcdEeDdEFe]f <
+[ABCabcDdDdDEd]e >
+[ABCabcDdEeDEd]e >
+[ABCabcDdEeDFd]f <
+[ABCabcDdEeD]d >
+[ABCabcDdDEdFCefcEDed] >
+AB[abCcCDcEBdebDCdc] <
+AB[abCcCDcEBdebD]d >
+A[aBCAbcDadDdB]b >
+[ABCabDcdDdA]a 9 10
+[ABCabDcdDAdaA]a <
+[ABCabDcdDBdbA]a >
+A[aBCbcCDcB]db >
+AB[aCbcCAca] 6 6
+AB[aCbcAaCAca] >
+AB[aCbcBbCAca] >
+[ABCabDcdDCdcA]a <
+[ABCabDcdDEdeA]a <
+[ABabCcDCdEFcefCDcd] >
+A[aBbCBcDEbdeBCbc] >
+[ABabCcDEdCFecfEDed] >
+A[aBbCDcBEdbeDCdc] >
+[ABabCcDEdFCefcEDed] >
+A[aBbCDcEBdebDCdc] >
+[ABabCDcEAdeaBCbcFCfc] >
+A[aBCbDEcdeABabFBfb] >
+[ABaCDbcdEAeaFAfa] 5 10
+[ABaCDEbcdFAefaEAea] >
+A[BCDabcEFdefDFdf] >
+ABC[abDEcdeCEce] >
+AB[aCDbcdBDbd] >
+[ABabACBac]b 4 6
+[ABabBACbBac]b 3 4
+[ABaAbaBACbBac]b >
+A[BCaAbcaCAc]a 7 9
+A[BCaAbcBaCbAc]a 2 6
+A[BaCbAcBDCaAbdc]a <
+A[BaCbAcBDCa]bdc <
+A[BCaAbcDaCdAc]a 9 12
+A[BCaDbcAdBCaAbc]a <
+A[BCaAbcDaECdAec]a >
+[ABaCbcBACbBac]b <
+[ABaCbcBADbBad]b 2 5
+[ABCaDbcdBACbBac]b <
+AB[CabcDACdBacb] 3 7
+AB[CDabcEdACeBacb] >
+[ABCaDbcdBAEbBae]b <
+AB[CabcDECdBecb] 8 12
+AB[CabcDEACdBeacb] 3 8
+AB[CDabcEFdACeBfacb] >
+AB[CabcDEFCdBefcb] <
+AB[CabcDEFCd]efc <
+[ABabCADcBad]b 2 5
+[ABabCDcEAdeaCcFAfa] >
+[ABabCcDAEdaCecFDfd] <
+A[aBCbDEcdeBbFDfd] >
+[ABabCDcEAdeaCcFDfd] 13 14
+[ABabCDcdCEAceDadFCfc] >
+A[aBCbcBDEbdCecFBfb] >
+[ABabCDcEAdeaCAca] >
+[ABabACDacBdbE]e <
+[ABabCDcEAdeaCBcbFDfd] >
+[ABabCDcdEFAefDadC]c >
+A[aBCbcDEFdeCfcB]b >
+[ABabCDEcdBebA]a <
+[ABabACacDEAdeCacFDfd] >
+A[aBCbcDEBdeCbcFDfd] <
+A[aBCbDEcdeBCbcF]f >
+[ABabCDcEAdeaCEceFDfd] >
+A[aBCbDEcdeBDbdFCfc] >
+[ABabBCbcDEAdeCacFDfd] >
+A[aABabCDEcdBebFCfc] >
+[ABabCDEcdBebFCfc] <
+[ABabCDEcdBebF]f <
+[ABabCDcEAdeaCcFBfb] 14 14
+[ABabCDcEAdeaCcAaFBfb] >
+[ABabCcDdCEFceDfdA]a >
+A[aBbCcBDEbdCecF]f >
+A[aBCbDEcdeBbEe] >
+[ABabCDcEAdeaCcBbFBfb] <
+A[aBbCcDEFdeCfcBDbd] >
+[ABabCDcEAdeaCcCcFBfb] >
+[ABabCcCcDEFdeCfcA]a >
+A[aBCbDEcdeBbBbF]f <
+[ABabCDcEAdeaCcDdFBfb] <
+A[aBbCcDEBdeCbcFDfd] >
+[ABabCDcEAdeaCcEeFBfb] >
+[ABabCcDdECFecDfdA]a >
+A[aBbCcDBEdbCecF]f <
+A[aBbCcDBEdbCec] >
+[AaBbCADcaBdb] 1 3
+[ABaCDbcdADaCdc] >
+[ABaCDbcdABaCbc] 2 6
+[ABaCbcDAEBdaCebc] <
+[ABaCDbcdAEaCec] >
+[ABabCDcEAdeaCcFfFBfb] >
+[ABabBbCcDEFdeCfcA]a <
+[ABabBbCcDEFdeCfc] <
+A[BCabcDdEeEFef] >
+[ABabBbCcDE]de 4 4
+[ABabAaBbCcDE]de <
+[ABabBbBbCcDE]de >
+AB[abCcDdDdD]d >
+[ABabCcBbCcDE]de >
+AB[abCcDdCcD]d >
+[ABabCcBbDdCE]ce <
+[ABabCcBbDdEC]ec <
+AB[abCcDdEeDFdf] >
+[AaBCbDEcdeBb] 0 1
+[ABabACaDEcdeAa] 4 4
+[ABabAaACaDEcdeAa] <
+[ABCabDcdDdEDed] 12 14
+[ABCabDcdDdEDBedb] >
+AB[aCbcCcDCAdca] >
+[ABabBbACaDEcdeAa] 0 2
+[ABCabcCcBAbDEadeBb] <
+[ABCabcCcBDbAEdaeBb] 1 4
+[ABCDabcdDdCBcAEbaeCc] >
+ABC[abcCcBAbDEadeBb] <
+[ABCDabcdDdCEcABeabCc] >
+ABC[abcCcBDbEAdeaBb] <
+[ABCDabcdDdCEcAFeafCc] >
+ABC[abcCcBDbEFdefBb] <
+[ABCabcCcBDbEAdeaBb] <
+[ABCabcCcBDbEFdefBb] <
+[ABabCcACaDEcdeAa] >
+[ABabCcADaCEdceAa] >
+A[aBbCDcBEdbeCc] >
+[ABabCcADaECdecAa] 2 5
+[ABCabDcdACaEDcedAa] >
+AB[aCbcDBdECbecDd] >
+A[BabCAcDBadbCc] <
+[ABCabDcdAEaCDecdAa] 2 6
+[ABCDabEcdeACaDEcdeAa] >
+ABC[aDbcdEBeCDbcdEe] <
+ABC[aDbcdEBeCDbcd] >
+[ABCabDcdABCa]bc 7 11
+AB[CDabcEdAeBCabc] 5 10
+AB[CDaEbcFdAefBCabc] >
+[ABCDabEcdeAFaDEfdeAa] >
+ABC[aDbcdEFeCDfcdEe] >
+AB[CabcDEdBCebcDd] <
+AB[CabcDEdBCebc] 8 12
+[ABCDabEcdeABCa]bc >
+ABC[aDbcdEABe]ab 5 10
+ABC[aDEbcdFAeBf]ab >
+[ABCabDcdAEaFDefdAa] 3 7
+[ABCDabEcdeADaFEdfeAa] >
+ABC[aDbcdECeFDcfdEe] >
+AB[CabcDBdECbecDd] 4 7
+AB[CaAbcDaBdECbecDd] >
+AB[CabDcAdEBaebDd] 2 6
+[AaBCDbcAdECaBDec]bd <
+[AaBCDbcAdECaB]ecb >
+[AaBCDbcAdEFaBDef]bd >
+AB[CaDbcEdBeDCbdcEe] <
+AB[CaDbcEdBeDCbdc] >
+AB[CaDbcEdBeFCbfcEe] >
+[ABabCcADaEFdefAa] 6 6
+[ABabCcAaADaEFdefAa] 6 7
+[ABabCcBAbaADaEFdefAa] >
+A[aBbACacCDcEFdefCc] >
+[AaBCbcCDcEFdefCc] >
+[ABabBCbDEcdeBb] <
+[ABabCcCAcaADaEFdefAa] >
+A[aBbBCbcCDcEFdefCc] >
+[AaABabBCbDEcdeBb] >
+[ABabCcDAdaADaEFdefAa] >
+A[aBbCDcdDCdEFcefDd] >
+[AaBCbcCBcDEbdeCc] >
+[ABabBAbCDacdBb] <
+[ABabCcDAdaAEaDFedfAa] <
+[ABCabDcdDBdbEeFDfd] <
+[ABCabDcdDBdbEeF]f >
+A[aBbCDcdDEdC]ec >
+[AaBCbcCDcB]db >
+[ABabCcDAdaAEaFDefdAa] >
+A[aBbCDcdDEdFCefcDd] >
+[AaBCbcCDcEBdebCc] >
+[ABabCcBbADaEFdefAa] >
+A[aBbAaCDcEFdefCc] <
+[ABabCcCcADaEFdefAa] <
+[ABabCcDdADaEFdefAa] >
+A[aBbCcDCdEFcefDd] >
+[AaBbCBcDEbdeCc] <
+[ABabCcDdAEaDFedfAa] >
+A[aBbCcDEdCFecfDd] >
+[AaBbCDcBEdbeCc] <
+[ABabCcDdAEaFDefdAa] 6 7
+[ABabCcADadAEaFDefdAa] >
+A[aBbCDcdCEcFDefdCc] >
+[AaBCbcBDbECdecBb] >
+[ABabACaDBcdbAa] <
+[ABabCcBDbdAEaFDefdAa] >
+A[aBbACacDEdFCefcDd] <
+A[aBbACacDEdFCefc] <
+[ABabCcCDcdAEaFDefdAa] >
+A[aBbBCbcDEdFCefcDd] <
+A[aBbBCbcDEdFCefc] <
+[ABabCcDEdeADaFEdfeAa] >
+A[aBbCDcdECeFDcfdEe] >
+[AaBCbcDBdECbecDd] >
+[ABabCAcDBadbCc] <
+[ABabCcDEdeAFaDEfdeAa] >
+A[aBbCDcdEFeCDfcdEe] >
+[AaBCbcDEdBCebcDd] >
+[ABabCDcABdabCc] <
+[ABabCAcDEadeCc] 14 14
+[ABabCAcDEadeCcAa] >
+A[aBCbDEcdeBbCc] >
+[ABabCAcDEadeCcBb] 14 14
+[ABabCAcDEadeCcAaBb] >
+A[aBCbDEcdeBbCcAa] <
+[ABabCAcDEadeCcBbBb] 12 12
+[ABabCAcDEadeAaCcBbBb] >
+[ABabCAcDEadeBbCcBbBb] >
+[ABabCAcDEadeCcCcBbBb] >
+[ABabCAcDEadeDdCcBbBb] >
+[ABabCAcDEadeEeCcBbBb] >
+[ABabCAcDEadeFfCcBbBb] >
+[ABabCAcDEadeCcCcBb] >
+[ABabCAcDEadeCcDdBb] <
+[ABabCAcDEadeCcDd] 2 5
+[ABCabDcAdCEaceDdCc] <
+[ABCabDcAdCEaceDd] <
+[ABCabDcBdECbec] 7 11
+[ABCabDcABdECabec] 2 6
+[ABCDabEcdABeCDabcd] 5 10
+[ABCDaEbFcdAeBfCDabcd] >
+ABC[DaEbcFdAeBCfabc] >
+[ABCDabEcdAFeCDafcd] >
+ABC[aDbcEFdBCefbc] <
+ABC[aDbcEFdB]efb <
+[ABCabDcEBdFCebfc] 4 8
+[ABCaAbDcEaBdFCebfc] >
+AB[CaDbEcAdFBeafb] >
+[ABCDabEcFdAe]fa 5 11
+[ABCaDbEcFdBeDCfbdc] <
+[ABCaDbEcFdBeD]fbd <
+[AaBbCADcaBdCbEDced] <
+AB[aCbDcEBdebCcEe] >
+[AaBbCADcaBdCb]c <
+[AaBbCADcaBd]b 1 3
+A[BaCDbcdADaCdc] >
+A[BaCDbcdABaCbc] 2 6
+[ABaCbcDAEBdaCeb]c <
+A[BaCDbcdAEaCec] >
+[AaBbCADcaBdEbFDefd] >
+[ABCabDcAdEFaefDd] <
+[ABCabDcEdFCefc] 8 12
+[ABCDabEcdAeFCafc] >
+ABC[aDbcEdFBefb] >
+[ABabCAcDEadeCcEeBb] >
+[ABabCAcDEadeCcFfBb] 15 16
+[ABabCAcDEadeCcFAfaBb] >
+[ABabCAcDEadeCcFBfbBb] >
+[ABabCAcDEadeCcFCfcBb] >
+[ABabCAcDEadeCcFDfdBb] >
+[ABabCAcDEadeCcFEfeBb] >
+[ABabCAcDEadeCcCc] >
+[AaBbACDacBdbEDed] <
+[AaBbCDEcdBebFEfe] 0 1
+[ABabCAcDEadeCcFCfc] 12 13
+[ABabACacDECdeAcaFCfc] >
+A[aBCbcDECdeBcbFCfc] >
+[ABabCDBcdAbaEBeb] <
+[ABabCAcDEadeBCbcFCfc] >
+[ABabCAcDEadeDCdcFCfc] >
+[ABabCAcDEadeECecFCfc] >
+A[aBCbDEcdeEBebFBfb] <
+A[aBCbDEcdeEBebF]f >
+A[aBCbcCDEcdBeb] >
+[ABabCAcDEadeFCfcFCfc] >
+[ABabCAcDEadeCcFEfe] >
+[ABabCAcDEadeCcFDfd] >
+[ABabCAcDEadeCcFAfa] 13 14
+[ABabCAcDEadeCAcaFAfa] >
+A[aBCbDEcdeBCbcFCfc] >
+[ABabCDcdEFAefDadCAca] >
+[ABabCAcDEadeCBcbF]f >
+[ABabCDcdECAecDadFAfa] <
+[ABabCDcdCEAceDadFAfa] >
+A[aBCbcBDEbdCecFEfe] >
+[ABabACDacBdbEDed] <
+[ABabBCbcDEAdeCacFAfa] >
+A[aABabCDEcdBebFEfe] >
+[ABabCDEcdBebFEfe] <
+[ABabCAcDEadeCcFBfb] 14 14
+[ABabCAcDEadeCcAaFBfb] <
+A[aBbCcDEBdeCbcFBfb] >
+[ABabCAcDEadeCcBbFBfb] <
+[ABabCAcDEadeCcBbF]f <
+[ABabCAcDEadeCcCcFBfb] >
+[ABabCAcDEadeCcDdFBfb] >
+[ABabCAcDEadeCcEeFBfb] >
+[ABabCAcDEadeCcFfFBfb] >
+[ABabCDcAEdaeCc] 4 4
+[ABabAaCDcAEdaeCc] >
+[ABabBbCDcAEdaeCc] <
+[ABCabDcdEeEBeb] >
+AB[aCbcDdDAda] >
+[ABabCcCDcAEdaeCc] <
+[ABCabDcdDdEBeb] >
+AB[aCbcCcDAda] >
+A[BabBbCDcd] 6 8
+[ABCabcDdDCd]c >
+[AaBCDbcAdaDdECec] >
+[ABCabDcdCcEBeb] <
+[AaBCDbcAdaBbECec] 11 14
+[ABCabDcdCEcADeadCc] >
+AB[aCbcBDbECdecBb] 5 7
+AB[aCbAcBaDbECdecBb] >
+A[BaCbAcDaEBdebAa] <
+A[BaCbAcDaEBdeb] 1 4
+A[BCaDbcAdBaECbec] >
+A[BCaDbcAdEaBCebc] 8 13
+A[BCaDbcAEdFaBCefbc] >
+[ABCDabEcFdeABf]ab >
+ABC[aDbEcdFAe]fa >
+A[BCaDbcAdEaFCefc] >
+AB[CabDcEdFBefb] 4 8
+AB[CaAbDcEadFBefb] >
+AB[CaDbEcFdeDBfdb] <
+AB[CaDbEcFdeD]fd 3 9
+AB[aCbDcBdDbECdecBb] >
+A[BaCbAcCaDBcdbAa] <
+A[BaCbAcCaDBcdb] <
+AB[aCbBcDbCd]c >
+A[BaAbCaBc]b 1 3
+AB[aCbDcBdEbDCedcBb] >
+A[BaCbAcDaCBdcbAa] <
+A[BaCbAcDaCBdcb] 8 12
+A[BaCbAcDEaCBdecb] <
+A[BaCbAcDEaC]dec <
+AB[aCbDcBdEbFCefcBb] >
+[AaBCDbcAdaBDbECdec] >
+[ABCabDcdACaEBceb] <
+AB[aCbcDBdECbec] >
+[AaBCDbcAdaBEbFCefc] 10 10
+[AaBCDbcAdaAaBEbFCefc] >
+[ABCabDcdDdAEaFBefb] <
+AB[aCbcDdDEdFCefc] <
+AB[aCbcCcDEdF]ef >
+[AaBCDbcAdaBbBEbFCefc] >
+[ABCabDcdAaAEaFBefb] >
+[ABCabDcdDdEFeA]fa >
+[AaBCDbcAdaCcBEbFCefc] >
+[ABCabDcdBbAEaFBefb] <
+AB[aCbcDdEFeDCfdc] >
+A[BabCcDEdCBecb] >
+[AaBCDbcAdaDdBEbFCefc] >
+[ABCabDcdCcAEaFBefb] <
+AB[aCbcDdEDeFCdfc] >
+A[BabCcDCdEBceb] >
+[AaBCDbcAdaEeBEbFCefc] >
+[ABCabDcdEeAEaFBefb] >
+[ABCabDcdCcEFeA]fa <
+[ABCabDcdCcEFe]f <
+[AaBCDbcAdaEeBFbECfec] >
+[ABCabDcdEeAFaEBfeb] >
+AB[aCbcDdEFeDAfda] >
+A[BabCcDEdCFecf] >
+[AaBCDbcAdaEeFCfc] 10 10
+[AaBCDbcAdaAaEeFCfc] 13 16
+[ABCabDcdCcCEcAFeafCc] >
+AB[aCbcBbBDbEFdefBb] <
+[ABCabDcdDdEDeF]df >
+AB[aCbcCcDCdE]ce >
+AB[aCbcBbBDb]d >
+A[BabBbCBc]b >
+A[BabAaA]a 6 6
+A[BabAaAaA]a <
+A[BabAaAa] >
+A[BabAaCcA]a 4 5
+A[BabBAbaCcA]a >
+A[BabCAcaCcA]a <
+A[BabCAcaDdA]a >
+[AaBCDbcAdaAaEBeFCbfc] <
+AB[aCbcDdDEdFBefbDd] <
+AB[aCbcDdDEdFBefb] <
+[AaBCDbcAdaAaEDeFCdfc] >
+[ABCabDcdDdECeFBcfb] >
+[ABCabDcdEeECeA]ca <
+[ABCabDcdEeECe]c >
+AB[aCbcDdDBd]b >
+A[BabBbCAc]a 7 9
+A[BCabcBbBAb]a >
+A[BCabcDdDAd]a >
+A[BabBbCD]cd 6 8
+AB[CabcDdDCd]c >
+AB[CabcDdDEd]e 8 8
+A[BabCcBbDECd]ec >
+A[BabCcBbDCEd]ce <
+AB[CabcDdCcDEd]e <
+AB[CabcDdDdDEd]e >
+AB[CabcDdEeDEd]e >
+AB[CabcDdEeDFd]f >
+[AaBCDbcAdaBbEeFCfc] 10 11
+[AaBCDbcAdaABabEeFCfc] >
+[ABCabDcdDAdaEeFBfb] <
+[AaBCDbcAdaCBcbEeFCfc] >
+[ABCabDcdBAbaEeFBfb] <
+A[aBbCDcdEFeDCfdc] >
+[AaBCbcDEdCBecb] >
+[ABCabDcdBAba] <
+[AaBCDbcAdaDBdbEeFCfc] >
+[ABCabDcdCAcaEeFBfb] <
+A[aBbCDcdEDeFCdfc] >
+[AaBCbcDCdEBceb] >
+[AaBCDbcAdaEBebEeFCfc] >
+[ABCabDcdEAeaEeFBfb] >
+AB[aCbcDEdeDdFAfa] >
+A[BabCDcdCcEFef] >
+[ABabCcDCdcE]e >
+[AaBCDbcAdaEBebFfECec] <
+A[aBbCAcaDEdFCefcDd] >
+[AaBCbcDEdFBefbDd] >
+[AaBCDbcAdaCcEeFCfc] >
+[ABCabDcdBbEeFBfb] <
+[AaBCDbcAdaDdEeFCfc] >
+[ABCabDcdCcEeFBfb] <
+[AaBCDbcAdaEeEeFCfc] 10 11
+[AaBCDbcAdaAEaeEeFCfc] >
+[ABCabDcdDEdeEeFBfb] <
+[ABCabDcdDEdeEeF]f <
+[ABCabDcdDEdeEe] <
+[AaBCDbcAdaBEbeEeFCfc] >
+[ABCabDcdAEaeEeFBfb] >
+AB[aCbcDEdeEeFAfa] >
+A[BabCDcdDdEFef] >
+[AaBCDbcAdaCEceEeFCfc] >
+[ABCabDcdBEbeEeFBfb] >
+AB[aCbcADadDdEAea] >
+[AaBCDbcAdaDEdeEeFCfc] >
+[ABCabDcdCEceEeFBfb] <
+[ABCabDcdCEceEeF]f <
+[ABCabDcdCEceEe] <
+[AaBCDbcAdaEFefFfECec] >
+[ABCabDcdEFefFfEBeb] >
+AB[aCbcDEdeEeDAda] >
+[AaBCDbcAdaEeFfECec] >
+[ABCabDcdEeFfEBeb] >
+AB[aCbcDdEeDAda] >
+[ABabCDcEFdefCc] 3 4
+[ABaAbaCDcEFdefCc] 16 16
+[ABaAbaCDcEFdefCcAa] 6 6
+[ABaAbaAaCDcEFdefCcAa] >
+A[BabBbCDcEFdefCcBb] <
+A[BabBbCDcEFdefCc] <
+[ABCabDcdEeEFe]f >
+[ABaAbaBbCDcEFdefCcAa] <
+[ABaAbaBbCDcEFdefCc] <
+[ABCabDcdEeFEfFef] >
+[ABaAbaCcCDcEFdefCcAa] >
+A[BabCcCDcEFdefCcBb] >
+[AaBbCDEcdBebBbA]a <
+[AaBbCDEcdBebBb] >
+[ABaAbaCcDCdEFcefDdAa] >
+A[BabCcDCdEFcefDdBb] >
+A[aBbCBcDEbdeCcAa] >
+[AaBAbCDacdBbEe] <
+[ABaAbaCcDEdCFecfDdAa] >
+A[BabCcDEdCFecfDdBb] >
+A[aBbCDcBEdbeCcAa] >
+[AaBbCDEcdBebDd] >
+[ABaAbaCcDEdFCefcDdAa] >
+A[BabCcDEdFCefcDdBb] >
+[AaBbCDEcdBebCcA]a <
+[AaBbCDEcdBebCc] >
+[ABaAbaCDcEFdefCcBb] 16 16
+[ABaAbaCDcEFdefCcAaBb] <
+[ABaAbaCDcEFdefCcBbBb] >
+A[BabCDcEFdefCcAaAa] >
+[AaAaBbCDEcdBebF]f <
+[AaAaBbCDEcdBeb] 6 6
+[ABaAbaCDcEFdefCcCcBb] >
+A[BabCDcEFdefCcCcAa] >
+A[aBCbDEcdeBbBbFf] <
+[ABaAbaCDcEFdefCcDdBb] >
+A[BabCDcEFdefCcDdAa] >
+A[aBCbDEcdeBbCcFf] <
+[ABaAbaCDcEFdefCcEeBb] >
+A[BabCDcEFdefCcEeAa] >
+[AaBbCcDBEdbCecF]f <
+[AaBbCcDBEdbCec] >
+[ABaAbaCDcEFdefCcFfBb] >
+A[BabCDcEFdefCcFfAa] >
+[AaBbCcBDEbdCecF]f >
+[ABaAbaCDcEFdefCcCc] >
+A[BabCDcEFdefCcCc] >
+[ABaAbaCDcEFdefCcDd] 3 5
+[ABaCAbcaCDcEFdefCcDd] >
+A[BCabcBDbEFdefBbDd] >
+[AaBbCDAcdBabEB]eb <
+[ABaCAbcaDCdEFcefDdCc] >
+A[BCabcDBdEFbefDdBb] >
+AB[abCAcDEadeCcAa] >
+[ABaCAbcaDEdCFecfDdEe] >
+A[BCabcDEdBFebfDdEe] >
+AB[abCDcAEdaeCcDd] >
+[ABaCAbcaDEdFCefcDdEe] >
+A[BCabcDEdFBefbDdEe] >
+[AaBbCDAcdBabEC]ec <
+[ABaAbaCDcEFdefCcEe] 4 7
+[ABaACbaDcCdEFcefDdEe] >
+A[BCabDcCdEFcefDdEe] >
+AB[aCbBcDEbdeCcDd] >
+A[BaAbCDacdBbCc] >
+[ABaACbaDcEdCFecfDdCc] >
+A[BCabDcEdCFecfDdCc] >
+AB[aCbDcBEdbeCcBb] >
+A[BaCbADcadBbAa] >
+[AaBbCADcaBdCbEFceEfe] >
+[ABaACbaDcEdFCefcDd] >
+A[BCabDcEdFCefcDd] <
+A[BCabDcEdFCefc] 8 12
+[ABCDabEcdAeFCaf]c >
+ABC[aDbcEdFBef]b >
+A[BCabDcEBdFCebfc] <
+ABC[aDbcEdBFeb]f 6 10
+A[BCaDbEcFdBeD]fbd <
+ABC[aDbEcFdBeEfb]e <
+[AaBbACDacBdbEFeEfe] <
+A[BabCDcEFdefCcFf] >
+[ABaCbcCDcEFdefCc] 0 2
+[ABCabAcaADaEFdefAa] 7 8
+[ABCabAcBabADaEFdefAa] <
+[ABCabDcdEDeFdEDfed] >
+AB[aCbcDCdEcDCedc] >
+A[BabCBcDbCBdcb] >
+[ABCabAcBabA]a 9 11
+[ABCabAcBaCbAc]a 10 13
+A[BCaDbcAdCaDAcda] <
+AB[aCbAcBDaCbd]c <
+A[BaCbAcDaCAdca] 7 10
+A[BaCbAcBDaCbAdca] <
+A[BaCbAcBDaCb]dc <
+A[BaCbAcDEaCdAeca] <
+A[BaCbAcDEaCd]ec <
+[ABCabAcCacADaEFdefAa] >
+AB[aCbBcbCDcEFdefCc] >
+A[BaAbaBCbDEcdeBb] <
+[ABCabDcdEDeEd]e >
+A[BaAbaBCbD]cd <
+A[BaAbaBCb]c <
+[ABCabAcDadADaEFdefAa] >
+AB[aCbDcdCDcEFdefCc] >
+A[BaCbcBCbDEcdeBb] >
+A[BabABaCDbcdAa] <
+[ABCabAcDadAEaDFedfAa] >
+AB[aCbDcdCEcDFedfCc] >
+A[BaCbcBDbCEdceBb] <
+A[BaCbcBDbCEdce] >
+[ABCabAcDadAEaFDefdAa] >
+AB[aCbDcdCEcFDefdCc] >
+A[BaCbcBDbECdecBb] 5 7
+A[BaCbAcBaDbECdecBb] >
+A[BaCbDcBdDbECdecBb] >
+A[BaCbDcBdEbDCedcBb] >
+A[BaCbDcBdEbFCefcBb] >
+[ABCabDcdDAdEFaefDd] 7 8
+[ABCabDcAdaDAdEFaefDd] >
+[ABCabDcBdbDAdEFaefDd] <
+[ABCabDcdEDeFdECfec] >
+AB[aCbcDCdEcDBedb] >
+A[BabCBcDbCAdca] >
+[ABCabDcBdbD]d 9 11
+[ABCabDcBdEbDe]d 4 7
+A[BaCbAcDEaCdDecd] <
+A[BaCbAcBDaCbEdce] <
+[ABCaDbEcdBeFbEf]e >
+[ABCabDcCdcDAdEFaefDd] >
+[ABCabDcEdeDAdEFaefDd] >
+[ABCabDcEdeDAdFEafeDd] >
+[AaBCDbcAdaAEaFCefc] 9 10
+[AaBCDbcAdBabAEaFCefc] >
+[ABCabDcAdaDEdFBefb] <
+AB[aCbcDCdEcFDefd] >
+A[BabCBcDbECdec] >
+[AaBCDbcAdCacAEaFCefc] >
+[ABCabDcBdbDEdFBefb] <
+AB[aCbcDCdEcDFedf] >
+A[BabCBcDbCEdce] >
+[AaBCDbcAdDadAEaFCefc] >
+[ABCabDcCdcDEdFBefb] <
+[ABCabDcCdcDEdF]ef <
+[ABCabDcCdcDEd]e 5 7
+A[BabCBcDCbdEDced] <
+A[BabCBcDCbdE]ce >
+[ABCabBDcbCdcDEd]e >
+AB[aACbaBcbCDc]d >
+A[BabCBcDCbd]c >
+[ABCabDEcdCecEDe]d <
+[ABCabDEcdCecE]e >
+[ABCabDEcdCecEFe]f >
+[AaBCDbcAdEaeAEaFCefc] >
+[ABCabDcEdeDEdFBefb] >
+[ABCabDcdCDcEdA]ea <
+[ABCabDcdCDcEd]e <
+[AaBCDbcAdEaeAFaECfec] >
+[ABCabDcEdeDFdEBfeb] >
+AB[aCbDcdCEcDAeda] >
+[AaBCDbcAdaAEaFBefb] 9 10
+[AaBCDbcAdBabAEaFBefb] >
+[ABCabDcAdaDEdFAefa] <
+[AaBCDbcAdCacAEaFBefb] >
+[ABCabDcdEDeFdEAfea] >
+[AaBCDbcAdDadAEaFBefb] >
+[ABCabDcCdcDEdFAefa] >
+[ABCabDcdEDeEdF]ef >
+AB[aCbBcbCDcE]de >
+[AaBCDbcAdEaeAEaFBefb] >
+[ABCabDcEdeDEdFAefa] >
+[ABCabDcdCDcEdF]ef <
+[AaBCDbcAdEaeAFaEBfeb] >
+[ABCabDcEdeDFdEAfea] >
+AB[aCbDcdCEcDFedf] >
+[ABaCbcDCdEFcefDd] <
+[ABCabDcdCEcFef] 9 12
+[ABCaDbcdEDeFCdfc] 3 7
+[ABCDaEbcdeDEdFCefc] >
+ABC[DabcdCDcEBdeb] >
+[ABCabDcdCDA]cda <
+[ABCabDcdCD]cd 7 9
+AB[aCbAcBaDCbdc] 8 12
+AB[aCbAcBDaECbdec] <
+ABC[aDbcEdCeD]cd >
+[ABCabDcBdCbD]cd <
+[ABCDaEbcdeFEfDCedc] >
+ABC[DabcdEDeCBdcb] >
+[ABCaDbcdEDeCFdcf] >
+[ABCaDbcdCDcEFdef] >
+[ABaCbcDEdCFecfDd] >
+A[BabCDcBEdbeCc] >
+[ABaCbcDEdFCefcDd] 14 15
+[ABabCDEcdAeaCFcBfb] 12 12
+[ABabCDEcdAeaAaCFcBfb] >
+[ABaCbcDdDEdFCefcA]a >
+A[BabCcCDcEBdebF]f <
+A[BabCcCDcEBdeb] >
+[ABabCDEcdAeaBbCFcBfb] >
+[ABaCbcAaDEdFCefcA]a <
+[ABaCbcAaDEdFCefc] 9 13
+[ABaCbcAaDAEdFCaefc] <
+ABC[aDbcdCcEFeCfc] >
+AB[CabcBbDEdBeb] >
+[ABaCbcAaDA]da <
+[ABaCbcAaDBEdFCbefc] <
+ABC[aDbcdEeFCfEce] >
+AB[CabcDdEBeDbd] >
+[ABaCbcAaDB]db <
+[ABabCDEcdAeaCcCFcBfb] >
+[ABaCbcCcDEdFCefcA]a >
+A[BabBbCDcEBdebF]f <
+[ABabCDEcdAeaDdCFcBfb] >
+[ABaCbcDdEFeDCfdcA]a >
+A[BabCcDEdCBecbF]f >
+A[aBCDbcEdeCcB]b >
+[ABabCDEcdAeaEeCFcBfb] >
+[ABaCbcDdEDeFCdfcA]a >
+A[BabCcDCdEBcebF]f >
+A[aBCDbcEdeDdB]b >
+[ABabCDEcdAeaFfCFcBfb] >
+[ABaCbcBbDEdFCefcA]a <
+[ABaCbcBbDEdFCefc] <
+[ABaCbcDEdFCefcBDbd] 6 6
+[ABaCbcAaDEdFCefcBDbd] <
+[ABaCbcAaDEdFCefcB]b <
+[ABaCbcBbDEdFCefcBDbd] <
+[ABaCbcBbDEdFCefcB]b <
+[ABaCbcCcDEdFCefcBDbd] <
+[ABaCbcCcDEdFCefcB]b <
+[ABaCbcCcDEdFCefc] >
+[ABaCbcDdDEdFCefcBDbd] <
+[ABaCbcDdDEdFCefcB]b <
+[ABaCbcDdDEdFCefc] <
+AB[aCbcCcDEdFef] >
+[ABaCbcDdDEd]e >
+[ABaCbcDdEDeFCdfcBEbe] >
+[ABabCDEcdAeaEeCBc]b >
+A[BabCcDCdEBcebA]a >
+[ABaCbcDdEFeDCfdcBEbe] >
+[ABabCDEcdAeaDdCBc]b >
+A[BabCcDEdCBecbA]a >
+[ABaCbcDEdFCefcCDcd] >
+A[BabCDcEBdebBCbc] >
+[ABabBCDbcAdaB]b <
+[ABaCbcDEdFCefcEDed] 6 6
+[ABaCbcAaDEdFCefcEDed] <
+[ABaCbcAaDEdFCefcE]e <
+[ABaCbcBbDEdFCefcEDed] <
+[ABaCbcBbDEdFCefcE]e <
+[ABaCbcCcDEdFCefcEDed] >
+A[BabBbCDcEBdebDCdc] <
+A[BabBbCDcEBdebD]d <
+[ABaCbcDdDEdFCefcEDed] >
+A[BabCcCDcEBdebDCdc] <
+A[BabCcCDcEBdebD]d >
+[ABaCbcDdEDeFCdfcDEde] >
+A[BabCcDCdEBcebCDcd] <
+A[BabCcDCdEBcebC]c <
+[ABaCbcDdEFeDCfdcFEfe] >
+A[BabCcDEdCBecbEDed] >
+[ABabCDBcdAbaDdC]c >
+A[aBCAbcDadCcB]b >
+[ABaCbcDEdFCefcFDfd] 6 6
+[ABaCbcAaDEdFCefcFDfd] <
+A[aBACbaDcdEeBFbEfe] >
+[ABaCbcBbDEdFCefcFDfd] <
+[ABaCbcBbDEdFCefcF]f <
+[ABaCbcCcDEdFCefcFDfd] <
+[ABaCbcCcDEdFCefcF]f <
+[ABaCbcDdDEdFCefcFDfd] <
+[ABaCbcDdDEdFCefcF]f <
+[ABaCbcDdEDeFCdfcFEfe] >
+A[BabCcDCdEBcebEDed] <
+A[BabCcDCdEBcebE]e <
+[ABaCbcDdEFeDCfdcDEde] >
+A[BabCcDEdCBecbCDcd] >
+[ABabCBDcbAdaBbC]c <
+[ABabCBDcbAdaBb] >
+[AaBCbADcadA]a <
+[ABaCDbcdEe] 8 9
+[ABaCDbcdBEbe] 0 0
+[ABabCDBcdEbeEe] 4 5
+[ABabACaDBcdEbeEe] <
+[ABaCDbcEdeBEbe] >
+[ABabBCbDBcdEbeEe] <
+[ABaCDbcBdbBEbe] >
+[ABabBCbDBcd]b 4 4
+[ABabAaBCbDBcd]b 3 5
+[ABaCbAcaBCbDBcd]b <
+[ABaCbAcaBDbCBdc]b <
+[ABaCbAcaBDbEBde]b <
+[ABabBbBCbDBcd]b <
+[ABabCcBCbDBcd]b >
+A[BCabAcaCcA]a <
+[AaBAbCBac]b 1 3
+[ABabCcBDbCBdc]b 7 11
+[ABabCcBADbCBadc]b <
+ABC[aDbcdAaDCdc] >
+[ABabCcBDEbCBdec]b 5 7
+[ABabCAcBaDEbCBdec]b <
+[ABabCAcBaDEbC]dec 0 0
+[AaABabCAcBaDEbC]dec <
+[AaBAbaCBcAbDEaC]dec <
+ABC[aDbcEdAeaDEdeAa] >
+ABC[aDbcEdAeaDEdeCc] >
+ABC[aDbcEdAeaDEdeBb] >
+[AaBCbcDBdCbEFcD]efd <
+[ABabCDcBdDEbCBdec]b <
+[ABabCDcBdDEbC]dec <
+[ABabCDcBdEDbCBedc]b <
+[ABabCDcBdEDbC]edc <
+[ABabCDcBdEFbCBefc]b <
+[ABabCDcBdEFbC]efc <
+[ABabCcBDbEBde]b 2 5
+[ABCabDcdBCbEBce]b <
+[ABCabDcdBEbCBec]b <
+[ABCabDcdBEbFBef]b <
+[ABabCDcCBdcEbeEe] >
+[AaABaCDbcCdcB]b <
+[AaABaCDbcCdc] 2 3
+[AaBAbBaCDbcCdc] 5 8
+[ABaACbBaDcbCdcDd] 13 15
+[ABaCbAcDCaBdDcbBdb] 8 13
+[ABaCbAcDECaBdDecbBdb] <
+[ABaCbAcDECaBdDecb]d <
+[ABaCbAcDECaBd]ecb <
+[ABaACbBaDcbCdBcDbd] >
+[ABaCbAcBCaDbBcd]b <
+AB[CaDbcBdCbDcd] 2 6
+[ABaCbAcBDCaEbd]ce <
+[ABaACbBaDcbCdEcDed] 7 11
+[ABaACbBDaEcbdCeDcEde] >
+[ABaCbAcBDCaEbdDce]d <
+[ABaACbBDaEcbdCeFcEfe] >
+A[BCaADbEcadCeFcEfe] >
+AB[CDaEbcdBeFbEfe] >
+[AaBAbCBaDcEbdDed] 1 3
+[ABaCbAcBCaDbEcdDed] <
+A[BCaDbEcdCeDcEde] >
+[ABaCbAcDCaBdEcbBeb] 0 0
+[AaABaCbAcDCaBdEcbBeb] <
+A[BCaDbEcdCeBcEbeEe] >
+[AaABaCbAcDCaBd]cb <
+AB[CabAcDaCdcCc] 2 5
+[AaABaCbAcBDCab]dc <
+ABC[abDcBdCbcCc] <
+[AaABaCbAcDECad]ec <
+ABC[abDcEdCecCc] <
+[ABaACbDaEcdCeAcEaeAa] >
+A[BCaDbEcdCeBcEbeBb] <
+A[BCaDbEcdCeBcEbe] >
+[ABaACbDaEcdCeAcEaeCc] >
+A[BCaDbEcdCeBcEbeCc] <
+[AaBCbDcBdADbCaEdcCec] <
+A[BCaDbEcdCeBcEbeDd] <
+[ABaACbDaEcdCeAcEaeBb] >
+A[BCaDbEcdCeBcEbeAa] >
+[AaBCbDcBdEDbCe]dc >
+[AaBCbDcBdEDbCeFdcCfc] <
+A[BCaDbEcdCeBcEbeFf] >
+[ABaACbDaEcdCeBcEbe] >
+[ABaCbAcDCaEdBce]b 8 13
+[ABaACbDaEcdCeFcEfe] 7 11
+[ABaACbDBaEcdbCeFcEfe] >
+[ABaCbAcDECaFdeDcf]d <
+[ABaCbAcBDCaEbdFceEfe] <
+A[BCaDEbFcdeCfEcFef] >
+[AaBAbCaBDcbBdb] 1 3
+[ABaCbAcBaCDbcCdc] >
+A[BaCbAcBDabBdb] <
+[ABaCbAcDaCBdcCbc] <
+[ABaCbAcDaCEdcCec] <
+A[BCabDcBdEbDed] 4 7
+[ABaCbAcDEaCdDec]d <
+[ABaCbAcBDaCbEdc]e <
+A[BCaDbEcdBeFbEfe] >
+[ABaACbaDcBdbDd] 11 13
+[ABaCbAcDaBCdbBcb] 2 5
+[ABCaDbcAdCaBDcbBdb] >
+AB[CabDcBdACbaAca] 3 7
+AB[CDabEcdBeACbaAca] >
+[ABaACbaDcEBdC]ebc >
+[ABCaDbcAdEaBDebBdb] <
+[ABCaDbcAdEaBDeb]d 10 14
+[ABCaDbcAdECaBDecb]d <
+[ABCaDbcAdECaB]ecb >
+[ABCaDbcAdEFaBDefb]d >
+A[BCDabEcdAeFBa]fb >
+[ABaACbaDcBdCbDcd] >
+[ABaACbaDcBdEbDed] >
+[ABabCDcEBdeCbcCc] >
+[AaABaCDbcAdaB]b <
+[ABaCDbcAdaAa] 11 12
+[ABaCDbcAdaABab] >
+A[BCabDcdDAda] 8 8
+A[BCabDcdAaDAda] >
+AB[aCbcDdCDcd] >
+[ABabCcBDbCAdc]a >
+A[BCabDcdBbD]d <
+A[BCabDcdCcDAda] 3 7
+A[BCDabEcdeCcEAea] >
+A[BCabDcdDdDAda] >
+A[BCabDcdEeDAda] 9 12
+[ABCabDcdBEbCAec]a <
+A[BCabDcdECeDAcda] >
+A[BCabDcdEFeDAfda] >
+[ABabBCbADcaBdb] 4 4
+[ABabAaBCbADcaBdb] <
+A[BCabDcdBbDBdb] <
+[ABabBbBCbADcaBdb] <
+A[BCabDcdDdDBdb] >
+[ABabCcBCbADcaBdb] 2 5
+[ABCabDcdBDbACdaBcb] <
+A[BCabDcdCAcDBadb] >
+AB[aCbcBDbCAdca] >
+[ABCabDcdBDbAEdaBeb] <
+A[BCabDcdCEcDBedb] >
+[ABabCcBDbACdaBcb] <
+A[BCabDcdAaDBdb] >
+[ABabCcBDbAEdaBeb] <
+A[BCabDcdEeDBdb] >
+[ABabBAbCDacBdb] <
+A[BCabDcdDCdc] 8 9
+A[BCabDcdADaCdc] >
+A[BCabDcdBDbCdc] 5 7
+A[BCabADcadBDbCdc] >
+A[BCabBDcbdBDbCdc] >
+A[BCabDEcdeBEbCec] >
+A[BCabDcdCDcCdc] <
+A[BCabDcdCDc]d 7 9
+A[BaCbAcBaDCbd]c 8 12
+A[BaCbAcBDaECbde]c <
+A[BCabDcBdCbDc]d <
+A[BCabDcEdCeDc]d <
+A[BCabDcdEDeCdc] >
+[ABabBCbDEcdBeb] 4 4
+[ABabAaBCbDEcdBeb] <
+A[BCabDcdEeDEde] 9 11
+[ABaCbAcaBDbECde]c <
+[ABaCbAcaBDbCEdc]e <
+A[BCabDcdECeDcEde] >
+A[BCabDcdEFeDfEde] >
+[ABabBbBCbDEcdBeb] <
+A[BCabDcdDdDEde] >
+[ABabCcBCbDEcdBeb] >
+[ABaCDbcAdaDdA]a <
+[AaBAbCDacBdb] 1 3
+[ABaCbAcBDabCdc] <
+[ABaCbAcDBadCbc] 8 12
+[ABaCbAcDEBadCebc] <
+[ABaCbAcDEadCec] <
+[ABabCcBDbCEdcBeb] >
+[ABaCDbcAdaCcA]a <
+[AaBCbADcaBdb] <
+[ABabCcBDbECdeBcb] 3 5
+[ABaAbCacBDbECdeBcb] <
+[ABaAbCacBDbECde]c <
+[ABaCbDcdBCbEDceBdb] >
+A[BaCbcABaDCbdAca] >
+A[BabCAcDBadCbc] <
+A[BabCAcDBad]b 2 5
+A[BCabDcAdCBac]b 7 11
+A[BCabDcEAdCBeac]b <
+A[BCabDcAdEBae]b 2 6
+A[BCDabEcdAeCBac]b >
+ABC[aDbcEdBAeb]a 6 11
+A[BCDabEcFdBeA]fba >
+A[BCDabEcdAeFBaf]b >
+ABC[aDbcEdFAef]a >
+[ABaCbDcdBEbCDecBdb] <
+[ABaCbDcdBEbCDec]d >
+A[BaCbcADaBCdb]c <
+[ABaCbDcdBEbFDefBdb] <
+[ABaCbDcdBEbFDef]d <
+[ABabCcBDbEFdeBfb] <
+A[BCabDcdEeDFdf] 9 12
+[ABCabDcdBEbFCef]c <
+[ABCabDcdBEbCFec]f <
+A[BCabDcdECeDFcdf] >
+[ABabCDcEBdeFbfFf] 14 14
+[AaBbACaDEcdFefCBcb] <
+[AaBbACaDEcdFefC]c <
+[ABaCDbcEdeFfEe] >
+A[BCabDcdEeDd] 6 9
+[AaBCbADcaECde]c <
+AB[aCDbcEdeCc] >
+A[BCabDBcdEbeDd] >
+AB[aCAbcDadCc] >
+A[BCabDEcdFefDd] >
+[ABabCDcEBdeFbfBbFf] 10 13
+[AaBbACBaDcEbdFefBCbc] >
+[ABabCDcEBdAeFbafBb] <
+[ABCaDbEcdFefCBcb] >
+[ABabCDcEBdCeFbcfBbFf] >
+[AaBbACBaDcEbdCecB]b <
+[AaBbACBaDcEbdCec] 3 6
+[AaBCbADcBaCdEbcDed] 0 0
+[AaAaBCbADcBaCdEbcDed] <
+A[BCaDbEcBdeCbcEeEe] <
+A[BCaDbEcBdeCbcEe] >
+[AaBCbADcBaCd]bc <
+[AaBCbADcBa]db 1 3
+AB[CaDbcAdDaCdc] 9 12
+AB[CaDbcAdBDaCbdc] >
+AB[CaDbcAdEDaCedc] >
+AB[CaDbcAdBaCbc] 2 6
+[ABaCbDcAEBdCae]bc <
+[ABaCbDcAEBd]aeb <
+ABC[abDcEdBeb] 8 11
+[ABCaDbcEdAB]eab 3 8
+[ABCDaEbcFdeAB]fab >
+ABC[DabEcdFA]efa >
+ABC[abDcECdBecb] 8 12
+ABC[abDcEACdBeacb] 3 8
+ABC[DabEcFdACeBfacb] >
+ABC[abDcEFdBefb] <
+AB[CaDbcAdEaCec] 10 13
+AB[CaDbcAdEBaCebc] <
+AB[CaDbcAdEBa]eb 6 11
+AB[CaDbEcAdFBea]fb >
+AB[CaDbcAdEFaCefc] >
+AB[CabDcEFdBefb] <
+[ABaCDbAcEdCaeDcdEeDd] >
+A[BCaDbEcBdeCbcEeCc] <
+[ABaCDbAcEdCaeDcdEeCc] >
+A[BCaDbEcBdeCbcEeBb] <
+[ABaCDbAcEdCaeDcdEeAa] >
+A[BCaDbEcBdeCbcEeDd] <
+[ABaCDbAcEdCaeDcdEeBb] >
+A[BCaDbEcBdeCbcEeAa] >
+[AaBbCDcBEdCbDe]cd >
+[AaBbCDcBEdCbDeFcdEfe] <
+A[BCaDbEcBdeCbcEeFf] >
+[AaBCbADcBaEdCbeDcd] <
+[AaBCbADcBaEdCbe]c <
+AB[CaDbEcdBebDd] >
+[AaBCbADcBaEdFbeDfd] >
+[ABaCDbAcEdFaeDfd] >
+A[BCaDbEcFdeCfc] 3 9
+[ABabCDcEBdDeFbdfBbFf] >
+[AaBbACBaDcCbdEceB]b <
+[ABaCDbBcEdbeDdEe] 16 16
+[ABaCDbBcEdbeDdEeAa] >
+[AaBbCcBDCbEdDce]d <
+AB[CaDbcdBbDdEe] >
+[AaBbCcBDCb]dc <
+AB[abCcBbDd] >
+[ABaCDbBcEdbeDdEeBb] >
+A[BCaAbDcadCcDdAa] >
+AB[CaDbcdBbDdCc] 13 14
+AB[CaDbcdBbDdCAca] >
+AB[CabcAaCcBDbd] >
+AB[CaDbcdBbDdCBcb] >
+AB[CabcAaCcBAba] >
+AB[CaDbcdBbDdCDcd] >
+AB[CabcAaCcBCbc] >
+AB[abCcBbABab] >
+[ABabAaCcA]a 3 4
+[ABaAbaAaCcA]a >
+A[BabBbCcB]b >
+[ABaCbcAaCcA]a <
+[AaBbACaBcb] >
+[ABaCbcAaDdA]a <
+AB[CaDbcdBbDdCEce] >
+[ABaCDbBcEdbeDdEeCc] >
+A[BCaAbDcadCcDdBb] >
+AB[CaDbcdBbDdAa] >
+[ABaCDbBcEdbeDdEeDd] >
+A[BCaAbDcadCcDdCc] >
+AB[CaDbcdBbDdBb] >
+AB[CabcAaCcAa] 10 11
+AB[CabcAaCcCAca] >
+[ABabBbAaBC]bc >
+AB[CabcAaCcDAda] >
+[ABaCDbBcEdbeDdEeEe] >
+[AaAaBbACBaDcCbd]c <
+AB[CaDbcdBbDdDd] >
+[AaAaBbACBa]cb <
+AB[abCcBbBb] >
+A[aBbAaAa] 1 3
+A[BaCbcAaAa] 7 8
+A[BaCbcACacAa] <
+A[BaCbcADadAa] 5 8
+[ABaCDbBcEdbeDdEeFf] >
+[ABabCDcEBdeFbfCcFf] >
+[AaBbACaDEcdBebC]c <
+[AaBbACaDEcdBeb] <
+[ABabCDcEBdeFbfDdFf] >
+[AaBbACaDBcdEbeC]c <
+[ABaCDbcEdeBbEe] >
+[AaBbACaDBcd]b 1 3
+[ABaCbcABaDCbd]c <
+AB[aCbcDBdCbc] >
+[ABaCbcABa]b 5 8
+[ABaCbcADaBCdb]c <
+[ABaCbcADaB]db <
+A[BabCDcBdb] 2 5
+[ABaCbcADaECde]c <
+AB[aCbcDEdCec] >
+[ABabCDcEBdeFbfEeFf] >
+[AaBbACaBDcbEdeC]c >
+[AaBCbADcaEdeC]c <
+[ABaCDbcEdeCc] >
+[ABabCDcEBdeFbfFfFf] 16 17
+[ABabAaACaDEcdFefCBcb] <
+[ABabAaACaDEcdFefC]c <
+[ABaCDbcEdeEeFEfe] >
+A[BCabDcdDdEDed] 12 14
+A[BCabDcdDdEDAeda] >
+A[BCabDcdDdEDBedb] >
+A[BCabDcdDdEDCedc] >
+A[BCabDcdDdEDFedf] >
+[ABabAaABaCDbcEdeBFbf] <
+[ABabAaABaCDbcEdeB]b <
+[ABaCDbcEdeEeDEde] >
+A[BCabDcdDdCDcd] >
+AB[aCbcCcBCbc] >
+[ABabAaABa]b <
+[ABabAaA]a 6 6
+[ABabAaAaA]a <
+[ABabAaAa] >
+[ABabAaACaDEcdBebCFcf] <
+[ABabAaACaDEcdBebC]c <
+[ABabAaACaDEcdBeb] 0 2
+[ABCabcBbBAbDEadCec] <
+[ABCabcBbBDbAEdaCec] <
+[ABaCDbcEdeEeAEBaeb] >
+[ABCabcBbBDbEFdeCfc] <
+[ABabAaACaDBcdEbeCFcf] >
+[ABabCDcEBdeFbfFfD]d >
+A[aBCbDAcdEaeEeC]c >
+[ABaCDbcEdeEeB]b >
+A[BCabDcdDdA]a 2 6
+A[BCDabEcdeEeA]a >
+ABC[aDbcdDdE]e 10 11
+A[BabCcCDEcB]deb <
+ABC[aDbcdDdBEb]e >
+ABC[aDbcdDdCEc]e >
+ABC[aDbcdDdDEd]e >
+ABC[aDbcdDdEFe]f >
+[ABabAaACaBDcbEdeCFcf] <
+[ABabAaACaBDcbEdeC]c <
+[ABaCDbcEdeEeCEce] >
+A[BCabDcdDdBDbd] >
+[ABabAaACaB]cb <
+A[BabBbCBcb] >
+[ABabCDBcdEbeBb] >
+[ABabCDBcdEbeDd] >
+A[aBCAbcDadCc] >
+[ABabCDBcdEbeCc] 13 14
+[ABabCDBcdEbeCAca] 12 14
+[ABCabcDCdEBcebCAca] <
+[ABCabcDCdEBcebC]c <
+[ABCabcDCdEBceb] >
+[ABCabDcdCA]ca 4 7
+[ABCaAbDcadCA]ca 9 12
+[ABCaAbDcaBdCAb]ca 5 9
+[ABCaADbEcadBeCAb]ca >
+[ABCaAbDcaEdCAe]ca 10 14
+AB[CDabEcdABeCaAbca] >
+[ABCaAbDcaEBdC]ebc 8 13
+[ABCaAbDcaEFdCAef]ca >
+AB[CaDbcEFdBCef]bc <
+[ABCaDbEcdeCA]ca 8 12
+[ABCaDbEcBdeCAb]ca 8 13
+AB[CDabEFcdBeCfAbca] >
+[ABCaDbEcFBdeC]fbc <
+[ABCaDbEcFBde]fb <
+[ABCaDbEcFdeCAf]ca <
+[ABabCDBcdEbeDCAdca] >
+[ABCabcDEdCBecbE]e <
+[ABCabcDEdCBecb] 8 12
+[ABCabcDEAdCBeacb] <
+ABC[aDbcdAEBaeb] 6 11
+ABC[aDbEcdAFBeafb] >
+[ABCDabcEFdAe]fa >
+[ABCabcDEFdCBefcb] <
+[ABCabcDEFdC]efc <
+[ABabCDBcdEbeECAeca] 12 13
+[ABabCDBcdEbeAEaCAeca] >
+[ABCabAcaCDcEBdebD]d <
+[ABCabAcaCDcEBdeb] <
+AB[aCbcDCdEDced] >
+A[BabCBcDCbdc] >
+[ABabCDBcdEbeBEbCAeca] >
+[ABCabDcdCDcEBdebD]d <
+[ABCabDcdCDcEBdeb] >
+[ABCabDcdCDcA]da <
+[ABabCDBcdEbeCEcCAeca] >
+[ABCabBcbCDcEBdebD]d <
+[ABCabBcbCDcEBdeb] >
+[ABCabDcdADaA]da <
+A[BabACaDBcdb] 3 5
+[ABabCDBcdEbeDEdCAeca] >
+[ABCabDcdCEcDBedbE]e >
+A[aBCAbcDadCDcB]db >
+[ABabCDBcdEbeFEfCAeca] >
+[ABCabDcdCEcFBefbE]e <
+[ABCabDcdCEcFBefb] <
+[ABCabDcdCEcF]ef 9 12
+AB[CaDbcdEDeFCdfc] 3 7
+AB[CDaEbcdeDEdFCefc] >
+AB[CDaEbcdeFEfDCedc] >
+AB[CaDbcdEDeCFdcf] >
+AB[CaDbcdCDcEFdef] >
+[ABabCDBcdEbeFCAfca] 10 14
+[ABabCDBcdEAbeFCaAfca] <
+AB[CabDEcdFAefaECec] >
+AB[aCDbcEFdefDBdb] >
+A[BCabDEcdeCAca] 8 12
+A[BCabDEcBdeCAbca] 3 8
+A[BCDabEFcdBefCAbca] >
+[ABCabDEcFBdeC]fbc <
+[ABCabDEcFBde]fb <
+A[BCabDEcFdeCAfca] <
+[ABabCDBcdEDbeFCdAfca] >
+[ABCaDbcEFdeDBfdbF]f <
+[ABCaDbcEFdeDBfdb] <
+[ABCaDbcEFdeD]fd <
+[ABCaDbcEFde]f 3 9
+[ABabCDBcdEbeCBcb] >
+[ABabCAcDBadbA]a <
+[ABabCDBcdEbeCDcd] >
+A[aBCAbcDadBCbc] >
+[ABabACaDBcdbCEce] <
+[ABabACaDBcdbC]c <
+[ABabCDBcdEbeCFcf] 2 6
+[ABCabDEcBdeCbcDFdf] 3 8
+[ABCDabEFcdBefCbcEDed] >
+ABC[aDEbcAdeBabDCdc] >
+AB[CDabEcdAeaCBcb] >
+[ABCabDEcBdeFbfDCdc] >
+[ABabCDBcdEbeAa] 12 13
+[ABabCDBcdEbeBAba] >
+[ABabCDBcdEbeDAda] >
+[ABabBCbDEcdeCAca] <
+[ABabCDcEFdefDAda] 4 4
+[ABabAaCDcEFdefDAda] 5 6
+[ABabABabCDcEFdefDAda] <
+[ABabACacCDcEFdefDAda] >
+A[aBCbcCDcEFdefDBdb] >
+[ABabACacDCdEFcefCAca] >
+A[aBCbcDCdEFcefCBcb] >
+[ABabACacDEdCFecfEAea] >
+A[aBCbcDEdCFecfEBeb] >
+[ABabACacDEdFCefcEAea] >
+A[aBCbcDEdFCefcEBeb] >
+[ABabBbCDcEFdefDAda] <
+[ABabBbCDcEFdefD]d <
+[ABCabDcdEeEFef] >
+[ABabCcCDcEFdefDAda] >
+[ABabCDBcdEbeEeF]f >
+A[aBbBCbDEcdeC]c <
+[ABCabDcdDdE]e 9 10
+A[aBCbcCDcEBdeb] >
+[ABCabDcdDBdbE]e >
+[ABCabDcdDCdcE]e <
+[ABCabDcdDEdeE]e <
+[ABCabDcdDEdeF]f <
+[ABabCcDCdEFcefCAca] >
+[ABabCDBcdEbeBbF]f <
+[ABabCcDEdCFecfEAea] >
+[ABabCDBcdEbeDdF]f >
+A[aBbCDcBEdbeD]d >
+[ABabCcDEdFCefcEAea] 2 4
+[ABCabcCcDEdFCefcEAea] >
+[ABabCDBcdEbeCcCF]cf >
+AB[abBbCDcEBdebD]d <
+AB[abBbCDcEBdeb] <
+[ABCabcDdCEcFDefdEAea] >
+AB[abCcBDbECdecDFdf] <
+AB[abCcBDbECdecD]d <
+AB[abCcBDbECdec] 3 5
+AB[aAbCacBDbECdec] <
+AB[aCbcDEdCeE]ce >
+AB[aCbDcdBCbEDced] >
+AB[aCbDcdBEbCDecd] >
+AB[aCbDcdBEbFDefd] <
+AB[aCbcDEdCeF]cf >
+[ABCabcDdECeFDcfdCAca] >
+[ABabCDBcdEbeCcBF]bf <
+[ABabCDBcdEbeCcB]b <
+[ABCabcDdEFeCDfcdFAfa] >
+[ABabCDBcdEbeCcDF]df <
+[ABabCDBcdEbeCcD]d <
+[ABabCDBcdEbeFf] 13 14
+[ABabCDBcdEbeFBfb] 12 12
+[ABabCDBcdEbeAaFBfb] 0 0
+[AaABabCDBcdEbeAaFBfb] <
+A[aBbCDcEFdefDBdbBb] >
+[AaBCbDEcdeCAcaAa] <
+[ABabCcDAdEFaefACacAa] >
+A[aBbCDcEFdefDBdbDd] >
+[AaBAbaCDAcdEaeBb] >
+[AaBCbcADCadEceBbFCfc] <
+[AaBCbcADCadEceBbF]f <
+[AaBCbcADCadEceBb] <
+[ABaCDbcdBEbeDd] 3 6
+[ABaACDbacdBEbeDd] >
+[AaBCbcADECade]c 1 4
+A[BCDabcdAECaeDcd] 10 14
+A[BCDabcdAEBCaeDbcd] <
+A[BCDabcdAEBCae]bc >
+A[BCDabcdAEFCaeDfcd] >
+A[BCDabcdAEBaeDbd] <
+A[BCDabcdAEBae]b 6 11
+A[BCDabEcdAFBeaf]b >
+A[BCDabcdAEFaeDfd] >
+[ABaCDEbcdeBCbcEe] >
+[AaBCbcADBCadb]c 5 9
+[AaBCbDcAEBdCaeb]c <
+[AaBCbDcAEBd]aeb 1 4
+ABC[DabcEdADeaCdc] 10 14
+ABC[DabcEdABeaCbc] <
+ABC[DabcEdAFeaCfc] >
+[ABaCDEbcdeBFbfEe] >
+[AaBCbcDACdaEceBbFCfc] <
+A[aBbCDcEFdefDBdbEe] <
+A[aBbCDcEFdefDBdb] >
+[AaBCbcDECdeAcaBbFCfc] <
+A[aBbCDcEFdefDBdbCc] <
+[ABabCcDAdEFaefACacBb] >
+[AaBCbcDECdeFcfBbA]a >
+[ABabCDBcdEbeBbFBfb] >
+[ABabAaCAcDEadeA]a <
+[ABCabDcdCcECec] <
+[ABabCDBcdEbeCcFBfb] <
+[ABabCDBcdEbeCcF]f <
+[ABabCDBcdEbeDdFBfb] >
+[ABabCcDAdCEaceA]a >
+[ABabCDBcdEbeEeFBfb] <
+[ABabCDBcdEbeFfFBfb] 4 6
+[ABabACDaBcdEbeFfFBfb] >
+[ABabBbCAcDEaFdefA]a <
+[ABCaDbcEdeFfFDfd] >
+AB[CabDcdEeECec] >
+AB[aCbcDdDBdb] >
+[ABabBbCAc]a 7 9
+[ABabBCDbBcdEbeFfFBfb] <
+[ABabBCDbBcdEbeFfF]f <
+[ABabBCDbBcdEbeFf] <
+[ABaCDbBcdbBEbe] 10 10
+[ABabCcBDEbBdeCbc] <
+[ABabCcBDEbBde]b <
+AB[CabcDdCEce] 5 7
+AB[CabDcEdeCDcd] >
+[ABaCDbBcdbBbBEbe] >
+[ABabBbBCDbBcd]b <
+[ABaCDbBcdbCcBEbe] >
+[ABabCcBDCbBdc]b <
+[ABaCDbBcdbDdBEbe] >
+[ABabCcBCDbBcd]b 2 5
+[ABCabDcdBDCbBdc]b <
+[ABCabDcdBDCb]dc <
+[ABCabDcdBD]bd <
+[ABCabDcdBDEbBde]b <
+AB[CabcBDbCEdce] >
+[ABaCDbBcdbEeBEbe] 16 16
+[ABaCDbBcdbEeBEbeAa] >
+[AaBCbcBbCDEcCde]c <
+AB[CabcDdCDcdEe] >
+[ABaCDbBcdbEeBEbeBb] >
+A[BCaAbcaDdADadAa] >
+AB[CabcDdCDcdCc] >
+AB[abCcBCbcBb] >
+[AaBAbaBbA]a 5 6
+[AaBAbBabBbA]a 5 7
+[AaBAbCBacbBbA]a <
+[AaBAbCBacbBb] <
+[AaBAbCacBbA]a >
+[ABaCDbBcdbEeBEbeCc] >
+A[BCaAbcaDdADadBb] >
+AB[CabcDdCDcdAa] >
+[ABaCDbBcdbEeBEbeDd] >
+A[BCaAbcaDdADadCc] >
+AB[CabcDdCDcdBb] >
+[ABaCDbBcdbEeBEbeEe] >
+[AaABabAaBCDbBcd]b <
+AB[CabcDdCDcdDd] >
+[ABaCDbBcdbEeBEbeFf] >
+[ABaCDbBcdbEeBFbf] >
+[ABabCDEcBdeCbcFfFBfb] >
+[ABabBbCAcDEaCdecA]a <
+[ABabBbCAcDEaCdec] <
+[ABabCDEcBdeFbfCcCBcb] >
+[ABabBbCAcDEaBdebA]a <
+[ABabBbCAcDEaBdeb] <
+[ABabCDBcdEbeFCfc] 10 14
+[ABCabDEcdFAefaECec] >
+[ABabCDBcdEDbeFCdfc] 10 15
+[ABabCDBcdEADbeFCadfc] <
+ABC[aDEbcdBFebfECec] >
+AB[CDabcAEdaeDBdb] >
+ABC[abDEcdeCAca] 8 12
+ABC[abDEcBdeCAbca] 8 13
+[ABCDabEFcdBefCA]bca >
+ABC[abDEcFBdeC]fbc <
+ABC[abDEcFBde]fb <
+ABC[abDEcFdeCAfca] <
+[ABabCDBcdEbeFDfd] 10 14
+[ABCabDEcdAFeafECec] >
+[ABabCDBcdECbeFDcfd] 10 15
+[ABCDabEFcdeACfacFDfd] >
+ABC[aDEbcdFBefbECec] >
+AB[CDabcEAdeaDBdb] >
+[ABabCDBcdEbeFEfe] 11 13
+[ABaCbAcDaEFdefDCdc] 7 9
+[ABaCbAcBDabEFdefDCdc] <
+[ABaCbAcBDabEFdefD]d <
+[ABCabDEcdFeDfEde] >
+AB[aCDbcEdCeDcd] >
+[ABaCbAcCDacEFdefDCdc] >
+A[BaCbBDcbEFdefDBdb] >
+A[BaACbaDEcdeCAca] >
+A[BCabDEcdeCBcb] 8 12
+[ABaCbAcDEadDFedfECec] <
+A[aBCAbcCDacEdFeDfd] >
+[ABCabBDcbEdFeDfd] 12 15
+[ABCaDbcAdEFaeEBfeb] >
+AB[CabDcEFdeEAfea] <
+AB[CabDcEFdeE]fe <
+[ABCabBDcbEdFBeDfbd] >
+[ABCaDbcAdBEabB]eb <
+[ABCabBDcbEdFCeDfcd] >
+AB[aACbaDcEBdCebc] >
+[ABaCbAcDEadFDefdECec] <
+A[aBCAbcBDabEdFeDfd] >
+[ABCabADcaEdFeDfd] >
+[ABabCDBcdEbBeFbEfe] >
+[ABaCbAcCaDEcdeC]c <
+[ABabCDBcdEbCeFcEfe] >
+[ABaCbAcDaECdecD]d <
+[ABabCDBcdEbDeFdEfe] >
+[ABaCbAcDaCEdceD]d <
+[ABaCDbcdCEce] 7 8
+[ABabCDcBEdbCec] 2 5
+[ABCabDcCdBEcbDed] >
+[ABaCDbcAdDaC]dc >
+[ABCabDcEdBCebDcd] <
+[ABCabDcEdBFebDfd] <
+[ABaCDbcBdbCEce] >
+[ABaCDbcCdcCEce] 10 10
+[ABabCcBDbBEdbCec] <
+A[BCabBcbDdBEbe] >
+[ABabCcBDbB]db 2 5
+[ABCabDcdBCbB]cb <
+[ABCabDcdBEbB]eb <
+[ABaCDbcCdcBbCEce] >
+[ABabCcBDbBCdb]c <
+[ABaCDbcCdcCcCEce] 8 10
+[ABabBbCBDcbBEdbCec] <
+A[BCabBDcbdBbBEbe] >
+[ABabBbCBDcbB]db <
+[ABaCDbcCBdcbCcCEce] >
+[ABabBbCBDcbBCdb]c <
+[ABaCDbcCEdceCcCEce] 15 17
+[ABCabcCcACDacCEdcBeb] >
+[ABaCDbcCEdceCcCA]ca >
+A[BCabBDcbdBbBE]be >
+AB[abBbCBDcbB]db <
+[ABCabcCcACDacCBdcEbe] <
+[ABCabcCcACDacCBdc]b <
+[ABCabcCcACDacC]dc >
+[ABCabcCcACBacCDbcEde] >
+[ABaCDbcCEdceCcCD]cd >
+A[BCabBDcbdBbBC]bc >
+AB[aACbacAaAB]ab >
+A[BCabcBbBA]ba >
+[ABaCDbcCEdceCcCFEcfe] >
+A[BCabBDcbdBbBEDbed] <
+[ABaCDbcCEdceCcCFcf] >
+[ABaCDbcCdcDdCEce] >
+A[BCabBcbCcBDbd] >
+[ABabCcBCbB]cb <
+[ABaCDbcCdcEeCEce] 8 11
+[ABabACaBDcbBEdbCec] <
+A[BCabBDcbEdeBEbe] >
+[ABabACaBDcbB]db <
+[ABaCDbcCBdcEbeCEce] >
+[ABabACaBDcbBCdb]c <
+[ABaCDbcCEdcFefCFcf] >
+[ABaCDbcCdcEeCFcf] >
+[ABaCDbcEdeCEce] >
+[ABaCDbcEdeCFcf] 9 12
+[ABCabDcEdBFebCfc] <
+[ABCabDcEdBCebFcf] <
+[ABaCDbcEdDeCFdcf] <
+[ABaCDbcEdDeC]dc >
+[ABaCDbcdEFef] 10 12
+[ABaCDbcdEFBefb] >
+[ABaCDbcdEFCefc] 8 8
+[ABaCDbcdAaEFCefc] 10 10
+[ABaCDbcdAaAaEFCefc] 1 5
+[ABCabcDdDdEAFCeaDfcd] >
+AB[abCcCcDEFBdeCfbc] <
+AB[abCcCcDEFBde]fb >
+AB[CDabcdEeEeA]a <
+AB[CDabcdEeEe] 11 12
+AB[CDabcdEeEAea] >
+ABC[abcDdDEde] >
+AB[CDabcdEeEBeb] >
+ABC[abcDdDAda] >
+AB[CDabcdEeECec] >
+ABC[abcDdDBdb] >
+[ABabBbCA]ca 6 8
+AB[CabcCcCAca] 3 6
+AB[CDabcdCcCAca] >
+ABC[abcBbBDbd] >
+AB[CabcDdDAda] >
+AB[CDabcdEeEDed] >
+ABC[abcDdDCdc] >
+AB[CDabcdEeEFef] >
+[ABCaDEbcdeAaAaFBDfbd] <
+[ABCaDEbcdeAaAaFB]fb <
+A[aBbBbCDEFcdBefb] >
+[ABCaDEbcdeAaAa] >
+[ABaCDbcdAaBbEFCefc] 0 0
+[AaABaCDbcdAaBbEFCefc] <
+AB[abCcDdEFCefDcdDd] <
+AB[abCcDdEFCefDcd] >
+A[aBbCcDEBdeCbc] >
+[AaBAbCDacdBbAaEFCefc] <
+AB[abCcDdEFCefDcdCc] <
+[ABCabcDdEeFADfaEdeAa] >
+AB[abCcDdEFCefDcdFf] >
+[AaBCbADcadBbCcE]e >
+[AaBCbDAcdaBbCcEFDefd] <
+AB[abCcDdEFCefDcdEe] <
+[ABCabcDdEeFADfaEdeCc] >
+AB[abCcDdEFCefDcdBb] <
+[ABCabcDdEeFADfaEdeBb] >
+AB[abCcDdEFCefDcdAa] >
+[AaBCbDEcdeBbCcF]f <
+[ABaCDbcdAaCcEFCefc] <
+AB[abCcDdECFecDfd] >
+[ABaCDbcdAaDdEFCefc] >
+A[BCabcDdCcEFBefb] >
+[ABCabcDdEeDA]da <
+[ABaCDbcdAaEeEFCefc] >
+A[BCabcDdEeEFBefb] <
+A[BCabcDdEeEF]ef >
+AB[abBbCcDE]de 4 4
+AB[abAaBbCcDE]de <
+AB[abAaBbCcD]d <
+AB[abAaBbCc] >
+AB[abBbBbCcDE]de >
+AB[abCcBbCcDE]de >
+AB[abCcBbDdCE]ce <
+AB[abCcBbDdC]c <
+AB[abCcBbDdEC]ec <
+AB[abCcBbDdE]e <
+AB[abCcDdEeDF]df >
+[ABaCDbcdAaEeFECfec] 12 13
+[ABaCDbcdAaEeAFaECfec] >
+A[BCabcDdEeDFdEBfeb] >
+AB[abCcDdCEcDAeda] >
+[ABCabDcdBbDdE]e >
+A[aBbCcBDbC]dc <
+[ABaCDbcdAaEeBFbECfec] >
+A[BCabcDdEeAFaEBfeb] >
+AB[abCcDdEFeDAfda] >
+[ABaCDbcdAaEeCFcECfec] <
+AB[aCbcAaDdECFecDfd] >
+A[BabCcDdEBFebDfd] >
+[ABaCDbcdAaEeC]c 9 10
+[ABaCDbcdABabEeC]c <
+[AaBCbcDEBdeCbc] >
+[ABaCDbcdACacEeC]c >
+A[BCabcDBdbEeB]b >
+[ABaCDbcdADadEeC]c <
+[AaBCbcBDEbdCec] >
+[ABaCDbcdAEaeEeC]c <
+[AaABabCDEcdBeb] >
+[ABaCDbcdAEaeFfC]c <
+[AaBCbcDEFdeCfc] >
+[ABaCDbcdAaEeDFdECfec] >
+A[BCabcDdEeCFcEBfeb] >
+[ABCabDcdBbEeDA]da <
+[ABCabDcdBbEeD]d <
+[ABaCDbcdAaEeEFeECfec] >
+A[BCabcDdEeEFeEBfeb] >
+AB[abCcDdDEdDAeda] <
+AB[abCcDdDEdD]ed <
+A[BabBbCcDE]de 4 4
+A[BabAaBbCcDE]de <
+A[BabBbBbCcDE]de >
+A[BabCcBbCcDE]de >
+A[BabCcBbDdCE]ce <
+A[BabCcBbDdEC]ec <
+AB[abCcDdEeDFd]f >
+[ABaCDbcdBbEFCefc] <
+AB[abCcDECdeFcf] >
+[ABaCDbcdBbE]e <
+[ABaCDbcdCcEFCefc] <
+[ABaCDbcdCcEF]ef <
+[ABaCDbcdDdEFCefc] >
+A[BCabcCcDEBdeb] >
+[ABCabcDdDA]da >
+AB[abBbCD]cd 6 8
+AB[CabcDdDC]dc >
+AB[CabcCcCD]cd 8 10
+AB[CabcBbBDCb]dc >
+AB[abAaACBa]cb <
+AB[CabcBbBCDb]cd >
+AB[CabcCcDCEd]ce >
+AB[CabcDdDE]de 8 8
+AB[abCcBbDECd]ec <
+AB[abCcBbDCEd]ce <
+AB[CabcDdCcDE]de <
+AB[CabcDdDdDE]de >
+AB[CabcDdEeDE]de >
+AB[CabcDdEeDF]df >
+[ABaCDbcdEeEFCefc] >
+A[BCabcDdDEBdeb] <
+[ABaCDbcdEeFECfec] 9 10
+[ABaCDbcdEAeaFECfec] 5 10
+[ABaCDEbcdFAefaEFCefc] >
+A[BCDabcEFdefDEBdeb] >
+ABC[abDEcdeCDAcda] >
+[ABCabcDBCdbE]ce 5 8
+[ABCabAcDBaCdbE]ce <
+[ABCabDcEBdCebD]cd <
+[ABCabDcEBdCebF]cf <
+[ABaCDbcdEBebFECfec] <
+[ABaCDbcdEBebFE]fe <
+[ABaCDbcdEBebF]f <
+[ABaCDbcdECecFECfec] >
+A[BCabcDBdbEDBedb] >
+AB[abCAcaDCAdca] >
+A[aBCbcDBCdbc] >
+[ABCabcABab] 8 10
+[ABCabcABCabc] 3 6
+[ABCDabcdABCabc] 5 9
+[ABCabcDBCdbc] 5 8
+[ABaCDbcdEDedFECfec] 11 13
+[ABaCDbcdEDeAdFaECfec] >
+A[BCabcDCdEcFeDBfdb] >
+AB[abCBcDbEdCAeca] >
+[ABCabDcEdBebE]e <
+[ABaCDbcdEDeBdFbECfec] >
+A[BCabcDCdAcEaDBedb] >
+[ABaCDbcdEDeCdFcECfec] >
+A[BCabcDCdBcEbDBedb] >
+AB[abCBcAbDaCAdca] 8 12
+AB[abCBcADbEaCdAeca] <
+[ABaCDbcdEDeEdFeECfec] >
+A[BCabcDCdDcEdDBedb] <
+A[BCabcDCdDcEdD]ed <
+A[BCabcDCdDcEd]e >
+[ABaCDbcdEFefFECfec] >
+A[BCabcDEdeEDBedb] >
+AB[abCDcdDCAdca] >
+[ABCabcCBcbD]d <
+[ABCabcCBcb] 6 7
+[ABCabcACaBcb] 1 4
+[ABCDabcdADaCdc] 9 12
+[ABCDabcdABDaCbdc] 5 9
+[ABCDaEbcdAeBDaCbdc] 7 12
+[ABCDaEbFcdAeBfDaCbdc] >
+[ABCDabcdAEDaCedc] 10 14
+[ABCDabcdAEBDaCebdc] 5 10
+[ABCDaEbcdAFeBDaCfbdc] >
+[ABCDabcdAEFDaCefdc] >
+[ABCabcBCbBcb] 8 11
+[ABCaAbcaCABcab] 6 8
+[ABCaAbBcabCABcab] 0 3
+[ABCDabBcCdbcDBCdbc] 9 12
+[ABCDabBcCAdbcaDBCdbc] >
+ABC[aAbBDcabdCABcab] >
+AB[CaADbcadBCAbca] >
+AB[CDabcdABCabc] 5 9
+[ABCDabBcCEdbceDBCdbc] >
+[ABCaAbDcadCABcab] 9 12
+[ABCaAbDcaBdCAbBcab] <
+[ABCaDbcEdBCeAbBcab] 3 8
+[ABCDaEbcFdeBCfAbBcab] >
+[ABCaAbDcaEFdCAe]fca >
+AB[CaDbcEFdBCe]fbc <
+[ABCabcBCDbBcdb] 5 7
+[ABCabAcBaCDbBcdb] 4 7
+[ABCaDbAcdBaCDbBcdb] >
+AB[CaDbcAdBCaAbca] <
+[ABCaDbAcdBaCEbBceb] 4 8
+[ABCaDEbAcdeBaCDbBcdb] >
+AB[CDaEbcdAeBCaAbca] >
+[ABCaAbcDaEBCd]ebc >
+[ABCaDEbAcdeBaCFbBcfb] >
+[ABCaAbcDaEFCdAef]ca >
+[ABCabDcBdCDbBcdb] 7 10
+[ABCabDcABdCaDbBcdb] <
+AB[CaDbAcdBaCDbcd] >
+[ABCabDcEBdCeDbBcdb] 8 12
+[ABCabDcEABdCeaDbBcdb] <
+AB[CaDEbAcdeBaCDbcd] >
+[ABCabDcEFBdCefDbBcdb] <
+[ABCabDcEFBdCefDb]cd <
+[ABCabDcBdCEbBceb] 0 3
+[ABCDabcAdCaDEcCdec] 6 9
+[ABCDabBcAdbCaDEcCdec] >
+ABC[aAbDcaBdCEbBceb] <
+ABC[aAbDcaBdCEb]ce >
+[ABCDabEcAdeCaDEcCdec] >
+ABC[aDbEcdBeCDbBcdb] >
+[ABCDabEcAdeCaDFcCdfc] >
+ABC[aDbEcdBeCFbBcfb] <
+ABC[aDbEcdBeCFb]cf >
+[ABCaAbcDaCdAEBcaeb] 9 12
+[ABCaAbcDaBCdAbEBcaeb] >
+[ABCDabAcEdaCeDAc]da >
+ABC[aDbEcdBeCDb]cd >
+[ABCaAbcDaECdAeEBcaeb] >
+[ABCDabBcEdbCeDAc]da >
+[ABCaAbcDaECdAeFBcafb] >
+[ABCDabEcFdeCfDAc]da >
+[ABCDabcEdCeDFcCdfc] 6 9
+[ABCDabAcEdaCeDFcCdfc] >
+[ABCDabBcEdbCeDFcCdfc] >
+[ABCDabEcFdeCfDEcCdec] >
+[ABCabcDCdBcb] 7 10
+[ABCabcDACdBacb] 4 8
+[ABCaDbcEAdCeBacb] 3 8
+[ABCDaEbcFdAeCfBacb] >
+[ABCabcDECdBecb] 8 12
+[ABCabcDEACdBeacb] 3 8
+[ABCDabcEFdACeBfacb] >
+[ABCabcDEFCdBefcb] <
+[ABaCDbcdEFDefd] 0 0
+[AaABaCDbcdEFDefd] 0 1
+[ABabBAbCDacdEFDefd] 3 4
+[ABaAbaBAbCDacdEFDefd] >
+A[BabABaCDbcdEFDefd] <
+A[BabABaCDbcdEF]ef <
+A[BabABaCDbcdE]e <
+[ABaCbcBAbCDacdEFDefd] >
+A[BabACaBDcbdEFDefd] >
+[ABCabcADEadFefD]d >
+AB[abCDEcdFefD]d >
+[ABaCbcBAbDCadcEFCefc] <
+AB[abCDEcdFefCFcEfe] >
+A[aBCDbcEdeBEbDed] >
+[ABCabcADEadFefCFcEfe] >
+AB[abCDEcdFefBFbEfe] >
+[ABaCbcBAbDEadeC]c <
+[ABaCbcBAbDEadeFCEfce] <
+[ABaCbcBAbDEadeFC]fc <
+A[aBCDbcEdeFEfDed] >
+[ABCabcADEadFefFDfd] >
+AB[abCDEcdFefFDfd] >
+[ABCabcADEadFefFAfa] 3 6
+[ABCDabcdADEadFefFAfa] >
+ABC[abcDCEdcFefFDfd] >
+[ABCDabcdAEDaeFdfFAfa] >
+ABC[abcDECdeFcfFDfd] >
+[ABCDabcdAEFaeDfdDAda] >
+ABC[abcDEFdeCfcCDcd] >
+AB[abCDEcdBebBCbc] >
+[ABabBCbDAcdaB]b <
+[ABCabcADEadFefFCfc] >
+AB[abCDEcdFefFBfb] >
+[ABCabcADEadFefFBfb] >
+[ABabBCbDEcdeFA]fa <
+[AaBAbCDacdEFDefd] 10 13
+[ABCDabcdAEDaeFdfDd] >
+ABC[abcDECdeFcfCc] >
+AB[abCDBcdEbeBb] >
+[AaBAbCDacdBEFDbefd] >
+[AaBAbCDacdCEFDcefd] <
+ABC[abcDCEdcFefEe] >
+AB[abCBDcbEdeDd] >
+A[aBACbaDcdCc] >
+[ABCabcADEadFefDd] >
+AB[abCDEcdFefDd] >
+A[aBCDbcEdeCc] >
+[ABCabcADEadFefAa] 0 1
+[ABaACbacBDEbdFefBb] 8 8
+[ABaACbacAaBDEbdFefBb] >
+A[BCabcBbADEadFefAa] <
+[ABaCDbcdEeFEDfe]d >
+A[BCabcDdEDCed]c 8 9
+A[BCabcDdAEaDCed]c >
+AB[abCcDEdCBec]b >
+A[BCabDcdBbA]a <
+A[BCabcDdBEbDCed]c >
+AB[abCcADaCBdc]b >
+A[BCabcDdCEcDCed]c <
+A[BCabcDdCEcD]ed <
+A[BCabcDdDEdDCed]c <
+A[BCabcDdDEdD]ed <
+A[BCabcDdEFeDCfd]c >
+[ABaACbacBbBDEbdFefBb] >
+A[BCabcAaADEadFefAa] >
+AB[abCcCDEcdFefCc] >
+A[aBbBCDbcEdeBb] <
+[ABaCDbcdDdE]e <
+[ABaACbacCcBDEbdFefBb] >
+A[BCabcCcADEadFefAa] >
+AB[abBbCDEcdFefCc] <
+[ABaCDbcdEeEF]ef >
+[ABaACbacDdBDEbdFefBb] >
+A[BCabcDdADEadFefAa] >
+AB[abCcDCEdcFefDd] >
+A[aBbCBDcbEdeCc] >
+[ABaACbacDdBEDbeFdfBb] >
+A[BCabcDdAEDaeFdfAa] >
+AB[abCcDECdeFcfDd] <
+[ABaACbacDdBEFbeDfdBb] >
+A[BCabcDdAEFaeDfdAa] >
+AB[abCcDEFdeCfcDd] >
+A[aBbCDEcdBebCc] >
+[ABaCAbcaBDEbdFefBb] 8 8
+[ABaCAbcaAaBDEbdFefBb] >
+[ABaCAbcaBbBDEbdFefBb] >
+[ABaCAbcaCcBDEbdFefBb] >
+[ABaCAbcaDdBDEbdFefBb] >
+[ABaCAbcaDdBEDbeFdfBb] >
+[ABaCAbcaDdBEFbeDfdBb] >
+[ABaCDbcdBAEbaFefBb] <
+[ABaCDbcdEFDefCdc] >
+A[BCabcDECdeBcb] 8 12
+A[BCabcDEACdeBacb] <
+A[BCabcDEFCdeBfcb] <
+[ABaCDbcdBEAbeFafBb] 8 8
+[ABaCDbcdAaBEAbeFafBb] >
+[ABaCDbcdBbBEAbeFafBb] >
+[ABaCDbcdCcBEAbeFafBb] >
+[ABaCDbcdDdBEAbeFafBb] >
+[ABaCDbcdEeBEAbeFafBb] >
+[ABaCDbcdEeBFAbfEaeBb] >
+[ABaCDbcdBEFbeAfaBb] 8 8
+[ABaCDbcdAaBEFbeAfaBb] >
+[ABaCDbcdBbBEFbeAfaBb] >
+[ABaCDbcdCcBEFbeAfaBb] >
+[ABaCDbcdDdBEFbeAfaBb] >
+[ABaCDbcdEeBEFbeAfaBb] >
+[ABaCDbcdEeBFEbfAeaBb] >
+[ABCabcADEadFefCc] 6 6
+[ABCabcAaADEadFefCc] >
+AB[abCcCDEcdFefBb] >
+[AaBCbDEcdeEeA]a <
+[AaABCabDcdEe] <
+[ABCabcBbADEadFefCc] <
+[ABaCDbcdEeFEDfed] >
+A[BCabcDdEDCedc] 8 9
+A[BCabcDdAEaDCedc] >
+AB[abCcDEdCBecb] >
+A[BCabcDdBEbDCedc] >
+AB[abCcADaCBdcb] >
+A[BCabcDdCEcDCedc] <
+A[BCabcDdDEdDCedc] <
+A[BCabcDdEFeDCfdc] >
+[ABCabcCcADEadFefCc] >
+AB[abBbCDEcdFefBb] <
+[ABCabcDdADEadFefCc] >
+AB[abCcDCEdcFefBb] >
+[AaBCbDEcdeDdA]a <
+[ABCabcDdAEDaeFdfCc] >
+AB[abCcDECdeFcfBb] <
+[ABCabcDdAEFaeDfdCc] 4 6
+[ABCaAbcaDdAEFaeDfdCc] >
+AB[CabcDdCEFceDfdBb] >
+AB[abCcBDEbdCecAa] >
+[ABCaDbcdDdAEFaeDfdCc] >
+AB[CabcCcDEFdeCfcBb] <
+AB[CabcCcDEFdeCfc] <
+AB[CabcCcDEFde]f >
+[ABCaDbcdEeADFadEfeCc] <
+[ABaCDbcdAaCEFcDefd] 11 15
+[ABCDaEbcdeDdAEFaeDfd] >
+ABC[DabcdCcEDFedCfc] >
+ABC[abcBbDCEdcBeb] >
+[ABaCDbcdAaCA]ca 9 11
+[ABaCDbcdABaCbA]ca <
+[ABaCDbcdADaCdA]ca >
+A[BCabcDCdBcD]bd <
+[ABaCDbcdAEaCeA]ca >
+A[BCabcDEdBeD]bd <
+[ABaCDbcdAaCBEFcDbefd] <
+ABC[DabcdEeFDCfdEce] >
+ABC[abcDdECBecDbd] >
+[ABaCDbcdAaCB]cb 9 11
+[ABaCDbcdABaCbB]cb <
+[ABaCDbcdADaCdB]cb >
+A[BCabcDCdBcA]ba <
+[ABaCDbcdAEaCeB]cb >
+A[BCabcDEdBeA]ba <
+[ABCaDbcdEeAFDafEdeCc] >
+AB[CabcDdEFCefDcdBb] >
+AB[abCcDEBdeCbcAa] >
+[AaBCbDEcdeBbC]c <
+[ABCabcADEadFefBb] 6 6
+[ABCabcAaADEadFefBb] >
+AB[abCcCDEcdFefAa] >
+[AaBCbDEcdeEeF]f <
+[ABCabcBbADEadFefBb] <
+[ABCabcCcADEadFefBb] >
+AB[abBbCDEcdFefAa] <
+[ABCabcDdADEadFefBb] >
+AB[abCcDCEdcFefAa] >
+[AaBCbDEcdeDdF]f >
+[ABCabcDdAEDaeFdfBb] >
+AB[abCcDECdeFcfAa] <
+[ABCabcDdAEFaeDfdBb] 4 6
+[ABCaAbcaDdAEFaeDfdBb] >
+AB[CabcDdCEFceDfdAa] >
+AB[abCcBDEbdCecFf] <
+AB[abCcBDEbdCec] >
+[ABCaDbcdDdAEFaeDfdBb] >
+AB[CabcCcDEFdeCfcAa] >
+AB[abBbCDEcdBebFf] <
+AB[abBbCDEcdBeb] <
+[ABCaDbcdEeADFadEfeBb] <
+[ABCaDbcdEeAFDafEdeBb] >
+AB[CabcDdEFCefDcdAa] >
+AB[abCcDEBdeCbcFf] >
