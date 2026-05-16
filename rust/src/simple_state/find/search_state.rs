@@ -42,10 +42,10 @@ impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
         // println!("{state:?} {knowledge:?}");
         // let state = state.set_barrier_as_limits(&state.representative_barrier(knowledge.barrier));
         let knowledge = BarrieredKnowledge::with_default_barrier(knowledge.status);
-        for substate in state.substates() {
-            self.update_status_inner(&substate, knowledge)
-        }
-        // self.update_status_inner(state, knowledge);
+        // for substate in state.substates() {
+        //     self.update_status_inner(&substate, knowledge)
+        // }
+        self.update_status_inner(state, knowledge);
     }
     fn update_status_inner(
         &self,

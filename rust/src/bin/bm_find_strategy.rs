@@ -4,7 +4,7 @@ use segment_colouring::simple_state::{
 };
 
 const MAX_CLIQUE: u32 = 4;
-const DEPTH: usize = 13;
+const DEPTH: usize = 1000;
 const MAX_SIZE: u8 = 8;
 const FILENAME: &str = "out5.txt";
 
