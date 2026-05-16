@@ -23,7 +23,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         depth: usize,
         max_size: u8,
     ) -> FindResult {
-        for d in 7..=depth {
+        for d in 2..=depth {
             let start = Instant::now();
             print!("{d}");
             std::io::stdout().flush().unwrap();
@@ -119,6 +119,13 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         if self.size() >= 14 {
             return FindResult::Losing;
         }
+        let knowledge = search_state.get_knowledge(self);
+        match knowledge.status {
+            FindStatus::Winning(_) => return FindResult::Winning(knowledge.barrier),
+            FindStatus::Losing { .. } => return FindResult::Losing,
+            FindStatus::InProgress => return FindResult::Losing,
+            FindStatus::Unknown => {}
+        }
         let mut moves = self
             .moves()
             .filter(|sm| sm.allowed_colours_count() <= 1)
@@ -134,6 +141,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
                 return FindResult::Winning(barrier);
             }
         }
+        search_state.update_status(&self, BarrieredKnowledge::new_losing(&self, 0));
         FindResult::Losing
     }
 

@@ -1,0 +1,21 @@
+3 5
+[] 0 0
+[Aa] 0 1
+[ABab] 0 0
+[ABabBb] 4 5
+[ABabABab] 2 4
+[ABCabcABab] 4 7
+[ABCaDbcAdBab] 6 10
+[ABabCBcb] 5 7
+[ABabCDBcdb] 2 6
+[ABabAa] 4 5
+[ABabBAba] 3 4
+[ABaAbaBAba] 4 6
+[ABaACbacBAba] 6 9
+[ABaCbDAcBdaAba] 2 6
+[ABaCbcBAba] 2 5
+[ABCaDbcdBAba] 6 10
+[ABabCAca] 2 5
+[ABCabDcAda] 4 8
+[ABabCc] 5 6
+[ABabCDcd] 2 6

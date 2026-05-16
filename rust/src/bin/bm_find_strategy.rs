@@ -3,10 +3,10 @@ use segment_colouring::simple_state::{
     state::State,
 };
 
-const MAX_CLIQUE: u32 = 4;
-const DEPTH: usize = 13;
-const MAX_SIZE: u8 = 8;
-const FILENAME: &str = "out5.txt";
+const MAX_CLIQUE: u32 = 3;
+const DEPTH: usize = 20;
+const MAX_SIZE: u8 = 6;
+const FILENAME: &str = "out6.txt";
 
 fn main() {
     println!("Out: {FILENAME} (MQ: {MAX_CLIQUE}, D: {DEPTH}, MS: {MAX_SIZE})");
