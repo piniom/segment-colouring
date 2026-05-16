@@ -1,7 +1,4 @@
-use crate::simple_state::{
-    state::{find_barrier::FindBarrier, State},
-    StateWithMove,
-};
+use crate::simple_state::{state::State, StateWithMove};
 use rayon::prelude::*;
 use std::{io::Write, time::Instant};
 
@@ -85,9 +82,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         moves.sort_by_key(|sm| sm.preferable_order());
 
         let winning = moves.par_iter().find_map_any(|move_| {
-            if let FindResult::Winning =
-                move_.find_strategy(search_state, depth, max_size)
-            {
+            if let FindResult::Winning = move_.find_strategy(search_state, depth, max_size) {
                 Some(move_.move_)
             } else {
                 None
@@ -151,7 +146,7 @@ impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {
             clone.insert_segment(self.move_.0, self.move_.1, color);
             match clone.find_strategy(search_state, depth - 1, max_size) {
                 FindResult::Losing => return FindResult::Losing,
-                FindResult::Winning => {},
+                FindResult::Winning => {}
             }
         }
         FindResult::Winning
