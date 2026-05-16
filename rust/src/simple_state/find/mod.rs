@@ -1,9 +1,11 @@
 use crate::simple_state::{
+    find::depth::Depth,
     state::{find_barrier::FindBarrier, State},
     StateWithMove,
 };
 use std::{io::Write, time::Instant};
 
+pub mod depth;
 pub mod search_state;
 
 use search_state::*;
@@ -25,7 +27,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
             let start = Instant::now();
             print!("{d}");
             std::io::stdout().flush().unwrap();
-            if let w @ FindResult::Winning(_) = self.find_strategy(search_state, d, max_size) {
+            if let w @ FindResult::Winning(_) = self.find_strategy(search_state, Depth::new(d), max_size) {
                 println!(": {:?}", start.elapsed());
                 return w;
             }
@@ -36,7 +38,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     pub fn find_strategy(
         &self,
         search_state: &mut SearchState<MAX_CLIQUE>,
-        depth: usize,
+        depth: Depth,
         max_size: u8,
     ) -> FindResult {
         let mut norm = *self;
@@ -55,28 +57,32 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     fn find_strategy_inner(
         &self,
         search_state: &mut SearchState<MAX_CLIQUE>,
-        depth: usize,
+        depth: Depth,
         max_size: u8,
     ) -> FindResult {
         let knowledge = search_state.get_knowledge(self);
         match knowledge.status {
             FindStatus::Winning(_) => return FindResult::Winning(knowledge.barrier),
             FindStatus::Losing { depth: old_depth } => {
-                if old_depth >= depth {
+                if old_depth >= depth.raw_value() {
                     return FindResult::Losing;
                 }
             }
             FindStatus::InProgress => return FindResult::Losing,
             FindStatus::Unknown => {}
         }
-        if depth == 0 {
+        if !depth.should_continue() {
             search_state.update_status(&self, BarrieredKnowledge::new_losing(self, 0));
             return FindResult::Losing;
         }
 
         search_state.update_status(&self, BarrieredKnowledge::new_in_progress(self));
 
-        let reduction_search_depth = if self.size() >= max_size { depth } else { 1 };
+        let reduction_search_depth = if self.size() >= max_size {
+            depth
+        } else {
+            Depth::new(1)
+        };
 
         if let w @ FindResult::Winning(_) =
             self.check_reductions(search_state, reduction_search_depth, max_size)
@@ -85,7 +91,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         }
 
         if self.size() >= max_size {
-            search_state.update_status(&self, BarrieredKnowledge::new_losing(&self, depth));
+            search_state.update_status(&self, BarrieredKnowledge::new_losing(&self, depth.raw_value()));
             return FindResult::Losing;
         }
 
@@ -102,14 +108,17 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
                 return FindResult::Winning(barrier);
             }
         }
-        search_state.update_status(&self, BarrieredKnowledge::new_losing(&self, depth));
+        search_state.update_status(
+            &self,
+            BarrieredKnowledge::new_losing(&self, depth.raw_value()),
+        );
         FindResult::Losing
     }
 
     fn check_reductions(
         &self,
         search_state: &mut SearchState<MAX_CLIQUE>,
-        depth: usize,
+        depth: Depth,
         max_size: u8,
     ) -> FindResult {
         if let Some(FindResult::Winning(barrier)) = self
@@ -143,7 +152,7 @@ impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {
     pub fn find_strategy(
         &self,
         search_state: &mut SearchState<MAX_CLIQUE>,
-        depth: usize,
+        depth: Depth,
         max_size: u8,
     ) -> FindResult {
         let mut barrier = self.find_barrier();
@@ -153,7 +162,7 @@ impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {
         {
             let mut clone = *self.state;
             clone.insert_segment(self.move_.0, self.move_.1, color);
-            match clone.find_strategy(search_state, depth - 1, max_size) {
+            match clone.find_strategy(search_state, depth.decrement(), max_size) {
                 FindResult::Losing => return FindResult::Losing,
                 FindResult::Winning(new_barrier) => barrier = barrier.confine(&new_barrier),
             }
