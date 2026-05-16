@@ -2,6 +2,7 @@ use crate::simple_state::{
     state::{find_barrier::FindBarrier, State},
     StateWithMove,
 };
+use rayon::prelude::*;
 use std::{io::Write, time::Instant};
 
 pub mod search_state;
@@ -17,7 +18,7 @@ pub enum FindResult {
 impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     pub fn find_strategy_root(
         &self,
-        search_state: &mut SearchState<MAX_CLIQUE>,
+        search_state: &SearchState<MAX_CLIQUE>,
         depth: usize,
         max_size: u8,
     ) -> FindResult {
@@ -35,7 +36,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     }
     pub fn find_strategy(
         &self,
-        search_state: &mut SearchState<MAX_CLIQUE>,
+        search_state: &SearchState<MAX_CLIQUE>,
         depth: usize,
         max_size: u8,
     ) -> FindResult {
@@ -54,7 +55,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     }
     fn find_strategy_inner(
         &self,
-        search_state: &mut SearchState<MAX_CLIQUE>,
+        search_state: &SearchState<MAX_CLIQUE>,
         depth: usize,
         max_size: u8,
     ) -> FindResult {
@@ -92,15 +93,22 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         let mut moves = self.moves().collect::<Vec<_>>();
         moves.sort_by_key(|sm| sm.preferable_order());
 
-        for move_ in moves {
-            if let FindResult::Winning(barrier) = move_.find_strategy(search_state, depth, max_size)
+        let winning = moves.par_iter().find_map_any(|move_| {
+            if let FindResult::Winning(barrier) =
+                move_.find_strategy(search_state, depth, max_size)
             {
-                search_state.update_status(
-                    self,
-                    BarrieredKnowledge::new_winning(self, WinningMove::Move(move_.move_)),
-                );
-                return FindResult::Winning(barrier);
+                Some((move_.move_, barrier))
+            } else {
+                None
             }
+        });
+
+        if let Some((move_, barrier)) = winning {
+            search_state.update_status(
+                self,
+                BarrieredKnowledge::new_winning(self, WinningMove::Move(move_)),
+            );
+            return FindResult::Winning(barrier);
         }
         search_state.update_status(&self, BarrieredKnowledge::new_losing(&self, depth));
         FindResult::Losing
@@ -108,7 +116,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
 
     fn check_reductions(
         &self,
-        search_state: &mut SearchState<MAX_CLIQUE>,
+        search_state: &SearchState<MAX_CLIQUE>,
         depth: usize,
         max_size: u8,
     ) -> FindResult {
@@ -142,7 +150,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
 impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {
     pub fn find_strategy(
         &self,
-        search_state: &mut SearchState<MAX_CLIQUE>,
+        search_state: &SearchState<MAX_CLIQUE>,
         depth: usize,
         max_size: u8,
     ) -> FindResult {
@@ -158,7 +166,7 @@ impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {
                 FindResult::Winning(new_barrier) => barrier = barrier.confine(&new_barrier),
             }
         }
-        return FindResult::Winning(barrier);
+        FindResult::Winning(barrier)
     }
     fn preferable_order(&self) -> (u8, i8) {
         let confining_factor =
