@@ -27,7 +27,9 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
             let start = Instant::now();
             print!("{d}");
             std::io::stdout().flush().unwrap();
-            if let w @ FindResult::Winning(_) = self.find_strategy(search_state, Depth::new(d), max_size) {
+            if let w @ FindResult::Winning(_) =
+                self.find_strategy(search_state, Depth::new(d), max_size)
+            {
                 println!(": {:?}", start.elapsed());
                 return w;
             }
@@ -72,8 +74,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
             FindStatus::Unknown => {}
         }
         if !depth.should_continue() {
-            search_state.update_status(&self, BarrieredKnowledge::new_losing(self, 0));
-            return FindResult::Losing;
+            return self.beyond_horizon(search_state);
         }
 
         search_state.update_status(&self, BarrieredKnowledge::new_in_progress(self));
@@ -91,8 +92,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         }
 
         if self.size() >= max_size {
-            search_state.update_status(&self, BarrieredKnowledge::new_losing(&self, depth.raw_value()));
-            return FindResult::Losing;
+            return self.beyond_horizon(search_state);
         }
 
         let mut moves = self.moves().collect::<Vec<_>>();
@@ -112,6 +112,28 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
             &self,
             BarrieredKnowledge::new_losing(&self, depth.raw_value()),
         );
+        FindResult::Losing
+    }
+
+    fn beyond_horizon(&self, search_state: &mut SearchState<MAX_CLIQUE>) -> FindResult {
+        if self.size() >= 14 {
+            return FindResult::Losing;
+        }
+        let mut moves = self
+            .moves()
+            .filter(|sm| sm.allowed_colours_count() <= 1)
+            .collect::<Vec<_>>();
+        moves.sort_by_key(|sm| sm.preferable_order());
+
+        for move_ in moves {
+            if let FindResult::Winning(barrier) = move_.beyond_horizon(search_state) {
+                search_state.update_status(
+                    self,
+                    BarrieredKnowledge::new_winning(self, WinningMove::Move(move_.move_)),
+                );
+                return FindResult::Winning(barrier);
+            }
+        }
         FindResult::Losing
     }
 
@@ -163,6 +185,25 @@ impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {
             let mut clone = *self.state;
             clone.insert_segment(self.move_.0, self.move_.1, color);
             match clone.find_strategy(search_state, depth.decrement(), max_size) {
+                FindResult::Losing => return FindResult::Losing,
+                FindResult::Winning(new_barrier) => barrier = barrier.confine(&new_barrier),
+            }
+        }
+        return FindResult::Winning(barrier);
+    }
+    pub fn beyond_horizon(&self, search_state: &mut SearchState<MAX_CLIQUE>) -> FindResult {
+        let allowed_colours = self
+            .state
+            .allowed_colours_for_segment(self.move_.0, self.move_.1)
+            .collect::<Vec<_>>();
+        if allowed_colours.len() > 1 {
+            return FindResult::Losing;
+        }
+        let mut barrier = self.find_barrier();
+        for color in allowed_colours {
+            let mut clone = *self.state;
+            clone.insert_segment(self.move_.0, self.move_.1, color);
+            match clone.beyond_horizon(search_state) {
                 FindResult::Losing => return FindResult::Losing,
                 FindResult::Winning(new_barrier) => barrier = barrier.confine(&new_barrier),
             }
