@@ -6,6 +6,7 @@ default-run = "segment-colouring"
 
 [dependencies]
 ahash = "0.8.12"
+chrono = "0.4.39"
 clap = { version = "4.5.60", features = ["derive"] }
 dashmap = "6.1.0"
 futures = "0.3.31"

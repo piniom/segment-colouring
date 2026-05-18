@@ -1,4 +1,5 @@
 use crate::simple_state::state::State;
+use chrono::Utc;
 use std::io::{self, Write};
 use std::time::{Duration, Instant};
 
@@ -18,6 +19,10 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         }
     }
 
+    fn format_time_now() -> String {
+        Utc::now().format("%H:%M %d/%m").to_string()
+    }
+
     pub fn find_strategy_root(
         &self,
         search_state: &SearchState<MAX_CLIQUE>,
@@ -28,11 +33,11 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         let total_start = Instant::now();
         println!();
         println!(
-            "{:<5} {:<12} {:<8} {:<20} {:<20} {}",
-            "depth", "elapsed", "result", "winning", "delta", "w_substates"
+            "{:<6} {:<12} {:<14} {:<10} {:<22} {:<22} {}",
+            "depth", "time", "elapsed", "result", "winning", "delta", "w_substates"
         );
         for d in 3..=depth {
-            print!("{:<5} ", d);
+            print!("{:<6} {:<12} ", d, Self::format_time_now());
             let _ = io::stdout().flush();
             let start = Instant::now();
             let result = self.find_strategy(search_state, d, max_size);
@@ -41,13 +46,13 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
                 FindResult::Winning => "win",
                 FindResult::Losing => "lose",
             };
-            print!("{:<12} {:<8} ", elapsed, result_label);
+            print!("{:<14} {:<10} ", elapsed, result_label);
             let _ = io::stdout().flush();
             let (cur_winning, substates) = search_state.count_winning();
             let delta = cur_winning - previous_winning;
 
             println!(
-                "{:<20} {:<20} {}",
+                "{:<22} {:<22} {}",
                 cur_winning,
                 delta,
                 substates
@@ -55,25 +60,19 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
             previous_winning = cur_winning;
             if let w @ FindResult::Winning = result {
                 println!(
-                    "{:<5} {:<12} {:<8} {:<20} {:<20} {}",
+                    "{:<6} {:<12} {:<14}",
                     "total",
-                    Self::format_elapsed(total_start.elapsed()),
-                    "",
-                    "",
-                    "",
-                    ""
+                    Self::format_time_now(),
+                    Self::format_elapsed(total_start.elapsed())
                 );
                 return w;
             }
         }
         println!(
-            "{:<5} {:<12} {:<8} {:<20} {:<20} {}",
+            "{:<6} {:<12} {:<14}",
             "total",
-            Self::format_elapsed(total_start.elapsed()),
-            "",
-            "",
-            "",
-            ""
+            Self::format_time_now(),
+            Self::format_elapsed(total_start.elapsed())
         );
         FindResult::Losing
     }
