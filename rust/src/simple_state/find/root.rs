@@ -1,4 +1,5 @@
 use crate::simple_state::state::State;
+use std::io::{self, Write};
 use std::time::{Duration, Instant};
 
 use super::{FindResult, SearchState};
@@ -27,32 +28,34 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         let total_start = Instant::now();
         println!();
         println!(
-            "{:<5} {:<12} {:<20} {:<20} {:<20} {}",
-            "depth", "elapsed", "winning", "delta", "substates", "result"
+            "{:<5} {:<12} {:<8} {:<20} {:<20} {}",
+            "depth", "elapsed", "result", "winning", "delta", "w_substates"
         );
         for d in 3..=depth {
+            print!("{:<5} ", d);
+            let _ = io::stdout().flush();
             let start = Instant::now();
             let result = self.find_strategy(search_state, d, max_size);
             let elapsed = Self::format_elapsed(start.elapsed());
+            let result_label = match result {
+                FindResult::Winning => "win",
+                FindResult::Losing => "lose",
+            };
+            print!("{:<12} {:<8} ", elapsed, result_label);
+            let _ = io::stdout().flush();
             let (cur_winning, substates) = search_state.count_winning();
             let delta = cur_winning - previous_winning;
 
             println!(
-                "{:<5} {:<12} {:<20} {:<20} {:<20} {}",
-                d,
-                elapsed,
+                "{:<20} {:<20} {}",
                 cur_winning,
                 delta,
-                substates,
-                match result {
-                    FindResult::Winning => "win",
-                    FindResult::Losing => "lose",
-                }
+                substates
             );
             previous_winning = cur_winning;
             if let w @ FindResult::Winning = result {
                 println!(
-                    "{:<5} {:<12} {:<20} {:<20} {:<20} {}",
+                    "{:<5} {:<12} {:<8} {:<20} {:<20} {}",
                     "total",
                     Self::format_elapsed(total_start.elapsed()),
                     "",
@@ -64,7 +67,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
             }
         }
         println!(
-            "{:<5} {:<12} {:<20} {:<20} {:<20} {}",
+            "{:<5} {:<12} {:<8} {:<20} {:<20} {}",
             "total",
             Self::format_elapsed(total_start.elapsed()),
             "",
