@@ -1,4 +1,5 @@
 use crate::simple_state::{state::State, StateWithMove};
+use rand::seq::SliceRandom;
 use rayon::prelude::*;
 pub mod root;
 
@@ -60,12 +61,11 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
             return FindResult::Losing;
         }
 
-        let mut moves = self.moves().collect::<Vec<_>>();
+        let moves = self.moves().collect::<Vec<_>>();
         // moves.sort_by_key(|sm| sm.preferable_order());
 
         // let winning = moves.iter().find_map(
-        let winning = moves.par_iter().find_map_any(
-            |move_| {
+        let winning = moves.par_iter().find_map_any(|move_| {
             if let FindResult::Winning = move_.find_strategy(search_state, depth, max_size) {
                 Some(move_.move_)
             } else {
@@ -122,10 +122,12 @@ impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {
         depth: usize,
         max_size: u8,
     ) -> FindResult {
-        for color in self
+        let mut cs = self
             .state
             .allowed_colours_for_segment(self.move_.0, self.move_.1)
-        {
+            .collect::<Vec<_>>();
+        cs.shuffle(&mut rand::rng());
+        for color in cs {
             let mut clone = *self.state;
             clone.insert_segment(self.move_.0, self.move_.1, color);
             match clone.find_strategy(search_state, depth - 1, max_size) {
@@ -134,10 +136,5 @@ impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {
             }
         }
         FindResult::Winning
-    }
-    fn preferable_order(&self) -> (u8, i8) {
-        let confining_factor =
-            self.move_.0 - self.state.limit_front() + self.state.limit_back() - self.move_.1;
-        (self.allowed_colours_count(), (confining_factor as i8))
     }
 }
