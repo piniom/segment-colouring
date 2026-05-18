@@ -1,8 +1,7 @@
 use crate::simple_state::state::State;
-use chrono::Utc;
-use std::io::Write;
+use chrono::Local;
 use std::sync::mpsc;
-use std::{io, thread};
+use std::thread;
 use std::time::Instant;
 
 use super::{FindResult, SearchState};
@@ -21,9 +20,18 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
             print_headers();
             for message in rx {
                 match message {
-                    CountMessage::Row => {
+                    CountMessage::Row {
+                        depth,
+                        time,
+                        elapsed,
+                        result_label,
+                    } => {
                         let stats = search_state.count_stats();
                         let delta = stats.winning_states - previous_winning;
+                        print!(
+                            "{:<6} {:<12} {:<14} {:<10} ",
+                            depth, time, elapsed, result_label
+                        );
                         println!(
                             "{:<22} {:<22} {:<22} {}/{}",
                             stats.winning_states,
@@ -57,7 +65,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     }
 
     fn format_time_now() -> String {
-        Utc::now().format("%H:%M %d/%m").to_string()
+        Local::now().format("%H:%M %d.%m").to_string()
     }
 
     pub fn find_strategy_root(
@@ -81,12 +89,15 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
                     .unwrap_or_else(|_| chrono::Duration::zero());
                 let elapsed = Self::format_elapsed(elapsed);
                 let result_label = match result {
-                    FindResult::Winning => "win",
-                    FindResult::Losing => "lose",
+                    FindResult::Winning => "win".to_string(),
+                    FindResult::Losing => "lose".to_string(),
                 };
-                print!("{:<6} {:<12} {:<14} {:<10} ", d, time, elapsed, result_label);
-                let _ = io::stdout().flush();
-                let _ = tx.send(CountMessage::Row);
+                let _ = tx.send(CountMessage::Row {
+                    depth: d,
+                    time,
+                    elapsed,
+                    result_label,
+                });
                 if let FindResult::Winning = result {
                     final_result = FindResult::Winning;
                     break;
@@ -125,5 +136,10 @@ fn print_headers() {
 }
 
 enum CountMessage {
-    Row,
+    Row {
+        depth: usize,
+        time: String,
+        elapsed: String,
+        result_label: String,
+    },
 }
