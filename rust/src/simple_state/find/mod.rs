@@ -19,7 +19,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         depth: usize,
         max_size: u8,
     ) -> FindResult {
-        for d in 7..=depth {
+        for d in 3..=depth {
             let start = Instant::now();
             print!("{d}");
             std::io::stdout().flush().unwrap();
