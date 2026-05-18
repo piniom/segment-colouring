@@ -1,6 +1,6 @@
 use crate::simple_state::{state::State, StateWithMove};
 use rayon::prelude::*;
-use std::{io::Write, time::Instant};
+pub mod root;
 
 pub mod search_state;
 
@@ -13,24 +13,6 @@ pub enum FindResult {
 }
 
 impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
-    pub fn find_strategy_root(
-        &self,
-        search_state: &SearchState<MAX_CLIQUE>,
-        depth: usize,
-        max_size: u8,
-    ) -> FindResult {
-        for d in 3..=depth {
-            let start = Instant::now();
-            print!("{d}");
-            std::io::stdout().flush().unwrap();
-            if let w @ FindResult::Winning = self.find_strategy(search_state, d, max_size) {
-                println!(": {:?}", start.elapsed());
-                return w;
-            }
-            println!(": {:?}", start.elapsed());
-        }
-        return FindResult::Losing;
-    }
     pub fn find_strategy(
         &self,
         search_state: &SearchState<MAX_CLIQUE>,
@@ -79,9 +61,11 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         }
 
         let mut moves = self.moves().collect::<Vec<_>>();
-        moves.sort_by_key(|sm| sm.preferable_order());
+        // moves.sort_by_key(|sm| sm.preferable_order());
 
-        let winning = moves.par_iter().find_map_any(|move_| {
+        // let winning = moves.iter().find_map(
+        let winning = moves.par_iter().find_map_any(
+            |move_| {
             if let FindResult::Winning = move_.find_strategy(search_state, depth, max_size) {
                 Some(move_.move_)
             } else {
