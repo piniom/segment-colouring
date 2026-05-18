@@ -33,8 +33,15 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         let total_start = Instant::now();
         println!();
         println!(
-            "{:<6} {:<12} {:<14} {:<10} {:<22} {:<22} {}",
-            "depth", "time", "elapsed", "result", "winning", "delta", "w_substates"
+            "{:<6} {:<12} {:<14} {:<10} {:<22} {:<22} {:<22} {}",
+            "depth",
+            "time",
+            "elapsed",
+            "result",
+            "w_states",
+            "delta",
+            "w_substates",
+            "t_states/t_substates"
         );
         for d in 3..=depth {
             print!("{:<6} {:<12} ", d, Self::format_time_now());
@@ -48,16 +55,18 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
             };
             print!("{:<14} {:<10} ", elapsed, result_label);
             let _ = io::stdout().flush();
-            let (cur_winning, substates) = search_state.count_winning();
-            let delta = cur_winning - previous_winning;
+            let stats = search_state.count_stats();
+            let delta = stats.winning_states - previous_winning;
 
             println!(
-                "{:<22} {:<22} {}",
-                cur_winning,
+                "{:<22} {:<22} {:<22} {}/{}",
+                stats.winning_states,
                 delta,
-                substates
+                stats.winning_substates,
+                stats.total_states,
+                stats.total_substates
             );
-            previous_winning = cur_winning;
+            previous_winning = stats.winning_states;
             if let w @ FindResult::Winning = result {
                 println!(
                     "{:<6} {:<12} {:<14}",

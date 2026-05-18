@@ -30,6 +30,14 @@ pub struct SearchState<const MAX_CLIQUE: u32> {
     pub map: DashMap<Representative<MAX_CLIQUE>, RepresentativeKnowledge>,
 }
 
+#[derive(Debug, Clone, Copy, Default)]
+pub struct CountStats {
+    pub winning_states: isize,
+    pub winning_substates: isize,
+    pub total_states: isize,
+    pub total_substates: isize,
+}
+
 impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
     pub fn get_knowledge(&self, state: &State<MAX_CLIQUE>) -> BarrieredKnowledge {
         self.get_applicable(state)
@@ -102,17 +110,25 @@ impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
             })
             .unwrap_or_default()
     }
-    pub fn count_winning(&self) -> (isize, isize) {
+    pub fn count_stats(&self) -> CountStats {
         self.map
             .iter()
             .map(|i| {
                 let winning_count = i.barriered.iter().filter(|b| b.status.is_winning()).count();
-                (
-                    if winning_count > 0 { 1 } else { 0 },
-                    winning_count as isize,
-                )
+                CountStats {
+                    winning_states: if winning_count > 0 { 1 } else { 0 },
+                    winning_substates: winning_count as isize,
+                    total_states: 1,
+                    total_substates: i.barriered.len() as isize,
+                }
             })
-            .fold((0, 0), |(acc_c, acc_s), (c, sub)| (acc_c + c, acc_s + sub))
+            .fold(CountStats::default(), |mut acc, stats| {
+                acc.winning_states += stats.winning_states;
+                acc.winning_substates += stats.winning_substates;
+                acc.total_states += stats.total_states;
+                acc.total_substates += stats.total_substates;
+                acc
+            })
     }
 }
 
