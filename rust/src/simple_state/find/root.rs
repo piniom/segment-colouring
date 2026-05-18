@@ -1,6 +1,6 @@
 use crate::simple_state::state::State;
 use chrono::Local;
-use std::sync::mpsc;
+use std::{io::Write, sync::mpsc};
 use std::thread;
 use std::time::Instant;
 
@@ -26,12 +26,13 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
                         elapsed,
                         result_label,
                     } => {
-                        let stats = search_state.count_stats();
-                        let delta = stats.winning_states - previous_winning;
                         print!(
                             "{:<6} {:<12} {:<14} {:<10} ",
                             depth, time, elapsed, result_label
                         );
+                        let _ = std::io::stdout().flush();
+                        let stats = search_state.count_stats();
+                        let delta = stats.winning_states - previous_winning;
                         println!(
                             "{:<22} {:<22} {:<22} {}/{}",
                             stats.winning_states,
