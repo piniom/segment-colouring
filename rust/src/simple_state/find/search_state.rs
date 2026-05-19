@@ -1,4 +1,5 @@
 use dashmap::DashMap;
+use smallvec::SmallVec;
 
 use crate::simple_state::{
     state::{find_barrier::FindBarrier, representative::Representative, State},
@@ -22,12 +23,12 @@ impl Reduction {
 
 #[derive(Debug, Clone)]
 pub struct RepresentativeKnowledge {
-    barriered: Vec<BarrieredKnowledge>,
+    barriered: SmallVec<[BarrieredKnowledge; 3]>,
 }
 
 impl Default for RepresentativeKnowledge {
     fn default() -> Self {
-        Self { barriered: Vec::with_capacity(1) }
+        Self { barriered: SmallVec::new() }
     }
 }
 
