@@ -8,7 +8,7 @@ default-run = "segment-colouring"
 ahash = "0.8.12"
 chrono = "0.4.39"
 clap = { version = "4.5.60", features = ["derive"] }
-dashmap = "6.1.0"
+dashmap = { version = "6.1.0", features = ["rayon"] }
 futures = "0.3.31"
 rand = "0.9.1"
 rayon = "1.10.0"

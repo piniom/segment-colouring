@@ -41,7 +41,7 @@ pub struct SearchState<const MAX_CLIQUE: u32> {
 impl <const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
     pub fn new() -> Self {
         Self {
-            map: DashMap::default()
+            map: DashMap::with_shard_amount(2usize.pow(15))
         }
     }
 }
