@@ -72,7 +72,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     pub fn find_strategy_root(
         &self,
         search_state: &SearchState<MAX_CLIQUE>,
-        depth: u16,
+        depth: u8,
         max_size: u8,
     ) -> FindResult {
         let total_start = Instant::now();
@@ -138,7 +138,7 @@ fn print_headers() {
 
 enum CountMessage {
     Row {
-        depth: u16,
+        depth: u8,
         time: String,
         elapsed: String,
         result_label: String,

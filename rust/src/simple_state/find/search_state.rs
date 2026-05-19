@@ -158,7 +158,7 @@ impl BarrieredKnowledge {
             status: FindStatus::Winning(move_),
         }
     }
-    pub fn new_losing<const MAX_CLIQUE: u32>(state: &State<MAX_CLIQUE>, depth: u16) -> Self {
+    pub fn new_losing<const MAX_CLIQUE: u32>(state: &State<MAX_CLIQUE>, depth: u8) -> Self {
         Self {
             barrier: state.limits_to_barrier(),
             status: FindStatus::Losing { depth },
@@ -206,7 +206,7 @@ impl BarrieredKnowledge {
 pub enum FindStatus {
     Winning(WinningMove),
     Losing {
-        depth: u16,
+        depth: u8,
     },
     InProgress,
     #[default]
@@ -214,12 +214,12 @@ pub enum FindStatus {
 }
 
 impl FindStatus {
-    fn success_key(&self) -> u16 {
+    fn success_key(&self) -> u8 {
         match self {
             FindStatus::Winning(_) => 0,
-            FindStatus::Losing { depth } => u16::MAX - 1 - *depth,
-            FindStatus::InProgress => u16::MAX - 1,
-            FindStatus::Unknown => u16::MAX,
+            FindStatus::Losing { depth } => u8::MAX - 1 - *depth,
+            FindStatus::InProgress => u8::MAX - 1,
+            FindStatus::Unknown => u8::MAX,
         }
     }
     fn is_winning(&self) -> bool {

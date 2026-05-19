@@ -17,7 +17,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     pub fn find_strategy(
         &self,
         search_state: &SearchState<MAX_CLIQUE>,
-        depth: u16,
+        depth: u8,
         max_size: u8,
     ) -> FindResult {
         let mut norm = *self;
@@ -27,7 +27,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     fn find_strategy_inner(
         &self,
         search_state: &SearchState<MAX_CLIQUE>,
-        depth: u16,
+        depth: u8,
         max_size: u8,
     ) -> FindResult {
         let knowledge = search_state.get_knowledge(self);
@@ -87,7 +87,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     fn check_reductions(
         &self,
         search_state: &SearchState<MAX_CLIQUE>,
-        depth: u16,
+        depth: u8,
         max_size: u8,
     ) -> FindResult {
         if let Some(FindResult::Winning) = self
@@ -119,7 +119,7 @@ impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {
     pub fn find_strategy(
         &self,
         search_state: &SearchState<MAX_CLIQUE>,
-        depth: u16,
+        depth: u8,
         max_size: u8,
     ) -> FindResult {
         let mut cs = self
