@@ -20,14 +20,29 @@ impl Reduction {
     }
 }
 
-#[derive(Debug, Clone, Default)]
+#[derive(Debug, Clone)]
 pub struct RepresentativeKnowledge {
     barriered: Vec<BarrieredKnowledge>,
 }
 
-#[derive(Debug, Default)]
+impl Default for RepresentativeKnowledge {
+    fn default() -> Self {
+        Self { barriered: Vec::with_capacity(1) }
+    }
+}
+
+#[derive(Debug)]
 pub struct SearchState<const MAX_CLIQUE: u32> {
     pub map: DashMap<Representative<MAX_CLIQUE>, RepresentativeKnowledge>,
+}
+
+
+impl <const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
+    pub fn new() -> Self {
+        Self {
+            map: DashMap::default()
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy, Default)]
@@ -47,12 +62,7 @@ impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
         // .combine_barrier(state)
     }
     pub fn update_status(&self, state: &State<MAX_CLIQUE>, knowledge: BarrieredKnowledge) {
-        // println!("{state:?} {knowledge:?}");
-        // let state = state.set_barrier_as_limits(&state.representative_barrier(knowledge.barrier));
         let knowledge = BarrieredKnowledge::with_default_barrier(knowledge.status);
-        // for substate in state.substates() {
-        //     self.update_status_inner(&substate, knowledge)
-        // }
         self.update_status_inner(state, knowledge);
     }
     fn update_status_inner(&self, state: &State<MAX_CLIQUE>, mut knowledge: BarrieredKnowledge) {

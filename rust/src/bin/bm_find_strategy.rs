@@ -11,7 +11,7 @@ const FILENAME: &str = "out5.txt";
 fn main() {
     println!("Out: {FILENAME} (MQ: {MAX_CLIQUE}, D: {DEPTH}, MS: {MAX_SIZE})");
     let state = State::<MAX_CLIQUE>::new();
-    let search_state = SearchState::default();
+    let search_state = SearchState::new();
     let result = state.find_strategy_root(&search_state, DEPTH, MAX_SIZE);
     println!("\n\n{:?}", result);
     println!("Visited states: {}", search_state.map.len());
