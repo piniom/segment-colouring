@@ -1,4 +1,5 @@
 use super::*;
+use super::compressed::CompressedState;
 
 #[test]
 fn test_state() {
@@ -219,6 +220,44 @@ fn test_allowed_segment_ends_clique() {
             state.valid_segment_ends(i),
             (2 * max_clique, 2 * max_clique + 1)
         )
+    }
+}
+
+#[test]
+fn test_compressed_len_from_nibbles() {
+    let mut compressed = CompressedState::<4>::empty();
+    assert_eq!(compressed.len(), 0);
+
+    compressed.data_mut()[0] = 0x01;
+    assert_eq!(compressed.len(), 1);
+
+    compressed.data_mut()[0] = 0x10;
+    assert_eq!(compressed.len(), 2);
+
+    compressed.data_mut()[0] = 0x00;
+    compressed.data_mut()[1] = 0x02;
+    assert_eq!(compressed.len(), 3);
+
+    compressed.data_mut()[1] = 0x20;
+    assert_eq!(compressed.len(), 4);
+}
+
+#[test]
+fn test_compressed_roundtrip() {
+    let state = State::<4>::from_string("[ABab]");
+    let compressed = CompressedState::<2>::from(state);
+    let decompressed: State<4> = compressed.into();
+    assert_eq!(state, decompressed);
+}
+
+#[test]
+fn test_compressed_roundtrip_more() {
+    let cases = ["[]", "[Aa]", "[ABab]", "[ABCabc]", "[ABCDabcd]"];
+    for s in cases {
+        let state = State::<4>::from_string(s);
+        let compressed = CompressedState::<4>::from(state);
+        let decompressed: State<4> = compressed.into();
+        assert_eq!(state, decompressed, "failed roundtrip for {s}");
     }
 }
 

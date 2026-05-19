@@ -4,7 +4,7 @@ use ahash::{HashSet, HashSetExt};
 
 use crate::simple_state::{
     find::search_state::{FindStatus, Reduction, SearchState, WinningMove},
-    state::{representative::Representative, State},
+    state::{compressed::CompressedState, State},
     Move,
 };
 
@@ -24,9 +24,9 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         let mut norm = *self;
         norm.normalize();
         let FindStatus::Winning(move_) = search_state.get_knowledge(&norm).status else {
-            let repr = Representative::new(norm);
+            let repr = CompressedState::new(norm);
             dbg!(search_state.map.get(&repr));
-            dbg!(search_state.map.get(&Representative::new(*self)));
+            dbg!(search_state.map.get(&CompressedState::new(*self)));
             panic!(
                 "Strategy incomplete! {} {:?}",
                 &norm,

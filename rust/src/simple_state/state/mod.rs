@@ -4,10 +4,10 @@ mod test;
 pub mod find_barrier;
 pub mod generate_all;
 pub mod hash;
-pub mod representative;
 pub mod string;
 pub mod limits;
 pub mod substates;
+pub mod compressed;
 
 // Each `Event` is 4 bits,
 // 0 - 7 for start events (with colours) (first bit is 0 for start events)

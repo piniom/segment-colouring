@@ -2,8 +2,8 @@ use dashmap::DashMap;
 use smallvec::SmallVec;
 
 use crate::simple_state::{
-    state::{find_barrier::FindBarrier, representative::Representative, State},
     Move,
+    state::{compressed::CompressedState, find_barrier::FindBarrier, State},
 };
 
 #[derive(Debug, Clone, Copy)]
@@ -32,13 +32,15 @@ impl Default for RepresentativeKnowledge {
     }
 }
 
+// 28 events * 4 bits = 112 bits = 14 bytes.
+const COMPRESSED_BYTES: usize = 14;
+
 #[derive(Debug)]
 pub struct SearchState<const MAX_CLIQUE: u32> {
-    pub map: DashMap<Representative<MAX_CLIQUE>, RepresentativeKnowledge>,
+    pub map: DashMap<CompressedState<COMPRESSED_BYTES>, RepresentativeKnowledge>,
 }
 
-
-impl <const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
+impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
     pub fn new() -> Self {
         Self {
             map: DashMap::with_shard_amount(2usize.pow(15))
@@ -74,7 +76,7 @@ impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
                 move_.flip(state);
             }
         }
-        let representative = Representative::new(state);
+        let representative = CompressedState::new(state);
         let barriered = knowledge.combine_barrier(&state);
         let mut entry = self.map.entry(representative).or_default();
         let knowledge = entry.value_mut();
@@ -109,7 +111,7 @@ impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
     }
 
     pub fn get_applicable(&self, state: &State<MAX_CLIQUE>) -> Vec<BarrieredKnowledge> {
-        let representative = Representative::new(*state);
+        let representative = CompressedState::new(*state);
         self.map
             .get(&representative)
             .map(|k| {
