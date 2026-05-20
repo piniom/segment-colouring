@@ -32,8 +32,8 @@ impl Default for RepresentativeKnowledge {
     }
 }
 
-// 12 segments * 5 bits = 60 bits <= 8 bytes
-const COMPRESSED_BYTES: usize = 8;
+// 12 segments * 5 bits - 4 bits = 56 bits = 7 bytes
+const COMPRESSED_BYTES: usize = 7;
 
 #[derive(Debug)]
 pub struct SearchState<const MAX_CLIQUE: u32> {

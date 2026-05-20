@@ -43,10 +43,14 @@ impl<const MAX_CLIQUE: u32, const BYTE_SIZE: usize> From<State<MAX_CLIQUE>>
         let mut compressed = Self::empty();
         let mut bit_index = 0usize;
 
-        for i in 0..state.len() {
-            let value = state.get_at_index(i);
+        if state.len() == 0 {
+            return compressed;
+        }
+
+        for i in 0..(state.len() - 1) {
+            // First segment is always 0b0000 so we can skip it
+            let value = state.get_at_index(i + 1);
             if value & 0b1000 == 0 {
-                debug_assert!(value < 8, "start event value must be 0..7");
                 bit_index = write_bits(&mut compressed.data, bit_index, value as u32, 4);
             } else {
                 bit_index = write_bits(&mut compressed.data, bit_index, 1, 1);
@@ -62,15 +66,19 @@ impl<const MAX_CLIQUE: u32, const BYTE_SIZE: usize> From<CompressedState<BYTE_SI
     fn from(compressed: CompressedState<BYTE_SIZE>) -> Self {
         let len = compressed.len();
         let mut state = State::new();
+        if len == 0 {
+            return state;
+        }
+        // Insert the implicit segment
+        state.insert_at_index(0, 0);
         let mut bit_index = 0usize;
-        let mut start_events: Vec<u8> = Vec::new();
+        let mut start_events: Vec<u8> = vec![0];
         let mut end_index = 0usize;
 
         for _ in 0..len {
             let is_end = read_bit(&compressed.data, bit_index);
             if is_end {
                 bit_index += 1;
-                debug_assert!(end_index < start_events.len(), "end event without start");
                 let value = start_events.get(end_index).copied().unwrap_or(0) | 0b1000;
                 end_index += 1;
                 state.insert_at_index(state.len(), value);
