@@ -23,12 +23,12 @@ impl Reduction {
 
 #[derive(Debug, Clone)]
 pub struct RepresentativeKnowledge {
-    barriered: SmallVec<[BarrieredKnowledge; 3]>,
+    barriered: Box<SmallVec<[BarrieredKnowledge; 3]>>,
 }
 
 impl Default for RepresentativeKnowledge {
     fn default() -> Self {
-        Self { barriered: SmallVec::new() }
+        Self { barriered: Box::new(SmallVec::new()) }
     }
 }
 
