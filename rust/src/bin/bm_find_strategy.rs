@@ -3,9 +3,9 @@ use segment_colouring::simple_state::{
     state::State,
 };
 
-const MAX_CLIQUE: u32 = 5;
+const MAX_CLIQUE: u32 = 4;
 const DEPTH: u8 = 255;
-const MAX_SIZE: u8 = 12;
+const MAX_SIZE: u8 = 8;
 const FILENAME: &str = "strategy.txt";
 
 fn main() {
