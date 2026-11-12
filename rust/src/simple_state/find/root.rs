@@ -65,6 +65,24 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         }
     }
 
+    fn format_elapsed_precise(elapsed: std::time::Duration) -> String {
+        let secs = elapsed.as_secs();
+        let millis = elapsed.subsec_millis();
+        if secs >= 3600 {
+            format!(
+                "{}:{:02}:{:02}.{:03}",
+                secs / 3600,
+                (secs % 3600) / 60,
+                secs % 60,
+                millis
+            )
+        } else if secs >= 60 {
+            format!("{:02}:{:02}.{:03}", secs / 60, secs % 60, millis)
+        } else {
+            format!("{}.{:03}s", secs, millis)
+        }
+    }
+
     fn format_time_now() -> String {
         Local::now().format("%H:%M %d.%m").to_string()
     }
@@ -112,10 +130,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
             "{:<6} {:<12} {:<14}",
             "total",
             Self::format_time_now(),
-            Self::format_elapsed(
-                chrono::Duration::from_std(total_start.elapsed())
-                    .unwrap_or_else(|_| chrono::Duration::zero())
-            )
+            Self::format_elapsed_precise(total_start.elapsed())
         );
         final_result
     }
