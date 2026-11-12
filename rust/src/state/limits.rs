@@ -10,7 +10,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     pub fn limit_back(&self) -> u8 {
         ((self.data >> 122) & 0b1_1111) as u8
     }
-    
+
     #[inline(always)]
     pub fn move_limit_front(&mut self) {
         let first_end = self.find_first_end().unwrap();

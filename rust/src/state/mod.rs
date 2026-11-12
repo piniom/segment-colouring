@@ -1,11 +1,11 @@
 #[cfg(test)]
 mod test;
 
+pub mod compressed;
 pub mod find_barrier;
 pub mod hash;
-pub mod string;
 pub mod limits;
-pub mod compressed;
+pub mod string;
 
 // Each `Event` is 4 bits,
 // 0 - 7 for start events (with colours) (first bit is 0 for start events)
@@ -59,7 +59,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     pub fn normalize(&mut self) -> bool {
         self.normalize_inner(true)
     }
-     #[inline(always)]
+    #[inline(always)]
     pub fn is_symmetric(&self) -> bool {
         let mut flipped = *self;
         flipped.flip();
@@ -249,7 +249,10 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         if index < self.limit_back() as usize {
             self.set_limit_back(self.limit_back() - 1);
         }
-        debug_assert!(self.has_no_bits_past_len(), "stray bits past len after remove_at_index({index}) in {self}");
+        debug_assert!(
+            self.has_no_bits_past_len(),
+            "stray bits past len after remove_at_index({index}) in {self}"
+        );
     }
     /// Invariant: event bits past `len` are zero. `normalize`, `is_symmetric`, `PartialEq`
     /// and `Hash` compare the raw bits, so stray bits silently break state-map lookups.

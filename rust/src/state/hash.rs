@@ -1,7 +1,5 @@
 use super::*;
-use std::{
-    hash::{Hash, Hasher},
-};
+use std::hash::{Hash, Hasher};
 
 impl<const MAX_CLIQUE: u32> Hash for State<MAX_CLIQUE> {
     fn hash<H: Hasher>(&self, state: &mut H) {

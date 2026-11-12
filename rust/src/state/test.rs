@@ -1,5 +1,5 @@
-use super::*;
 use super::compressed::CompressedState;
+use super::*;
 
 #[test]
 fn test_state() {
@@ -220,8 +220,6 @@ fn test_compressed_roundtrip_more() {
     }
 }
 
-
-
 fn has_bits_beyond_len<const Q: u32>(state: &State<Q>) -> bool {
     (state.data() >> (4 * state.len() as u32)) != 0
 }
@@ -230,14 +228,26 @@ fn assert_clean_reductions<const Q: u32>(state: &State<Q>) {
     if let Some(child) = state.try_moved_limit_back() {
         let mut expected = *state;
         expected.move_limit_back();
-        assert!(!has_bits_beyond_len(&child), "stray bits after back reduction of {state}");
-        assert!(child == expected, "try_moved_limit_back != move_limit_back for {state}");
+        assert!(
+            !has_bits_beyond_len(&child),
+            "stray bits after back reduction of {state}"
+        );
+        assert!(
+            child == expected,
+            "try_moved_limit_back != move_limit_back for {state}"
+        );
     }
     if let Some(child) = state.try_moved_limit_front() {
         let mut expected = *state;
         expected.move_limit_front();
-        assert!(!has_bits_beyond_len(&child), "stray bits after front reduction of {state}");
-        assert!(child == expected, "try_moved_limit_front != move_limit_front for {state}");
+        assert!(
+            !has_bits_beyond_len(&child),
+            "stray bits after front reduction of {state}"
+        );
+        assert!(
+            child == expected,
+            "try_moved_limit_front != move_limit_front for {state}"
+        );
     }
     for child in [state.try_moved_limit_front(), state.try_moved_limit_back()]
         .into_iter()
@@ -250,7 +260,10 @@ fn assert_clean_reductions<const Q: u32>(state: &State<Q>) {
         let mut twice = once;
         assert!(!twice.normalize(), "normalize not idempotent for {child}");
         assert!(once == twice, "normalize not idempotent for {child}");
-        assert_eq!(CompressedState::<7>::new(once), CompressedState::<7>::new(twice));
+        assert_eq!(
+            CompressedState::<7>::new(once),
+            CompressedState::<7>::new(twice)
+        );
     }
 }
 

@@ -1,8 +1,8 @@
 use crate::state::State;
 use chrono::Local;
-use std::{io::Write, sync::mpsc};
 use std::thread;
 use std::time::Instant;
+use std::{io::Write, sync::mpsc};
 
 use super::{FindResult, SearchState};
 

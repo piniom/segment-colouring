@@ -4,8 +4,8 @@ use ahash::{HashSet, HashSetExt};
 
 use crate::{
     find::search_state::{FindStatus, Reduction, SearchState, WinningMove},
-    state::{compressed::CompressedState, State},
     moves::Move,
+    state::{compressed::CompressedState, State},
 };
 
 // pub mod graph;
