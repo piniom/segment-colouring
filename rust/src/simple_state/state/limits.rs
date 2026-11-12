@@ -46,7 +46,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         let mut clone = *self;
         clone.set_limit_back(last_start as u8);
         clone.remove_at_index(last_start as usize);
-        clone.remove_at_index(self.len() as usize - 1);
+        clone.remove_at_index(clone.len() as usize - 1);
         Some(clone)
     }
     #[inline(always)]

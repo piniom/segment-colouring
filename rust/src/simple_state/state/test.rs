@@ -243,3 +243,68 @@ fn test_compressed_roundtrip_more() {
 }
 
 
+
+fn has_bits_beyond_len<const Q: u32>(state: &State<Q>) -> bool {
+    (state.data() >> (4 * state.len() as u32)) != 0
+}
+
+fn assert_clean_reductions<const Q: u32>(state: &State<Q>) {
+    if let Some(child) = state.try_moved_limit_back() {
+        let mut expected = *state;
+        expected.move_limit_back();
+        assert!(!has_bits_beyond_len(&child), "stray bits after back reduction of {state}");
+        assert!(child == expected, "try_moved_limit_back != move_limit_back for {state}");
+    }
+    if let Some(child) = state.try_moved_limit_front() {
+        let mut expected = *state;
+        expected.move_limit_front();
+        assert!(!has_bits_beyond_len(&child), "stray bits after front reduction of {state}");
+        assert!(child == expected, "try_moved_limit_front != move_limit_front for {state}");
+    }
+    for child in [state.try_moved_limit_front(), state.try_moved_limit_back()]
+        .into_iter()
+        .flatten()
+    {
+        // Lookup key (after `find_strategy` normalises) must equal store key
+        // (after `update_status` normalises again).
+        let mut once = child;
+        once.normalize();
+        let mut twice = once;
+        assert!(!twice.normalize(), "normalize not idempotent for {child}");
+        assert!(once == twice, "normalize not idempotent for {child}");
+        assert_eq!(CompressedState::<7>::new(once), CompressedState::<7>::new(twice));
+    }
+}
+
+#[test]
+fn test_back_reduction_leaves_no_stray_events() {
+    // Regression: `try_moved_limit_back` used the pre-removal length, leaving the
+    // removed end event in the bits past `len`. That made `normalize` pick the wrong
+    // orientation, so back-reduced states were looked up under a key never stored.
+    assert_clean_reductions(&State::<4>::from_string("[ABabCcCDcBdbCcDd]"));
+}
+
+#[test]
+fn test_reductions_clean_on_reachable_states() {
+    use std::collections::HashSet;
+    const MAX_SIZE: u8 = 6;
+    let mut seen = HashSet::new();
+    let mut stack = vec![State::<4>::new()];
+    while let Some(state) = stack.pop() {
+        if !seen.insert(state.data) {
+            continue;
+        }
+        assert_clean_reductions(&state);
+        let mut next: Vec<State<4>> = [state.try_moved_limit_front(), state.try_moved_limit_back()]
+            .into_iter()
+            .flatten()
+            .collect();
+        if state.size() < MAX_SIZE {
+            for m in state.moves() {
+                next.extend(m.outcomes());
+            }
+        }
+        stack.extend(next);
+    }
+    assert!(seen.len() > 10_000, "explored only {} states", seen.len());
+}
