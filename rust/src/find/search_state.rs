@@ -142,7 +142,7 @@ impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
         let mut entries = self.entries_of(&key, *slot);
 
         entries.retain(|sk| !sk.might_be_overridden_by(&barriered));
-        if !entries.iter().any(|sk| barriered.might_be_overridden_by(sk)) {
+        if !entries.iter().any(|sk| barriered.adds_nothing_given(sk)) {
             entries.push(barriered);
         }
 
@@ -152,7 +152,7 @@ impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
             if let FindStatus::Winning(move_) = &mut barriered.status {
                 move_.flip(state);
             }
-            if !entries.iter().any(|sk| barriered.might_be_overridden_by(sk)) {
+            if !entries.iter().any(|sk| barriered.adds_nothing_given(sk)) {
                 entries.push(barriered);
             }
         }
@@ -319,6 +319,19 @@ impl BarrieredKnowledge {
             state.limits_to_barrier() <= self.barrier
         }
     }
+    /// Whether storing `self` would add nothing, given the stored `other`.
+    ///
+    /// Besides `might_be_overridden_by`, a win is redundant when another win already applies
+    /// to every state it applies to: a win applies to states at most as confined as its
+    /// barrier, so that is a win whose barrier is at least as confined (`<=`). Without this,
+    /// re-evaluating a winning state (as happens to states at the size limit, which skip
+    /// the lookup) stored the same win again on every visit.
+    fn adds_nothing_given(&self, other: &BarrieredKnowledge) -> bool {
+        self.might_be_overridden_by(other)
+            || (self.status.is_winning()
+                && other.status.is_winning()
+                && other.barrier <= self.barrier)
+    }
     fn might_be_overridden_by(&self, other: &BarrieredKnowledge) -> bool {
         if self.status.is_winning() {
             false
@@ -394,6 +407,61 @@ mod test {
 
     fn same(a: &BarrieredKnowledge, b: &BarrieredKnowledge) -> bool {
         format!("{a:?}") == format!("{b:?}")
+    }
+
+    /// Storing a win that is already stored (as happens when a state at the size limit is
+    /// re-evaluated) must not add another entry.
+    #[test]
+    fn repeated_wins_are_not_duplicated() {
+        let search_state = SearchState::<4>::new();
+        let mut state = State::<4>::from_string("[ABab]");
+        state.normalize();
+        let win = knowledge(0, 0, FindStatus::Winning(WinningMove::Reduction(Reduction::Front)));
+        for _ in 0..5 {
+            search_state.update_status(&state, win);
+        }
+        let entries = search_state.entries(&CompressedState::new(state));
+        // `[ABab]` is symmetric. Its mirrored win has the same barrier `(0, 0)`, so it
+        // applies to exactly the same states and is redundant too.
+        assert!(state.is_symmetric());
+        assert_eq!(entries.len(), 1, "{entries:?}");
+
+        // With an asymmetric barrier the mirrored win applies elsewhere, so both are kept,
+        // still only once each however often the win is stored.
+        let symmetric = State::<4>::from_string("A[Bab]");
+        let mut norm = symmetric;
+        norm.normalize();
+        assert!(norm.is_symmetric());
+        let fresh = SearchState::<4>::new();
+        for _ in 0..5 {
+            fresh.update_status(&norm, win);
+        }
+        let entries = fresh.entries(&CompressedState::new(norm));
+        assert_eq!(entries.len(), 2, "{entries:?}");
+
+        // An asymmetric state keeps a single entry.
+        let mut state = State::<4>::from_string("[ABabCc]");
+        state.normalize();
+        assert!(!state.is_symmetric());
+        for _ in 0..5 {
+            search_state.update_status(&state, win);
+        }
+        let entries = search_state.entries(&CompressedState::new(state));
+        assert_eq!(entries.len(), 1, "{entries:?}");
+
+        // A win found with less room (more confined barrier) also applies with more room,
+        // so a later win with more room adds nothing.
+        let text = state.to_string().replacen('[', "", 1);
+        let confined = State::<4>::from_string(&format!("{}[{}", &text[..1], &text[1..]));
+        assert_eq!(confined.limit_front(), 1);
+        let fresh = SearchState::<4>::new();
+        fresh.update_status(&confined, win);
+        for _ in 0..3 {
+            fresh.update_status(&state, win);
+        }
+        let entries = fresh.entries(&CompressedState::new(state));
+        assert_eq!(entries.len(), 1, "{entries:?}");
+        assert_eq!(entries[0].barrier.front, 1, "{entries:?}");
     }
 
     #[test]
