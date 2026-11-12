@@ -60,6 +60,23 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
             Lookup::LosingDeep | Lookup::InProgress => return FindResult::Losing,
             Lookup::LosingShallow | Lookup::Unknown => {}
         }
+        // States at the size limit can only be reduced, so re-evaluating one costs just the
+        // lookups of its two (stored) reductions. Without `store_at_limit` only their wins
+        // are stored (by `check_reductions`, needed for printing the strategy). Skipping
+        // `InProgress` for them is safe: every cycle contains an insert move, which
+        // decreases `depth`.
+        if size >= max_size && !search_state.store_at_limit {
+            stats::inc(Counter::unstored_at_limit, size);
+            if depth == 0 {
+                stats::inc(Counter::depth_zero, size);
+                return FindResult::Losing;
+            }
+            let result = self.check_reductions(search_state, depth, max_size);
+            if let FindResult::Losing = result {
+                stats::inc(Counter::at_limit_lose, size);
+            }
+            return result;
+        }
         if depth == 0 {
             stats::inc(Counter::depth_zero, size);
             search_state.update_status(&self, BarrieredKnowledge::new_losing(self, 0));
@@ -172,16 +189,28 @@ impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {
     }
 }
 
+/// Tests that run a search hold this lock: the statistics counters are process-global, so
+/// a concurrent search would leak into another test's counts.
+#[cfg(test)]
+static SEARCH_TEST_LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
+
 #[cfg(all(test, feature = "stats"))]
 mod stats_test {
     use super::*;
     use crate::stats::{lookup_counter, snapshot, Caller::*, Lookup::*};
 
-    /// Runs a small search and checks the counters satisfy the relations the search code
-    /// implies. A miscounted path, or an unexpected control-flow path, breaks one of them.
+    /// Runs a small search in both storage modes and checks the counters satisfy the
+    /// relations the search code implies. A miscounted path, or an unexpected control-flow
+    /// path, breaks one of them. (One test: the counters are global.)
     #[test]
     fn counters_are_consistent() {
-        let search_state = SearchState::<4>::new();
+        let _lock = SEARCH_TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        check_counters(true);
+        check_counters(false);
+    }
+
+    fn check_counters(store_at_limit: bool) {
+        let search_state = SearchState::<4>::new().with_store_at_limit(store_at_limit);
         let before = snapshot();
         let depths = 3..=9u8;
         for depth in depths.clone() {
@@ -192,7 +221,7 @@ mod stats_test {
         let s = snapshot().since(&before);
         let t = |c| s.total(c);
         let searched = s.outcome(LosingShallow) + s.outcome(Unknown);
-        println!("{}", s.summary_line());
+        println!("store_at_limit={store_at_limit}: {}", s.summary_line());
 
         assert!(t(Counter::expansion) > 1000, "search too small to be meaningful");
         assert!(s.lookups(Root) as usize <= depths.count());
@@ -215,6 +244,9 @@ mod stats_test {
         assert!(t(Counter::move_tried) <= t(Counter::moves_generated));
         // Every searched state writes `InProgress` (or `Losing{0}` at depth 0), plus one
         // final status unless a reduction or expansion returned early with a win.
+        // Unstored states at the limit write only their reduction wins.
+        let unstored = t(Counter::unstored_at_limit);
+        assert_eq!(store_at_limit, unstored == 0);
         assert_eq!(
             t(Counter::status_write),
             t(Counter::depth_zero)
@@ -223,6 +255,8 @@ mod stats_test {
                 + t(Counter::reduction_win_back)
                 + t(Counter::at_limit_lose)
                 + t(Counter::expansion)
+                - unstored
+                - if store_at_limit { 0 } else { t(Counter::at_limit_lose) }
         );
         // Lookups made by the root only ever see a state searched at a lower depth.
         assert_eq!(t(lookup_counter(Root, Unknown)), 1);
@@ -237,6 +271,30 @@ mod stats_test {
                 "{caller:?}: {misses} of {} lookups missed the map",
                 s.lookups(caller)
             );
+        }
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    /// Both storage modes must find a win for MQ=4, MS=8 and keep every winning state the
+    /// strategy needs (`print_strategy` panics if one is missing). Validity of the printed
+    /// strategy is checked by `cxx/strategy_check` (see the `bench` binary).
+    #[test]
+    fn both_storage_modes_find_a_printable_strategy() {
+        let _lock = SEARCH_TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        for store_at_limit in [true, false] {
+            let search_state = SearchState::<4>::new().with_store_at_limit(store_at_limit);
+            let root = State::<4>::new();
+            let won = (3..=30u8).any(|depth| {
+                matches!(root.find_strategy(&search_state, depth, 8), FindResult::Winning)
+            });
+            assert!(won, "store_at_limit={store_at_limit}: no win found");
+            let mut out = Vec::new();
+            root.print_strategy(&search_state, &mut out);
+            assert!(out.len() > 1000, "store_at_limit={store_at_limit}: strategy too short");
         }
     }
 }

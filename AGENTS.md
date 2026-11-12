@@ -111,25 +111,30 @@ The program prints one row per iterative-deepening depth: time, result, and coun
 ### Search (`find/mod.rs`, `find/root.rs`)
 - `find_strategy_root` runs iterative deepening over depth `3..=D` and keeps the map between iterations.
 - `find_strategy` normalises the state, then `find_strategy_inner`:
-  1. **Look up** the map. `Winning` → win. `Losing{d}` with `d ≥ depth` → lose. `InProgress` → lose (cuts cycles and work other threads are already doing).
+  1. **Look up** the map. `Winning` → win. `Losing{d}` with `d ≥ depth` → lose. `InProgress` → lose (cuts cycles; measured hits come from the state's own ancestors, not other threads).
+     - **By default** (`SearchState::store_at_limit = false`), a state at `size ≥ MS` stops here and is evaluated from its two reductions without being stored. Only its wins are stored, which `print_strategy` needs. That's safe because every cycle contains an insert, which lowers `depth`.
   2. `depth == 0` → store `Losing{0}`.
   3. Store `InProgress`.
   4. **Try reductions.** Below max size they're tried at depth 1. At `size ≥ MS` they're tried at full depth, because they're the only option there. **Reductions don't decrease depth; inserts do.**
-  5. At `size ≥ MS` → store `Losing{depth}`.
+  5. At `size ≥ MS` → store `Losing{depth}` (only reached with `--store-at-limit`).
   6. Otherwise try all insert moves in parallel (`par_iter().find_map_any`). A move wins if **every** allowed colour leads to a win (`StateWithMove::find_strategy`, colours shuffled, sequential).
   7. Store `Winning(move)` or `Losing{depth}`.
 
 ### State map (`find/search_state.rs`, `state/compressed.rs`, `state/find_barrier.rs`)
-- The map is `DashMap<CompressedState<7>, RepresentativeKnowledge>` with `2^15` shards.
+- The map is `DashMap<CompressedState<7>, PackedKnowledge>` with `2^15` shards, plus a side map `overflow`.
 - **Key** (`CompressedState<7>`): events only, without the limits.
   - A start takes 4 bits (`0ccc`), an end takes 1 bit (`1`). End colours follow from start order.
   - The first event, start of colour 0, is implicit.
   - Total `5·MS − 4` bits, so 56 bits for MS=12.
-- **Value** (`RepresentativeKnowledge`): a `SmallVec<[BarrieredKnowledge; 3]>`.
+- **Value:** each key holds one or more `BarrieredKnowledge` entries.
   - A `BarrieredKnowledge` is a `FindBarrier` plus a `FindStatus`.
   - `FindBarrier` = `(limit_front, len − limit_back)`: the number of events outside each limit. More outside means more confined.
   - A `Winning` entry applies to states at most as confined as itself. `Losing` / `InProgress` entries apply to states at least as confined.
   - `update_status` drops entries that the new one makes redundant. For symmetric states it also stores the mirrored entry.
+- **Packing** (`PackedKnowledge`):
+  - A single entry is packed into the map's `u32` value: a 3-bit tag, 5-bit barrier front and back, and a 10-bit payload (the move, the reduction side, or the losing depth). Event indexes are ≤ 28, so 5 bits suffice. A slot is 12 bytes, pinned by a test.
+  - Keys with several entries store them all in `overflow`, and their map value is the `OVERFLOW` marker. That's about 0.3% of keys for MQ=5, but 9–45% for MQ=4.
+  - **Locking:** writers hold the key's map entry while they change `overflow`, and readers hold their map guard while they read it. The order is always map, then overflow.
 - `FindStatus` is one of: `Winning(WinningMove)` (an insert move or a reduction), `Losing { depth }`, `InProgress`, `Unknown`.
 
 ### Strategy output (`print_strategy/mod.rs`)
@@ -140,7 +145,11 @@ The program prints one row per iterative-deepening depth: time, result, and coun
 
 ## Current scale (for reference)
 
-- Per entry: 7-byte key + 24-byte value = 32 bytes, plus hashbrown's control byte and load-factor slack, so roughly 38–75 bytes per state.
+- **Per slot:** 7-byte key + 4-byte packed value = 12 bytes, plus hashbrown's control byte and load-factor slack.
+  - Measured peak RSS is about 50 bytes per stored state (MQ=5, MS=10).
+  - Before packing it was about 76 bytes.
+- **Not storing at the limit** (the default) stores about 14× fewer states for MQ=5 than `--store-at-limit`, at the same speed. It stores roughly what `--store-at-limit` stores for MS−1. Its cost is larger strategy files (3.9k–17.6k lines against 1.2k–4k for MQ=4, MS=8).
+- **Projection for MQ=5, MS=12** (extrapolated from small sizes plus the MS=11 count below): about 2·10¹⁰ states with `--store-at-limit`, against about 1.35·10⁹ by default. With packing, that's roughly 70 GB.
 - MQ=5, MS=11 (`results.txt`):
   - about 1.35·10⁹ states, about 98.5% of them losing;
   - the state count stops growing after depth ≈ 13;

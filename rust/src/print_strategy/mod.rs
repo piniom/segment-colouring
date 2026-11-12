@@ -25,8 +25,8 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         norm.normalize();
         let FindStatus::Winning(move_) = search_state.get_knowledge(&norm).status else {
             let repr = CompressedState::new(norm);
-            dbg!(search_state.map.get(&repr));
-            dbg!(search_state.map.get(&CompressedState::new(*self)));
+            dbg!(search_state.entries(&repr));
+            dbg!(search_state.entries(&CompressedState::new(*self)));
             panic!(
                 "Strategy incomplete! {} {:?}",
                 &norm,

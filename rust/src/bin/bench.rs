@@ -20,6 +20,8 @@ use std::{
     collections::BTreeMap,
     fs::{self, File, OpenOptions},
     io::Write,
+    os::unix::process::CommandExt,
+    time::{Duration, Instant},
     path::{Path, PathBuf},
     process::{Command, ExitCode},
 };
@@ -63,6 +65,10 @@ struct RunArgs {
     /// Reuse the binary already copied for this label
     #[arg(long)]
     no_build: bool,
+    /// Kill a run (and everything it started) after this many seconds; it is then
+    /// reported as `timeout`, with statistics up to the last completed depth
+    #[arg(long)]
+    timeout: Option<u64>,
     /// Solver arguments, after `--`. Don't pass -o/--output, --stats-json or --label.
     #[arg(last = true)]
     solver_args: Vec<String>,
@@ -143,7 +149,29 @@ fn run(args: RunArgs) -> Result<(), String> {
             .arg(&label)
             .stdout(create(&path("log"))?)
             .stderr(create(&path("time"))?);
-        let status = cmd.status().map_err(|e| format!("cannot run {}: {e}", bin.display()))?;
+        // Own process group, so a timeout kills the solver too, not just `/usr/bin/time`.
+        cmd.process_group(0);
+        let mut child = cmd
+            .spawn()
+            .map_err(|e| format!("cannot run {}: {e}", bin.display()))?;
+        let deadline = args.timeout.map(|t| Instant::now() + Duration::from_secs(t));
+        let status = loop {
+            if let Some(status) = child.try_wait().map_err(|e| e.to_string())? {
+                break Some(status);
+            }
+            if deadline.is_some_and(|d| Instant::now() >= d) {
+                let group = format!("-{}", child.id());
+                let _ = Command::new("kill").args(["-KILL", "--", &group]).status();
+                let _ = child.wait();
+                break None;
+            }
+            std::thread::sleep(Duration::from_millis(50));
+        };
+        let Some(status) = status else {
+            eprintln!("  timed out after {}s", args.timeout.unwrap_or_default());
+            append_record(&stats, json!({ "type": "timeout", "seconds": args.timeout }))?;
+            continue;
+        };
         if !status.success() {
             eprintln!(
                 "  run failed ({status}), see {} and {}",
@@ -267,6 +295,7 @@ struct RunData {
     end: Option<Value>,
     rss: Option<f64>,
     check: Option<bool>,
+    timed_out: bool,
 }
 
 impl RunData {
@@ -284,10 +313,11 @@ impl RunData {
                     run.label = rec["label"].as_str().unwrap_or("?").to_string();
                     run.stats_enabled = rec["stats_enabled"].as_bool().unwrap_or(false);
                     run.params = format!(
-                        "MQ={} MS={} threads={}{}",
+                        "MQ={} MS={} threads={}{}{}",
                         rec["mq"],
                         rec["ms"],
                         rec["threads"],
+                        if rec["store_at_limit"] == true { " store-at-limit" } else { "" },
                         if run.stats_enabled { "" } else { " (no stats)" }
                     );
                 }
@@ -295,6 +325,7 @@ impl RunData {
                 Some("end") => run.end = Some(rec),
                 Some("rss") => run.rss = rec["max_rss_bytes"].as_f64(),
                 Some("check") => run.check = rec["ok"].as_bool(),
+                Some("timeout") => run.timed_out = true,
                 _ => {}
             }
         }
@@ -332,7 +363,11 @@ impl RunData {
         let mut m = vec![
             (
                 "result".to_string(),
-                text(end.and_then(|e| e["result"].as_str()).unwrap_or("unfinished")),
+                text(match end.and_then(|e| e["result"].as_str()) {
+                    Some(result) => result,
+                    None if self.timed_out => "timeout",
+                    None => "unfinished",
+                }),
             ),
             (
                 "total time [s]".into(),
@@ -344,7 +379,10 @@ impl RunData {
             ),
             (
                 "stored states".into(),
-                Metric::Num(end.and_then(|e| e["visited_states"].as_f64())),
+                // A timed-out run has no `end`; use the last completed depth instead.
+                Metric::Num(end.and_then(|e| e["visited_states"].as_f64()).or_else(|| {
+                    self.depths.last().and_then(|d| d["map"]["states"].as_f64())
+                })),
             ),
             (
                 "peak RSS [MB]".into(),

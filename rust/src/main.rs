@@ -36,6 +36,12 @@ struct Args {
     #[arg(long)]
     stats_json: Option<String>,
 
+    /// Also store losing states at the size limit. By default they're re-evaluated from
+    /// their reductions instead, which uses ~5-14x less memory at the same speed, but gives
+    /// larger strategy files. See `SearchState::store_at_limit`.
+    #[arg(long)]
+    store_at_limit: bool,
+
     /// Label stored in the statistics file, to tell runs apart when comparing them
     #[arg(long, default_value = "")]
     label: String,
@@ -66,6 +72,7 @@ fn run<const MAX_CLIQUE: u32>(args: &Args) {
                 "ms": args.max_size,
                 "max_depth": args.depth,
                 "threads": rayon::current_num_threads(),
+                "store_at_limit": args.store_at_limit,
                 "stats_enabled": stats::ENABLED,
                 "started": chrono::Local::now().to_rfc3339(),
             }),
@@ -77,7 +84,7 @@ fn run<const MAX_CLIQUE: u32>(args: &Args) {
 
     let start = Instant::now();
     let state = State::<MAX_CLIQUE>::new();
-    let search_state = SearchState::new();
+    let search_state = SearchState::new().with_store_at_limit(args.store_at_limit);
     let result = state.find_strategy_root(&search_state, args.depth, args.max_size, sink);
     let total = start.elapsed();
     println!("\n\n{:?}", result);
