@@ -1,78 +1,58 @@
-use std::fs::File;
-use std::thread;
-use std::time::Instant;
+use clap::Parser;
+mod simple_state;
 
-use clap::*;
-use segment_colouring::linear_axis::game::Game;
-use segment_colouring::linear_axis::strategy::StrategyConsumer;
-
-/// This is to prevent stack overflow.
-/// We currently clone the state of the game to be restored when another simulation branch is evaluated.
-/// Due to possible reductions max tree depth may be quite large.
-const STACK_SIZE: usize = 8 * 1024 * 1024 * 1024;
+use simple_state::{
+    find::{search_state::SearchState, FindResult},
+    state::State,
+};
 
 #[derive(Parser, Debug)]
-#[command(
-    name = "Segment colouring",
-    about = "Simulates an on-line proper segment colouring game between a builder and a colouring algorithm. 
-Try to force ANY colouring algorithm to use a desired number of colours without exceeding the max clicque size."
-)]
+#[command(about = "Search for a winning strategy and write it to a file")]
 struct Args {
-    /// The simulation will "win" when a strategy is discovered
-    /// forcing any colouring algorithm to use this number of colours
-    desired_number_of_colours: usize,
-    /// Max allowed clicque size.
-    max_clicque: usize,
-    /// The simulation will reduce the game when the <MAX_EVENTS> number of events is reached.
-    /// The higher this number is the longer it takes to simulate but the chance of success is higher
-    max_events: usize,
+    /// Maximum clique size (1..=5)
+    #[arg(short = 'q', long, default_value_t = 4, value_parser = clap::value_parser!(u32).range(1..=5))]
+    max_clique: u32,
+
+    /// Search depth
+    #[arg(short, long, default_value_t = 255)]
+    depth: u8,
+
+    /// Maximum state size
+    #[arg(short = 's', long, default_value_t = 8)]
+    max_size: u8,
+
+    /// Output file for the strategy
+    #[arg(short, long, default_value = "strategy.txt")]
+    output: String,
 }
 
-fn run(args: Args) {
-    let strategy = StrategyConsumer::new(
-        args.desired_number_of_colours * 2,
-        args.max_clicque as usize,
-        args.desired_number_of_colours,
-        Box::new(File::create("./rust.strategy").unwrap()),
-    );
-    let mut game = Game::new(
-        args.max_events,
-        args.max_clicque,
-        args.desired_number_of_colours,
-        Some(strategy),
-    );
-    let start = Instant::now();
-    let result = game.simulate(-1);
-    let elapsed = start.elapsed();
-    if result {
-        println!("SUCCESS!");
-        println!("It IS possible to force any colouring algorithm to use {} colours whithout creating a clicque larger than {}.", args.desired_number_of_colours, args.max_clicque);
-        println!(
-            "The simulation was confined to states with at most {} events.",
-            args.max_events
-        );
-    } else {
-        println!("FAILURE!");
-        println!(
-            "It is NOT possible to force any colouring algorithm to use {} colours whithout creating a clicque larger than {} when the simulation is confined to states with at most {} events.", 
-            args.desired_number_of_colours,
-            args.max_clicque,
-            args.max_events
-        )
-    }
+fn run<const MAX_CLIQUE: u32>(args: &Args) {
     println!(
-        "\nThe simulation discovered {} states in {:?}.",
-        game.number_of_states(),
-        elapsed
+        "Out: {} (MQ: {MAX_CLIQUE}, D: {}, MS: {})",
+        args.output, args.depth, args.max_size
     );
+    let state = State::<MAX_CLIQUE>::new();
+    let search_state = SearchState::new();
+    let result = state.find_strategy_root(&search_state, args.depth, args.max_size);
+    println!("\n\n{:?}", result);
+    println!("Visited states: {}", search_state.map.len());
+    if let FindResult::Winning { .. } = result {
+        let mut file = std::fs::File::create(&args.output).unwrap();
+        state.print_strategy(&search_state, &mut file);
+        // let mut file = std::fs::File::create("draw.tex").unwrap();
+        // let graph = state.graph_strategy(&search_state);
+        // graph.print_tikz(&mut file).unwrap();
+    }
 }
 
 fn main() {
     let args = Args::parse();
-    let child = thread::Builder::new()
-        .stack_size(STACK_SIZE)
-        .spawn(move || run(args))
-        .unwrap();
-
-    child.join().unwrap();
+    match args.max_clique {
+        1 => run::<1>(&args),
+        2 => run::<2>(&args),
+        3 => run::<3>(&args),
+        4 => run::<4>(&args),
+        5 => run::<5>(&args),
+        _ => unreachable!("max_clique validated by clap to be in 1..=5"),
+    }
 }

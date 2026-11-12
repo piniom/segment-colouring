@@ -23,6 +23,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         }
         result
     }
+    #[cfg(test)]
     pub fn from_string(s: &str) -> Self {
         let mut result = Self::new();
         for c in s.chars() {

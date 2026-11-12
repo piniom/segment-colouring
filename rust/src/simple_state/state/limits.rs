@@ -19,12 +19,6 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         self.remove_at_index(0);
     }
     #[inline(always)]
-    pub fn move_limit_front_n_times(&mut self, n: usize) {
-        for _ in 0..n {
-            self.move_limit_front();
-        }
-    }
-    #[inline(always)]
     pub fn move_limit_back(&mut self) {
         let last_start = self.find_last_start().unwrap();
         self.set_limit_back(last_start as u8);
@@ -49,41 +43,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         clone.remove_at_index(clone.len() as usize - 1);
         Some(clone)
     }
-    #[inline(always)]
-    pub fn move_limit_back_n_times(&mut self, n: usize) {
-        for _ in 0..n {
-            self.move_limit_back();
-        }
-    }
-    #[inline(always)]
-    pub fn move_limit_front_by_one(&mut self) {
-        if self.get_at_index(self.limit_front()) & 0b1000 != 0 {
-            self.move_limit_front();
-        } else {
-            self.set_limit_front(self.limit_front() + 1);
-        }
-    }
-    #[inline(always)]
-    pub fn front_moved(&self) -> Self {
-        let mut cloned = *self;
-        cloned.move_limit_front_by_one();
-        cloned
-    }
 
-    #[inline(always)]
-    pub fn back_moved(&self) -> Self {
-        let mut cloned = *self;
-        cloned.move_limit_back_by_one();
-        cloned
-    }
-    #[inline(always)]
-    pub fn move_limit_back_by_one(&mut self) {
-        if self.get_at_index(self.limit_back() - 1) & 0b1000 == 0 {
-            self.move_limit_back();
-        } else {
-            self.set_limit_back(self.limit_back() - 1);
-        }
-    }
     // limit_front: bits 117-121
     #[inline(always)]
     pub(super) fn set_limit_front(&mut self, value: u8) {

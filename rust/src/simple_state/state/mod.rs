@@ -2,11 +2,9 @@
 mod test;
 
 pub mod find_barrier;
-pub mod generate_all;
 pub mod hash;
 pub mod string;
 pub mod limits;
-pub mod substates;
 pub mod compressed;
 
 // Each `Event` is 4 bits,
@@ -30,10 +28,6 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     }
     pub fn size(&self) -> u8 {
         self.len() / 2
-    }
-    #[inline(always)]
-    pub const fn max_clique(&self) -> u32 {
-        MAX_CLIQUE
     }
     #[inline(always)]
     pub fn data(&self) -> u128 {
@@ -60,11 +54,6 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     #[inline(always)]
     pub fn insert_segment(&mut self, segment_start: u8, segment_end: u8, color: u8) {
         self.insert_at_indexes(segment_start, color, segment_end, color | 0b1000);
-    }
-    #[inline(always)]
-    pub fn remove_segment(&mut self, segment_start: usize, segment_end: usize) {
-        self.remove_at_index(segment_end);
-        self.remove_at_index(segment_start);
     }
     #[inline(always)]
     pub fn normalize(&mut self) -> bool {

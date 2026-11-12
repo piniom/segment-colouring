@@ -24,16 +24,6 @@ impl<const BYTE_SIZE: usize> CompressedState<BYTE_SIZE> {
             Some(bit_index) => count_events(&self.data, bit_index),
         }
     }
-
-    #[inline(always)]
-    pub fn data(&self) -> &[u8; BYTE_SIZE] {
-        &self.data
-    }
-
-    #[inline(always)]
-    pub fn data_mut(&mut self) -> &mut [u8; BYTE_SIZE] {
-        &mut self.data
-    }
 }
 
 impl<const MAX_CLIQUE: u32, const BYTE_SIZE: usize> From<State<MAX_CLIQUE>>

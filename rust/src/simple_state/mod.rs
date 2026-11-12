@@ -14,12 +14,6 @@ pub struct StateWithMove<'a, const MAX_CLIQUE: u32> {
 }
 
 impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {
-    // This can be done on bits as well but that is probably not necessary
-    pub fn allowed_colours_count(&self) -> u8 {
-        self.state
-            .allowed_colours_for_segment(self.move_.0, self.move_.1)
-            .count() as u8
-    }
     pub fn outcomes(&'a self) -> impl Iterator<Item = State<MAX_CLIQUE>> + use<'a, MAX_CLIQUE> {
         self.outcomes_with_colours().map(|(o, _)| o)
     }
@@ -44,12 +38,6 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
             let (a, b) = self.valid_segment_ends(start);
             (a..b).map(move |end| self.with_move(Move(start, end)))
         })
-    }
-    pub fn front_moves<'a>(
-        &'a self,
-    ) -> impl Iterator<Item = StateWithMove<'a, MAX_CLIQUE>> + use<'a, MAX_CLIQUE> {
-        let (a, b) = self.valid_segment_ends(0);
-        (a..b).map(move |end| self.with_move(Move(0, end)))
     }
     pub fn with_move<'a>(&'a self, move_: Move) -> StateWithMove<'a, MAX_CLIQUE> {
         StateWithMove { state: self, move_ }

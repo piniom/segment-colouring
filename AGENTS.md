@@ -7,17 +7,18 @@ Current goal: **MQ = 5** (with max state size `MS = 12`).
 ## Repository layout
 
 - `rust/`: the solver. All active work happens here.
-  - `src/simple_state/`: **the current solver**, run through the `bm_find_strategy` binary.
-  - `src/linear_axis/` + `src/main.rs`: older solver (`default-run` binary `segment-colouring`). It isn't developed any more.
+  - `src/main.rs`: the solver binary (`segment-colouring`), with CLI arguments via clap.
+  - `src/simple_state/`: the solver itself. The crate is binary-only, and the compiler flags unused code; remove it rather than keep it.
+  - The older `linear_axis` solver and other binaries were removed; they're still in git history.
   - `results.txt`: logs of earlier long runs (per-depth timings and state counts).
-  - `strategy.txt`: **tracked in git**, and the default output path of `bm_find_strategy`. A run overwrites it.
+  - `strategy.txt`: **tracked in git**, and the default output path of the solver. A run overwrites it.
 - `cxx/`: C++ tools: `strategy_find`, `strategy_check`, `strategy_draw`. `README.md` there defines the game and the strategy file format.
 
 ## Running
 
 ```bash
 cd rust
-cargo run --release --bin bm_find_strategy -- -q <MQ> -s <MS> [-d <max depth, default 255>] [-o <file, default strategy.txt>]
+cargo run --release -- -q <MQ> -s <MS> [-d <max depth, default 255>] [-o <file, default strategy.txt>]
 ```
 
 The program prints one row per iterative-deepening depth: time, result, and counts of winning and total states and substates. On a win it writes the strategy file.
@@ -32,9 +33,11 @@ The program prints one row per iterative-deepening depth: time, result, and coun
 
 ## Testing changes (important)
 
-1. Run `cargo test --release` in `rust/`.
+1. Run the tests in `rust/`:
+   - `cargo test --release` is fast (about 15 s).
+   - `cargo test` also checks the `debug_assert!` invariants, but it's slow (about 2.5 min).
 2. Run the solver on **MQ=4, MS=8**, or bigger if needed:
-   `cargo run --release --bin bm_find_strategy -- -q 4 -s 8 -o <file>`. This wins in a few seconds.
+   `cargo run --release -- -q 4 -s 8 -o <file>`. This wins in a few seconds.
 3. **Validate the produced strategy with the C++ checker. Don't check strategy output by hand:**
    ```bash
    cd cxx && make strategy_check   # first time only
@@ -53,6 +56,9 @@ The program prints one row per iterative-deepening depth: time, result, and coun
   Events outside the limits belong to segments that can no longer be touched.
 - Segments are proper intervals (none contains another), so end events come in the same order as start events.
 - `size()` = number of segments = `len / 2`.
+- **Invariant: event bits past `len` are zero.**
+  - `normalize`, `is_symmetric`, `PartialEq` and `Hash` compare the raw bits, so stray bits silently break state-map lookups.
+  - `debug_assert!`s in `remove_at_index` and `normalize_inner` enforce this.
 - **Normalisation** (`normalize`):
   - renames colours in order of first appearance,
   - then compares with the mirrored state (`flip`) and keeps the smaller one by event bits.
