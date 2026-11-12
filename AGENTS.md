@@ -98,6 +98,8 @@ The program prints one row per iterative-deepening depth: time, result, counts o
 - **Optimisation history (measured with `bench` on MQ=5, MS=9–10):**
   - Fast normalisation (single-pass colour renaming, branch-free mirror) plus word-at-a-time key compression: 1.6–1.7× faster. Before that, they took about 66% of CPU.
   - Other hashers made no difference (SipHash, ahash and Fx were all within ±4%).
+  - At-limit states skip normalisation and the map lookup (their losing results aren't stored, so the lookup almost always missed): 1.25–1.33× faster, 34–39% fewer lookups.
+  - `--sequential-levels k` (sequential move search within `k` segments of the size limit): at most 3–6% at 16 threads, mostly within noise; the default stays 0. Worth re-measuring at 200 threads, where parallel overhead may matter more.
 
 ## How the current solver works (`rust/src`)
 
@@ -127,7 +129,7 @@ The program prints one row per iterative-deepening depth: time, result, counts o
 - `find_strategy_root` runs iterative deepening over depth `3..=D` and keeps the map between iterations.
 - `find_strategy` normalises the state, then `find_strategy_inner`:
   1. **Look up** the map. `Winning` → win. `Losing{d}` with `d ≥ depth` → lose. `InProgress` → lose (cuts cycles; measured hits come from the state's own ancestors, not other threads).
-     - **By default** (`SearchState::store_at_limit = false`), a state at `size ≥ MS` stops here and is evaluated from its two reductions without being stored. Only its wins are stored, which `print_strategy` needs. That's safe because every cycle contains an insert, which lowers `depth`.
+     - **By default** (`SearchState::store_at_limit = false`), a state at `size ≥ MS` skips normalisation and this lookup entirely (`find_strategy_from`). It is evaluated from its two reductions without being stored. Only its wins are stored, which `print_strategy` needs. That's safe because every cycle contains an insert, which lowers `depth`.
   2. `depth == 0` → store `Losing{0}`.
   3. Store `InProgress`.
   4. **Try reductions.** Below max size they're tried at depth 1. At `size ≥ MS` they're tried at full depth, because they're the only option there. **Reductions don't decrease depth; inserts do.**

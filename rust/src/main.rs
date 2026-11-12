@@ -43,6 +43,11 @@ struct Args {
     #[arg(long)]
     store_at_limit: bool,
 
+    /// States within this many segments of the size limit search their moves sequentially
+    /// (less parallel overhead in small subtrees). 0 = always parallel.
+    #[arg(long, default_value_t = 0)]
+    sequential_levels: u8,
+
     /// Reserve room for about this many stored states up front (e.g. the count of a
     /// previous run). Avoids growing the map, which leaves freed tables behind. 0 = grow
     /// as needed.
@@ -81,6 +86,7 @@ fn run<const MAX_CLIQUE: u32>(args: &Args) {
                 "threads": rayon::current_num_threads(),
                 "store_at_limit": args.store_at_limit,
                 "capacity": args.capacity,
+                "sequential_levels": args.sequential_levels,
                 "stats_enabled": stats::ENABLED,
                 "started": chrono::Local::now().to_rfc3339(),
             }),
@@ -92,7 +98,9 @@ fn run<const MAX_CLIQUE: u32>(args: &Args) {
 
     let start = Instant::now();
     let state = State::<MAX_CLIQUE>::new();
-    let search_state = SearchState::with_capacity(args.capacity).with_store_at_limit(args.store_at_limit);
+    let search_state = SearchState::with_capacity(args.capacity)
+        .with_store_at_limit(args.store_at_limit)
+        .with_sequential_levels(args.sequential_levels);
     let result = state.find_strategy_root(&search_state, args.depth, args.max_size, sink);
     let total = start.elapsed();
     println!("\n\n{:?}", result);

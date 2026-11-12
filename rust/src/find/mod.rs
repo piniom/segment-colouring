@@ -34,6 +34,26 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         max_size: u8,
         caller: Caller,
     ) -> FindResult {
+        // States at the size limit can only be reduced, so re-evaluating one costs just the
+        // lookups of its two (stored) reductions. Without `store_at_limit` only their wins
+        // are stored (by `check_reductions`, needed for printing the strategy), so looking
+        // them up would almost always miss: skip normalising and the lookup entirely.
+        // (`check_reductions` normalises the reductions, and `update_status` the state.)
+        // Skipping `InProgress` for them is safe: every cycle contains an insert move,
+        // which decreases `depth`.
+        if !search_state.store_at_limit && self.size() >= max_size {
+            let size = self.size();
+            stats::inc(Counter::unstored_at_limit, size);
+            if depth == 0 {
+                stats::inc(Counter::depth_zero, size);
+                return FindResult::Losing;
+            }
+            let result = self.check_reductions(search_state, depth, max_size);
+            if let FindResult::Losing = result {
+                stats::inc(Counter::at_limit_lose, size);
+            }
+            return result;
+        }
         let mut norm = *self;
         norm.normalize();
         norm.find_strategy_inner(search_state, depth, max_size, caller)
@@ -60,23 +80,10 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
             Lookup::LosingDeep | Lookup::InProgress => return FindResult::Losing,
             Lookup::LosingShallow | Lookup::Unknown => {}
         }
-        // States at the size limit can only be reduced, so re-evaluating one costs just the
-        // lookups of its two (stored) reductions. Without `store_at_limit` only their wins
-        // are stored (by `check_reductions`, needed for printing the strategy). Skipping
-        // `InProgress` for them is safe: every cycle contains an insert move, which
-        // decreases `depth`.
-        if size >= max_size && !search_state.store_at_limit {
-            stats::inc(Counter::unstored_at_limit, size);
-            if depth == 0 {
-                stats::inc(Counter::depth_zero, size);
-                return FindResult::Losing;
-            }
-            let result = self.check_reductions(search_state, depth, max_size);
-            if let FindResult::Losing = result {
-                stats::inc(Counter::at_limit_lose, size);
-            }
-            return result;
-        }
+        debug_assert!(
+            search_state.store_at_limit || size < max_size,
+            "unstored states at the limit are handled in `find_strategy_from`"
+        );
         if depth == 0 {
             stats::inc(Counter::depth_zero, size);
             search_state.update_status(&self, BarrieredKnowledge::new_losing(self, 0));
@@ -102,16 +109,20 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         let moves = self.moves().collect::<Vec<_>>();
         stats::inc(Counter::expansion, size);
         stats::add(Counter::moves_generated, size, moves.len() as u64);
-        // moves.sort_by_key(|sm| sm.preferable_order());
-
-        // let winning = moves.iter().find_map(
-        let winning = moves.par_iter().find_map_any(|move_| {
+        let try_move = |move_: &StateWithMove<'_, MAX_CLIQUE>| {
             if let FindResult::Winning = move_.find_strategy(search_state, depth, max_size) {
                 Some(move_.move_)
             } else {
                 None
             }
-        });
+        };
+        // Close to the size limit subtrees are small (their children are mostly at the
+        // limit), so starting parallel work there costs more than it gains.
+        let winning = if max_size - size <= search_state.sequential_levels {
+            moves.iter().find_map(try_move)
+        } else {
+            moves.par_iter().find_map_any(try_move)
+        };
 
         if let Some(move_) = winning {
             stats::inc(Counter::expansion_win, size);
@@ -220,12 +231,15 @@ mod stats_test {
         }
         let s = snapshot().since(&before);
         let t = |c| s.total(c);
-        let searched = s.outcome(LosingShallow) + s.outcome(Unknown);
+        // States evaluated without a lookup (unstored ones at the size limit).
+        let unstored = t(Counter::unstored_at_limit);
+        let searched = s.outcome(LosingShallow) + s.outcome(Unknown) + unstored;
         println!("store_at_limit={store_at_limit}: {}", s.summary_line());
 
         assert!(t(Counter::expansion) > 1000, "search too small to be meaningful");
         assert!(s.lookups(Root) as usize <= depths.count());
-        assert_eq!(t(Counter::colour_branch), s.lookups(Move));
+        // Only colour branches can reach the size limit (reductions shrink states).
+        assert_eq!(t(Counter::colour_branch), s.lookups(Move) + unstored);
         assert_eq!(searched, t(Counter::depth_zero) + t(Counter::reduction_check));
         assert_eq!(
             t(Counter::reduction_check),
@@ -245,7 +259,6 @@ mod stats_test {
         // Every searched state writes `InProgress` (or `Losing{0}` at depth 0), plus one
         // final status unless a reduction or expansion returned early with a win.
         // Unstored states at the limit write only their reduction wins.
-        let unstored = t(Counter::unstored_at_limit);
         assert_eq!(store_at_limit, unstored == 0);
         assert_eq!(
             t(Counter::status_write),
@@ -295,6 +308,23 @@ mod test {
             let mut out = Vec::new();
             root.print_strategy(&search_state, &mut out);
             assert!(out.len() > 1000, "store_at_limit={store_at_limit}: strategy too short");
+        }
+    }
+
+    /// Sequential search near the size limit must find a complete strategy too.
+    #[test]
+    fn sequential_levels_find_a_printable_strategy() {
+        let _lock = SEARCH_TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        for levels in [1, 3, 8] {
+            let search_state = SearchState::<4>::new().with_sequential_levels(levels);
+            let root = State::<4>::new();
+            let won = (3..=30u8).any(|depth| {
+                matches!(root.find_strategy(&search_state, depth, 8), FindResult::Winning)
+            });
+            assert!(won, "sequential_levels={levels}: no win found");
+            let mut out = Vec::new();
+            root.print_strategy(&search_state, &mut out);
+            assert!(out.len() > 1000, "sequential_levels={levels}: strategy too short");
         }
     }
 }
