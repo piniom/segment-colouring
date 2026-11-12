@@ -61,46 +61,27 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     }
     #[inline(always)]
     pub fn is_symmetric(&self) -> bool {
-        let mut flipped = *self;
-        flipped.flip();
-        flipped.normalize_inner(false);
-        let ev_mask: u128 = 0x0000FFFFFFFFFFFFFFFFFFFFFFFFFFFF;
-        if flipped.data & ev_mask == self.data & ev_mask {
-            true
-        } else {
-            false
-        }
+        let len = self.len();
+        renamed_events(mirrored_events(self.data(), len), len) == self.data()
     }
+    /// Renames colours in order of first appearance and, if `with_flip`, replaces the
+    /// state by its mirror image when that is smaller. Returns whether it was mirrored.
     #[inline(always)]
     pub fn normalize_inner(&mut self, with_flip: bool) -> bool {
         debug_assert!(self.has_no_bits_past_len(), "stray bits past len in {self}");
-        let mut color_map = [0u8; 15];
-        let mut next_color = 1;
-        for i in 0..self.len() {
-            let value = self.get_at_index(i);
-            if event_is_start(value) {
-                if color_map[value as usize] == 0 {
-                    color_map[value as usize] = next_color;
-                    next_color += 1;
-                }
-                self.replace_at_index(i, color_map[value as usize] - 1);
-            } else {
-                self.replace_at_index(i, color_map[(value & 0b111) as usize] - 1 | 0b1000);
+        let len = self.len();
+        let events = self.data();
+        let renamed = renamed_events(events, len);
+        if with_flip {
+            let mirrored = renamed_events(mirrored_events(events, len), len);
+            if mirrored < renamed {
+                self.set_data(mirrored);
+                self.flip_limits();
+                return true;
             }
         }
-        if !with_flip {
-            return false;
-        }
-        let mut flipped = *self;
-        flipped.flip();
-        flipped.normalize_inner(false);
-        let ev_mask: u128 = 0x0000FFFFFFFFFFFFFFFFFFFFFFFFFFFF;
-        if flipped.data & ev_mask < self.data & ev_mask {
-            *self = flipped;
-            true
-        } else {
-            false
-        }
+        self.set_data(renamed);
+        false
     }
     #[inline(always)]
     pub fn intersection_counts(&self) -> [u32; 32] {
@@ -208,21 +189,20 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         }
         (min_end, i + 1)
     }
+    /// Mirror image: events in reverse order, starts and ends swapped, limits mirrored.
     #[inline(always)]
     pub fn flip(&mut self) {
         let len = self.len();
-        let mut new_data: u128 = 0;
-        for i in 0..len {
-            let orig_shift = (len - 1 - i) * 4;
-            let event = ((self.data >> orig_shift) & 0b1111) as u8;
-            let flipped = event ^ 0b1000;
-            new_data |= (flipped as u128) << (i * 4);
-        }
-        self.set_data(new_data);
+        self.set_data(mirrored_events(self.data(), len));
+        self.flip_limits();
+    }
+    #[inline(always)]
+    fn flip_limits(&mut self) {
         let old_limit_back = self.limit_back();
         self.set_limit_back(self.len() - self.limit_front());
         self.set_limit_front(self.len() - old_limit_back);
     }
+    #[cfg(test)]
     #[inline(always)]
     fn replace_at_index(&mut self, index: u8, value: u8) {
         let shift = index * 4;
@@ -282,6 +262,45 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         self.insert_at_index(index_a, value_a);
         self.set_limit_back(self.limit_back() + 2);
     }
+}
+
+/// The `len` events of `events` with colours renamed in order of first appearance.
+#[inline(always)]
+fn renamed_events(events: u128, len: u8) -> u128 {
+    // new colour + 1 for each old colour (0 = not seen yet)
+    let mut colour_map = [0u8; 8];
+    let mut next_colour = 1u8;
+    let mut renamed = 0u128;
+    let mut rest = events;
+    for i in 0..len as u32 {
+        let event = (rest & 0b1111) as u8;
+        rest >>= 4;
+        let colour = (event & 0b111) as usize;
+        if event_is_start(event) && colour_map[colour] == 0 {
+            colour_map[colour] = next_colour;
+            next_colour += 1;
+        }
+        // Ends keep their end bit; a segment's start always comes before its end.
+        let new_event = (colour_map[colour].wrapping_sub(1)) | (event & 0b1000);
+        renamed |= (new_event as u128) << (4 * i);
+    }
+    renamed
+}
+
+/// The `len` events in reverse order with starts and ends swapped (the mirror image).
+#[inline(always)]
+fn mirrored_events(events: u128, len: u8) -> u128 {
+    if len == 0 {
+        return 0;
+    }
+    // Reverse the order of all 32 nibbles: bytes, then the two nibbles in each byte.
+    let bytes = events.swap_bytes();
+    let nibbles = ((bytes & 0x0F0F_0F0F_0F0F_0F0F_0F0F_0F0F_0F0F_0F0F) << 4)
+        | ((bytes >> 4) & 0x0F0F_0F0F_0F0F_0F0F_0F0F_0F0F_0F0F_0F0F);
+    // Event `i` is now nibble `31 - i`; move it to `len - 1 - i`.
+    let reversed = nibbles >> (4 * (32 - len as u32));
+    let end_bits = 0x8888_8888_8888_8888_8888_8888_8888_8888u128 & ((1u128 << (4 * len as u32)) - 1);
+    reversed ^ end_bits
 }
 
 #[inline(always)]

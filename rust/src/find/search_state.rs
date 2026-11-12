@@ -48,9 +48,15 @@ pub struct SearchState<const MAX_CLIQUE: u32> {
 }
 
 impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
+    #[cfg(test)]
     pub fn new() -> Self {
+        Self::with_capacity(0)
+    }
+    /// A map with room for about `capacity` states, so it never has to grow (and leave
+    /// freed old tables behind) while it fills up to that size.
+    pub fn with_capacity(capacity: usize) -> Self {
         Self {
-            map: DashMap::with_shard_amount(2usize.pow(15)),
+            map: DashMap::with_capacity_and_shard_amount(capacity, 2usize.pow(15)),
             overflow: DashMap::with_shard_amount(2usize.pow(10)),
             store_at_limit: false,
         }

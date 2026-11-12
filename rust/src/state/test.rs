@@ -316,3 +316,123 @@ fn test_debug_assert_catches_remove_past_len() {
     let mut state = State::<4>::from_string("[ABab]");
     state.remove_at_index(4);
 }
+
+/// Every state reachable from the empty state by inserts (any allowed colour) and
+/// reductions, up to `max_size` segments. Includes all limit positions reductions produce.
+pub(super) fn reachable_states(max_size: u8) -> Vec<State<4>> {
+    use std::collections::HashSet;
+    let mut seen = HashSet::new();
+    let mut result = Vec::new();
+    let mut stack = vec![State::<4>::new()];
+    while let Some(state) = stack.pop() {
+        if !seen.insert(state.data) {
+            continue;
+        }
+        result.push(state);
+        stack.extend([state.try_moved_limit_front(), state.try_moved_limit_back()].into_iter().flatten());
+        if state.size() < max_size {
+            for m in state.moves() {
+                stack.extend(m.outcomes());
+            }
+        }
+    }
+    result
+}
+
+/// Random well-formed states (proper segments, at most 12) with random colours and limits.
+pub(super) fn random_states(count: usize) -> Vec<State<4>> {
+    use rand::{Rng, SeedableRng};
+    let mut rng = rand::rngs::StdRng::seed_from_u64(7);
+    let mut result = Vec::new();
+    while result.len() < count {
+        let mut state = State::<4>::new();
+        for _ in 0..rng.random_range(0..=12) {
+            let moves: Vec<_> = state.moves().map(|m| m.move_).collect();
+            let Some(&m) = moves.get(rng.random_range(0..moves.len().max(1))) else {
+                break;
+            };
+            state.insert_segment(m.0, m.1, rng.random_range(0..7));
+        }
+        let len = state.len();
+        let front = rng.random_range(0..=len);
+        state.set_limit_front(front);
+        state.set_limit_back(rng.random_range(front..=len));
+        result.push(state);
+    }
+    result
+}
+
+/// The original (slow, event-by-event) normalisation, kept as the reference.
+fn reference_normalize_inner<const Q: u32>(state: &mut State<Q>, with_flip: bool) -> bool {
+    let mut color_map = [0u8; 15];
+    let mut next_color = 1;
+    for i in 0..state.len() {
+        let value = state.get_at_index(i);
+        if value & 0b1000 == 0 {
+            if color_map[value as usize] == 0 {
+                color_map[value as usize] = next_color;
+                next_color += 1;
+            }
+            state.replace_at_index(i, color_map[value as usize] - 1);
+        } else {
+            state.replace_at_index(i, color_map[(value & 0b111) as usize].wrapping_sub(1) | 0b1000);
+        }
+    }
+    if !with_flip {
+        return false;
+    }
+    let mut flipped = *state;
+    reference_flip(&mut flipped);
+    reference_normalize_inner(&mut flipped, false);
+    let ev_mask: u128 = 0x0000FFFFFFFFFFFFFFFFFFFFFFFFFFFF;
+    if flipped.data & ev_mask < state.data & ev_mask {
+        *state = flipped;
+        true
+    } else {
+        false
+    }
+}
+
+fn reference_flip<const Q: u32>(state: &mut State<Q>) {
+    let len = state.len();
+    let mut new_data: u128 = 0;
+    for i in 0..len {
+        let event = ((state.data >> ((len - 1 - i) * 4)) & 0b1111) as u8;
+        new_data |= ((event ^ 0b1000) as u128) << (i * 4);
+    }
+    state.set_data(new_data);
+    let old_limit_back = state.limit_back();
+    state.set_limit_back(state.len() - state.limit_front());
+    state.set_limit_front(state.len() - old_limit_back);
+}
+
+fn reference_is_symmetric<const Q: u32>(state: &State<Q>) -> bool {
+    let mut flipped = *state;
+    reference_flip(&mut flipped);
+    reference_normalize_inner(&mut flipped, false);
+    flipped.data() == state.data()
+}
+
+#[test]
+fn fast_normalisation_matches_reference() {
+    let mut states = reachable_states(6);
+    let reachable = states.len();
+    states.extend(random_states(20_000));
+    for state in &states {
+        for with_flip in [true, false] {
+            let (mut fast, mut slow) = (*state, *state);
+            let fast_flipped = fast.normalize_inner(with_flip);
+            let slow_flipped = reference_normalize_inner(&mut slow, with_flip);
+            assert_eq!(fast_flipped, slow_flipped, "{state} with_flip={with_flip}");
+            assert!(fast == slow, "{state}: {fast} != {slow}");
+        }
+        let (mut fast, mut slow) = (*state, *state);
+        fast.flip();
+        reference_flip(&mut slow);
+        assert!(fast == slow, "flip {state}: {fast} != {slow}");
+        let mut norm = *state;
+        norm.normalize();
+        assert_eq!(norm.is_symmetric(), reference_is_symmetric(&norm), "{norm}");
+    }
+    assert!(reachable > 10_000, "only {reachable} reachable states");
+}

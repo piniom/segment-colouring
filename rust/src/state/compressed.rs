@@ -36,6 +36,30 @@ impl<const MAX_CLIQUE: u32, const BYTE_SIZE: usize> From<State<MAX_CLIQUE>>
         if state.len() == 0 {
             return compressed;
         }
+        if BYTE_SIZE <= 8 {
+            // Fast path: collect the codes in one word, most significant bit first, then
+            // store its top bytes. Same layout as the bit-by-bit path below.
+            let mut codes = 0u64;
+            let mut bits = 0u32;
+            let mut events = state.data() >> 4; // the first event is implicit
+            for _ in 1..state.len() {
+                let event = (events & 0b1111) as u64;
+                events >>= 4;
+                if event & 0b1000 == 0 {
+                    codes = codes << 4 | event;
+                    bits += 4;
+                } else {
+                    codes = codes << 1 | 1;
+                    bits += 1;
+                }
+            }
+            debug_assert!(bits as usize <= BYTE_SIZE * 8, "state does not fit the key");
+            if bits > 0 {
+                let aligned = (codes << (64 - bits)).to_be_bytes();
+                compressed.data.copy_from_slice(&aligned[..BYTE_SIZE]);
+            }
+            return compressed;
+        }
 
         for i in 0..(state.len() - 1) {
             // First segment is always 0b0000 so we can skip it
@@ -154,4 +178,28 @@ fn count_events<const BYTE_SIZE: usize>(data: &[u8; BYTE_SIZE], last_bit: usize)
         events += 1;
     }
     events
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    /// The word-at-a-time path (keys of up to 8 bytes) must produce exactly the same
+    /// bytes as the bit-by-bit path (used for larger keys).
+    #[test]
+    fn fast_compression_matches_bit_by_bit() {
+        let mut states = crate::state::test::reachable_states(6);
+        states.extend(crate::state::test::random_states(20_000));
+        for mut state in states {
+            state.normalize();
+            if state.size() > 11 {
+                continue; // more than 56 bits: does not fit a 7-byte key
+            }
+            let fast = CompressedState::<7>::new(state);
+            let slow = CompressedState::<9>::new(state);
+            assert_eq!(fast.data[..], slow.data[..7], "{state}");
+            assert_eq!(slow.data[7..], [0, 0], "{state}");
+            assert_eq!(fast.len(), slow.len(), "{state}");
+        }
+    }
 }

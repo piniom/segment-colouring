@@ -83,6 +83,16 @@ The program prints one row per iterative-deepening depth: time, result, and coun
   - **Reading the summary:**
     - a high `unknown %` for the front or back reductions means lookups miss the cache (a key bug);
     - `re-searched (shallow)` counts states searched again only because their cached result was too shallow.
+- **Profiling:** use `samply`, built with debug info in a separate target directory:
+  ```bash
+  CARGO_TARGET_DIR=/tmp/target-prof CARGO_PROFILE_RELEASE_DEBUG=true cargo build --release
+  samply record --save-only --unstable-presymbolicate -o prof.json.gz -- /tmp/target-prof/release/segment-colouring -q 5 -s 9 -d 16 -o /dev/null
+  samply load prof.json.gz   # opens the Firefox Profiler
+  ```
+  Most hot code is `#[inline(always)]`. It shows up inside `find_strategy_from` and `get_knowledge` unless you look at inlined frames.
+- **Optimisation history (measured with `bench` on MQ=5, MS=9–10):**
+  - Fast normalisation (single-pass colour renaming, branch-free mirror) plus word-at-a-time key compression: 1.6–1.7× faster. Before that, they took about 66% of CPU.
+  - Other hashers made no difference (SipHash, ahash and Fx were all within ±4%).
 
 ## How the current solver works (`rust/src`)
 
@@ -146,6 +156,7 @@ The program prints one row per iterative-deepening depth: time, result, and coun
 ## Current scale (for reference)
 
 - **Per slot:** 7-byte key + 4-byte packed value = 12 bytes, plus hashbrown's control byte and load-factor slack.
+  - **`--capacity <n>`** pre-sizes the map, so it never grows (growing leaves freed tables behind). At MQ=5, MS=10 this cut peak RSS from 281 to 172 MB (about 30 bytes per state). Pass the state count you expect, for example from a previous run.
   - Measured peak RSS is about 50 bytes per stored state (MQ=5, MS=10).
   - Before packing it was about 76 bytes.
 - **Not storing at the limit** (the default) stores about 14× fewer states for MQ=5 than `--store-at-limit`, at the same speed. It stores roughly what `--store-at-limit` stores for MS−1. Its cost is larger strategy files (3.9k–17.6k lines against 1.2k–4k for MQ=4, MS=8).

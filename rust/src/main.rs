@@ -42,6 +42,12 @@ struct Args {
     #[arg(long)]
     store_at_limit: bool,
 
+    /// Reserve room for about this many stored states up front (e.g. the count of a
+    /// previous run). Avoids growing the map, which leaves freed tables behind. 0 = grow
+    /// as needed.
+    #[arg(long, default_value_t = 0)]
+    capacity: usize,
+
     /// Label stored in the statistics file, to tell runs apart when comparing them
     #[arg(long, default_value = "")]
     label: String,
@@ -73,6 +79,7 @@ fn run<const MAX_CLIQUE: u32>(args: &Args) {
                 "max_depth": args.depth,
                 "threads": rayon::current_num_threads(),
                 "store_at_limit": args.store_at_limit,
+                "capacity": args.capacity,
                 "stats_enabled": stats::ENABLED,
                 "started": chrono::Local::now().to_rfc3339(),
             }),
@@ -84,7 +91,7 @@ fn run<const MAX_CLIQUE: u32>(args: &Args) {
 
     let start = Instant::now();
     let state = State::<MAX_CLIQUE>::new();
-    let search_state = SearchState::new().with_store_at_limit(args.store_at_limit);
+    let search_state = SearchState::with_capacity(args.capacity).with_store_at_limit(args.store_at_limit);
     let result = state.find_strategy_root(&search_state, args.depth, args.max_size, sink);
     let total = start.elapsed();
     println!("\n\n{:?}", result);
@@ -97,6 +104,7 @@ fn run<const MAX_CLIQUE: u32>(args: &Args) {
                 "result": match result { FindResult::Winning => "win", FindResult::Losing => "lose" },
                 "total_ms": total.as_secs_f64() * 1000.0,
                 "visited_states": search_state.map.len(),
+                "map_capacity": search_state.map.capacity(),
                 "strategy_file": matches!(result, FindResult::Winning).then_some(&args.output),
             }),
         );
