@@ -41,7 +41,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
                         map_capacity,
                     } => {
                         print!(
-                            "{:<6} {:<12} {:<14} {:<10} ",
+                            "{:<6} {:<15} {:<14} {:<10} ",
                             depth, time, elapsed, result_label
                         );
                         let _ = std::io::stdout().flush();
@@ -134,7 +134,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     }
 
     fn format_time_now() -> String {
-        Local::now().format("%H:%M %d.%m").to_string()
+        Local::now().format("%H:%M:%S %d.%m").to_string()
     }
 
     pub fn find_strategy_root(
@@ -153,10 +153,11 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
             let mut previous_counters = stats::snapshot();
 
             for d in 3..=depth {
-                let time = Self::format_time_now();
                 let start = Instant::now();
                 let result = self.find_strategy(search_state, d, max_size);
                 let duration = start.elapsed();
+                // When this depth finished (not when it started).
+                let time = Self::format_time_now();
                 // Cheap (no pass over the entries), so read right when the depth ends.
                 let memory = memory::current();
                 let map_capacity = search_state.map.capacity();
@@ -190,7 +191,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         });
 
         println!(
-            "{:<6} {:<12} {:<14}",
+            "{:<6} {:<15} {:<14}",
             "total",
             Self::format_time_now(),
             Self::format_elapsed_precise(total_start.elapsed())
@@ -202,9 +203,9 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
 fn print_headers() {
     println!();
     println!(
-        "{:<6} {:<12} {:<14} {:<10} {:<22} {:<22} {:<22} {:<26} {:<11} {}",
+        "{:<6} {:<15} {:<14} {:<10} {:<22} {:<22} {:<22} {:<26} {:<11} {}",
         "depth",
-        "time",
+        "finished",
         "elapsed",
         "result",
         "w_states",
