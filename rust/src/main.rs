@@ -1,5 +1,6 @@
 use clap::Parser;
 mod find;
+mod memory;
 mod moves;
 mod print_strategy;
 mod state;

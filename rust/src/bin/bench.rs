@@ -321,7 +321,13 @@ impl RunData {
                         if run.stats_enabled { "" } else { " (no stats)" }
                     );
                 }
-                Some("depth") => run.depths.push(rec),
+                Some("depth") => {
+                    // Fallback when `/usr/bin/time` isn't available: the solver's own peak.
+                    if let Some(peak) = rec["memory"]["peak_rss_bytes"].as_f64() {
+                        run.rss = Some(run.rss.map_or(peak, |r: f64| r.max(peak)));
+                    }
+                    run.depths.push(rec)
+                }
                 Some("end") => run.end = Some(rec),
                 Some("rss") => run.rss = rec["max_rss_bytes"].as_f64(),
                 Some("check") => run.check = rec["ok"].as_bool(),

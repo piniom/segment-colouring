@@ -1,4 +1,6 @@
 use crate::{
+    find::search_state::Key,
+    memory::{self, format_bytes, MemoryUsage},
     state::State,
     stats::{self, Snapshot},
 };
@@ -35,6 +37,8 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
                         duration,
                         result_label,
                         counters,
+                        memory,
+                        map_capacity,
                     } => {
                         print!(
                             "{:<6} {:<12} {:<14} {:<10} ",
@@ -43,13 +47,15 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
                         let _ = std::io::stdout().flush();
                         let stats = search_state.count_stats();
                         let delta = stats.winning_states - previous_winning;
+                        let map_bytes = map_table_bytes(map_capacity);
                         println!(
-                            "{:<22} {:<22} {:<22} {}/{}",
+                            "{:<22} {:<22} {:<22} {:<26} {:<11} {}",
                             stats.winning_states,
                             delta,
                             stats.winning_substates,
-                            stats.total_states,
-                            stats.total_substates
+                            format!("{}/{}", stats.total_states, stats.total_substates),
+                            memory.best_rss().map_or("-".into(), format_bytes),
+                            format_bytes(map_bytes),
                         );
                         previous_winning = stats.winning_states;
                         if stats::ENABLED {
@@ -63,6 +69,12 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
                                 "depth": depth,
                                 "result": result_label,
                                 "elapsed_ms": duration.as_secs_f64() * 1000.0,
+                                "memory": {
+                                    "rss_bytes": memory.rss_bytes,
+                                    "peak_rss_bytes": memory.peak_rss_bytes,
+                                    "map_capacity": map_capacity,
+                                    "map_table_bytes": map_bytes,
+                                },
                                 "map": {
                                     "states": stats.total_states,
                                     "substates": stats.total_substates,
@@ -145,6 +157,9 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
                 let start = Instant::now();
                 let result = self.find_strategy(search_state, d, max_size);
                 let duration = start.elapsed();
+                // Cheap (no pass over the entries), so read right when the depth ends.
+                let memory = memory::current();
+                let map_capacity = search_state.map.capacity();
                 let now_counters = stats::snapshot();
                 let counters = now_counters.since(&previous_counters);
                 previous_counters = now_counters;
@@ -162,6 +177,8 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
                     duration,
                     result_label,
                     counters,
+                    memory,
+                    map_capacity,
                 });
                 if let FindResult::Winning = result {
                     final_result = FindResult::Winning;
@@ -185,7 +202,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
 fn print_headers() {
     println!();
     println!(
-        "{:<6} {:<12} {:<14} {:<10} {:<22} {:<22} {:<22} {}",
+        "{:<6} {:<12} {:<14} {:<10} {:<22} {:<22} {:<22} {:<26} {:<11} {}",
         "depth",
         "time",
         "elapsed",
@@ -193,8 +210,16 @@ fn print_headers() {
         "w_states",
         "delta",
         "w_substates",
-        "t_states/t_substates"
+        "t_states/t_substates",
+        if cfg!(target_os = "linux") { "rss" } else { "peak_rss" },
+        "map_table"
     );
+}
+
+/// Bytes of the map's hash table: one key/value slot plus one control byte per bucket.
+fn map_table_bytes(capacity: usize) -> u64 {
+    let slot = std::mem::size_of::<(Key, super::search_state::PackedKnowledge)>() + 1;
+    (capacity * slot) as u64
 }
 
 enum CountMessage {
@@ -206,5 +231,8 @@ enum CountMessage {
         result_label: String,
         /// Counters accumulated during this depth's iteration.
         counters: Snapshot,
+        /// Process memory and map size when the iteration ended.
+        memory: MemoryUsage,
+        map_capacity: usize,
     },
 }

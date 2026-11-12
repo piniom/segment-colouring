@@ -23,7 +23,12 @@ cd rust
 cargo run --release -- -q <MQ> -s <MS> [-d <max depth, default 255>] [-o <file, default strategy.txt>]
 ```
 
-The program prints one row per iterative-deepening depth: time, result, and counts of winning and total states and substates. On a win it writes the strategy file.
+The program prints one row per iterative-deepening depth: time, result, counts of winning and total states and substates, and memory. On a win it writes the strategy file.
+
+- **Memory columns** ([src/memory.rs](rust/src/memory.rs)):
+  - `rss` (Linux, from `/proc/self/status`) or `peak_rss` (macOS, from `getrusage`), read when each depth ends;
+  - `map_table`: the hash table's own size (capacity × 13 bytes). The difference between the two is leftover tables from growing (avoid it with `--capacity`), the overflow map, and thread stacks.
+- **JSON:** `--stats-json` writes the same values in each `depth` record under `memory`.
 
 ## Environment
 
