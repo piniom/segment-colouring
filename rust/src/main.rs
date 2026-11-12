@@ -3,11 +3,14 @@ mod find;
 mod moves;
 mod print_strategy;
 mod state;
+mod stats;
 
 use crate::{
-    find::{search_state::SearchState, FindResult},
+    find::{root::StatsSink, search_state::SearchState, FindResult},
     state::State,
 };
+use serde_json::json;
+use std::{io::Write, time::Instant};
 
 #[derive(Parser, Debug)]
 #[command(about = "Search for a winning strategy and write it to a file")]
@@ -27,6 +30,21 @@ struct Args {
     /// Output file for the strategy
     #[arg(short, long, default_value = "strategy.txt")]
     output: String,
+
+    /// Write per-depth statistics as JSON lines to this file. Counters and detailed map
+    /// statistics are included only when built with `--features stats`.
+    #[arg(long)]
+    stats_json: Option<String>,
+
+    /// Label stored in the statistics file, to tell runs apart when comparing them
+    #[arg(long, default_value = "")]
+    label: String,
+}
+
+fn write_record(file: &mut std::fs::File, record: serde_json::Value) {
+    if let Err(e) = writeln!(file, "{record}").and_then(|_| file.flush()) {
+        eprintln!("warning: could not write stats record: {e}");
+    }
 }
 
 fn run<const MAX_CLIQUE: u32>(args: &Args) {
@@ -34,11 +52,48 @@ fn run<const MAX_CLIQUE: u32>(args: &Args) {
         "Out: {} (MQ: {MAX_CLIQUE}, D: {}, MS: {})",
         args.output, args.depth, args.max_size
     );
+    let mut stats_file = args.stats_json.as_ref().map(|path| {
+        std::fs::File::create(path)
+            .unwrap_or_else(|e| panic!("cannot create stats file {path}: {e}"))
+    });
+    if let Some(file) = stats_file.as_mut() {
+        write_record(
+            file,
+            json!({
+                "type": "run",
+                "label": args.label,
+                "mq": MAX_CLIQUE,
+                "ms": args.max_size,
+                "max_depth": args.depth,
+                "threads": rayon::current_num_threads(),
+                "stats_enabled": stats::ENABLED,
+                "started": chrono::Local::now().to_rfc3339(),
+            }),
+        );
+    }
+    let sink: Option<StatsSink> = stats_file
+        .as_ref()
+        .map(|f| Box::new(f.try_clone().expect("cannot clone stats file handle")) as StatsSink);
+
+    let start = Instant::now();
     let state = State::<MAX_CLIQUE>::new();
     let search_state = SearchState::new();
-    let result = state.find_strategy_root(&search_state, args.depth, args.max_size);
+    let result = state.find_strategy_root(&search_state, args.depth, args.max_size, sink);
+    let total = start.elapsed();
     println!("\n\n{:?}", result);
     println!("Visited states: {}", search_state.map.len());
+    if let Some(file) = stats_file.as_mut() {
+        write_record(
+            file,
+            json!({
+                "type": "end",
+                "result": match result { FindResult::Winning => "win", FindResult::Losing => "lose" },
+                "total_ms": total.as_secs_f64() * 1000.0,
+                "visited_states": search_state.map.len(),
+                "strategy_file": matches!(result, FindResult::Winning).then_some(&args.output),
+            }),
+        );
+    }
     if let FindResult::Winning { .. } = result {
         let mut file = std::fs::File::create(&args.output).unwrap();
         state.print_strategy(&search_state, &mut file);

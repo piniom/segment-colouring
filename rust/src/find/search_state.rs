@@ -50,12 +50,19 @@ impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
     }
 }
 
+/// Number of `entries_per_key` buckets; keys with more entries land in the last one.
+pub const ENTRIES_BUCKETS: usize = 8;
+
 #[derive(Debug, Clone, Copy, Default)]
 pub struct CountStats {
     pub winning_states: isize,
     pub winning_substates: isize,
     pub total_states: isize,
     pub total_substates: isize,
+    /// Only filled with `--features stats`: keys by number of stored entries.
+    pub entries_per_key: [isize; ENTRIES_BUCKETS],
+    /// Only filled with `--features stats`: keys by state size (number of segments).
+    pub states_by_size: [isize; crate::stats::SIZE_BUCKETS],
 }
 
 impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
@@ -67,6 +74,7 @@ impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
         // .combine_barrier(state)
     }
     pub fn update_status(&self, state: &State<MAX_CLIQUE>, knowledge: BarrieredKnowledge) {
+        crate::stats::inc(crate::stats::Counter::status_write, state.size());
         let knowledge = BarrieredKnowledge::with_default_barrier(knowledge.status);
         self.update_status_inner(state, knowledge);
     }
@@ -126,24 +134,22 @@ impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
             .unwrap_or_default()
     }
     pub fn count_stats(&self) -> CountStats {
-        self.map
-            .iter()
-            .map(|i| {
-                let winning_count = i.barriered.iter().filter(|b| b.status.is_winning()).count();
-                CountStats {
-                    winning_states: if winning_count > 0 { 1 } else { 0 },
-                    winning_substates: winning_count as isize,
-                    total_states: 1,
-                    total_substates: i.barriered.len() as isize,
-                }
-            })
-            .fold(CountStats::default(), |mut acc, stats| {
-                acc.winning_states += stats.winning_states;
-                acc.winning_substates += stats.winning_substates;
-                acc.total_states += stats.total_states;
-                acc.total_substates += stats.total_substates;
-                acc
-            })
+        let mut stats = CountStats::default();
+        for item in self.map.iter() {
+            let entries = item.barriered.len();
+            let winning = item.barriered.iter().filter(|b| b.status.is_winning()).count();
+            stats.winning_states += (winning > 0) as isize;
+            stats.winning_substates += winning as isize;
+            stats.total_states += 1;
+            stats.total_substates += entries as isize;
+            if crate::stats::ENABLED {
+                stats.entries_per_key[entries.min(ENTRIES_BUCKETS - 1)] += 1;
+                // The key omits the implicit first event, so it has `len - 1` events.
+                let size = (item.key().len() as usize + 1) / 2;
+                stats.states_by_size[size.min(crate::stats::SIZE_BUCKETS - 1)] += 1;
+            }
+        }
+        stats
     }
 }
 

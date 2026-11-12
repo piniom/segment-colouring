@@ -2,6 +2,7 @@
 name = "segment-colouring"
 version = "0.1.0"
 edition = "2021"
+default-run = "segment-colouring"
 
 [dependencies]
 ahash = "0.8.12"
@@ -10,7 +11,12 @@ clap = { version = "4.5.60", features = ["derive"] }
 dashmap = "6.1.0"
 rand = "0.9.1"
 rayon = "1.10.0"
+serde_json = "1.0.140"
 smallvec = {version = "1.15.1", features = ["union"] }
+
+[features]
+# Search counters and detailed map statistics (see src/stats.rs). Off by default: zero cost.
+stats = []
 
 [profile.release]
 opt-level = 3

@@ -1,21 +1,29 @@
-use crate::state::State;
+use crate::{
+    state::State,
+    stats::{self, Snapshot},
+};
 use chrono::Local;
+use serde_json::json;
 use std::thread;
-use std::time::Instant;
+use std::time::{Duration, Instant};
 use std::{io::Write, sync::mpsc};
 
 use super::{FindResult, SearchState};
+
+/// Where per-depth JSON records are written (one JSON object per line).
+pub type StatsSink = Box<dyn Write + Send>;
 
 impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     fn spawn_printer<'scope, 'env>(
         scope: &'scope thread::Scope<'scope, 'env>,
         rx: mpsc::Receiver<CountMessage>,
         search_state: &'env SearchState<MAX_CLIQUE>,
+        mut stats_sink: Option<StatsSink>,
     ) -> thread::ScopedJoinHandle<'scope, ()>
     where
         'env: 'scope,
     {
-        scope.spawn(|| {
+        scope.spawn(move || {
             let mut previous_winning = 0;
             print_headers();
             for message in rx {
@@ -24,7 +32,9 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
                         depth,
                         time,
                         elapsed,
+                        duration,
                         result_label,
+                        counters,
                     } => {
                         print!(
                             "{:<6} {:<12} {:<14} {:<10} ",
@@ -42,6 +52,34 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
                             stats.total_substates
                         );
                         previous_winning = stats.winning_states;
+                        if stats::ENABLED {
+                            println!("       {}", counters.summary_line());
+                        }
+                        if let Some(sink) = stats_sink.as_mut() {
+                            // Map stats are sampled after the iteration, while the next one
+                            // may already be adding entries; counters are exact per depth.
+                            let mut record = json!({
+                                "type": "depth",
+                                "depth": depth,
+                                "result": result_label,
+                                "elapsed_ms": duration.as_secs_f64() * 1000.0,
+                                "map": {
+                                    "states": stats.total_states,
+                                    "substates": stats.total_substates,
+                                    "winning_states": stats.winning_states,
+                                    "winning_substates": stats.winning_substates,
+                                },
+                            });
+                            if stats::ENABLED {
+                                record["map"]["entries_per_key"] = json!(stats.entries_per_key);
+                                record["map"]["states_by_size"] = json!(stats.states_by_size);
+                                record["counters"] = counters.to_json();
+                            }
+                            let written = writeln!(sink, "{record}").and_then(|_| sink.flush());
+                            if let Err(e) = written {
+                                eprintln!("warning: could not write stats record: {e}");
+                            }
+                        }
                     }
                 }
             }
@@ -92,19 +130,25 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         search_state: &SearchState<MAX_CLIQUE>,
         depth: u8,
         max_size: u8,
+        stats_sink: Option<StatsSink>,
     ) -> FindResult {
         let total_start = Instant::now();
         let (tx, rx) = mpsc::channel::<CountMessage>();
         let mut final_result = FindResult::Losing;
 
         thread::scope(|s| {
-            let printer = Self::spawn_printer(s, rx, search_state);
+            let printer = Self::spawn_printer(s, rx, search_state, stats_sink);
+            let mut previous_counters = stats::snapshot();
 
             for d in 3..=depth {
                 let time = Self::format_time_now();
                 let start = Instant::now();
                 let result = self.find_strategy(search_state, d, max_size);
-                let elapsed = chrono::Duration::from_std(start.elapsed())
+                let duration = start.elapsed();
+                let now_counters = stats::snapshot();
+                let counters = now_counters.since(&previous_counters);
+                previous_counters = now_counters;
+                let elapsed = chrono::Duration::from_std(duration)
                     .unwrap_or_else(|_| chrono::Duration::zero());
                 let elapsed = Self::format_elapsed(elapsed);
                 let result_label = match result {
@@ -115,7 +159,9 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
                     depth: d,
                     time,
                     elapsed,
+                    duration,
                     result_label,
+                    counters,
                 });
                 if let FindResult::Winning = result {
                     final_result = FindResult::Winning;
@@ -156,6 +202,9 @@ enum CountMessage {
         depth: u8,
         time: String,
         elapsed: String,
+        duration: Duration,
         result_label: String,
+        /// Counters accumulated during this depth's iteration.
+        counters: Snapshot,
     },
 }

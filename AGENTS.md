@@ -7,7 +7,8 @@ Current goal: **MQ = 5** (with max state size `MS = 12`).
 ## Repository layout
 
 - `rust/`: the solver. All active work happens here.
-  - `src/main.rs`: the solver binary (`segment-colouring`), with CLI arguments via clap.
+  - `src/main.rs`: the solver binary (`segment-colouring`, the `default-run`), with CLI arguments via clap.
+  - `src/bin/bench.rs`: the `bench` binary, for benchmarking and comparing variants (see Measuring).
   - `src/{state,find,print_strategy}/` and `src/moves.rs`: the solver modules.
   - The crate is binary-only, and the compiler flags unused code; remove it rather than keep it.
   - The older `linear_axis` solver and other binaries were removed; they're still in git history.
@@ -37,6 +38,7 @@ The program prints one row per iterative-deepening depth: time, result, and coun
 1. Run the tests in `rust/`:
    - `cargo test --release` is fast (about 15 s).
    - `cargo test` also checks the `debug_assert!` invariants, but it's slow (about 2.5 min).
+   - Add `--features stats` to either command to also run the counter-consistency test, `find::stats_test`. It also fails when reduction lookups miss the map.
 2. Run the solver on **MQ=4, MS=8**, or bigger if needed:
    `cargo run --release -- -q 4 -s 8 -o <file>`. This wins in a few seconds.
 3. **Validate the produced strategy with the C++ checker. Don't check strategy output by hand:**
@@ -46,6 +48,41 @@ The program prints one row per iterative-deepening depth: time, result, and coun
    ```
    It must print `Strategy is correct.`
 4. **Never test on MQ=5.** It takes hours.
+
+## Measuring (statistics feature)
+
+- **Turning it on:** `cargo build --release --features stats` enables search counters (`src/stats.rs`).
+  - Without the feature the counter calls compile to nothing; there's no measurable overhead.
+  - With it, runs are about 10% slower.
+  - Each thread increments its own counters, with no shared atomics, so it's safe at 200 threads.
+- **What's counted** (per depth iteration, bucketed by state size):
+  - map lookups by caller (root / insert move / front reduction / back reduction) and outcome (`win` / `lose_deep` / `lose_shallow` / `in_progress` / `unknown`),
+  - expansions, generated moves, colour branches, reduction checks and wins, and map writes.
+- **Map statistics** (collected only with the feature): entries per key and stored states by size.
+- **Console:** a stats build prints one extra line per depth, including the unknown rate (cache misses) per caller.
+- **JSON:** `--stats-json <file> [--label <name>]` writes one JSON object per line:
+  - `run`: parameters, thread count, whether stats are enabled,
+  - `depth`: one per iteration (result, time, map statistics, counters),
+  - `end`: final result, total time, stored states.
+
+  It works without the feature too, but then only the timing and basic map numbers are written.
+- **Benchmarking variants:** use the `bench` binary ([src/bin/bench.rs](rust/src/bin/bench.rs)), from `rust/`.
+  ```bash
+  cargo run --release --bin bench -- run -n 5 -l before -- -q 4 -s 8   # build with stats, 5 runs, check each strategy
+  # ...change the code...
+  cargo run --release --bin bench -- run -n 5 -l after -- -q 4 -s 8    # summary compares both labels side by side
+  cargo run --release --bin bench -- summary <files.jsonl>...           # table for existing statistics files
+  ```
+  - Options:
+    - `-d <dir>` sets the output directory (default `bench-out/`),
+    - `--no-stats` measures a build without counters,
+    - `--no-build` reuses a label's binary,
+    - the default label is the current commit (read-only git), plus `-dirty`.
+  - Don't pass `-o`, `--stats-json` or `--label` in the solver arguments; `bench` sets them.
+  - `bench run` freezes each label's binary in the output directory, records peak RSS (BSD/GNU `/usr/bin/time`), and runs `cxx/strategy_check` on every strategy.
+  - **Reading the summary:**
+    - a high `unknown %` for the front or back reductions means lookups miss the cache (a key bug);
+    - `re-searched (shallow)` counts states searched again only because their cached result was too shallow.
 
 ## How the current solver works (`rust/src`)
 
