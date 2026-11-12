@@ -84,6 +84,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     }
     #[inline(always)]
     pub fn normalize_inner(&mut self, with_flip: bool) -> bool {
+        debug_assert!(self.has_no_bits_past_len(), "stray bits past len in {self}");
         let mut color_map = [0u8; 15];
         let mut next_color = 1;
         for i in 0..self.len() {
@@ -242,6 +243,11 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     #[inline(always)]
     // Shifts all events starting from (index + 1) to the left, effectively removing the event at index
     fn remove_at_index(&mut self, index: usize) {
+        debug_assert!(
+            index < self.len() as usize,
+            "remove_at_index({index}) out of bounds for len {} in {self}",
+            self.len()
+        );
         let shift = index * 4;
         let mask = (1u128 << shift) - 1;
         let upper = self.data() & !mask & (!(0b1111 << shift));
@@ -254,6 +260,13 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         if index < self.limit_back() as usize {
             self.set_limit_back(self.limit_back() - 1);
         }
+        debug_assert!(self.has_no_bits_past_len(), "stray bits past len after remove_at_index({index}) in {self}");
+    }
+    /// Invariant: event bits past `len` are zero. `normalize`, `is_symmetric`, `PartialEq`
+    /// and `Hash` compare the raw bits, so stray bits silently break state-map lookups.
+    #[inline(always)]
+    pub(crate) fn has_no_bits_past_len(&self) -> bool {
+        (self.data() >> (4 * self.len() as u32)) == 0
     }
     #[inline(always)]
     fn get_at_index(&self, index: u8) -> u8 {

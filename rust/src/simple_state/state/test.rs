@@ -308,3 +308,20 @@ fn test_reductions_clean_on_reachable_states() {
     }
     assert!(seen.len() > 10_000, "explored only {} states", seen.len());
 }
+
+#[test]
+#[cfg(debug_assertions)]
+#[should_panic(expected = "stray bits past len")]
+fn test_debug_assert_catches_stray_bits() {
+    let mut state = State::<4>::from_string("[ABabCcCDcBdbCc]");
+    state.data |= 0xb << (4 * state.len() as u32);
+    state.normalize();
+}
+
+#[test]
+#[cfg(debug_assertions)]
+#[should_panic(expected = "out of bounds")]
+fn test_debug_assert_catches_remove_past_len() {
+    let mut state = State::<4>::from_string("[ABab]");
+    state.remove_at_index(4);
+}
