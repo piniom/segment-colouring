@@ -1,4 +1,4 @@
-use crate::simple_state::state::State;
+use crate::state::State;
 use chrono::Local;
 use std::{io::Write, sync::mpsc};
 use std::thread;

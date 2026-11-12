@@ -8,7 +8,8 @@ Current goal: **MQ = 5** (with max state size `MS = 12`).
 
 - `rust/`: the solver. All active work happens here.
   - `src/main.rs`: the solver binary (`segment-colouring`), with CLI arguments via clap.
-  - `src/simple_state/`: the solver itself. The crate is binary-only, and the compiler flags unused code; remove it rather than keep it.
+  - `src/{state,find,print_strategy}/` and `src/moves.rs`: the solver modules.
+  - The crate is binary-only, and the compiler flags unused code; remove it rather than keep it.
   - The older `linear_axis` solver and other binaries were removed; they're still in git history.
   - `results.txt`: logs of earlier long runs (per-depth timings and state counts).
   - `strategy.txt`: **tracked in git**, and the default output path of the solver. A run overwrites it.
@@ -46,7 +47,7 @@ The program prints one row per iterative-deepening depth: time, result, and coun
    It must print `Strategy is correct.`
 4. **Never test on MQ=5.** It takes hours.
 
-## How the current solver works (`rust/src/simple_state`)
+## How the current solver works (`rust/src`)
 
 ### State (`state/mod.rs`, `state/limits.rs`)
 - `State<MAX_CLIQUE>` is a single `u128`:
@@ -64,7 +65,7 @@ The program prints one row per iterative-deepening depth: time, result, and coun
   - then compares with the mirrored state (`flip`) and keeps the smaller one by event bits.
   - It returns whether a flip happened. Moves and barriers stored for a state are flipped to match.
 
-### Moves (`simple_state/mod.rs`)
+### Moves (`moves.rs`)
 - **Insert** a segment `Move(start, end)` inside the limits, keeping it proper and the clique ≤ MQ (`valid_segment_ends`).
 - The Algorithm answers with any allowed colour from `0..min(2·MQ−2, colours_used+1)`.
 - If no colour is allowed, the move wins vacuously: the Algorithm would need colour `2·MQ−1`.

@@ -1,8 +1,8 @@
 use dashmap::DashMap;
 use smallvec::SmallVec;
 
-use crate::simple_state::{
-    Move,
+use crate::{
+    moves::Move,
     state::{compressed::CompressedState, find_barrier::FindBarrier, State},
 };
 

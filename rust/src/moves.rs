@@ -1,16 +1,12 @@
-use crate::simple_state::state::State;
-
-pub mod find;
-pub mod print_strategy;
-pub mod state;
+use crate::state::State;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub struct Move(u8, u8);
+pub struct Move(pub(crate) u8, pub(crate) u8);
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct StateWithMove<'a, const MAX_CLIQUE: u32> {
-    state: &'a State<MAX_CLIQUE>,
-    move_: Move,
+    pub(crate) state: &'a State<MAX_CLIQUE>,
+    pub(crate) move_: Move,
 }
 
 impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {

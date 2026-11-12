@@ -1,7 +1,10 @@
 use clap::Parser;
-mod simple_state;
+mod find;
+mod moves;
+mod print_strategy;
+mod state;
 
-use simple_state::{
+use crate::{
     find::{search_state::SearchState, FindResult},
     state::State,
 };

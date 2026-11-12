@@ -1,4 +1,4 @@
-use crate::simple_state::{state::State, StateWithMove};
+use crate::{moves::StateWithMove, state::State};
 use rand::seq::SliceRandom;
 use rayon::prelude::*;
 pub mod root;

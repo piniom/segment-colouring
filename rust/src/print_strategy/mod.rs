@@ -2,10 +2,10 @@ use std::io::Write;
 
 use ahash::{HashSet, HashSetExt};
 
-use crate::simple_state::{
+use crate::{
     find::search_state::{FindStatus, Reduction, SearchState, WinningMove},
     state::{compressed::CompressedState, State},
-    Move,
+    moves::Move,
 };
 
 // pub mod graph;
