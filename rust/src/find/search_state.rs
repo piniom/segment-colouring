@@ -45,9 +45,6 @@ pub struct SearchState<const MAX_CLIQUE: u32> {
     /// When `false` (the default), only winning ones are stored; the rest are re-evaluated
     /// from their (stored) reductions each time. They are the large majority of states.
     pub store_at_limit: bool,
-    /// States within this many segments of the size limit search their moves sequentially
-    /// instead of in parallel (0 = always parallel).
-    pub sequential_levels: u8,
 }
 
 impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
@@ -62,12 +59,7 @@ impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
             map: DashMap::with_capacity_and_shard_amount(capacity, 2usize.pow(15)),
             overflow: DashMap::with_shard_amount(2usize.pow(10)),
             store_at_limit: false,
-            sequential_levels: 0,
         }
-    }
-    pub fn with_sequential_levels(mut self, sequential_levels: u8) -> Self {
-        self.sequential_levels = sequential_levels;
-        self
     }
     pub fn with_store_at_limit(mut self, store_at_limit: bool) -> Self {
         self.store_at_limit = store_at_limit;

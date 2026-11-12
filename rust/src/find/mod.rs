@@ -116,13 +116,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
                 None
             }
         };
-        // Close to the size limit subtrees are small (their children are mostly at the
-        // limit), so starting parallel work there costs more than it gains.
-        let winning = if max_size - size <= search_state.sequential_levels {
-            moves.iter().find_map(try_move)
-        } else {
-            moves.par_iter().find_map_any(try_move)
-        };
+        let winning = moves.par_iter().find_map_any(try_move);
 
         if let Some(move_) = winning {
             stats::inc(Counter::expansion_win, size);
@@ -311,20 +305,4 @@ mod test {
         }
     }
 
-    /// Sequential search near the size limit must find a complete strategy too.
-    #[test]
-    fn sequential_levels_find_a_printable_strategy() {
-        let _lock = SEARCH_TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
-        for levels in [1, 3, 8] {
-            let search_state = SearchState::<4>::new().with_sequential_levels(levels);
-            let root = State::<4>::new();
-            let won = (3..=30u8).any(|depth| {
-                matches!(root.find_strategy(&search_state, depth, 8), FindResult::Winning)
-            });
-            assert!(won, "sequential_levels={levels}: no win found");
-            let mut out = Vec::new();
-            root.print_strategy(&search_state, &mut out);
-            assert!(out.len() > 1000, "sequential_levels={levels}: strategy too short");
-        }
-    }
 }

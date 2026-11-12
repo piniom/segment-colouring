@@ -99,7 +99,7 @@ The program prints one row per iterative-deepening depth: time, result, counts o
   - Fast normalisation (single-pass colour renaming, branch-free mirror) plus word-at-a-time key compression: 1.6–1.7× faster. Before that, they took about 66% of CPU.
   - Other hashers made no difference (SipHash, ahash and Fx were all within ±4%).
   - At-limit states skip normalisation and the map lookup (their losing results aren't stored, so the lookup almost always missed): 1.25–1.33× faster, 34–39% fewer lookups.
-  - `--sequential-levels k` (sequential move search within `k` segments of the size limit): at most 3–6% at 16 threads, mostly within noise; the default stays 0. Worth re-measuring at 200 threads, where parallel overhead may matter more.
+  - Tried and removed: sequential move search near the size limit (`--sequential-levels`). It gained at most 3–6% at 16 threads, mostly within noise. The ~16% "rayon" time in profiles is mostly search code inlined into rayon frames, not scheduling overhead.
 
 ## How the current solver works (`rust/src`)
 
