@@ -148,6 +148,7 @@ The program prints one row per iterative-deepening depth: time, result, counts o
   - `FindBarrier` = `(limit_front, len − limit_back)`: the number of events outside each limit. More outside means more confined.
   - A `Winning` entry applies to states at most as confined as itself. `Losing` / `InProgress` entries apply to states at least as confined.
   - `update_status` drops entries that the new one makes redundant. For symmetric states it also stores the mirrored entry.
+  - A new win is not stored when the key already has a win with an equally or more confined barrier, since that win already applies wherever the new one would (`adds_nothing_given`). Without this, every re-evaluation of a winning state at the size limit stored the same win again.
 - **Packing** (`PackedKnowledge`):
   - A single entry is packed into the map's `u32` value: a 3-bit tag, 5-bit barrier front and back, and a 10-bit payload (the move, the reduction side, or the losing depth). Event indexes are ≤ 28, so 5 bits suffice. A slot is 12 bytes, pinned by a test.
   - Keys with several entries store them all in `overflow`, and their map value is the `OVERFLOW` marker. That's about 0.3% of keys for MQ=5, but 9–45% for MQ=4.
