@@ -25,7 +25,7 @@ What we know (all with the default colour target `2·MQ − 1`):
 The open question is whether MQ=5 is the first case where Builder cannot force `2·MQ − 1` colours. The tasks below give us:
 
 1. evidence about whether MQ=5 behaves differently (Task 1),
-2. a rigorous "Builder loses on this board size" result (Task 2),
+2. a losing search that ends by itself (Task 2),
 3. faster runs (Tasks 3 and 4),
 4. the ability to run MS=13 (Task 5),
 5. a check of whether the search reports "lose" at depths where a win exists (Task 6),
@@ -129,68 +129,13 @@ Procedure for one pair:
 
 A timeout for MQ=5, C=8 is an acceptable result: report it as "needs the remote machine".
 
-## Task 2: verify a loss
+## Task 2: stop a losing search by itself
 
-**Status:** `--stop-after-quiet` is done and kept (quiet = no state count changed, below the limit or at it). `--verify-loss` was implemented, passed all six checks, and verified MQ=5, MS=9 and **MQ=5, MS=10** (safe set of 44.4M states, 413 s, 1.9 GB). It was then reverted: projected at 600–700 GB for MS=12, it is too much memory on top of the search. Details and numbers: `OPTIMISATIONS.md`, "Loss verification". The code is in commit 1a70a8a.
+**Status: done** (commit "Add --stop-after-quiet (task 2)"). A rigorous loss proof (`--verify-loss`, a safe-set traversal) was also built and then dropped for memory; see `OPTIMISATIONS.md`, "Loss verification".
 
-### Goal
-
-When a search ends with "lose", prove that Builder really cannot win on this board size. Today a loss only means "no win found up to this depth". The proof must not depend on the search's internals (depths, `InProgress`, stored losing entries).
-
-### Definition
-
-A set `S` of states (with limits) is a **safe set** when it contains the empty start state and every state `s` in `S` satisfies:
-
-1. No insert move of `s` leaves the Algorithm without an allowed colour.
-2. For every insert move of `s`, at least one allowed colour leads to a state in `S`.
-3. Every reduction of `s` (front and back, when possible) is in `S`.
-
-If `size(s) ≥ MS`, there are no insert moves, so only rule 3 applies. This matches the search: at the size limit Builder can only reduce.
-
-If a safe set exists, the Algorithm survives forever on boards of size at most `MS`.
-
-### Algorithm
-
-Build `S` by a traversal from the start state:
-
-- Keep a concurrent visited set of normalised states (limits included), and a frontier. Process the frontier in parallel, layer by layer. Do not recurse deeply.
-- Define `marked_win(s)`: the map says `Winning` for the normalised `s` (`get_knowledge`), or `marked_win` holds for one of its reductions. The recursion follows reductions only, so its depth is at most `size(s)`.
-- When visiting `s`:
-  - add both reductions to the frontier,
-  - for each insert move: if it has no allowed colour, fail; otherwise pick the first colour whose resulting state is not `marked_win` and add that state to the frontier; if every colour is `marked_win`, fail.
-- Fail immediately if the start state is `marked_win`.
-
-`marked_win` only guides which colour to pick. The proof rests on the three rules being checked for every visited state, so a wrong map entry can cause a failure but never a false "verified".
-
-On failure, print the state and the move. On success, print the number of states visited.
-
-### Flags
-
-- `--verify-loss`: after the search ends with a loss, run the verification and print the result. Add the outcome and the visited count to the `end` record of `--stats-json`.
-- `--stop-after-quiet <N>` (default: off): end the search with "lose" when `N` consecutive depths added no winning states and no stored states. Without this, a losing search only ends at depth 255. The per-depth counts are currently computed in the printer thread (`spawn_printer` in `rust/src/find/root.rs`); reuse them rather than scanning the map twice.
-
-### Checks
-
-Add these as tests where they are fast enough, otherwise run them by hand:
-
-| Run | Expected |
-|---|---|
-| MQ=4, MS=7, `-d 20 --verify-loss` | verified |
-| MQ=4, MS=6, `-d 10 --verify-loss` | verified |
-| MQ=3, MS=4, `-d 10 --verify-loss` | verified |
-| MQ=4, MS=8, `-d 10 --verify-loss` (Builder wins at depth 13, search cut short) | verification fails |
-| MQ=3, MS=5, `-d 5 --verify-loss` (Builder wins at depth 7, search cut short) | verification fails |
-| MQ=4, MS=7, `--stop-after-quiet 3 --verify-loss` | stops by itself, verified |
-
-The two "fails" rows are the important ones: they show the verifier cannot be fooled by an unfinished search.
-
-Memory note: the visited set may be large for MQ=5. Do not optimise it yet; report the visited count compared with the number of stored states.
-
-### Why this matters for MQ=5, MS=12
-
-- The running MS=12 process cannot be verified afterwards: several depths with no new wins are convincing, but they are not a proof. A rigorous loss needs a rerun with `--stop-after-quiet 3 --verify-loss`. The user starts that run on the remote machine; do not start it yourself.
-- For that rerun, pass `--capacity 2100000000` (the stored-state count at depth 19), so the table does not double mid-run. The doubling at depth 18 raised RSS from 37 GB to 75 GB.
-- The visited count is the size of one actual Algorithm strategy on this board. If it is far smaller than the stored-state count (about 2·10⁹), the strategy is small enough to inspect for structure, which the argument for unbounded boards needs. Always print it, and print it per state size as well.
+- `--stop-after-quiet <N>` (default: off): end the search with "lose" after `N` consecutive quiet depths, where no state count changed, below the size limit or at it. Without it a losing search only ends at `-d`. The `end` record of `--stats-json` has `stopped_quiet_at`.
+- A quiet stop is strong evidence, not a proof: the search could in principle find wins again at a later depth.
+- For an MQ=5, MS=12 rerun with `--stop-after-quiet 3`, pass `--capacity 2100000000` (the stored-state count at depth 19), so the table does not double mid-run. The doubling at depth 18 raised RSS from 37 GB to 75 GB. The user starts that run on the remote machine; do not start it yourself.
 
 ## Task 3: depth step
 
@@ -227,9 +172,8 @@ Record for each variant: total time, number of iterations, total `expansion` cou
 ### Correctness
 
 - Every winning strategy must pass `strategy_check`.
-- Every loss must pass `--verify-loss` from Task 2.
 - A stepped run may find its win at a later depth than `k = 1`. That is fine.
-- The search treats an `InProgress` state as a loss to cut cycles. That rule was designed for step 1. Do not try to prove it for larger steps; rely on the two checks above, and report any run where a stepped search ends with a loss that fails verification. Task 6 examines this rule directly.
+- The search treats an `InProgress` state as a loss to cut cycles. That rule was designed for step 1. Do not try to prove it for larger steps; rely on `strategy_check`, and report any run where a stepped search loses where `k = 1` wins. Task 6 examines this rule directly.
 
 ## Task 4: measure whether a change-driven search is worth building
 
@@ -481,7 +425,7 @@ After each task, a short report with:
 - the test results from "Testing changes" in `AGENTS.md`, with the actual output of failing commands if any,
 - the task's table:
   - Task 1: one row per (MQ, C, MS) with result, win depth, winning states, stored states, time;
-  - Task 2: the six checks with their outcomes, and visited counts;
+  - Task 2: the depth at which each quiet stop happened;
   - Task 3: one row per (case, `k`) with total time, iterations, expansions, shallow re-searches;
   - Task 4: `A`, `W`, ratio per case;
   - Task 5: time and peak memory before and after;

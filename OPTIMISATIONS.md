@@ -156,11 +156,18 @@ Expansions and colour branches are unchanged; only the wasted lookups are gone.
 
 ### Loss verification (`--verify-loss`, NEXT_STEPS Task 2)
 
-**Idea:** turn "no win found up to depth D" into a proof. After a losing search, build a *safe set* from the start state: every insert move of a state in it has an allowed colour, some colour of every insert move leads back into the set, and both reductions are in it (at the size limit only the reductions). Map wins only guide the colour choice, so a wrong map entry can make it fail but never falsely pass. Traversal: layer by layer in parallel, with a concurrent visited set.
+**Why:** a losing search only means "no win found up to depth D", and a quiet stop (`--stop-after-quiet`) is evidence, not a proof. The proof should not depend on the search's internals (depths, `InProgress`, stored losses).
+
+**Idea:** after a losing search, build a *safe set* `S` from the empty start state, where every state in `S` satisfies:
+1. no insert move leaves the Algorithm without an allowed colour;
+2. for every insert move, some allowed colour leads to a state in `S`;
+3. both reductions (when possible) are in `S`. At the size limit there are no inserts, so only this rule applies.
+
+If such a set exists, the Algorithm survives forever on boards of size at most `MS`. Map wins only guide the colour choice, so a wrong map entry can make the check fail but never falsely pass. Traversal: layer by layer in parallel, with a concurrent visited set; on failure it printed the state and the move.
 
 **Colour choice matters.** Taking the first colour the map doesn't mark as winning (as the brief said) failed MQ=4, MS=7. The search stops at the first colour that refutes a move, so the other colours are mostly unexplored, and losing states at the size limit are never stored, so all outcomes of a move from size `MS−1` looked alike. The trace led into an at-limit outcome whose reduction the search had never seen, from which Builder wins. Fix: prefer states already in the set, then states the search found losing (deepest first; an at-limit outcome counts as found losing only when both its reductions are), then unknown ones.
 
-**Checks (all as expected):** MQ=3 MS=4, MQ=4 MS=6, MQ=4 MS=7 verified; MQ=4 MS=8 `-d 10` and MQ=3 MS=5 `-d 5` (searches cut short before the win) fail; an empty map on a won game fails.
+**Checks (all as expected):** MQ=3 MS=4, MQ=4 MS=6, MQ=4 MS=7 verified (also after `--stop-after-quiet 3` ended the search by itself); MQ=4 MS=8 `-d 10` and MQ=3 MS=5 `-d 5` (searches cut short before the win) fail; an empty map on a won game fails.
 
 **Two versions:**
 - v1: visited set of raw `u128` states, including states at the size limit; `marked_win` recursed through all reductions.
@@ -174,6 +181,7 @@ Expansions and colour branches are unchanged; only the wasted lookups are gone.
 
 - MQ=5, MS=10 safe set by size: 1, 4, 17, 67, 384, 2,712, 24,768, 265,212, 3,251,091, 40,882,376 (92% at size 9).
 - The safe set is 6.5× (MQ=4, MS=7), 7.3× (MQ=5, MS=9) and 7.5× (MQ=5, MS=10) the stored states: unlike the map key, it tells apart states that differ only in their limits.
+- The safe set is one concrete Algorithm strategy for the board. The hope was that it would be much smaller than the stored-state count, small enough to inspect for structure (for an unbounded-board argument). It is the opposite: about 7.5× larger.
 - About 43 bytes per safe-set state at MS=10 (peak RSS, including the search map and the frontier).
 
 **Projection for MQ=5, MS=12:** about 2·10⁹ stored states × 7.5 ≈ 1.5·10¹⁰ safe-set states × ~43 bytes ≈ 600–700 GB on top of the search. Ideas if revisited: pre-size the visited set (growing leaves old tables behind), keep the frontier as `u64` keys instead of 16-byte states, and drop the limits from the key where a dominance argument allows it.
