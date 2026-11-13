@@ -305,4 +305,32 @@ mod test {
         }
     }
 
+    /// The counts split at the size limit add up to the unsplit ones (`max_size = 255`
+    /// puts every state below the limit), and losing states at the limit appear only with
+    /// `store_at_limit`.
+    #[test]
+    fn split_counts_add_up() {
+        let _lock = SEARCH_TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        for store_at_limit in [true, false] {
+            let search_state = SearchState::<4>::new().with_store_at_limit(store_at_limit);
+            let root = State::<4>::new();
+            for depth in 3..=30u8 {
+                if let FindResult::Winning = root.find_strategy(&search_state, depth, 8) {
+                    break;
+                }
+            }
+            let split = search_state.count_stats(8);
+            let all = search_state.count_stats(u8::MAX);
+            let (below, at) = (split.below_limit, split.at_limit);
+            assert_eq!(all.at_limit, Default::default());
+            let all = all.below_limit;
+            assert_eq!(below.states + at.states, all.states);
+            assert_eq!(below.substates + at.substates, all.substates);
+            assert_eq!(below.winning_states + at.winning_states, all.winning_states);
+            assert_eq!(below.winning_substates + at.winning_substates, all.winning_substates);
+            assert!(below.states > 0 && at.winning_states > 0);
+            assert_eq!(at.non_winning_states() > 0, store_at_limit, "{at:?}");
+        }
+    }
+
 }

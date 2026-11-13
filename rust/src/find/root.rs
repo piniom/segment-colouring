@@ -10,7 +10,7 @@ use std::thread;
 use std::time::{Duration, Instant};
 use std::{io::Write, sync::mpsc};
 
-use super::{FindResult, SearchState};
+use super::{search_state::StateCounts, FindResult, SearchState};
 
 /// Where per-depth JSON records are written (one JSON object per line).
 pub type StatsSink = Box<dyn Write + Send>;
@@ -20,6 +20,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         scope: &'scope thread::Scope<'scope, 'env>,
         rx: mpsc::Receiver<CountMessage>,
         search_state: &'env SearchState<MAX_CLIQUE>,
+        max_size: u8,
         mut stats_sink: Option<StatsSink>,
     ) -> thread::ScopedJoinHandle<'scope, ()>
     where
@@ -28,6 +29,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         scope.spawn(move || {
             let mut previous_winning = 0;
             print_headers();
+            let store_at_limit = search_state.store_at_limit;
             for message in rx {
                 match message {
                     CountMessage::Row {
@@ -45,19 +47,29 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
                             depth, time, elapsed, result_label
                         );
                         let _ = std::io::stdout().flush();
-                        let stats = search_state.count_stats();
-                        let delta = stats.winning_states - previous_winning;
+                        let stats = search_state.count_stats(max_size);
+                        let (below, at_limit) = (stats.below_limit, stats.at_limit);
+                        let delta = below.winning_states - previous_winning;
                         let map_bytes = map_table_bytes(map_capacity);
+                        // Losing states at the limit are stored only with `--store-at-limit`.
+                        let losing_at_limit = if store_at_limit {
+                            at_limit.non_winning_states().to_string()
+                        } else {
+                            "-".to_string()
+                        };
                         println!(
-                            "{:<22} {:<22} {:<22} {:<26} {:<11} {}",
-                            stats.winning_states,
+                            "{:<13} {:<13} {:<13} {:<13} {:<13} {:<25} {:<25} {:<11} {}",
+                            below.winning_states,
                             delta,
-                            stats.winning_substates,
-                            format!("{}/{}", stats.total_states, stats.total_substates),
+                            below.states,
+                            at_limit.winning_states,
+                            losing_at_limit,
+                            format!("{}/{}", below.winning_substates, below.substates),
+                            format!("{}/{}", at_limit.winning_substates, at_limit.substates),
                             memory.best_rss().map_or("-".into(), format_bytes),
                             format_bytes(map_bytes),
                         );
-                        previous_winning = stats.winning_states;
+                        previous_winning = below.winning_states;
                         if stats::ENABLED {
                             println!("       {}", counters.summary_line());
                         }
@@ -76,10 +88,15 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
                                     "map_table_bytes": map_bytes,
                                 },
                                 "map": {
-                                    "states": stats.total_states,
-                                    "substates": stats.total_substates,
-                                    "winning_states": stats.winning_states,
-                                    "winning_substates": stats.winning_substates,
+                                    // Totals over both groups (the fields before the split).
+                                    "states": below.states + at_limit.states,
+                                    "substates": below.substates + at_limit.substates,
+                                    "winning_states": below.winning_states + at_limit.winning_states,
+                                    "winning_substates": below.winning_substates
+                                        + at_limit.winning_substates,
+                                    "below_limit": counts_json(&below),
+                                    "below_limit_winning_delta": delta,
+                                    "at_limit": counts_json(&at_limit),
                                 },
                             });
                             if stats::ENABLED {
@@ -149,7 +166,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         let mut final_result = FindResult::Losing;
 
         thread::scope(|s| {
-            let printer = Self::spawn_printer(s, rx, search_state, stats_sink);
+            let printer = Self::spawn_printer(s, rx, search_state, max_size, stats_sink);
             let mut previous_counters = stats::snapshot();
 
             for d in 3..=depth {
@@ -200,18 +217,33 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
     }
 }
 
+fn counts_json(counts: &StateCounts) -> serde_json::Value {
+    json!({
+        "states": counts.states,
+        "substates": counts.substates,
+        "winning_states": counts.winning_states,
+        "winning_substates": counts.winning_substates,
+    })
+}
+
+/// Columns: states below the size limit (`w_below` winning, `delta` its change, `t_below`
+/// all), then states at the limit (`w_limit` winning, `l_limit` losing, stored only with
+/// `--store-at-limit`), then winning/all entries in each group.
 fn print_headers() {
     println!();
     println!(
-        "{:<6} {:<15} {:<14} {:<10} {:<22} {:<22} {:<22} {:<26} {:<11} {}",
+        "{:<6} {:<15} {:<14} {:<10} {:<13} {:<13} {:<13} {:<13} {:<13} {:<25} {:<25} {:<11} {}",
         "depth",
         "finished",
         "elapsed",
         "result",
-        "w_states",
+        "w_below",
         "delta",
-        "w_substates",
-        "t_states/t_substates",
+        "t_below",
+        "w_limit",
+        "l_limit",
+        "w/t_sub_below",
+        "w/t_sub_limit",
         if cfg!(target_os = "linux") { "rss" } else { "peak_rss" },
         "map_table"
     );

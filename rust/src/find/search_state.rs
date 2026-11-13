@@ -70,12 +70,37 @@ impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
 /// Number of `entries_per_key` buckets; keys with more entries land in the last one.
 pub const ENTRIES_BUCKETS: usize = 8;
 
+/// Counts of stored states (keys) and their entries ("substates"), for one group of keys.
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
+pub struct StateCounts {
+    pub states: isize,
+    pub substates: isize,
+    /// States with at least one `Winning` entry.
+    pub winning_states: isize,
+    /// `Winning` entries.
+    pub winning_substates: isize,
+}
+
+impl StateCounts {
+    fn add(&mut self, entries: usize, winning: usize) {
+        self.states += 1;
+        self.substates += entries as isize;
+        self.winning_states += (winning > 0) as isize;
+        self.winning_substates += winning as isize;
+    }
+    /// States without a `Winning` entry.
+    pub fn non_winning_states(&self) -> isize {
+        self.states - self.winning_states
+    }
+}
+
 #[derive(Debug, Clone, Copy, Default)]
 pub struct CountStats {
-    pub winning_states: isize,
-    pub winning_substates: isize,
-    pub total_states: isize,
-    pub total_substates: isize,
+    /// States below the size limit (`size < max_size`).
+    pub below_limit: StateCounts,
+    /// States at the size limit. By default only winning ones are stored there (for
+    /// printing the strategy); with `--store-at-limit` losing ones are stored too.
+    pub at_limit: StateCounts,
     /// Only filled with `--features stats`: keys by number of stored entries.
     pub entries_per_key: [isize; ENTRIES_BUCKETS],
     /// Only filled with `--features stats`: keys by state size (number of segments).
@@ -173,19 +198,22 @@ impl<const MAX_CLIQUE: u32> SearchState<MAX_CLIQUE> {
         }
     }
 
-    pub fn count_stats(&self) -> CountStats {
+    /// Counts of the stored states, split by whether they are below `max_size`.
+    pub fn count_stats(&self, max_size: u8) -> CountStats {
         let mut stats = CountStats::default();
         for item in self.map.iter() {
             let entries = self.entries_of(item.key(), *item.value());
             let winning = entries.iter().filter(|b| b.status.is_winning()).count();
-            stats.winning_states += (winning > 0) as isize;
-            stats.winning_substates += winning as isize;
-            stats.total_states += 1;
-            stats.total_substates += entries.len() as isize;
+            // The key omits the implicit first event, so it has `len - 1` events.
+            let size = (item.key().len() as usize + 1) / 2;
+            let group = if size < max_size as usize {
+                &mut stats.below_limit
+            } else {
+                &mut stats.at_limit
+            };
+            group.add(entries.len(), winning);
             if crate::stats::ENABLED {
                 stats.entries_per_key[entries.len().min(ENTRIES_BUCKETS - 1)] += 1;
-                // The key omits the implicit first event, so it has `len - 1` events.
-                let size = (item.key().len() as usize + 1) / 2;
                 stats.states_by_size[size.min(crate::stats::SIZE_BUCKETS - 1)] += 1;
             }
         }

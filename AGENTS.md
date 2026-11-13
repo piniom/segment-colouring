@@ -23,7 +23,13 @@ cd rust
 cargo run --release -- -q <MQ> -s <MS> [-d <max depth, default 255>] [-o <file, default strategy.txt>]
 ```
 
-The program prints one row per iterative-deepening depth: time, result, counts of winning and total states and substates, and memory. On a win it writes the strategy file.
+The program prints one row per iterative-deepening depth: time, result, state counts, and memory. On a win it writes the strategy file.
+
+- **State columns** (`count_stats`), split at the size limit, because by default a state at `size ≥ MS` is stored only when it wins:
+  - `w_below`: winning states below the limit; `delta`: its change since the previous depth; `t_below`: all states below the limit. `t_below − w_below` is the reliable count of non-winning states.
+  - `w_limit`: winning states at the limit (stored only so the strategy can be printed); `l_limit`: losing states at the limit, stored only with `--store-at-limit` (`-` otherwise).
+  - `w/t_sub_below`, `w/t_sub_limit`: winning / all entries ("substates") in each group.
+  - Before the split, `w_states` was `w_below + w_limit` and `t_states` was `t_below + w_limit + l_limit`, so their ratio mixed the two groups.
 
 - **Memory columns** ([src/memory.rs](rust/src/memory.rs)):
   - `rss` (Linux, from `/proc/self/status`) or `peak_rss` (macOS, from `getrusage`), read when each depth ends;
@@ -67,7 +73,7 @@ The program prints one row per iterative-deepening depth: time, result, counts o
 - **Console:** a stats build prints one extra line per depth, including the unknown rate (cache misses) per caller.
 - **JSON:** `--stats-json <file> [--label <name>]` writes one JSON object per line:
   - `run`: parameters, thread count, whether stats are enabled,
-  - `depth`: one per iteration (result, time, map statistics, counters),
+  - `depth`: one per iteration (result, time, map statistics, counters). `map` keeps the totals (`states`, `substates`, `winning_states`, `winning_substates`) and adds the same four counts under `below_limit` and `at_limit`, plus `below_limit_winning_delta`,
   - `end`: final result, total time, stored states.
 
   It works without the feature too, but then only the timing and basic map numbers are written.
