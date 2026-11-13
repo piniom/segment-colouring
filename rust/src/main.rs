@@ -49,11 +49,6 @@ struct Args {
     #[arg(long, default_value_t = 0)]
     capacity: usize,
 
-    /// After a losing search, check the loss independently: build a safe set of states
-    /// from which the Algorithm survives forever (see `find/verify.rs`)
-    #[arg(long)]
-    verify_loss: bool,
-
     /// End the search (losing) after this many consecutive quiet depths: no state count
     /// changed, below the size limit or at it. Off by default: a losing search runs to
     /// `--depth`.
@@ -92,7 +87,6 @@ fn run<const MAX_CLIQUE: u32>(args: &Args) {
                 "threads": rayon::current_num_threads(),
                 "store_at_limit": args.store_at_limit,
                 "capacity": args.capacity,
-                "verify_loss": args.verify_loss,
                 "stop_after_quiet": args.stop_after_quiet,
                 "stats_enabled": stats::ENABLED,
                 "started": chrono::Local::now().to_rfc3339(),
@@ -118,22 +112,6 @@ fn run<const MAX_CLIQUE: u32>(args: &Args) {
     let total = start.elapsed();
     println!("\n\n{:?}", result);
     println!("Visited states: {}", search_state.map.len());
-    let verification = (args.verify_loss && matches!(result, FindResult::Losing)).then(|| {
-        let verify_start = Instant::now();
-        let verification = state.verify_loss(&search_state, args.max_size);
-        let elapsed = verify_start.elapsed();
-        println!("Loss verification: {verification} in {:.3}s", elapsed.as_secs_f64());
-        let mut record = json!({
-            "result": if verification.is_verified() { "verified" } else { "failed" },
-            "visited_states": verification.visited(),
-            "visited_by_size": verification.by_size(),
-            "time_ms": elapsed.as_secs_f64() * 1000.0,
-        });
-        if !verification.is_verified() {
-            record["failure"] = json!(verification.to_string());
-        }
-        record
-    });
     if let Some(file) = stats_file.as_mut() {
         write_record(
             file,
@@ -145,7 +123,6 @@ fn run<const MAX_CLIQUE: u32>(args: &Args) {
                 "map_capacity": search_state.map.capacity(),
                 "strategy_file": matches!(result, FindResult::Winning).then_some(&args.output),
                 "stopped_quiet_at": outcome.stopped_quiet,
-                "verify_loss": verification,
             }),
         );
     }

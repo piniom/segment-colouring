@@ -130,7 +130,7 @@ A timeout for MQ=5, C=8 is an acceptable result: report it as "needs the remote 
 
 ## Task 2: verify a loss
 
-**Status:** `--stop-after-quiet` is done and kept (quiet = no state count changed, below the limit or at it). `--verify-loss` was implemented, passed all six checks, and verified MQ=5, MS=9 and **MQ=5, MS=10** (safe set of 44.4M states, 413 s, 1.9 GB). It was then reverted: projected at 600–700 GB for MS=12, it is too much memory on top of the search. Details and numbers: `OPTIMISATIONS.md`, "Loss verification". The code is in git history.
+**Status:** `--stop-after-quiet` is done and kept (quiet = no state count changed, below the limit or at it). `--verify-loss` was implemented, passed all six checks, and verified MQ=5, MS=9 and **MQ=5, MS=10** (safe set of 44.4M states, 413 s, 1.9 GB). It was then reverted: projected at 600–700 GB for MS=12, it is too much memory on top of the search. Details and numbers: `OPTIMISATIONS.md`, "Loss verification". The code is in commit 1a70a8a.
 
 ### Goal
 
