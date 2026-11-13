@@ -10,7 +10,17 @@ use std::thread;
 use std::time::{Duration, Instant};
 use std::{io::Write, sync::mpsc};
 
-use super::{search_state::StateCounts, FindResult, SearchState};
+use super::{
+    search_state::{CountStats, StateCounts},
+    FindResult, SearchState,
+};
+
+/// How the iterative deepening ended.
+pub struct RootOutcome {
+    pub result: FindResult,
+    /// The depth at which `stop_after_quiet` ended the search, if it did.
+    pub stopped_quiet: Option<u8>,
+}
 
 /// Where per-depth JSON records are written (one JSON object per line).
 pub type StatsSink = Box<dyn Write + Send>;
@@ -22,6 +32,7 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         search_state: &'env SearchState<MAX_CLIQUE>,
         max_size: u8,
         mut stats_sink: Option<StatsSink>,
+        counts_reply: Option<mpsc::Sender<CountStats>>,
     ) -> thread::ScopedJoinHandle<'scope, ()>
     where
         'env: 'scope,
@@ -70,6 +81,9 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
                             format_bytes(map_bytes),
                         );
                         previous_winning = below.winning_states;
+                        if let Some(reply) = &counts_reply {
+                            let _ = reply.send(stats);
+                        }
                         if stats::ENABLED {
                             println!("       {}", counters.summary_line());
                         }
@@ -154,20 +168,37 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         Local::now().format("%H:%M:%S %d.%m").to_string()
     }
 
+    /// Iterative deepening over depths `3..=depth`. With `stop_after_quiet: Some(n)` it
+    /// also stops (losing) after `n` consecutive depths that changed neither the number of
+    /// winning states nor the number of stored states.
     pub fn find_strategy_root(
         &self,
         search_state: &SearchState<MAX_CLIQUE>,
         depth: u8,
         max_size: u8,
         stats_sink: Option<StatsSink>,
-    ) -> FindResult {
+        stop_after_quiet: Option<u8>,
+    ) -> RootOutcome {
         let total_start = Instant::now();
         let (tx, rx) = mpsc::channel::<CountMessage>();
         let mut final_result = FindResult::Losing;
+        let mut stopped_quiet = None;
 
         thread::scope(|s| {
-            let printer = Self::spawn_printer(s, rx, search_state, max_size, stats_sink);
+            // With `stop_after_quiet`, the printer sends its per-depth map counts back, and
+            // the loop waits for them before the next depth (so they are exact). Without
+            // it, the printer counts while the next depth already runs.
+            let (counts_tx, counts_rx) = match stop_after_quiet {
+                Some(_) => {
+                    let (t, r) = mpsc::channel::<CountStats>();
+                    (Some(t), Some(r))
+                }
+                None => (None, None),
+            };
+            let printer = Self::spawn_printer(s, rx, search_state, max_size, stats_sink, counts_tx);
             let mut previous_counters = stats::snapshot();
+            let mut previous_counts: Option<CountStats> = None;
+            let mut quiet_depths = 0u8;
 
             for d in 3..=depth {
                 let start = Instant::now();
@@ -202,6 +233,16 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
                     final_result = FindResult::Winning;
                     break;
                 }
+                if let (Some(limit), Some(counts_rx)) = (stop_after_quiet, &counts_rx) {
+                    let Ok(counts) = counts_rx.recv() else { break };
+                    let quiet = previous_counts.is_some_and(|p| is_quiet(&p, &counts));
+                    quiet_depths = if quiet { quiet_depths + 1 } else { 0 };
+                    previous_counts = Some(counts);
+                    if quiet_depths >= limit {
+                        stopped_quiet = Some(d);
+                        break;
+                    }
+                }
             }
             drop(tx);
             let _ = printer.join();
@@ -213,8 +254,23 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
             Self::format_time_now(),
             Self::format_elapsed_precise(total_start.elapsed())
         );
-        final_result
+        if let Some(d) = stopped_quiet {
+            println!(
+                "Stopped at depth {d}: {} quiet depths in a row",
+                stop_after_quiet.unwrap_or_default()
+            );
+        }
+        RootOutcome { result: final_result, stopped_quiet }
     }
+}
+
+/// A depth is quiet when it changed no state count: neither the stored states nor the
+/// winning states, below the size limit or at it. (Entry counts may still change.)
+fn is_quiet(previous: &CountStats, current: &CountStats) -> bool {
+    let same = |p: &StateCounts, c: &StateCounts| {
+        p.states == c.states && p.winning_states == c.winning_states
+    };
+    same(&previous.below_limit, &current.below_limit) && same(&previous.at_limit, &current.at_limit)
 }
 
 fn counts_json(counts: &StateCounts) -> serde_json::Value {
@@ -268,4 +324,22 @@ enum CountMessage {
         memory: MemoryUsage,
         map_capacity: usize,
     },
+}
+
+#[cfg(test)]
+mod quiet_test {
+    use super::*;
+
+    /// MQ=4, MS=7 is a loss whose state count stops growing early: `stop_after_quiet`
+    /// must end the search by itself.
+    #[test]
+    fn stops_after_quiet_depths() {
+        let _lock = super::super::SEARCH_TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        let search_state = SearchState::<4>::new();
+        let root = State::<4>::new();
+        let outcome = root.find_strategy_root(&search_state, u8::MAX, 7, None, Some(3));
+        assert!(matches!(outcome.result, FindResult::Losing));
+        let stopped = outcome.stopped_quiet.expect("did not stop by itself");
+        assert!(stopped < 40, "stopped only at depth {stopped}");
+    }
 }

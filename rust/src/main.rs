@@ -49,6 +49,12 @@ struct Args {
     #[arg(long, default_value_t = 0)]
     capacity: usize,
 
+    /// End the search (losing) after this many consecutive quiet depths: no state count
+    /// changed, below the size limit or at it. Off by default: a losing search runs to
+    /// `--depth`.
+    #[arg(long, value_parser = clap::value_parser!(u8).range(1..))]
+    stop_after_quiet: Option<u8>,
+
     /// Label stored in the statistics file, to tell runs apart when comparing them
     #[arg(long, default_value = "")]
     label: String,
@@ -81,6 +87,7 @@ fn run<const MAX_CLIQUE: u32>(args: &Args) {
                 "threads": rayon::current_num_threads(),
                 "store_at_limit": args.store_at_limit,
                 "capacity": args.capacity,
+                "stop_after_quiet": args.stop_after_quiet,
                 "stats_enabled": stats::ENABLED,
                 "started": chrono::Local::now().to_rfc3339(),
             }),
@@ -94,7 +101,14 @@ fn run<const MAX_CLIQUE: u32>(args: &Args) {
     let state = State::<MAX_CLIQUE>::new();
     let search_state = SearchState::with_capacity(args.capacity)
         .with_store_at_limit(args.store_at_limit);
-    let result = state.find_strategy_root(&search_state, args.depth, args.max_size, sink);
+    let outcome = state.find_strategy_root(
+        &search_state,
+        args.depth,
+        args.max_size,
+        sink,
+        args.stop_after_quiet,
+    );
+    let result = outcome.result;
     let total = start.elapsed();
     println!("\n\n{:?}", result);
     println!("Visited states: {}", search_state.map.len());
@@ -108,6 +122,7 @@ fn run<const MAX_CLIQUE: u32>(args: &Args) {
                 "visited_states": search_state.map.len(),
                 "map_capacity": search_state.map.capacity(),
                 "strategy_file": matches!(result, FindResult::Winning).then_some(&args.output),
+                "stopped_quiet_at": outcome.stopped_quiet,
             }),
         );
     }

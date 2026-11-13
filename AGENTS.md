@@ -35,6 +35,7 @@ The program prints one row per iterative-deepening depth: time, result, state co
   - `rss` (Linux, from `/proc/self/status`) or `peak_rss` (macOS, from `getrusage`), read when each depth ends;
   - `map_table`: the hash table's own size (capacity × 13 bytes). The difference between the two is leftover tables from growing (avoid it with `--capacity`), the overflow map, and thread stacks.
 - **JSON:** `--stats-json` writes the same values in each `depth` record under `memory`.
+- **`--stop-after-quiet <N>`** (default off): end the search with "lose" after `N` consecutive quiet depths: no state count changed, below the size limit or at it (`w_below`, `t_below`, `w_limit`, `l_limit`; entry counts may still change). Without it a losing search runs to `-d`. With it, each depth waits for the printer's map count before the next one starts (normally the count overlaps the next depth).
 
 ## Environment
 
@@ -74,7 +75,7 @@ The program prints one row per iterative-deepening depth: time, result, state co
 - **JSON:** `--stats-json <file> [--label <name>]` writes one JSON object per line:
   - `run`: parameters, thread count, whether stats are enabled,
   - `depth`: one per iteration (result, time, map statistics, counters). `map` keeps the totals (`states`, `substates`, `winning_states`, `winning_substates`) and adds the same four counts under `below_limit` and `at_limit`, plus `below_limit_winning_delta`,
-  - `end`: final result, total time, stored states.
+  - `end`: final result, total time, stored states, `stopped_quiet_at` (the depth, or `null`).
 
   It works without the feature too, but then only the timing and basic map numbers are written.
 - **Benchmarking variants:** use the `bench` binary ([src/bin/bench.rs](rust/src/bin/bench.rs)), from `rust/`.
