@@ -336,7 +336,15 @@ Step 2 needs a lemma about **all positions**, not just the empty board:
 
 > **Window property for `B0`.** If Builder wins from a position `T` on a larger board, then Builder already wins on a board of size `B0` from some window of `B0` consecutive segments of `T`.
 
-Two candidate values are on the table: `B0 = 2·(MQ−1)+1` and `B0 = 3·(MQ−1)+1`. For MQ=5 the property cannot be checked by computer (it needs boards of 17 or 25 segments). For MQ=2, 3, 4 it can, even though Builder wins there. This task measures it, to see which formula for `B0`, if any, survives the small cases.
+Three candidate values are on the table:
+
+| Candidate | MQ=2 | MQ=3 | MQ=4 | MQ=5 | Status |
+|---|---|---|---|---|---|
+| `2·(MQ−1)+1` | 3 | 5 | 7 | 9 | Already refuted as a general rule: at MQ=4 Builder loses on board 7 and wins on board 8. |
+| `2·MQ` | 4 | 6 | 8 | 10 | Consistent with the small cases (Builder first wins at 3, 5, 8). For MQ=5 the loss on board 10 is already verified (`--verify-loss`, safe set of 44.2M states). |
+| `3·(MQ−1)+1` | 4 | 7 | 10 | 13 | Consistent with the small cases. Board 13 for MQ=5 is not computed. |
+
+The window property for a smaller `B0` implies it for every larger one, so `2·MQ` is the stronger claim. For MQ=5 the property cannot be checked by computer (it needs a board of `2·B0 − 1` segments: 19 or 25). For MQ=2, 3, 4 it can, even though Builder wins there. This task measures it, to see which formula for `B0`, if any, survives the small cases.
 
 ### Definitions
 
@@ -407,7 +415,8 @@ If a run hits its cap or runs out of memory, report the universe size reached an
 - A counterexample for some `B0` means that window size is too small for that MQ, whatever the formula says.
 - No counterexamples for a `B0` only means "not refuted up to `N`".
 - `B0` below the level of the empty state (3, 5, 8) is expected to fail; the interesting rows are from that value upwards.
-- Report, per MQ, the smallest `B0` with no counterexamples, next to `2·(MQ−1)+1` and `3·(MQ−1)+1`, and the largest `n` with a non-zero row in Table A.
+- Report, per MQ, the smallest `B0` with no counterexamples, next to `2·(MQ−1)+1`, `2·MQ` and `3·(MQ−1)+1`, and the largest `n` with a non-zero row in Table A.
+- The row `B0 = 2·MQ` matters most. A full check of it needs `N = 4·MQ − 1`: 7 for MQ=2 (reachable), 11 for MQ=3 (try it; report how far you get), 15 for MQ=4 (out of reach, so that row will be partial).
 
 ## Not in scope (ask the user first)
 
