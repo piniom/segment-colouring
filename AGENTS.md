@@ -36,6 +36,7 @@ The program prints one row per iterative-deepening depth: time, result, state co
   - `map_table`: the hash table's own size (capacity × 13 bytes). The difference between the two is leftover tables from growing (avoid it with `--capacity`), the overflow map, and thread stacks.
 - **JSON:** `--stats-json` writes the same values in each `depth` record under `memory`.
 - **`--stop-after-quiet <N>`** (default off): end the search with "lose" after `N` consecutive quiet depths: no state count changed, below the size limit or at it (`w_below`, `t_below`, `w_limit`, `l_limit`; entry counts may still change). Without it a losing search runs to `-d`. With it, each depth waits for the printer's map count before the next one starts (normally the count overlaps the next depth).
+- **`--verify-loss`**: after a losing search, check the loss independently of the search's internals (`find/verify.rs`). It builds a *safe set* from the start state: for every state in it, every insert move has an allowed colour, some colour of every insert move leads back into the set, and both reductions are in the set (at `size ≥ MS` only the reductions). Map wins only guide the colour choice, so a wrong entry can make it fail but never falsely pass. It prints `verified (safe set of N states below the size limit; by size ...)` or the failing state and move. States at the size limit aren't kept (see below), so the safe set is the Algorithm's decision states. It is larger than the stored map, because it tells apart states that differ only in their limits: 6.5× for MQ=4, MS=7, 7.3× for MQ=5, MS=9 (3.3M states, verified in 18 s, 184 MB peak RSS) and 7.5× for MQ=5, MS=10 (44.4M states, 413 s against 121 s for the search, 1.9 GB peak RSS, about 43 bytes per safe-set state).
 
 ## Environment
 
@@ -75,7 +76,7 @@ The program prints one row per iterative-deepening depth: time, result, state co
 - **JSON:** `--stats-json <file> [--label <name>]` writes one JSON object per line:
   - `run`: parameters, thread count, whether stats are enabled,
   - `depth`: one per iteration (result, time, map statistics, counters). `map` keeps the totals (`states`, `substates`, `winning_states`, `winning_substates`) and adds the same four counts under `below_limit` and `at_limit`, plus `below_limit_winning_delta`,
-  - `end`: final result, total time, stored states, `stopped_quiet_at` (the depth, or `null`).
+  - `end`: final result, total time, stored states, `stopped_quiet_at` (the depth, or `null`), and `verify_loss` (`result`, `visited_states`, `visited_by_size`, `time_ms`, `failure`) when `--verify-loss` ran.
 
   It works without the feature too, but then only the timing and basic map numbers are written.
 - **Benchmarking variants:** use the `bench` binary ([src/bin/bench.rs](rust/src/bin/bench.rs)), from `rust/`.
@@ -108,6 +109,7 @@ The program prints one row per iterative-deepening depth: time, result, state co
   - At-limit states skip normalisation and the map lookup (their losing results aren't stored, so the lookup almost always missed): 1.25–1.33× faster, 34–39% fewer lookups.
   - Tried and removed: sequential move search near the size limit (`--sequential-levels`). It gained at most 3–6% at 16 threads, mostly within noise. The ~16% "rayon" time in profiles is mostly search code inlined into rayon frames, not scheduling overhead.
   - Tried and removed: raising the depth by `k > 1` per iteration (`--depth-step`). Slower in every case (k = 2–4: MQ=4 MS=8–10 wins 1.1–2.6× slower, MQ=5 MS=9 losses at `-d 24`/`-d 40` 1.13–1.27× slower), with up to 2.5× the peak RSS. A state stored as `Losing{d−k}` is searched again by every path reaching it with depth `d−k+1..=d`, so once the state count stops growing, one step-2 iteration costs about 2.3× a step-1 iteration. Wins also overshoot the winning depth.
+  - Tried and reverted: `--verify-loss` (NEXT_STEPS Task 2), a safe-set proof of a loss. It verified MQ=5, MS=9 and MS=10 (44.4M states, 413 s, 1.9 GB), but the safe set is about 7.5× the stored states at about 43 bytes each, so about 600–700 GB at MS=12 on top of the search. Details in `OPTIMISATIONS.md`.
 
 ## How the current solver works (`rust/src`)
 
@@ -162,6 +164,13 @@ The program prints one row per iterative-deepening depth: time, result, state co
   - Keys with several entries store them all in `overflow`, and their map value is the `OVERFLOW` marker. That's about 0.3% of keys for MQ=5, but 9–45% for MQ=4.
   - **Locking:** writers hold the key's map entry while they change `overflow`, and readers hold their map guard while they read it. The order is always map, then overflow.
 - `FindStatus` is one of: `Winning(WinningMove)` (an insert move or a reduction), `Losing { depth }`, `InProgress`, `Unknown`.
+
+### Loss verification (`find/verify.rs`)
+- `verify_loss` traverses from the start state layer by layer in parallel (`try_fold`, per-thread size counts), with a `DashSet` of normalised states below the size limit (limits included).
+  - Key: for `MS ≤ 12` a `u64` (compressed events from the top, `5·size − 4 ≤ 51` bits, plus both 5-bit limits in the low 10 bits); otherwise the raw `u128` state. A test checks the `u64` key is injective on 300k reachable states.
+  - States at the size limit are never stored: when a colour outcome is at the limit, its two reductions go into the set instead. That's all rule 3 needs for it, and the Algorithm makes no choice there. The first version stored them (about 10× more states), used `u128` keys, and recursed through stored losses in `marked_win`: MQ=5, MS=9 took 32M states, 4.0 GB and 322 s, against 3.3M, 184 MB and 18 s now.
+- For each insert move it takes one colour: never one that `marked_win` (a stored `Winning` entry for the state or, recursively through its reductions, stopping at states stored as losing), preferring states already in the set, then states the search found losing (deepest first), then unknown ones.
+- Losing states at the size limit aren't stored, so such an outcome counts as found losing only when both its reductions are. Without this, the choice walks into unexplored Builder wins and MQ=4, MS=7 fails.
 
 ### Strategy output (`print_strategy/mod.rs`)
 - `print_strategy` walks the stored `Winning` moves from the empty state and writes the cxx strategy format:

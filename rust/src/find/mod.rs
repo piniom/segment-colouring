@@ -6,6 +6,7 @@ use crate::{
 use rand::seq::SliceRandom;
 use rayon::prelude::*;
 pub mod root;
+pub mod verify;
 
 pub mod search_state;
 

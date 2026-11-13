@@ -45,6 +45,8 @@ The open question is whether MQ=5 is the first case where Builder cannot force `
 
 ## Task 0: fix the winning/total reporting
 
+**Status: done** (commit "Split state counts at the size limit (task 0)"). Check on MQ=4, MS=8, depth 13: 15,975 + 128,942 = 144,917 = old `w_states`; 37,385 + 128,942 = 166,327 = old `t_states`; test `split_counts_add_up`.
+
 Do this first. The later tasks use these numbers.
 
 ### Problem
@@ -128,6 +130,8 @@ A timeout for MQ=5, C=8 is an acceptable result: report it as "needs the remote 
 
 ## Task 2: verify a loss
 
+**Status:** `--stop-after-quiet` is done and kept (quiet = no state count changed, below the limit or at it). `--verify-loss` was implemented, passed all six checks, and verified MQ=5, MS=9 and **MQ=5, MS=10** (safe set of 44.4M states, 413 s, 1.9 GB). It was then reverted: projected at 600–700 GB for MS=12, it is too much memory on top of the search. Details and numbers: `OPTIMISATIONS.md`, "Loss verification". The code is in git history.
+
 ### Goal
 
 When a search ends with "lose", prove that Builder really cannot win on this board size. Today a loss only means "no win found up to this depth". The proof must not depend on the search's internals (depths, `InProgress`, stored losing entries).
@@ -188,6 +192,8 @@ Memory note: the visited set may be large for MQ=5. Do not optimise it yet; repo
 - The visited count is the size of one actual Algorithm strategy on this board. If it is far smaller than the stored-state count (about 2·10⁹), the strategy is small enough to inspect for structure, which the argument for unbounded boards needs. Always print it, and print it per state size as well.
 
 ## Task 3: depth step
+
+**Status: done, removed.** Slower in every case and more memory; see `OPTIMISATIONS.md`, "Depth step".
 
 ### Goal
 

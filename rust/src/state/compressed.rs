@@ -26,6 +26,14 @@ impl<const BYTE_SIZE: usize> CompressedState<BYTE_SIZE> {
     }
 }
 
+impl CompressedState<8> {
+    /// The codes as one word, first event in the most significant bits. The low
+    /// `64 − (5·size − 4)` bits are zero.
+    pub fn to_u64(self) -> u64 {
+        u64::from_be_bytes(self.data)
+    }
+}
+
 impl<const MAX_CLIQUE: u32, const BYTE_SIZE: usize> From<State<MAX_CLIQUE>>
     for CompressedState<BYTE_SIZE>
 {

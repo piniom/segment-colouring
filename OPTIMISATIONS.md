@@ -154,6 +154,30 @@ Expansions and colour branches are unchanged; only the wasted lookups are gone.
 
 **Why it loses:** with step 1, a state stored as `Losing{d−1}` is searched again only by a path that reaches it with depth exactly `d`. With step `k` it's stored as `Losing{d−k}`, and every path reaching it with any depth from `d−k+1` to `d` searches it again, within the same iteration. Once the state count stops growing, one step-2 iteration did about 2.3× the expansions of a step-1 iteration, which more than cancels having half as many iterations. Winning runs also overshoot the winning depth, and a deeper search costs more.
 
+### Loss verification (`--verify-loss`, NEXT_STEPS Task 2)
+
+**Idea:** turn "no win found up to depth D" into a proof. After a losing search, build a *safe set* from the start state: every insert move of a state in it has an allowed colour, some colour of every insert move leads back into the set, and both reductions are in it (at the size limit only the reductions). Map wins only guide the colour choice, so a wrong map entry can make it fail but never falsely pass. Traversal: layer by layer in parallel, with a concurrent visited set.
+
+**Colour choice matters.** Taking the first colour the map doesn't mark as winning (as the brief said) failed MQ=4, MS=7. The search stops at the first colour that refutes a move, so the other colours are mostly unexplored, and losing states at the size limit are never stored, so all outcomes of a move from size `MS−1` looked alike. The trace led into an at-limit outcome whose reduction the search had never seen, from which Builder wins. Fix: prefer states already in the set, then states the search found losing (deepest first; an at-limit outcome counts as found losing only when both its reductions are), then unknown ones.
+
+**Checks (all as expected):** MQ=3 MS=4, MQ=4 MS=6, MQ=4 MS=7 verified; MQ=4 MS=8 `-d 10` and MQ=3 MS=5 `-d 5` (searches cut short before the win) fail; an empty map on a won game fails.
+
+**Two versions:**
+- v1: visited set of raw `u128` states, including states at the size limit; `marked_win` recursed through all reductions.
+- v2: states at the size limit are not stored (a colour outcome at the limit puts its two reductions into the set, which is all rule 3 needs; the Algorithm makes no choice there); `u64` key (compressed events plus both limits, injective for size ≤ 11, so MS ≤ 12); `marked_win` stops at states stored as losing; per-thread size counts.
+
+| run (16 threads) | search | v1 verification | v2 verification |
+|---|---|---|---|
+| MQ=4, MS=7 | 0.06 s, 3,872 states | 195k states, 1.42 s | 25k states, 0.063 s |
+| MQ=5, MS=9 (`--stop-after-quiet 3`, stops at depth 20) | 7.9 s, 450k states | 32.25M states, 322 s, 4.0 GB peak RSS | 3.30M states, 18 s, 184 MB |
+| MQ=5, MS=10 (same, stops at depth 20) | 121 s, 5.96M states | – | **verified**: 44.4M states, 413 s, 1.9 GB |
+
+- MQ=5, MS=10 safe set by size: 1, 4, 17, 67, 384, 2,712, 24,768, 265,212, 3,251,091, 40,882,376 (92% at size 9).
+- The safe set is 6.5× (MQ=4, MS=7), 7.3× (MQ=5, MS=9) and 7.5× (MQ=5, MS=10) the stored states: unlike the map key, it tells apart states that differ only in their limits.
+- About 43 bytes per safe-set state at MS=10 (peak RSS, including the search map and the frontier).
+
+**Projection for MQ=5, MS=12:** about 2·10⁹ stored states × 7.5 ≈ 1.5·10¹⁰ safe-set states × ~43 bytes ≈ 600–700 GB on top of the search. Ideas if revisited: pre-size the visited set (growing leaves old tables behind), keep the frontier as `u64` keys instead of 16-byte states, and drop the limits from the key where a dominance argument allows it.
+
 ## Tools and infrastructure
 
 - **Cleanup:** only the main solver is left. `simple_state/` was flattened into `src/`, and the old `linear_axis` solver, the extra binaries, the scripts and unused code were removed.
@@ -163,6 +187,8 @@ Expansions and colour branches are unchanged; only the wasted lookups are gone.
   - It also gives map statistics and `--stats-json` output.
   - Without the feature it costs nothing; with it, runs are about 10% slower.
 - **`bench` binary:** repeated runs per label, an `iterations` row, a frozen binary per label, peak RSS from `/usr/bin/time`, `strategy_check` on every strategy, `--timeout` (kills the run's process group), and side-by-side summaries.
+- **State columns split at the size limit** (NEXT_STEPS Task 0): `w_below`, `delta`, `t_below`, `w_limit`, `l_limit` and entry counts per group. Before, `w_states` included winning states at the limit while `t_states` had no losing ones there, so their ratio meant nothing.
+- **`--stop-after-quiet <N>`:** ends a losing search after `N` depths in which no state count changed. MQ=5, MS=9 and MS=10 with `N = 3` stop at depth 20.
 - **Memory columns per depth:** `rss` / `peak_rss` and `map_table`, also written to the JSON.
 - **Timing column:** each depth row shows its finish time, with seconds.
 - **Tests:**
@@ -181,5 +207,4 @@ Memory is no longer the limit; time is. Once the state count stops growing, arou
 - every move is refuted by the first colour tried.
 
 The ideas below came up but haven't been tried:
-- Reporting when a depth changes nothing.
 - Retrograde analysis: work proportional to the new wins instead of a full sweep per depth.

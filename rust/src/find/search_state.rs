@@ -399,7 +399,7 @@ impl FindStatus {
             FindStatus::Unknown => u8::MAX,
         }
     }
-    fn is_winning(&self) -> bool {
+    pub fn is_winning(&self) -> bool {
         match self {
             FindStatus::Winning(_) => true,
             _ => false,
