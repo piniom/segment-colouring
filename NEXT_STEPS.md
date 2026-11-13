@@ -28,7 +28,8 @@ The open question is whether MQ=5 is the first case where Builder cannot force `
 2. a rigorous "Builder loses on this board size" result (Task 2),
 3. faster runs (Tasks 3 and 4),
 4. the ability to run MS=13 (Task 5),
-5. a check of whether the search reports "lose" at depths where a win exists (Task 6).
+5. a check of whether the search reports "lose" at depths where a win exists (Task 6),
+6. a test, on MQ=2, 3, 4, of the lemma that a proof for unbounded boards needs (Task 7).
 
 ## Rules for all tasks
 
@@ -376,6 +377,94 @@ Checks:
 
 Then measure with `bench`, 5 runs each, on MQ=4 MS=8, 9, 10 and MQ=5 MS=9 (same `-d` and time cap as in Task 3): depth of the win, total time, total expansions, for the default and for `--exact-losses`. Tainted states are searched again on every visit, so the run may be much slower; a result of "exact but slower" is a valid outcome.
 
+## Task 7: does a larger board help Builder from any position?
+
+Independent of all other tasks. It adds a separate analysis mode and does not change the search.
+
+### Why
+
+The plan for proving that 8 colours suffice for MQ=5 is:
+
+1. show by computer that Builder loses on a board of some size `B0`,
+2. argue that the Algorithm can apply that result locally on an unbounded board: keep every window of `B0` consecutive segments safe, and answer each new segment by looking only at the segments around it.
+
+Step 2 needs a lemma about **all positions**, not just the empty board:
+
+> **Window property for `B0`.** If Builder wins from a position `T` on a larger board, then Builder already wins on a board of size `B0` from some window of `B0` consecutive segments of `T`.
+
+Two candidate values are on the table: `B0 = 2·(MQ−1)+1` and `B0 = 3·(MQ−1)+1`. For MQ=5 the property cannot be checked by computer (it needs boards of 17 or 25 segments). For MQ=2, 3, 4 it can, even though Builder wins there. This task measures it, to see which formula for `B0`, if any, survives the small cases.
+
+### Definitions
+
+- **Game with bound `n`:** the solver's rules with `MS = n`. A state with fewer than `n` segments allows inserts and reductions; a state with `n` segments allows only reductions.
+- **Level of a state `s`:** the smallest bound `n ≥ size(s)` at which Builder wins from `s`, with no depth limit. Level 0 means "not winning at any bound up to `N`", where `N` is the largest bound computed.
+- **Universe:** every state reachable from the empty state by inserts (with every allowed colour, not only good ones) and reductions, at bound `N`. States are normalised and include their limits.
+- **Window of `T`:** for `size(T) > B0`, drop `i` segments from the front with `try_moved_limit_front`, then `size(T) − B0 − i` from the back with `try_moved_limit_back`, for each `i` in `0 ..= size(T) − B0`. Skip a window if a reduction is not possible.
+
+### Algorithm
+
+Add a flag (for example `--win-levels`) that uses `-q` for MQ and `-s` for `N`, runs this analysis instead of the search, and writes a report.
+
+**1. Enumerate the universe.** Breadth-first from the empty state, in parallel:
+
+- a state with fewer than `N` segments: generate every insert move with every allowed colour, and both reductions;
+- do not store states with exactly `N` segments. When one is generated, add its two reductions to the frontier and discard it. (They are most of the universe, and their result follows from their reductions.)
+
+After the enumeration the set of states is fixed. A memory-lean layout is a sorted `Vec` of states with a parallel `Vec<AtomicU8>` of levels, looked up by binary search.
+
+**2. Compute levels.** All levels start at 0.
+
+```
+for n in 1 ..= N:
+    repeat until a full sweep changes nothing:
+        for every stored state s with size(s) ≤ n and level(s) == 0   (in parallel):
+            if wins(s, n): level(s) = n
+
+wins(s, n):
+    some reduction r of s has won(r)
+    or ( size(s) < n and some insert move m of s has won(child) for every allowed colour;
+         a move with no allowed colour counts )
+
+won(x):
+    if size(x) == N:  some reduction of x has level != 0      (x is not stored)
+    else:             level(x) != 0
+```
+
+Levels only ever go from 0 to a value, so parallel sweeps with stale reads are safe: a stale read can delay a win to the next sweep, never create a wrong one. This is an analysis tool, so atomics here are fine.
+
+**3. Report.**
+
+- **Universe size** per segment count.
+- **Level of the empty state.** It must be 3, 5, 8 for MQ = 2, 3, 4 (when `N` is at least that).
+- **Table A, "extra board helped":** for each `n` in `2 ..= N`, the number of states with `level == n` and `size ≤ n − 1`, split by size. These are positions lost at bound `n − 1` and won at bound `n`.
+- **Table B, window property:** for each `B0` in `MQ ..= N − 1`:
+  - take every stored `T` with `B0 < size(T) ≤ min(N − 1, 2·B0 − 2)` and `0 < level(T) ≤ min(N, 2·B0 − 1)`;
+  - `T` is a counterexample if none of its windows has `level == B0`;
+  - print the number of `T` checked, the number of counterexamples, and the smallest counterexample (as a state string).
+
+### Checks
+
+- The level of the empty state matches 3, 5, 8.
+- Cross-check with the normal solver: after a normal run with MQ=3, MS=5, and one with MQ=4, MS=8, every state the solver stored as `Winning` must have `0 < level ≤ MS` in an analysis with `N = MS`. Add this as a test for MQ=3.
+- For MQ=2 with `N = 4`, the universe is tiny: print all states with their levels and check a few by hand against `cxx/2_3.strategy`.
+
+### Runs
+
+| MQ | `N` | Cap |
+|---|---|---|
+| 2 | 7 | none needed |
+| 3 | 9, then 10 | 20 minutes each |
+| 4 | 8, then 9, then 10 | 30 minutes each; record peak memory |
+
+If a run hits its cap or runs out of memory, report the universe size reached and stop; larger `N` goes to the remote machine, and the user starts those runs.
+
+### How to read the result
+
+- A counterexample for some `B0` means that window size is too small for that MQ, whatever the formula says.
+- No counterexamples for a `B0` only means "not refuted up to `N`".
+- `B0` below the level of the empty state (3, 5, 8) is expected to fail; the interesting rows are from that value upwards.
+- Report, per MQ, the smallest `B0` with no counterexamples, next to `2·(MQ−1)+1` and `3·(MQ−1)+1`, and the largest `n` with a non-zero row in Table A.
+
 ## Not in scope (ask the user first)
 
 - Writing the change-driven (worklist) solver itself. It depends on the Task 4 result.
@@ -397,4 +486,5 @@ After each task, a short report with:
   - Task 4: `A`, `W`, ratio per case;
   - Task 5: time and peak memory before and after;
   - Task 6: the exact win depths from the reference search; violations per case, variant and thread count; win depth and time per variant;
+  - Task 7: per (MQ, `N`): universe size, level of the empty state, Table A, Table B, time and peak memory;
 - anything that did not match the expectations in this file. Do not adjust a check to make it pass; report the mismatch instead.
