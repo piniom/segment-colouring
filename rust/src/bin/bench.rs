@@ -383,6 +383,7 @@ impl RunData {
                 "final depth".into(),
                 Metric::Num(self.depths.last().and_then(|d| d["depth"].as_f64())),
             ),
+            ("iterations".into(), Metric::Num(Some(self.depths.len() as f64))),
             (
                 "stored states".into(),
                 // A timed-out run has no `end`; use the last completed depth instead.

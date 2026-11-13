@@ -100,6 +100,7 @@ The program prints one row per iterative-deepening depth: time, result, counts o
   - Other hashers made no difference (SipHash, ahash and Fx were all within ±4%).
   - At-limit states skip normalisation and the map lookup (their losing results aren't stored, so the lookup almost always missed): 1.25–1.33× faster, 34–39% fewer lookups.
   - Tried and removed: sequential move search near the size limit (`--sequential-levels`). It gained at most 3–6% at 16 threads, mostly within noise. The ~16% "rayon" time in profiles is mostly search code inlined into rayon frames, not scheduling overhead.
+  - Tried and removed: raising the depth by `k > 1` per iteration (`--depth-step`). Slower in every case (k = 2–4: MQ=4 MS=8–10 wins 1.1–2.6× slower, MQ=5 MS=9 losses at `-d 24`/`-d 40` 1.13–1.27× slower), with up to 2.5× the peak RSS. A state stored as `Losing{d−k}` is searched again by every path reaching it with depth `d−k+1..=d`, so once the state count stops growing, one step-2 iteration costs about 2.3× a step-1 iteration. Wins also overshoot the winning depth.
 
 ## How the current solver works (`rust/src`)
 
