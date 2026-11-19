@@ -5,6 +5,7 @@ mod moves;
 mod print_strategy;
 mod state;
 mod stats;
+mod win_levels;
 
 use crate::{
     find::{root::StatsSink, search_state::SearchState, FindResult},
@@ -55,6 +56,16 @@ struct Args {
     #[arg(long, value_parser = clap::value_parser!(u8).range(1..))]
     stop_after_quiet: Option<u8>,
 
+    /// Analysis instead of the search (NEXT_STEPS Task 7): enumerate every state reachable
+    /// with board bound `N = --max-size`, compute the smallest bound at which Builder wins
+    /// from each, and print the report (Tables A and B) to stdout. Writes no files.
+    #[arg(long)]
+    win_levels: bool,
+
+    /// With `--win-levels`: also list every stored state with its level.
+    #[arg(long, requires = "win_levels")]
+    win_levels_list: bool,
+
     /// Label stored in the statistics file, to tell runs apart when comparing them
     #[arg(long, default_value = "")]
     label: String,
@@ -67,6 +78,10 @@ fn write_record(file: &mut std::fs::File, record: serde_json::Value) {
 }
 
 fn run<const MAX_CLIQUE: u32>(args: &Args) {
+    if args.win_levels {
+        win_levels::run::<MAX_CLIQUE>(args.max_size, args.win_levels_list);
+        return;
+    }
     println!(
         "Out: {} (MQ: {MAX_CLIQUE}, D: {}, MS: {})",
         args.output, args.depth, args.max_size
