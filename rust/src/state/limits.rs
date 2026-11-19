@@ -44,15 +44,6 @@ impl<const MAX_CLIQUE: u32> State<MAX_CLIQUE> {
         Some(clone)
     }
 
-    /// The state with the limits a stored entry's barrier describes: `barrier.front`
-    /// events outside the front limit and `barrier.back` outside the back limit.
-    #[cfg(test)]
-    pub(crate) fn with_barrier(mut self, barrier: super::find_barrier::FindBarrier) -> Self {
-        self.set_limit_front(barrier.front);
-        self.set_limit_back(self.len() - barrier.back);
-        self
-    }
-
     // limit_front: bits 117-121
     #[inline(always)]
     pub(super) fn set_limit_front(&mut self, value: u8) {

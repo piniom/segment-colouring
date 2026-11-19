@@ -29,8 +29,7 @@ The open question is whether MQ=5 is the first case where Builder cannot force `
 3. faster runs (Tasks 3 and 4),
 4. the ability to run MS=13 (Task 5),
 5. a check of whether the search reports "lose" at depths where a win exists (Task 6),
-6. a test, on MQ=2, 3, 4, of the lemma that a proof for unbounded boards needs (Task 7; it turned out to be vacuous there),
-7. a checker for a certificate that the Algorithm survives on an unbounded board (Task 8). This is now the main line towards a proof for MQ=5.
+6. a test, on MQ=2, 3, 4, of the lemma that a proof for unbounded boards needs (Task 7).
 
 ## Rules for all tasks
 
@@ -44,7 +43,6 @@ The open question is whether MQ=5 is the first case where Builder cannot force `
 - **Document new flags** in `AGENTS.md` (sections "Running" and "Measuring").
 - **Use `--stats-json`** to collect per-depth numbers instead of parsing the console table.
 - Do the tasks in order, starting with Task 0. Tasks 1–3 are independent of each other. Report after each one (see "What to report").
-- **Task 8 is the current priority.** It is independent of Tasks 1, 4, 5 and 6; do it before them.
 
 ## Task 0: fix the winning/total reporting
 
@@ -325,8 +323,6 @@ Then measure with `bench`, 5 runs each, on MQ=4 MS=8, 9, 10 and MQ=5 MS=9 (same 
 
 ## Task 7: does a larger board help Builder from any position?
 
-**Status: done** (`--win-levels`, `rust/src/win_levels.rs`). The empty state's level is 3, 5, 8. The cross-check against the solver passes for MQ=3 MS=5 (test) and MQ=4 MS=8 (ignored test). Runs: MQ=2 N=7, MQ=3 N=9–11, MQ=4 N=8–10; the largest took 165 s and 6.4 GB. Smallest `B0` with no counterexamples: 3 / 5 / 8. **But Table B is vacuous for every `B0 ≥ level(empty)`:** every state reduces step by step to the empty state, so `level(s) ≤ max(size(s), level(empty))` (checked on every run), and every window of size `B0 ≥ level(empty)` has level `B0`. So the result is "smallest `B0` = level of the empty state" by construction. It cannot tell `2·MQ` from `3·(MQ−1)+1`. It only refutes `2·(MQ−1)+1` for MQ=4, where B0 = 7 has counterexamples. Table A is likewise zero above `n = level(empty)`. The tool is not vacuous for MQ=5, where the empty state has no level; Task 8 runs it there.
-
 Independent of all other tasks. It adds a separate analysis mode and does not change the search.
 
 ### Why
@@ -422,151 +418,12 @@ If a run hits its cap or runs out of memory, report the universe size reached an
 - Report, per MQ, the smallest `B0` with no counterexamples, next to `2·(MQ−1)+1`, `2·MQ` and `3·(MQ−1)+1`, and the largest `n` with a non-zero row in Table A.
 - The row `B0 = 2·MQ` matters most. A full check of it needs `N = 4·MQ − 1`: 7 for MQ=2 (reachable), 11 for MQ=3 (try it; report how far you get), 15 for MQ=4 (out of reach, so that row will be partial).
 
-## Task 8: a certificate that the Algorithm survives on an unbounded board
-
-Independent of Tasks 1–6. It reuses the universe and levels of Task 7 (`rust/src/win_levels.rs`) and does not change the search.
-
-### Why
-
-The statement we want for MQ=5 is: *if Builder can force 9 colours at all, it can force them on a board of at most 12 segments.* Together with a computed loss on board 12 this gives "8 colours suffice". But for MQ=5 that statement is equivalent to "8 colours suffice", so it needs its own proof. Task 7 showed that the small cases (MQ ≤ 4) cannot test it: Builder wins there, so every position wins.
-
-This task builds a proof that a computer can check. Fix a window size `k` and a set `F` of states.
-
-- A **board** is a state with open limits (`limit_front = 0`, `limit_back = len`) and any number of segments. Boards can be larger than a `State` can hold; the check never builds them.
-- The **views** of a board with `m` segments: the board itself if `m ≤ k`; otherwise, for each `a` in `0 ..= m − k`, the state after `a` front reductions and `m − k − a` back reductions (the `windows` function of `win_levels.rs`).
-- A board is **good** if every view of it is in `F`.
-
-> **Claim.** If (1) the empty board is good, and (2) for every good board and every legal insert there is a colour after which the board is still good, then the Algorithm never needs colour `2·MQ − 1` on an unbounded board: it keeps the board good forever.
-
-The claim holds for any `F`, however it was built. So a program that confirms (1) and (2) for some `F` proves the result. Condition (2) looks like it needs boards of `2k − 1` segments, but a new segment only changes the at most `k` views that contain it, and those overlap in a chain. Step 3 walks along such chains and never builds the whole board.
-
-**Soundness rule for this task:** the checker may report a failure that no real board produces, but it must never report "pass" when a good board and an insert without a good colour exist. When in doubt, explore more, not less.
-
-Write `NC = 2·MQ − 2` for the number of Algorithm colours.
-
-### Step 1: is "safe on board n" stable? (no new code)
-
-Run the existing analysis on MQ=5:
-
-| Run | Cap |
-|---|---|
-| `--win-levels -q 5 -s 8` | 30 minutes |
-| `--win-levels -q 5 -s 9` | 30 minutes |
-
-Record universe size per segment count, time and peak memory, and the growth factor from `N = 8` to `N = 9`. Run `-s 10` only if that factor predicts under 30 minutes and under half of the machine's memory; otherwise it goes to the remote machine, and the user starts it.
-
-Report "States per level" and Table A in full. Table A, row `n`, column `s` counts states with `s` segments that are lost on board `n − 1` and won on board `n`. The level of the empty state must be 0 in all these runs (Builder loses on board 10).
-
-Stop and report after this step, then continue with Step 2.
-
-### Step 2: a reference checker (this defines correctness)
-
-A slow, direct check for tiny cases, used only in tests:
-
-1. Enumerate every board with at most `S` segments (breadth-first from the empty board, every insert, every colour of `outcomes()`, normalised).
-2. Mark the good ones.
-3. For every good board with fewer than `S` segments and every insert move: the set of colours after which the child is good. An empty set is a **failure**.
-
-`F` is passed as a membership function on canonical states (use `canonical` from `win_levels.rs`). A state that is not in the universe is not in `F`.
-
-### Step 3: the chain checker
-
-Add a mode `--window-closure` with `-q` = MQ, `-s` = `M` and `--window <k>` (default `M − 1`). It uses
-
-> `F` = every state of the universe at bound `M` with at most `k` segments and level 0.
-
-Require `MQ ≤ k ≤ M − 1` and `k + MQ ≤ 14` (the largest piece has `k + MQ` segments; a `State` holds 14). Exit with a clear message otherwise.
-
-The verdict has three parts:
-
-1. **Empty board:** the empty state is in `F`.
-2. **Small boards:** for every board in `F` with fewer than `k` segments, every insert has a colour whose child is in `F`.
-3. **Chains:** boards with at least `k` segments, below.
-
-**New state operations** (in the `state` module; the limit setters and `remove_at_index` are private to it):
-
-- `append_back(S, c, l)`: put back a segment that a back reduction removed. `S` has `n` events and `limit_back = b`.
-  - Requires: `n − b + 1 ≤ MQ` (the new segment meets the `n − b` segments that end after index `b`); `c` is not the colour of any of those segments; `b + 1 ≤ l ≤ n + 2`; `n + 2 − l ≤ MQ − 1`.
-  - Events: `S[0..b]`, start of `c`, `S[b..n]`, end of `c`. `limit_front` is unchanged; `limit_back = l`.
-  - `l = n + 2` means that nothing further to the right touches the piece.
-- Remove the segment of a given rank (rank = number of segments that start before it), keeping the limits consistent the way `remove_at_index` does.
-- Set the colour of the segment of a given rank.
-
-**The walk.** A *piece* `P` is a state that holds some consecutive old segments and, once inserted, the new segment `x`. `L` and `R` are the numbers of old segments before and after `x`. The colour stored for `x` is meaningless: `append_back` must ignore `x` in its colour condition, and so must the deduplication below. `ok` is the set of colours still acceptable for `x`.
-
-```
-for every member V of F with k segments, in both orientations (V and its mirror image):
-  for a in {k}, and also in 0 ..= k−1 if V.limit_front == 0:
-    P = V;  L = a;  R = k − a;  ended = false
-    // 1. room on the right, so that x cannot reach past the back limit
-    while R < MQ − 1 and not ended:  extend
-    // 2. the new segment
-    for every insert move of P whose new segment has exactly `a` segments before it:
-        ok = the colours in 0..NC that no neighbour of the new segment uses
-        if ok is empty: FAIL
-        insert the segment as x
-        // 3. slide the window over x, from "x last" to "x first"
-        for i = min(a, k−1) down to 0:
-            need = k − 1 − i                      // old segments after x in this window
-            while R < need + 1 and not ended:  extend
-            if R < need: this chain is finished without failure
-            for each c in ok:
-                W = P with x coloured c, front-reduced L − i times, back-reduced R − need times
-                if W is not in F: remove c from ok
-            if ok is empty: FAIL
-            front-reduce P until L == i
-
-extend:    // branches; each branch continues separately
-    if limit_back(P) == len(P): one branch sets ended = true and changes nothing else
-    for every (c, l) that append_back allows:
-        P' = append_back(P, c, l);  R += 1
-        O = P' without x, front-reduced until k segments remain
-        keep this branch only if O is in F
-```
-
-Notes:
-
-- `c` ranges over all `NC` colours in `append_back`, not only "used + 1": the piece is a fragment, and a colour missing from it may be in use elsewhere.
-- A piece with `limit_back < len` must be extended (a neighbour exists). Only a piece with `limit_back == len` may end.
-- Without deduplication the walk is exponential. Memoise on (piece, position of `x`, `i`, `ended`, `ok`), with colour names renamed in order of first appearance among the old segments (do **not** mirror), `ok` renamed the same way, and the colours absent from the piece sorted so that those in `ok` come first. Two walk states that differ only by a permutation of colour names must be one entry; add a test for that.
-- A depth-first walk per seed with a shared memo ("explored, no failure below") gives a witness for free: the stack at the first failure.
-- This is an analysis tool: atomics and concurrent maps are fine. Run seeds in parallel.
-- If you find a simpler formulation that satisfies the soundness rule and passes the tests below, use it and say so in the report.
-
-**Output:** the size of `F` per segment count; the three verdicts; walk states visited; the number of (seed, move) starts from which a failure is reachable, split by the step `i` at which `ok` became empty; one witness (the pieces from the seed to the failure, as state strings, with the position of `x`); lookups that missed the universe; time and peak memory.
-
-### Tests
-
-1. **`append_back` round trip.** For every state `T` of a small universe with a back reduction `S`: `T` is among the results of `append_back(S, ·, ·)`, and every result reduces back to `S`.
-2. **Follow a real board.** For MQ=2 and MQ=3, small `k`, and `S = 2k + 2` in the reference checker: for every good board `T` and every insert, run the walk steered along `T` (the pieces follow from `T` plus the new segment by reductions). At every `extend`, the piece that `T` dictates must be among the generated branches. The final `ok` must equal the reference checker's colour set.
-3. **Reference failure implies walk failure.** On the same cases: whenever the reference checker finds a failure, the chain verdict must be "fail". Use these families: all universe states with at most `k` segments; the level-0 states; and each of those with a random half of its `k`-segment members removed (fixed seed).
-4. **Witness replay.** A separate function recomputes a reported witness step by step and confirms that `ok` ends empty.
-5. **Cases that must fail** (Builder wins, so no certificate can exist): MQ=3 with `M = 4`, `k = 3`; MQ=4 with `M = 7`, `k = 6` (cap 30 minutes; make it an ignored test if slow).
-
-### Runs
-
-| MQ | `M` | `k` | Cap |
-|---|---|---|---|
-| 3 | 4 | 3 | none needed |
-| 4 | 7 | 6 | 30 minutes |
-| 5 | 8 | 7 | 60 minutes |
-| 5 | 9 | 7, then 8 | 60 minutes each |
-
-If a run hits its cap or runs out of memory, report the walk states visited and the memory used, and stop. `M = 10` (with `k = 8` and `k = 9`) goes to the remote machine; the user starts it.
-
-### How to read the result
-
-- A "pass" on MQ=5 would be a proof that 8 colours suffice. Treat it with suspicion first: re-run the tests, check the witness-free result on a second `k`, and report it without claiming the result.
-- A "fail" is the expected outcome for these families. The useful output is how many starts fail, at which step, and what the witness looks like. Step 1 predicts it: if Table A shows boards of at most `k` segments that are lost on board `M` and won on a larger one, the family for that `(k, M)` cannot pass.
-- Removing views from `F` until the check passes is the follow-up. It is not part of this task; report first.
-
 ## Not in scope (ask the user first)
 
 - Writing the change-driven (worklist) solver itself. It depends on the Task 4 result.
 - A denser hash table or other memory work for MS=13. Projection: about 2.8·10¹⁰ entries; at today's 21 bytes per entry that is about 600 GB against 400 GiB available.
 - Saving the map to disk and loading it again.
 - Any MQ=5 run beyond the capped ones listed above.
-- Pruning the family `F` of Task 8 until the check passes.
 - Changes to the C++ tools.
 
 ## What to report
@@ -583,5 +440,4 @@ After each task, a short report with:
   - Task 5: time and peak memory before and after;
   - Task 6: the exact win depths from the reference search; violations per case, variant and thread count; win depth and time per variant;
   - Task 7: per (MQ, `N`): universe size, level of the empty state, Table A, Table B, time and peak memory;
-  - Task 8: Step 1: per `N`, universe size, states per level, Table A, time and peak memory. Step 3: per (MQ, `M`, `k`), the size of `F`, the three verdicts, walk states visited, failing starts by step, one witness, time and peak memory;
 - anything that did not match the expectations in this file. Do not adjust a check to make it pass; report the mismatch instead.

@@ -36,12 +36,6 @@ The program prints one row per iterative-deepening depth: time, result, state co
   - `map_table`: the hash table's own size (capacity × 13 bytes). The difference between the two is leftover tables from growing (avoid it with `--capacity`), the overflow map, and thread stacks.
 - **JSON:** `--stats-json` writes the same values in each `depth` record under `memory`.
 - **`--stop-after-quiet <N>`** (default off): end the search with "lose" after `N` consecutive quiet depths: no state count changed, below the size limit or at it (`w_below`, `t_below`, `w_limit`, `l_limit`; entry counts may still change). Without it a losing search runs to `-d`. With it, each depth waits for the printer's map count before the next one starts (normally the count overlaps the next depth).
-- **`--win-levels`** (NEXT_STEPS Task 7, [src/win_levels.rs](rust/src/win_levels.rs)): runs an analysis instead of the search. `-q` is MQ and `-s` is the bound `N`. It writes no files; the report goes to stdout.
-  - It enumerates every state reachable at bound `N` with any colour (normalised, limits included; states with `N` segments are not stored). It then computes each state's **level**, the smallest bound `n ≥ size` at which Builder wins from it with no depth limit (0 = none up to `N`).
-  - Report: universe size per segment count, the empty state's level, states per level, Table A (states with `level == n` and `size ≤ n − 1`) and Table B (the window property for each `B0`; `full` = `N ≥ 2·B0 − 1`).
-  - `--win-levels-list` also prints every stored state with its level (for tiny universes).
-  - Every non-empty state reduces step by step to the empty state, so `level(s) ≤ max(size(s), level(empty))`, and the report checks this. So Table A is zero above `n = level(empty)`, and Table B has no counterexamples for any `B0 ≥ level(empty)`.
-  - Cost on 16 threads: MQ=4, N=10 has 39.8M states and takes 129 s and 3.6 GB peak RSS. MQ=3, N=11 has 68.5M states and takes 165 s and 6.4 GB. That's about 90–100 bytes per state, and each extra segment multiplies the universe by about 8 (MQ=3) or 12 (MQ=4). Almost all the time goes into the enumeration.
 
 ## Environment
 
@@ -57,7 +51,6 @@ The program prints one row per iterative-deepening depth: time, result, state co
    - `cargo test --release` is fast (about 15 s).
    - `cargo test` also checks the `debug_assert!` invariants, but it's slow (about 2.5 min).
    - Add `--features stats` to either command to also run the counter-consistency test, `find::stats_test`. It also fails when reduction lookups miss the map.
-   - `cargo test --release -- --ignored` runs the slower tests: currently the `--win-levels` cross-check against the solver for MQ=4, MS=8 (about 1 s in release). The MQ=3 version runs by default.
 2. Run the solver on **MQ=4, MS=8**, or bigger if needed:
    `cargo run --release -- -q 4 -s 8 -o <file>`. This wins in a few seconds.
 3. **Validate the produced strategy with the C++ checker. Don't check strategy output by hand:**

@@ -197,7 +197,7 @@ impl<'a, const MAX_CLIQUE: u32> StateWithMove<'a, MAX_CLIQUE> {
 /// Tests that run a search hold this lock: the statistics counters are process-global, so
 /// a concurrent search would leak into another test's counts.
 #[cfg(test)]
-pub(crate) static SEARCH_TEST_LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
+static SEARCH_TEST_LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
 
 #[cfg(all(test, feature = "stats"))]
 mod stats_test {
